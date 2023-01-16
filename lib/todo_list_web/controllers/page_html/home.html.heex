@@ -45,8 +45,9 @@
         fill="#FD4F00"
       />
     </svg>
-    <h1 class="mt-10 flex items-center text-sm font-semibold leading-6 text-brand">
-      Phoenix Framework
+    <h1 class="mt-10 flex items-center text-sm font-semibold leading-6 text-brand"
+        x-data="{ message: 'Hello Phoenix!' }">
+      <span x-text="message"></span>
       <small class="ml-3 rounded-full bg-brand/5 px-2 text-[0.8125rem] font-medium leading-6">
         v1.7
       </small>

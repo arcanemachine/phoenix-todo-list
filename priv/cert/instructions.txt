@@ -1,0 +1,3 @@
+- ensure mkcert is installed and working
+- create new certificates in ~/.local/share/mkcert/certificates (replace parameters as needed):
+  - mkcert -key-file ~/.local/share/mkcert/certificates/key.pem -cert-file ~/.local/share/mkcert/certificates/cert.pem localhost 192.168.1.100 domain.com sub.domain.com *.domain.com

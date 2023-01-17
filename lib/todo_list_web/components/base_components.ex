@@ -45,13 +45,23 @@ defmodule TodoListWeb.BaseComponents do
     <div class="pr-2 flex" x-data="$store.components.darkModeToggle">
       <div class="flex-center mr-3 flex grid">
         <template x-if="lightModeToggled">
-          <Heroicons.sun solid class="h-4 w-4 stroke-current" aria-label="Light Mode Icon" />
+          <Heroicons.sun
+            solid
+            class="h-4 w-4 stroke-current text-warning"
+            aria-label="Light Mode Icon"
+          />
         </template>
         <template x-if="!lightModeToggled">
           <Heroicons.moon solid class="h-4 w-4 stroke-current" aria-label="Dark Mode Icon" />
         </template>
       </div>
-      <input type="checkbox" class="toggle" x-model="lightModeToggled" @click="darkModeToggle" />
+      <input
+        type="checkbox"
+        class="toggle"
+        x-bind:class="lightModeToggled && 'toggle-warning'"
+        x-model="lightModeToggled"
+        @click="darkModeToggle"
+      />
     </div>
     """
   end

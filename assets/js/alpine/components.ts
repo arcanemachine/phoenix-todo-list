@@ -1,4 +1,4 @@
-const alpineComponents = {
+const components = {
   darkModeToggle() {
     return {
       lightModeToggled: undefined,
@@ -53,4 +53,4 @@ const alpineComponents = {
   },
 };
 
-export default alpineComponents;
+export default components;

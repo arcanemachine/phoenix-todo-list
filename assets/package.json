@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "alpinejs": "^3.10.5",
-    "daisyui": "^2.47.0"
+    "daisyui": "^2.47.0",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9"

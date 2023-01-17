@@ -2,6 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import "tippy.js/dist/tippy.css";
+
 @layer base {
   a {
     @apply text-blue-600 hover:text-blue-800;

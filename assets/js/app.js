@@ -23,11 +23,16 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 
+import "tippy.js/dist/tippy.css"; // setup tippy.js
+
 // setup Alpine.JS
 import Alpine from "alpinejs";
-import alpineComponents from "./alpine-components";
+import { components, directives } from "./alpine";
 
-Alpine.store("components", alpineComponents);
+Alpine.store("components", components);
+for (const directive of directives) {
+  Alpine.directive(directive.name, directive.directive);
+}
 
 window.Alpine = Alpine;
 Alpine.start();

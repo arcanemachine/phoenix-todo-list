@@ -60,6 +60,7 @@ defmodule TodoListWeb.BaseComponents do
         class="toggle"
         x-bind:class="lightModeToggled && 'toggle-warning'"
         x-model="lightModeToggled"
+        x-tooltip="Toggle dark mode"
         @click="darkModeToggle"
       />
     </div>

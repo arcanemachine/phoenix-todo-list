@@ -2,4 +2,66 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+@layer base {
+  a {
+    @apply text-blue-600 hover:text-blue-800;
+  }
+}
+
+@layer components {
+  /* daisyUI */
+  .checkbox {
+    border-width: 2px !important;
+  }
+
+  /* svelte-fa */
+  .svelte-fa {
+    min-width: 16px;
+  }
+
+  /* svelte-toast */
+  :root {
+    --toastContainerTop: auto;
+    --toastContainerRight: 1rem;
+    --toastContainerBottom: 1rem;
+    --toastContainerLeft: auto;
+  }
+
+  /* misc */
+  .action-links {
+    margin-top: 3rem;
+
+    @apply mx-auto max-w-xs;
+  }
+
+  .action-links > * {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .flex-center {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-button-close {
+    @apply btn-secondary btn-sm btn absolute right-0 top-0 rounded-tr-none rounded-br-none
+           rounded-tl-none;
+  }
+}
+
+@layer utility {
+  .mt-child-0 > * {
+    margin-top: 0;
+  }
+  .mt-child-1 > *:not(:first-child) {
+    margin-top: 0.25rem;
+  }
+  .mt-child-2 > *:not(:first-child) {
+    margin-top: 0.5rem;
+  }
+  .mt-child-3 > *:not(:first-child) {
+    margin-top: 1rem;
+  }
+}

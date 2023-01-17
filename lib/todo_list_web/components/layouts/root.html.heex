@@ -4,18 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "TodoList" %>
+    <.live_title suffix=" Todo List">
+      <%= assigns[:page_title] || "Home" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
   <body class="min-h-screen bg-base-100 antialiased">
+    <!-- search engine text (bing) -->
     <div style="display: none">A todo list made with Phoenix LiveView.</div>
+
+    <!-- noscript text -->
     <noscript>
       <h1 style="text-align: center">Please enable Javascript to view this website.</h1>
     </noscript>
-    <%= @inner_content %>
+
+    <!-- inner content -->
+    <main>
+      <h1 class="mt-4 text-4xl text-center font-bold">
+        <%= assigns[:page_title] || "Todo List" %>
+      </h1>
+      <h2 class="text-2xl text-center">
+        <%= assigns[:page_title] || "Todo List" %>
+      </h2>
+      <div class="container mx-auto">
+        <%= @inner_content %>
+      </div>
+    </main>
+
   </body>
 </html>

@@ -33,8 +33,7 @@ module.exports = {
   },
   // mode: "jit",
   plugins: [
-    require("daisyui"),
-    require("@tailwindcss/forms"),
+    // require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
     plugin(({ addVariant }) =>
       addVariant("phx-no-feedback", [".phx-no-feedback&", ".phx-no-feedback &"])
@@ -57,5 +56,6 @@ module.exports = {
         ".phx-change-loading &",
       ])
     ),
+    require("daisyui"),
   ],
 };

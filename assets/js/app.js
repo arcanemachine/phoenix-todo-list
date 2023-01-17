@@ -17,16 +17,22 @@
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html";
+
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 
-// setup alpinejs
+// setup Alpine.JS
 import Alpine from "alpinejs";
+import alpineComponents from "./alpine-components";
+
+Alpine.store("components", alpineComponents);
+
 window.Alpine = Alpine;
 Alpine.start();
 
+// setup LiveView
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");

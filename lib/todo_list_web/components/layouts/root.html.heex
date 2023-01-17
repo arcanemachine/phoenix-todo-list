@@ -20,13 +20,15 @@
       <h1 style="text-align: center">Please enable Javascript to view this website.</h1>
     </noscript>
 
+    <.navbar />
+
     <!-- inner content -->
     <main>
       <h1 class="mt-4 text-4xl text-center font-bold">
         <%= assigns[:page_title] || "Todo List" %>
       </h1>
       <h2 class="text-2xl text-center">
-        <%= assigns[:page_title] || "Todo List" %>
+        <%= assigns[:page_subtitle] || "" %>
       </h2>
       <div class="container mx-auto">
         <%= @inner_content %>

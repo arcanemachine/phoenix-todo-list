@@ -85,6 +85,7 @@ defmodule TodoListWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import TodoListWeb.CoreComponents
+      import TodoListWeb.BaseComponents
       import TodoListWeb.Gettext
 
       # Shortcut for generating JS commands

@@ -5,7 +5,7 @@ defmodule TodoListWeb.UserSessionController do
   alias TodoListWeb.UserAuth
 
   def create(conn, %{"_action" => "registered"} = params) do
-    create(conn, params, "Account created successfully!")
+    create(conn, params, "Account created successfully. You are now logged in.")
   end
 
   def create(conn, %{"_action" => "password_updated"} = params) do
@@ -15,7 +15,7 @@ defmodule TodoListWeb.UserSessionController do
   end
 
   def create(conn, params) do
-    create(conn, params, "Welcome back!")
+    create(conn, params, "You are now logged in.")
   end
 
   defp create(conn, %{"user" => user_params}, info) do
@@ -36,7 +36,7 @@ defmodule TodoListWeb.UserSessionController do
 
   def delete(conn, _params) do
     conn
-    |> put_flash(:info, "Logged out successfully.")
+    |> put_flash(:info, "You are now logged out.")
     |> UserAuth.log_out_user()
   end
 end

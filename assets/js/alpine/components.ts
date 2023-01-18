@@ -2,6 +2,7 @@ const components = {
   darkModeToggle() {
     return {
       lightModeToggled: undefined,
+
       darkModePreference: window.matchMedia("(prefers-color-scheme: dark)"),
 
       init() {
@@ -9,10 +10,10 @@ const components = {
           localStorage.getItem("darkMode") !== null;
 
         if (!savedDarkModePreferenceExists)
+          // use browser preference
           this.lightModeToggled = !this.darkModePreference.matches;
-        // use browser preference
         else {
-          // use saved dark mode preference
+          // use saved preference
           this.lightModeToggled = !Boolean(
             JSON.parse(localStorage.getItem("darkMode") || "")
           );

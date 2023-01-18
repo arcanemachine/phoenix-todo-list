@@ -24,9 +24,6 @@
       <:user_action_menu_items>
         <%= if @current_user do %>
           <li>
-            <%= @current_user.email %>
-          </li>
-          <li>
             <.link href={~p"/users/settings"}>Settings</.link>
           </li>
           <li>

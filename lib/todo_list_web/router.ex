@@ -65,6 +65,8 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    get "/users/profile", PageController, :show
+
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit

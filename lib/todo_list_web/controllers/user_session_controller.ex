@@ -34,6 +34,10 @@ defmodule TodoListWeb.UserSessionController do
     end
   end
 
+  def home(conn, _params) do
+    render(conn, :home, page_title: "Home")
+  end
+
   def delete(conn, _params) do
     conn
     |> put_flash(:info, "You are now logged out.")

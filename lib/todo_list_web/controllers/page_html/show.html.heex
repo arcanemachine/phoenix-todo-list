@@ -1,0 +1,18 @@
+<ul>
+  <li>Email: <%= @current_user.email %></li>
+</ul>
+
+<h3 class="mt-4">Actions</h3>
+
+<ul>
+  <li>
+    <.link navigate={~p"/users/settings"}>
+      Update your profile
+    </.link>
+  </li>
+  <li>
+    <.link navigate={~p"/users/log_out"}>
+      Log out
+    </.link>
+  </li>
+</ul>

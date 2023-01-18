@@ -24,17 +24,17 @@
       <:user_action_menu_items>
         <%= if @current_user do %>
           <li>
-            <.link href={~p"/users/settings"}>Settings</.link>
+            <.link navigate={~p"/users/profile"}>Your profile</.link>
           </li>
           <li>
             <.link href={~p"/users/log_out"} method="delete">Logout</.link>
           </li>
         <% else %>
           <li>
-            <.link href={~p"/users/register"}>Register</.link>
+            <.link navigate={~p"/users/register"}>Register</.link>
           </li>
           <li>
-            <.link href={~p"/users/log_in"}>Login</.link>
+            <.link navigate={~p"/users/log_in"}>Login</.link>
           </li>
         <% end %>
       </:user_action_menu_items>

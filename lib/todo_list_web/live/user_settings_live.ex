@@ -34,7 +34,7 @@ defmodule TodoListWeb.UserSettingsLive do
       </:actions>
     </.simple_form>
 
-    <.header>Change Password</.header>
+    <.header class="mt-12">Change Password</.header>
 
     <.simple_form
       :let={f}

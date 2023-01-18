@@ -69,7 +69,7 @@ defmodule TodoListWeb.BaseComponents do
 
   def navbar_action_menu(assigns) do
     ~H"""
-    <div class="dropdown-end dropdown">
+    <div class="dropdown-end dropdown" x-tooltip="User Actions">
       <label tabindex="0" class="btn-ghost btn-square btn m-1">
         <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
       </label>

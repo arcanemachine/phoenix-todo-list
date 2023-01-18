@@ -1,4 +1,4 @@
-const data = [
+const alpineData = [
   {
     name: "darkModeToggle",
     data() {
@@ -60,4 +60,4 @@ const data = [
   },
 ];
 
-export default data;
+export default alpineData;

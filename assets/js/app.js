@@ -25,12 +25,15 @@ import topbar from "../vendor/topbar";
 
 import "tippy.js/dist/tippy.css"; // setup tippy.js
 
-// setup Alpine.JS
+// setup Alpine.JS and import data/directives
 import Alpine from "alpinejs";
-import { components, directives } from "./alpine";
+import { data as alpineData, directives as alpineDirectives } from "./alpine";
 
-Alpine.store("components", components);
-for (const directive of directives) {
+for (const data of alpineData) {
+  Alpine.data(data.name, data.data);
+}
+
+for (const directive of alpineDirectives) {
   Alpine.directive(directive.name, directive.directive);
 }
 

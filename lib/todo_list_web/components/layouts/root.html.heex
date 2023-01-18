@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
     <.live_title suffix=" Todo List">
-      <%= assigns[:page_title] || "Home" %>
+      <%= assigns[:page_title] || "" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
@@ -20,7 +20,28 @@
       <h1 style="text-align: center">Please enable Javascript to view this website.</h1>
     </noscript>
 
-    <.navbar />
+    <.navbar>
+      <:user_action_menu_items>
+        <%= if @current_user do %>
+          <li>
+            <%= @current_user.email %>
+          </li>
+          <li>
+            <.link href={~p"/users/settings"}>Settings</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/log_out"} method="delete">Logout</.link>
+          </li>
+        <% else %>
+          <li>
+            <.link href={~p"/users/register"}>Register</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/log_in"}>Login</.link>
+          </li>
+        <% end %>
+      </:user_action_menu_items>
+    </.navbar>
 
     <!-- inner content -->
     <main>

@@ -6,7 +6,15 @@
 
 @layer base {
   a {
-    @apply text-blue-600 hover:text-blue-800;
+    color: hsl(var(--p)) !important;
+  }
+
+  a.btn {
+    color: inherit !important;
+  }
+
+  .btn {
+    min-width: 7rem;
   }
 }
 

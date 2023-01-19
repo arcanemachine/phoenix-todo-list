@@ -28,7 +28,7 @@ module.exports = {
           error: "#DC2626",
         },
       },
-      "luxury",
+      "forest",
     ],
   },
   plugins: [

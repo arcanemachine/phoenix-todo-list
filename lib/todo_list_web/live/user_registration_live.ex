@@ -11,7 +11,7 @@ defmodule TodoListWeb.UserRegistrationLive do
         Register for an account
         <:subtitle>
           Already registered?
-          <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
+          <.link navigate={~p"/users/log_in"} class="font-semibold hover:underline">
             Sign in
           </.link>
           to your account now.
@@ -37,7 +37,9 @@ defmodule TodoListWeb.UserRegistrationLive do
         <.input field={{f, :password}} type="password" label="Password" required />
 
         <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
+          <.button phx-disable-with="Creating account..." class="w-full btn btn-primary">
+            Submit
+          </.button>
         </:actions>
       </.simple_form>
     </div>
@@ -45,8 +47,10 @@ defmodule TodoListWeb.UserRegistrationLive do
   end
 
   def mount(_params, _session, socket) do
+    page_title = "Register New Account"
+
     changeset = Accounts.change_user_registration(%User{})
-    socket = assign(socket, changeset: changeset, trigger_submit: false)
+    socket = assign(socket, changeset: changeset, trigger_submit: false, page_title: page_title)
     {:ok, socket, temporary_assigns: [changeset: nil]}
   end
 

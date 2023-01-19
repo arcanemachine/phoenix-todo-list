@@ -40,7 +40,7 @@ const data = [
 
           // save data to localStorage and set the theme
           updateLocalStorage && localStorage.setItem("darkMode", "1");
-          document!.querySelector("html")!.dataset.theme = "luxury";
+          document!.querySelector("html")!.dataset.theme = "forest";
         },
 
         darkModeDisable(updateLocalStorage: boolean) {

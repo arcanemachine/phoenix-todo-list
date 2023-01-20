@@ -30,7 +30,7 @@ defmodule TodoListWeb.UserSettingsLive do
         required
       />
       <:actions>
-        <.button class="btn btn-primary" phx-disable-with="Changing...">Change Email</.button>
+        <.button class="btn-primary" phx-disable-with="Changing...">Change Email</.button>
       </:actions>
     </.simple_form>
 

@@ -33,7 +33,7 @@ defmodule TodoListWeb.UserLoginLive do
           </.link>
         </:actions>
         <:actions>
-          <.button phx-disable-with="Signing in..." class="w-full btn btn-primary">
+          <.button phx-disable-with="Signing in..." class="w-full btn-success">
             Sign in <span aria-hidden="true">→</span>
           </.button>
         </:actions>

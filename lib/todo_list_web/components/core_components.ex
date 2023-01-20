@@ -106,14 +106,14 @@ defmodule TodoListWeb.CoreComponents do
                     id={"#{@id}-confirm"}
                     phx-click={@on_confirm}
                     phx-disable-with
-                    class="btn btn-primary w-[7rem]"
+                    class="btn btn-primary"
                   >
                     <%= render_slot(confirm) %>
                   </.button>
                   <.link
                     :for={cancel <- @cancel}
                     phx-click={hide_modal(@on_cancel, @id)}
-                    class="btn btn-secondary w-[7rem]"
+                    class="btn btn-secondary"
                   >
                     <%= render_slot(cancel) %>
                   </.link>

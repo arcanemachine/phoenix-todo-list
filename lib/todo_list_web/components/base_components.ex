@@ -5,6 +5,53 @@ defmodule TodoListWeb.BaseComponents do
 
   use Phoenix.Component
 
+  attr :title, :string, default: nil
+  attr :items, :list, required: true
+
+  def action_links(assigns) do
+    ~H"""
+    <section class="mt-12">
+      <h3 class="text-2xl font-bold">
+        <%= @title || "Actions" %>
+      </h3>
+      <ul class="mt-2 ml-8 list-disc">
+        <li :for={item <- @items} class="mt-2 pl-2">
+          <.link navigate={item.href}>
+            <%= item.content %>
+          </.link>
+        </li>
+      </ul>
+    </section>
+    """
+  end
+
+  def dark_mode_toggle(assigns) do
+    ~H"""
+    <div class="pr-2 flex" x-data="darkModeToggle" x-cloak>
+      <div class="flex-center mr-3 flex grid">
+        <template x-if="lightModeToggled">
+          <Heroicons.sun
+            solid
+            class="h-4 w-4 stroke-current text-warning"
+            aria-label="Light Mode Icon"
+          />
+        </template>
+        <template x-if="!lightModeToggled">
+          <Heroicons.moon solid class="h-4 w-4 stroke-current" aria-label="Dark Mode Icon" />
+        </template>
+      </div>
+      <input
+        type="checkbox"
+        class="toggle"
+        x-bind:class="lightModeToggled && 'toggle-warning'"
+        x-model="lightModeToggled"
+        x-tooltip="Toggle dark mode"
+        @click="darkModeToggle"
+      />
+    </div>
+    """
+  end
+
   slot :user_action_menu_items, required: true
 
   def navbar(assigns) do
@@ -33,33 +80,6 @@ defmodule TodoListWeb.BaseComponents do
         </div>
       </div>
     </nav>
-    """
-  end
-
-  def dark_mode_toggle(assigns) do
-    ~H"""
-    <div class="pr-2 flex" x-data="darkModeToggle" x-cloak>
-      <div class="flex-center mr-3 flex grid">
-        <template x-if="lightModeToggled">
-          <Heroicons.sun
-            solid
-            class="h-4 w-4 stroke-current text-warning"
-            aria-label="Light Mode Icon"
-          />
-        </template>
-        <template x-if="!lightModeToggled">
-          <Heroicons.moon solid class="h-4 w-4 stroke-current" aria-label="Dark Mode Icon" />
-        </template>
-      </div>
-      <input
-        type="checkbox"
-        class="toggle"
-        x-bind:class="lightModeToggled && 'toggle-warning'"
-        x-model="lightModeToggled"
-        x-tooltip="Toggle dark mode"
-        @click="darkModeToggle"
-      />
-    </div>
     """
   end
 end

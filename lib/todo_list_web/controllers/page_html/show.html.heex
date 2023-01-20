@@ -2,19 +2,7 @@
     <li>Email: <%= @current_user.email %></li>
   </ul>
 
-<section class="prose">
-  <h3 class="mt-8">Actions</h3>
-
-  <ul>
-    <li>
-      <.link navigate={~p"/users/settings"}>
-        Update your profile
-      </.link>
-    </li>
-    <li>
-      <.link navigate={~p"/users/log_out"}>
-        Log out
-      </.link>
-    </li>
-  </ul>
-</section>
+  <.action_links items={[
+    %{content: "Update your user profile", href: ~p"/users/settings"},
+    %{content: "Log out of your account", href: ~p"/users/log_out"}]
+  } />

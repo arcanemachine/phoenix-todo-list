@@ -7,6 +7,7 @@
 @layer base {
   a {
     color: hsl(var(--p)) !important;
+    font-weight: bold !important;
   }
 
   a.btn {
@@ -41,7 +42,7 @@
   .action-links {
     margin-top: 3rem;
 
-    @apply mx-auto max-w-xs;
+    @apply max-w-xs;
   }
 
   .action-links > * {

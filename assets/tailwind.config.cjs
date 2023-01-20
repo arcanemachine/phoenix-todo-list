@@ -11,6 +11,9 @@ module.exports = {
         brand: "#FD4F00",
       },
     },
+    // listStyleType: {
+    //   dash: "- ",
+    // },
   },
   daisyui: {
     logs: false,

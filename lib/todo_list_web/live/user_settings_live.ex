@@ -5,8 +5,6 @@ defmodule TodoListWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.back navigate={~p"/users/profile"}>Go Back</.back>
-
     <.header class="mt-8">Change Email</.header>
 
     <.simple_form
@@ -69,6 +67,10 @@ defmodule TodoListWeb.UserSettingsLive do
         <.button class="btn btn-primary" phx-disable-with="Changing...">Change Password</.button>
       </:actions>
     </.simple_form>
+
+    <.action_links items={[
+      %{content: "Return to your user profile", href: ~p"/users/profile"}
+    ]} />
     """
   end
 

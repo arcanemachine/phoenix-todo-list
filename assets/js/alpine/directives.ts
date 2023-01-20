@@ -19,7 +19,7 @@ const directives = [
       if (alpineExpressionIsObject(expression)) {
         options = evaluate(expression); // expression is an object
       } else {
-        options = { content: expression }; // expression is a string. convert to an object
+        options = { content: expression }; // convert expression to object
       }
 
       // final options

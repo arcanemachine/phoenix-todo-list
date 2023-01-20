@@ -27,7 +27,7 @@ defmodule TodoListWeb.BaseComponents do
 
   def dark_mode_toggle(assigns) do
     ~H"""
-    <div class="pr-2 flex" x-data="darkModeToggle" x-cloak>
+    <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>
       <div class="flex-center mr-3 flex grid">
         <template x-if="lightModeToggled">
           <Heroicons.sun
@@ -42,11 +42,13 @@ defmodule TodoListWeb.BaseComponents do
       </div>
       <input
         type="checkbox"
-        class="toggle"
+        class="toggle opacity-0 transition-none"
         x-bind:class="lightModeToggled && 'toggle-warning'"
         x-model="lightModeToggled"
         x-tooltip="Toggle dark mode"
+        x-init="setTimeout(() => { $el.classList.remove('opacity-0', 'transition-none') }, 25)"
         @click="darkModeToggle"
+        x-cloak
       />
     </div>
     """

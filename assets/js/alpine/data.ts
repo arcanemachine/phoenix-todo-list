@@ -4,30 +4,26 @@ const data = [
     data() {
       return {
         lightModeToggled: undefined,
-        darkModePreference: window.matchMedia("(prefers-color-scheme: dark)"),
+
+        // computed
+        get savedDarkModePreferenceExists() {
+          return localStorage.getItem("darkModeEnabled") !== null;
+        },
 
         init() {
-          const savedDarkModePreferenceExists =
-            localStorage.getItem("darkMode") !== null;
+          this.lightModeToggled = !this.$store.darkModeEnabled;
 
-          if (!savedDarkModePreferenceExists)
-            // use browser preference
-            this.lightModeToggled = !this.darkModePreference.matches;
-          else {
-            // use saved preference
-            this.lightModeToggled = !Boolean(
-              JSON.parse(localStorage.getItem("darkMode") || "")
-            );
-          }
-
-          this.lightModeToggled
-            ? this.darkModeDisable(false)
-            : this.darkModeEnable(false); // set initial theme
+          // set initial theme
+          if (this.lightModeToggled) this.darkModeDisable(false);
+          else this.darkModeEnable(false);
 
           // watch for changes to dark mode preference
-          this.darkModePreference.addEventListener("change", (evt: any) => {
+          const browserDarkModePreference = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          );
+          browserDarkModePreference.addEventListener("change", (evt: any) => {
             // only change if no preference has been assigned manually
-            if (!savedDarkModePreferenceExists) {
+            if (!this.savedDarkModePreferenceExists) {
               evt.matches
                 ? this.darkModeEnable(false)
                 : this.darkModeDisable(false);
@@ -36,19 +32,21 @@ const data = [
         },
 
         darkModeEnable(updateLocalStorage: boolean) {
-          this.lightModeToggled = false;
+          this.$store.darkModeEnabled = true;
+          this.lightModeToggled = !this.$store.darkModeEnabled;
 
           // save data to localStorage and set the theme
-          updateLocalStorage && localStorage.setItem("darkMode", "1");
+          updateLocalStorage && localStorage.setItem("darkModeEnabled", "1");
           document!.querySelector("html")!.dataset.theme = "dark";
         },
 
         darkModeDisable(updateLocalStorage: boolean) {
-          this.lightModeToggled = true;
+          this.$store.darkModeEnabled = false;
+          this.lightModeToggled = !this.$store.darkModeEnabled;
 
           // save data to localStorage and reset the theme
-          updateLocalStorage && localStorage.setItem("darkMode", "0");
-          document!.querySelector("html")!.removeAttribute("data-theme");
+          updateLocalStorage && localStorage.setItem("darkModeEnabled", "0");
+          document!.querySelector("html")!.dataset.theme = "default";
         },
 
         darkModeToggle() {

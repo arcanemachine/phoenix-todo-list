@@ -20,7 +20,6 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through :browser
 
-    resources "/todos", TodoController
     live "/component-showcase", ComponentShowcaseLive
     get "/", PageController, :home
   end
@@ -67,6 +66,7 @@ defmodule TodoListWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     get "/users/profile", PageController, :show
+    resources "/todos", TodoController
 
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do

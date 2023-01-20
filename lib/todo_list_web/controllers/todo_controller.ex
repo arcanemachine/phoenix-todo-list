@@ -5,7 +5,7 @@ defmodule TodoListWeb.TodoController do
   alias TodoList.Todos.Todo
 
   def index(conn, _params) do
-    todos = Todos.list_todos()
+    todos = Todos.list_todos_by_user_id(conn.assigns.current_user.id)
     render(conn, :index, todos: todos)
   end
 
@@ -15,6 +15,10 @@ defmodule TodoListWeb.TodoController do
   end
 
   def create(conn, %{"todo" => todo_params}) do
+    # set user_id to current user
+    user = conn.assigns.current_user
+    todo_params = Map.merge(todo_params, %{user_id: user.id})
+
     case Todos.create_todo(todo_params) do
       {:ok, todo} ->
         conn

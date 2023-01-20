@@ -7,18 +7,22 @@
   </:actions>
 </.header>
 
-<.table id="todos" rows={@todos} row_click={&JS.navigate(~p"/todos/#{&1}")}>
-  <:col :let={todo} label="Content"><%= todo.content %></:col>
-  <:col :let={todo} label="Is completed"><%= todo.is_completed %></:col>
-  <:action :let={todo}>
-    <div class="sr-only">
-      <.link navigate={~p"/todos/#{todo}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/todos/#{todo}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={todo}>
-    <.link href={~p"/todos/#{todo}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<%= if Enum.empty?(@todos) do %>
+  <p class="mt-8">You have not created any Todos.</p>
+<% else %>
+  <.table id="todos" rows={@todos} row_click={&JS.navigate(~p"/todos/#{&1}")}>
+    <:col :let={todo} label="Content"><%= todo.content %></:col>
+    <:col :let={todo} label="Is completed"><%= todo.is_completed %></:col>
+    <:action :let={todo}>
+      <div class="sr-only">
+        <.link navigate={~p"/todos/#{todo}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/todos/#{todo}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={todo}>
+      <.link href={~p"/todos/#{todo}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+<% end %>

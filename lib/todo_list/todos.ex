@@ -22,19 +22,6 @@ defmodule TodoList.Todos do
   end
 
   @doc """
-  Gets a single todo.
-
-  Raises `Ecto.NoResultsError` if the Todo does not exist.
-
-  ## Examples
-
-      iex> get_todo!(123)
-      %Todo{}
-
-      iex> get_todo!(456)
-      ** (Ecto.NoResultsError)
-
-  @doc \"""
   Get a list of todos by user ID.
 
   ## Examples

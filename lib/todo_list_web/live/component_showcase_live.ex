@@ -32,7 +32,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
     </.modal>
 
     <section class="text-center">
-      <.button class="btn btn-primary" phx-click={show_modal("showcase-modal")}>
+      <.button phx-click={show_modal("showcase-modal")}>
         Show Modal
       </.button>
     </section>
@@ -47,10 +47,10 @@ defmodule TodoListWeb.ComponentShowcaseLive do
     </.flash>
 
     <section class="text-center">
-      <.button class="btn btn-primary" phx-click={show("#showcase-flash-info")}>
+      <.button phx-click={show("#showcase-flash-info")}>
         Show Info Flash
       </.button>
-      <.button class="ml-4 btn btn-primary" phx-click={show("#showcase-flash-error")}>
+      <.button class="ml-4" phx-click={show("#showcase-flash-error")}>
         Show Error Flash
       </.button>
     </section>
@@ -93,8 +93,8 @@ defmodule TodoListWeb.ComponentShowcaseLive do
       </div>
       <!-- actions -->
       <:actions>
-        <.button class="btn btn-primary">Submit</.button>
-        <input type="reset" value="Reset" class="btn btn-secondary min-w-[7rem]" />
+        <.button>Submit</.button>
+        <input type="reset" value="Reset" class="btn-secondary min-w-[7rem]" />
       </:actions>
     </.simple_form>
 
@@ -111,7 +111,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
         Header subtitle
       </:subtitle>
       <:actions>
-        <.button class="btn btn-primary">OK</.button>
+        <.button>OK</.button>
       </:actions>
     </.header>
 
@@ -140,8 +140,8 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
     <h2 class="mt-16 mb-4 text-3xl text-center">Show/Hide</h2>
 
-    <.button class="btn btn-primary" phx-click={show("#showcase-show-hide")}>Show</.button>
-    <.button class="btn btn-primary" phx-click={hide("#showcase-show-hide")}>Hide</.button>
+    <.button phx-click={show("#showcase-show-hide")}>Show</.button>
+    <.button phx-click={hide("#showcase-show-hide")}>Hide</.button>
 
     <p id="showcase-show-hide">
       <!-- prevent page jumping when element visibility toggled -->

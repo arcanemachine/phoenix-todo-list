@@ -106,7 +106,6 @@ defmodule TodoListWeb.CoreComponents do
                     id={"#{@id}-confirm"}
                     phx-click={@on_confirm}
                     phx-disable-with
-                    class="btn-primary"
                   >
                     <%= render_slot(confirm) %>
                   </.button>

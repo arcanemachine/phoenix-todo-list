@@ -30,7 +30,7 @@ defmodule TodoListWeb.UserSettingsLive do
         required
       />
       <:actions>
-        <.button class="btn-primary" phx-disable-with="Changing...">Change Email</.button>
+        <.button phx-disable-with="Changing...">Change Email</.button>
       </:actions>
     </.simple_form>
 
@@ -64,7 +64,7 @@ defmodule TodoListWeb.UserSettingsLive do
         required
       />
       <:actions>
-        <.button class="btn btn-primary" phx-disable-with="Changing...">Change Password</.button>
+        <.button phx-disable-with="Changing...">Change Password</.button>
       </:actions>
     </.simple_form>
 

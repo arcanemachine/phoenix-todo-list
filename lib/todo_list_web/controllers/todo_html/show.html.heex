@@ -1,0 +1,16 @@
+<.header>
+  Todo <%= @todo.id %>
+  <:subtitle>This is a todo record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/todos/#{@todo}/edit"}>
+      <.button>Edit todo</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Content"><%= @todo.content %></:item>
+  <:item title="Is completed"><%= @todo.is_completed %></:item>
+</.list>
+
+<.back navigate={~p"/todos"}>Back to todos</.back>

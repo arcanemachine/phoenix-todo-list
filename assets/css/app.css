@@ -11,11 +11,7 @@
   }
 
   a.btn {
-    color: inherit !important;
-  }
-
-  .btn {
-    min-width: 7rem;
+    color: unset !important;
   }
 }
 

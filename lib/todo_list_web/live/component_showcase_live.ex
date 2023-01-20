@@ -143,7 +143,11 @@ defmodule TodoListWeb.ComponentShowcaseLive do
     <.button class="btn btn-primary" phx-click={show("#showcase-show-hide")}>Show</.button>
     <.button class="btn btn-primary" phx-click={hide("#showcase-show-hide")}>Hide</.button>
 
-    <p id="showcase-show-hide">Now you see me...</p>
+    <p id="showcase-show-hide">
+      <!-- prevent page jumping when element visibility toggled -->
+      <span>&nbsp;</span>
+      Now you see me...
+    </p>
     """
   end
 end

@@ -5,7 +5,9 @@ defmodule TodoListWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header>Change Email</.header>
+    <.back navigate={~p"/users/profile"}>Go Back</.back>
+
+    <.header class="mt-8">Change Email</.header>
 
     <.simple_form
       :let={f}

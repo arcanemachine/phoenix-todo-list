@@ -46,7 +46,7 @@ defmodule TodoListWeb.BaseComponents do
         x-bind:class="lightModeToggled && 'toggle-warning'"
         x-model="lightModeToggled"
         x-tooltip="Toggle dark mode"
-        x-init="setTimeout(() => { $el.classList.remove('opacity-0', 'transition-none') }, 25)"
+        x-init="setTimeout(() => { $el.classList.remove('opacity-0', 'transition-none') })"
         @click="darkModeToggle"
         x-cloak
       />

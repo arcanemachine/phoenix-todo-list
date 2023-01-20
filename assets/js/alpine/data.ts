@@ -5,11 +5,6 @@ const data = [
       return {
         lightModeToggled: undefined,
 
-        // computed
-        get savedDarkModePreferenceExists() {
-          return localStorage.getItem("darkModeEnabled") !== null;
-        },
-
         init() {
           this.lightModeToggled = !this.$store.darkModeEnabled;
 
@@ -23,7 +18,7 @@ const data = [
           );
           browserDarkModePreference.addEventListener("change", (evt: any) => {
             // only change if no preference has been assigned manually
-            if (!this.savedDarkModePreferenceExists) {
+            if (!this.$store.helpers.darkModeSavedPreferenceExists) {
               evt.matches
                 ? this.darkModeEnable(false)
                 : this.darkModeDisable(false);

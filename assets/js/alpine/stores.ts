@@ -1,11 +1,14 @@
+const helpers = {
+  get darkModeSavedPreferenceExists() {
+    return localStorage.getItem("darkModeEnabled") !== null;
+  },
+};
+
 const stores = [
   {
     name: "darkModeEnabled",
-    get store() {
-      const savedDarkModePreferenceExists =
-        localStorage.getItem("darkModeEnabled") !== null;
-
-      if (savedDarkModePreferenceExists) {
+    store: (() => {
+      if (helpers.darkModeSavedPreferenceExists) {
         // use saved preference
         const savedDarkModePreference = JSON.parse(
           localStorage.getItem("darkModeEnabled") || "0"
@@ -19,7 +22,11 @@ const stores = [
 
         return browserDarkModePreference.matches;
       }
-    },
+    })(),
+  },
+  {
+    name: "helpers",
+    store: helpers,
   },
 ];
 

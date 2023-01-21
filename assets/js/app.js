@@ -24,8 +24,8 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 // import phoenixHooks from "./base/hooks"
 
-// setup tippy.js
-import "tippy.js/dist/tippy.css";
+// // setup tippy.js
+// import "tippy.js/dist/tippy.css";
 
 // setup Alpine.JS
 import Alpine from "alpinejs";

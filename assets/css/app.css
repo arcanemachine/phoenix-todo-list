@@ -21,19 +21,6 @@
     border-width: 2px !important;
   }
 
-  /* svelte-fa */
-  .svelte-fa {
-    min-width: 16px;
-  }
-
-  /* svelte-toast */
-  :root {
-    --toastContainerTop: auto;
-    --toastContainerRight: 1rem;
-    --toastContainerBottom: 1rem;
-    --toastContainerLeft: auto;
-  }
-
   /* misc */
   .action-links {
     margin-top: 3rem;

@@ -22,17 +22,18 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
-// import { hooks as phoenixHooks } from "./hooks"
+// import phoenixHooks from "./base/hooks"
 
-import "tippy.js/dist/tippy.css"; // setup tippy.js
+// setup tippy.js
+import "tippy.js/dist/tippy.css";
 
-// setup Alpine.JS and import data/directives
+// setup Alpine.JS
 import Alpine from "alpinejs";
 import {
   data as alpineData,
   directives as alpineDirectives,
   stores as alpineStores,
-} from "./alpine";
+} from "./base/alpine";
 
 for (const data of alpineData) {
   Alpine.data(data.name, data.data);

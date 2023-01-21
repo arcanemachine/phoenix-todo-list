@@ -1,24 +1,20 @@
+import projectHelpers from "../helpers";
+
 const data = [
   {
     name: "darkModeToggle",
     data() {
       return {
-        lightModeToggled: undefined,
+        lightModeToggled: !projectHelpers.darkModeEnabled,
 
         init() {
-          this.lightModeToggled = !this.$store.darkModeEnabled;
-
-          // set initial theme
-          if (this.lightModeToggled) this.darkModeDisable(false);
-          else this.darkModeEnable(false);
-
           // watch for changes to dark mode preference
           const browserDarkModePreference = window.matchMedia(
             "(prefers-color-scheme: dark)"
           );
           browserDarkModePreference.addEventListener("change", (evt: any) => {
             // only change if no preference has been assigned manually
-            if (!this.$store.helpers.darkModeSavedPreferenceExists) {
+            if (!projectHelpers.darkModeSavedPreferenceExists) {
               evt.matches
                 ? this.darkModeEnable(false)
                 : this.darkModeDisable(false);
@@ -27,20 +23,22 @@ const data = [
         },
 
         darkModeEnable(updateLocalStorage: boolean) {
-          this.$store.darkModeEnabled = true;
-          this.lightModeToggled = !this.$store.darkModeEnabled;
+          // this.$store.darkModeEnabled = true;
+          // this.lightModeToggled = !this.$store.darkModeEnabled;
+          this.lightModeToggled = false;
 
           // save data to localStorage and set the theme
-          updateLocalStorage && localStorage.setItem("darkModeEnabled", "1");
+          if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "1");
           document!.querySelector("html")!.dataset.theme = "dark";
         },
 
         darkModeDisable(updateLocalStorage: boolean) {
-          this.$store.darkModeEnabled = false;
-          this.lightModeToggled = !this.$store.darkModeEnabled;
+          // this.$store.darkModeEnabled = false;
+          // this.lightModeToggled = !this.$store.darkModeEnabled;
+          this.lightModeToggled = true;
 
           // save data to localStorage and reset the theme
-          updateLocalStorage && localStorage.setItem("darkModeEnabled", "0");
+          if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "0");
           document!.querySelector("html")!.dataset.theme = "default";
         },
 

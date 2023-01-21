@@ -1,8 +1,8 @@
-  <ul class="no-prose">
-    <li>Email: <%= @current_user.email %></li>
-  </ul>
+<ul class="no-prose">
+  <li>Email: <%= @current_user.email %></li>
+</ul>
 
-  <.action_links items={[
-    %{content: "Update your user profile", href: ~p"/users/settings"},
-    %{content: "Log out of your account", href: ~p"/users/log_out"}]
-  } />
+<.action_links items={[
+  %{content: "Update your user profile", href: ~p"/users/settings"},
+  %{content: "Log out of your account", href: ~p"/users/log_out"}
+]} />

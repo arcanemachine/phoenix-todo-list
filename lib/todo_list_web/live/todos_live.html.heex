@@ -1,0 +1,86 @@
+<!--script type="module">
+  import ""
+</script-->
+
+<section class="mx-auto flex max-w-md flex-col justify-center"
+         x-data>
+  <!-- todo form -->
+  <div class="mx-auto">
+    <div class="input-group">
+      <input
+        type="text"
+        placeholder="To Do..."
+        class="input-bordered input focus:outline-0"
+      />
+      <%#
+        bind:value={$todoFormInputText}
+        on:keypress={inputHandleKeypress}
+      %>
+      <%= if @todo_id_selected != 0 do %>
+        <button class="btn-primary btn">
+          <%#
+            disabled={!$todoFormInputText}
+            on:click={todoCreate}
+          %>
+          Create
+        </button>
+      <% else %>
+        <button class="btn-primary btn-accent btn">
+          <%#
+            disabled={!$todoFormInputText}
+            on:click={todoUpdateContent}
+          %>
+        Update
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- todo list -->
+  <ul class="w-100 mt-6 list-none pl-0">
+    <%= if Enum.empty?(@todos) do %>
+      <li class="text-center">No todos created...</li>
+    <% else %>
+      <%= for todo <- @todos do %>
+        <li class={[
+          ["flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
+          [todo.id == @todo_id_selected && "rounded-75 rounded bg-base-200 text-info"]
+        ]}>
+          <div class="flex-start mr-2 grow" x-tooltip="Modify todo">
+            <button
+              class={[
+                ["btn-link btn-sm btn w-full text-left normal-case no-underline"],
+                [(!todo.is_completed && "text-primary") || "text-secondary line-through"]
+              ]}
+              phx-click={todo_handle_click(todo.id)}
+            >
+              <%= todo.content %>
+            </button>
+          </div>
+          <div>
+            <%= if @todo_id_selected == todo.id do %>
+              <button
+                class="p-2"
+                aria-label="Delete todo"
+                phx-click={show_todo_delete_modal(todo.id)}
+              >
+                <label for="todo-delete-modal" x-tooltip="Delete todo">
+                  <Heroicons.trash solid class="h-24 w-24 stroke-current" />
+                </label>
+              </button>
+            <% else %>
+              <label class="label" x-tooltip="Mark completed">
+                <input
+                  type="checkbox"
+                  checked={todo.is_completed}
+                  class="checkbox"
+                  phx-click={todo_update_is_completed(todo.id)}
+                />
+              </label>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+</section>

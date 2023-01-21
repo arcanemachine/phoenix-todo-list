@@ -1,7 +1,7 @@
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
 
-import { alpineExpressionIsObject } from "../helpers";
+import projectHelpers from "../helpers";
 
 const directives = [
   {
@@ -16,7 +16,7 @@ const directives = [
 
       // parse expression and convert to object
       let options: Record<string, any>;
-      if (alpineExpressionIsObject(expression)) {
+      if (projectHelpers.alpineExpressionIsObject(expression)) {
         options = evaluate(expression); // expression is an object
       } else {
         options = { content: expression }; // convert expression to object

@@ -1,5 +1,4 @@
 import tippy from "tippy.js";
-import "tippy.js/dist/tippy.css";
 
 import projectHelpers from "./helpers";
 import { data as todosData } from "../todos/alpine";
@@ -74,7 +73,6 @@ export const directives = [
         // interactiveDebounce: 150,
         touch: "hold",
       };
-
       // parse expression and convert to object
       let options: Record<string, any>;
       if (projectHelpers.alpineExpressionIsObject(expression)) {
@@ -82,15 +80,12 @@ export const directives = [
       } else {
         options = { content: expression }; // convert expression to object
       }
-
       // final options
       options = {
         ...defaultOptions,
         ...options,
       };
-
       const tip = tippy(elt, options); // create tooltip
-
       // when element is removed from the DOM, destroy the tooltip
       cleanup(() => {
         tip.destroy();

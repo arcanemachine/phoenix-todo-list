@@ -1,18 +1,18 @@
 <section class="mx-auto flex max-w-sm flex-col justify-center"
          x-data="todosLive">
   <!-- todo form -->
-  <div class="mx-auto">
+  <div class="mx-0 w-full">
     <div class="input-group">
       <input
         type="text"
         placeholder="To Do..."
-        class="input-bordered input focus:outline-0"
+        class="input-bordered input focus:outline-0 w-full text-center pl-10"
       />
       <%#
         bind:value={$todoFormInputText}
         on:keypress={inputHandleKeypress}
       %>
-      <%= if @todo_id_selected != 0 do %>
+      <%= if @todo_id_selected == 0 do %>
         <button class="btn-primary btn">
           <%#
             disabled={!$todoFormInputText}
@@ -21,7 +21,7 @@
           Create
         </button>
       <% else %>
-        <button class="btn-primary btn-accent btn">
+        <button class="btn btn-accent">
           <%#
             disabled={!$todoFormInputText}
             on:click={todoUpdateContent}
@@ -53,7 +53,7 @@
               <%= todo.content %>
             </button>
           </div>
-          <div>
+          <div class="w-[3.75rem] text-center">
             <%= if @todo_id_selected == todo.id do %>
               <button
                 class="p-2"

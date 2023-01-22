@@ -11,8 +11,6 @@ function todosLive() {
   return {
     hello: "world",
 
-    init() {
-      console.log("todosLive alpine component is working!");
-    },
+    init() {},
   };
 }

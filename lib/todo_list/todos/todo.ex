@@ -16,7 +16,7 @@ defmodule TodoList.Todos.Todo do
   @doc false
   def changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:content, :is_completed])
-    |> validate_required([:content, :is_completed])
+    |> cast(attrs, [:content, :is_completed, :user_id])
+    |> validate_required([:content, :is_completed, :user_id])
   end
 end

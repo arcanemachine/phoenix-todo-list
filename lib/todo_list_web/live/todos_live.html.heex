@@ -5,30 +5,21 @@
     <div class="input-group">
       <input
         type="text"
-        placeholder="To Do..."
         class="input-bordered input focus:outline-0 w-full text-center pl-10"
+        placeholder="To Do..."
+        x-model="todoFormInputText"
+        @keypress="formInputHandleKeypress"
       />
-      <%#
-        bind:value={$todoFormInputText}
-        on:keypress={inputHandleKeypress}
-      %>
-      <%= if @todo_id_selected == 0 do %>
-        <button class="btn-primary btn">
-          <%#
-            disabled={!$todoFormInputText}
-            on:click={todoCreate}
-          %>
-          Create
-        </button>
-      <% else %>
-        <button class="btn btn-accent">
-          <%#
-            disabled={!$todoFormInputText}
-            on:click={todoUpdateContent}
-          %>
-        Update
-        </button>
-      <% end %>
+      <button class="btn"
+              disabled
+              @click="formButtonHandleClick"
+              x-bind:class="todoIdSelected === 0 && 'btn-primary'"
+              x-bind:disabled="!todoFormInputText"
+              x-bind:phx-value-content="todoFormInputText"
+              x-text="todoIdSelected === 0 && 'Create' || 'Update'"
+              >
+        Create
+      </button>
     </div>
   </div>
 
@@ -38,45 +29,73 @@
       <li class="text-center">No todos created...</li>
     <% else %>
       <%= for todo <- @todos do %>
-        <li class={[
-          ["flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
-          [todo.id == @todo_id_selected && "rounded-75 rounded bg-base-200 text-info"]
-        ]}>
-          <div class="flex-start mr-2 grow" x-tooltip="Modify todo">
+        <li class="flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
+            data-todo-id={todo.id}
+            data-todo-content={todo.content}
+            x-data
+            x-bind:class="Number($el.dataset.todoId) === todoIdSelected
+              && 'rounded-75 rounded bg-base-200 text-info'">
+          <div class="flex-start mr-2 grow" x-tooltip="Modify this todo">
             <button
               class={[
                 ["btn-link btn-sm btn w-full text-left normal-case no-underline"],
                 [(!todo.is_completed && "text-primary") || "text-secondary line-through"]
               ]}
-              phx-click={todo_handle_click(todo.id)}
+                @click="todoItemHandleClick($root.dataset.todoId, $root.dataset.todoContent)"
             >
               <%= todo.content %>
             </button>
           </div>
           <div class="w-[3.75rem] text-center">
-            <%= if @todo_id_selected == todo.id do %>
+            <template x-if="todoIdSelected === Number($root.dataset.todoId)">
               <button
                 class="p-2"
                 aria-label="Delete todo"
+                @click="deleteModalShow"
                 phx-click={show_todo_delete_modal(todo.id)}
               >
                 <label for="todo-delete-modal" x-tooltip="Delete todo">
                   <Heroicons.trash solid class="h-24 w-24 stroke-current" />
                 </label>
               </button>
-            <% else %>
+            </template>
+            <template x-if="todoIdSelected !== Number($root.dataset.todoId)">
               <label class="label" x-tooltip="Mark completed">
                 <input
                   type="checkbox"
                   checked={todo.is_completed}
                   class="checkbox"
-                  phx-click={todo_update_is_completed(todo.id)}
+                  @click={todo_toggle_is_completed(todo.id)}
                 />
               </label>
-            <% end %>
+            </template>
           </div>
         </li>
       <% end %>
     <% end %>
   </ul>
+
+  <!-- delete modal -->
+  <div class="modal"
+       x-bind:class="deleteModalActive && 'modal-open'"
+       @keydown="() => {}">
+    <div class="modal-box relative max-w-xs rounded-tr-none"
+         x-show="deleteModalActive"
+         x-transition.duration.500ms
+         @click.outside="deleteModalHide">
+      <.focus_wrap id="delete-modal-focus-wrap">
+        <button class="modal-button-close btn-square" @click="deleteModalHide">✕</button>
+
+        <h2 class="mt-2 text-center font-bold">Delete this todo?</h2>
+
+        <div class="form-control mt-6 w-full max-w-xs">
+          <button class="btn-error btn" @click="todoDelete">Yes</button>
+        </div>
+
+        <div class="form-control mt-4 w-full max-w-xs">
+          <button class="btn-secondary btn" @click="deleteModalHide">No</button>
+        </div>
+      </.focus_wrap>
+    </div>
+  </div>
 </section>

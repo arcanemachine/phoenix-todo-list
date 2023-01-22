@@ -9,7 +9,7 @@ defmodule TodoListWeb.TodosLive do
     current_user = Accounts.get_user_by_session_token(session["user_token"])
     todos = Todos.list_todos_by_user_id(current_user.id)
 
-    socket = assign(socket, page_title: "Your Todos", todos: todos, todo_id_selected: 0)
+    socket = assign(socket, page_title: "Your Todos", todos: todos, current_user: current_user)
 
     {:ok, socket}
   end
@@ -21,10 +21,24 @@ defmodule TodoListWeb.TodosLive do
   # end
 
   # methods
-  def todo_handle_click(todo_id) do
+  def handle_event("todo_create", %{"content" => content} = data, socket) do
+    attrs = %{
+      content: content,
+      is_completed: false,
+      user_id: socket.assigns.current_user.id
+    }
+
+    {_result, todo} = Todos.create_todo(attrs)
+
+    socket = socket |> assign(todos: socket.assigns.todos ++ [todo])
+
+    {:noreply, socket}
   end
 
-  def todo_update_is_completed(todo_id) do
+  def todo_item_handle_click(todo_id) do
+  end
+
+  def todo_toggle_is_completed(todo_id) do
   end
 
   def show_todo_delete_modal(todo_id) do

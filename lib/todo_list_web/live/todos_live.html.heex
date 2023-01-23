@@ -30,19 +30,18 @@
     <% else %>
       <%= for todo <- @todos do %>
         <li class="flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
+            x-bind:class="Number($el.dataset.todoId) === todoIdSelected
+              && 'rounded-75 rounded bg-base-200 text-info'"
             data-todo-id={todo.id}
             data-todo-content={todo.content}
-            x-data
-            x-bind:class="Number($el.dataset.todoId) === todoIdSelected
-              && 'rounded-75 rounded bg-base-200 text-info'">
+            data-todo-is-completed={(todo.is_completed && "true") || "false"}
+            x-data>
           <div class="flex-start mr-2 grow" x-tooltip="Modify this todo">
             <button
-              class={[
-                ["btn-link btn-sm btn w-full text-left normal-case no-underline"],
-                [(!todo.is_completed && "text-primary") || "text-secondary line-through"]
-              ]}
-                @click="todoItemHandleClick($root.dataset.todoId, $root.dataset.todoContent)"
-            >
+              class="btn-link btn-sm btn w-full text-left normal-case no-underline"
+              x-bind:class="!$root.dataset.isCompleted
+                && 'text-primary' || 'text-secondary line-through'"
+              @click="todoItemHandleClick($root.dataset.todoId, $root.dataset.todoContent)">
               <%= todo.content %>
             </button>
           </div>
@@ -60,12 +59,16 @@
               </button>
             </template>
             <template x-if="todoIdSelected !== Number($root.dataset.todoId)">
-              <label class="label" x-tooltip="Mark completed">
+              <label class="label">
                 <input
                   type="checkbox"
                   checked={todo.is_completed}
-                  class="checkbox"
-                  @click={todo_toggle_is_completed(todo.id)}
+                  class="checkbox checkbox-lg"
+                  x-bind:class="$el.classList.contains('phx-click-loading') && 'select-none'"
+                  phx-click="todo_update_is_completed"
+                  phx-value-todo-id={todo.id}
+                  x-tooltip="Mark completed"
+                  x-bind:phx-value-todo-is-completed="JSON.parse($root.dataset.todoIsCompleted)"
                 />
               </label>
             </template>

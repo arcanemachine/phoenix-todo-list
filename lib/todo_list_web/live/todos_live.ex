@@ -28,7 +28,7 @@ defmodule TodoListWeb.TodosLive do
       user_id: socket.assigns.current_user.id
     }
 
-    {_result, todo} = Todos.create_todo(attrs)
+    {_status, todo} = Todos.create_todo(attrs)
 
     socket = socket |> assign(todos: socket.assigns.todos ++ [todo])
 
@@ -38,10 +38,32 @@ defmodule TodoListWeb.TodosLive do
   def todo_item_handle_click(todo_id) do
   end
 
-  def todo_toggle_is_completed(todo_id) do
+  def handle_event(
+        "todo_update_is_completed",
+        %{"todo-id" => todo_id, "todo-is-completed" => todo_is_completed} = _data,
+        socket
+      ) do
+    todos = socket.assigns.todos
+
+    # cast inputs
+    {todo_id, _remainder} = Integer.parse(todo_id)
+    todo_is_completed = (todo_is_completed == true && true) || false
+
+    # get todo from list
+    todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+
+    # update todo
+    {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo_is_completed})
+
+    # insert updated todo into todos list
+    todos =
+      todos
+      |> Enum.map(fn todo -> if todo.id == updated_todo.id, do: updated_todo, else: todo end)
+
+    {:noreply, socket |> assign(todos: todos)}
   end
 
-  def show_todo_delete_modal(todo_id) do
+  def show_todo_delete_modal(_todo_id) do
   end
 
   def hide_todo_delete_modal() do

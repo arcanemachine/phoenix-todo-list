@@ -149,6 +149,7 @@ defmodule TodoListWeb.CoreComponents do
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
+      x-init="() => { setTimeout(() => { $root.querySelector('button')?.click(); }, 5000); }"
       phx-mounted={@autoshow && show("##{@id}")}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"

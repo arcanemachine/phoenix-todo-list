@@ -2,7 +2,9 @@
          x-data="todosLive">
   <!-- todo form -->
   <.form for={:form} class="mx-0 w-full"
-         x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update'">
+         x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update_content'"
+         @submit="setTimeout(() => { todoItemSelectedReset(); })">
+    <input type="hidden" name="todo_id" x-bind:value="todoIdSelected || ''" />
     <div class="input-group">
       <input
         type="text"
@@ -50,10 +52,10 @@
               <button
                 class="mt-2 mr-[2px] btn btn-xs btn-circle btn-outline text-red-500 text-xl"
                 aria-label="Delete todo"
-                x-tooltip="Mark completed"
+                x-tooltip="Delete todo"
                 @click="deleteModalShow"
               >
-                  <Heroicons.x_mark solid class="h-6 w-6 pb-[1px] text-red-500" />
+                <Heroicons.x_mark solid class="h-6 w-6 pb-[1px] text-red-500" />
               </button>
             </template>
             <template x-if="todoIdSelected !== Number($root.dataset.id)">
@@ -62,7 +64,6 @@
                 <input type="hidden" name="todo_is_completed" value={todo.is_completed && "true" || "false"} />
                 <button
                   class="btn btn-sm btn-square btn-outline text-xl"
-                  x-tooltip="Mark completed"
                   phx-disable-with
                 >
                   <%= todo.is_completed && "✓" || raw("&nbsp;") %>
@@ -82,24 +83,30 @@
        @keydown="() => {}">
     <div class="modal-box relative max-w-xs rounded-tr-none"
          x-show="deleteModalActive"
+         x-trap="deleteModalActive"
          x-transition.duration.500ms
          @click.outside="deleteModalHide">
-      <.focus_wrap id="delete-modal-focus-wrap">
-        <button class="modal-button-close btn-square" @click="deleteModalHide">✕</button>
+        <button class="modal-button-close btn-square" @click="deleteModalHide">
+          <Heroicons.x_mark solid class="h-5 w-5" />
+        </button>
 
         <h2 class="mt-2 text-center font-bold">Delete this todo?</h2>
 
         <div class="form-control mt-6 w-full max-w-xs">
-          <.form for={:form} phx-submit="todo_delete">
+          <form phx-submit="todo_delete">
             <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
-            <button class="btn-error btn w-full" @click="deleteModalHide">Yes</button>
-          </.form>
+            <button class="btn-error btn w-full"
+                    @click="deleteModalHide"
+                    disabled
+                    x-bind:disabled="todoIdSelected === 0">
+              Yes
+            </button>
+          </form>
         </div>
 
         <div class="form-control mt-4 w-full max-w-xs">
           <button class="btn-secondary btn" @click="deleteModalHide">No</button>
         </div>
-      </.focus_wrap>
     </div>
   </div>
 </section>

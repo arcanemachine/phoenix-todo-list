@@ -70,9 +70,10 @@ export const directives = [
       const defaultOptions = {
         delay: [750, null],
         hideOnClick: true,
-        // interactiveDebounce: 150,
+        interactiveDebounce: 150,
         touch: "hold",
       };
+
       // parse expression and convert to object
       let options: Record<string, any>;
       if (projectHelpers.alpineExpressionIsObject(expression)) {
@@ -80,12 +81,15 @@ export const directives = [
       } else {
         options = { content: expression }; // convert expression to object
       }
+
       // final options
       options = {
         ...defaultOptions,
         ...options,
       };
+
       const tip = tippy(elt, options); // create tooltip
+
       // when element is removed from the DOM, destroy the tooltip
       cleanup(() => {
         tip.destroy();

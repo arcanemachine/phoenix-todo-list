@@ -21,12 +21,14 @@ function todosLive() {
     // delete
     deleteModalActive: false,
     deleteModalShow() {
-      console.log("deleteModalShow()");
       this.deleteModalActive = true;
     },
     deleteModalHide() {
-      console.log("deleteModalHide()");
-      this.deleteModalActive = false;
+      // add timeout so todoIdSelected isn't cleared before pushing event to server
+      setTimeout(() => {
+        this.todoIdSelected = 0;
+        this.deleteModalActive = false;
+      });
     },
 
     // form
@@ -46,10 +48,14 @@ function todosLive() {
         this.todoIdSelected = todoId; // set current todo as 'selected'
         this.todoFormInputText = todoContent; // assign todo content to the form's input field
       } else {
-        // reset selected todo and clear form
-        this.todoIdSelected = 0;
-        this.todoFormInputText = "";
+        this.todoItemSelectedReset();
       }
+    },
+
+    todoItemSelectedReset() {
+      // reset selected todo and clear form
+      this.todoIdSelected = 0;
+      this.todoFormInputText = "";
     },
   };
 }

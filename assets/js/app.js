@@ -26,11 +26,14 @@ import topbar from "../vendor/topbar";
 
 // setup Alpine.JS
 import Alpine from "alpinejs";
+import focus from "@alpinejs/focus";
 import {
   data as alpineData,
   directives as alpineDirectives,
   stores as alpineStores,
 } from "./base/alpine";
+
+Alpine.plugin(focus);
 
 for (const data of alpineData) {
   Alpine.data(data.name, data.data);

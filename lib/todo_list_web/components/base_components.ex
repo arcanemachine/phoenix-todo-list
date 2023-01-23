@@ -28,18 +28,17 @@ defmodule TodoListWeb.BaseComponents do
   def dark_mode_toggle(assigns) do
     ~H"""
     <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>
-      <div class="flex-center mr-3 flex grid">
-        <template x-if="lightModeToggled">
-          <Heroicons.sun
-            solid
-            class="h-4 w-4 stroke-current text-warning"
-            aria-label="Light Mode Icon"
-          />
-        </template>
-        <template x-if="!lightModeToggled">
-          <Heroicons.moon solid class="h-4 w-4 stroke-current" aria-label="Dark Mode Icon" />
-        </template>
-      </div>
+      <label
+        class="flex-center mr-3 flex grid swap swap-rotate"
+        x-bind:class="lightModeToggled && 'swap-active'"
+      >
+        <Heroicons.sun
+          solid
+          class="h-4 w-4 stroke-current text-warning swap-on"
+          aria-label="Light Mode Icon"
+        />
+        <Heroicons.moon solid class="h-4 w-4 stroke-current swap-off" aria-label="Dark Mode Icon" />
+      </label>
       <input
         type="checkbox"
         class="toggle opacity-0 transition-none"

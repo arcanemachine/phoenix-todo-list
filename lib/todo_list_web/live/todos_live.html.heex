@@ -29,24 +29,23 @@
       <li class="text-center">No todos created...</li>
     <% else %>
       <%= for todo <- @todos do %>
-        <li class="flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
-            x-bind:class="Number($el.dataset.todoId) === todoIdSelected
+        <li class="py-1 flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
+            x-bind:class="Number($el.dataset.id) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
-            data-todo-id={todo.id}
-            data-todo-content={todo.content}
-            data-todo-is-completed={(todo.is_completed && "true") || "false"}
+            data-id={todo.id}
+            data-content={todo.content}
+            data-is-completed={todo.is_completed && "true" || "false"}
             x-data>
           <div class="flex-start mr-2 grow" x-tooltip="Modify this todo">
-            <button
-              class="btn-link btn-sm btn w-full text-left normal-case no-underline"
-              x-bind:class="!$root.dataset.isCompleted
-                && 'text-primary' || 'text-secondary line-through'"
-              @click="todoItemHandleClick($root.dataset.todoId, $root.dataset.todoContent)">
+            <button class="btn-link btn-sm btn w-full text-left normal-case no-underline"
+                    x-bind:class="JSON.parse($root.dataset.isCompleted)
+                      ? 'text-secondary line-through' : 'text-primary'"
+                    @click="todoItemHandleClick($root.dataset.id, $root.dataset.content)">
               <%= todo.content %>
             </button>
           </div>
           <div class="w-[3.75rem] text-center">
-            <template x-if="todoIdSelected === Number($root.dataset.todoId)">
+            <template x-if="todoIdSelected === Number($root.dataset.Id)">
               <button
                 class="p-2"
                 aria-label="Delete todo"
@@ -58,19 +57,19 @@
                 </label>
               </button>
             </template>
-            <template x-if="todoIdSelected !== Number($root.dataset.todoId)">
-              <label class="label">
-                <input
-                  type="checkbox"
-                  checked={todo.is_completed}
-                  class="checkbox checkbox-lg"
-                  x-bind:class="$el.classList.contains('phx-click-loading') && 'select-none'"
-                  phx-click="todo_update_is_completed"
-                  phx-value-todo-id={todo.id}
+            <template x-if="todoIdSelected !== Number($root.dataset.id)">
+              <.form for={:form} phx-submit="todo_toggle_is_completed">
+                <input type="hidden" name="todo_id" value={todo.id} />
+                <input type="hidden" name="todo_is_completed" value={todo.is_completed && "true" || "false"} />
+                <button
+                  class="btn btn-sm btn-square btn-outline text-xl"
                   x-tooltip="Mark completed"
-                  x-bind:phx-value-todo-is-completed="JSON.parse($root.dataset.todoIsCompleted)"
-                />
-              </label>
+                  phx-disable-with
+                >
+                  <%= todo.is_completed && "✓" || raw("&nbsp;") %>
+
+                </button>
+              </.form>
             </template>
           </div>
         </li>

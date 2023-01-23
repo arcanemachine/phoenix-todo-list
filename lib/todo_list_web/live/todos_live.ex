@@ -39,15 +39,15 @@ defmodule TodoListWeb.TodosLive do
   end
 
   def handle_event(
-        "todo_update_is_completed",
-        %{"todo-id" => todo_id, "todo-is-completed" => todo_is_completed} = _data,
+        "todo_toggle_is_completed",
+        %{"todo_id" => todo_id, "todo_is_completed" => todo_is_completed} = _data,
         socket
       ) do
     todos = socket.assigns.todos
 
     # cast inputs
     {todo_id, _remainder} = Integer.parse(todo_id)
-    todo_is_completed = (todo_is_completed == true && true) || false
+    todo_is_completed = (todo_is_completed == "true" && true) || false
 
     # get todo from list
     todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
@@ -61,6 +61,10 @@ defmodule TodoListWeb.TodosLive do
       |> Enum.map(fn todo -> if todo.id == updated_todo.id, do: updated_todo, else: todo end)
 
     {:noreply, socket |> assign(todos: todos)}
+  end
+
+  def handle_event("hello_world", _data, socket) do
+    {:noreply, socket}
   end
 
   def show_todo_delete_modal(_todo_id) do

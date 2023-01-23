@@ -30,14 +30,6 @@ function todosLive() {
     },
 
     // form
-    formButtonHandleClick() {
-      if (this.todoIdSelected === 0) {
-        this.todoCreate;
-      } else {
-        this.todoUpdate;
-      }
-    },
-
     formInputHandleKeypress(evt: KeyboardEvent) {
       if (evt.key === "Enter") {
         if (this.todoIdSelected !== 0) {
@@ -51,9 +43,8 @@ function todosLive() {
     // todo items
     todoItemHandleClick(todoId: number, todoContent: string) {
       if (this.todoIdSelected !== todoId) {
-        // set current todo as 'selected' and assign its content to the form's input field
-        this.todoIdSelected = todoId;
-        this.todoFormInputText = todoContent;
+        this.todoIdSelected = todoId; // set current todo as 'selected'
+        this.todoFormInputText = todoContent; // assign todo content to the form's input field
       } else {
         // reset selected todo and clear form
         this.todoIdSelected = 0;

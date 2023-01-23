@@ -1,27 +1,28 @@
-<section class="mx-auto flex max-w-sm flex-col justify-center"
+<section class="mx-auto flex max-w-md flex-col justify-center"
          x-data="todosLive">
   <!-- todo form -->
-  <div class="mx-0 w-full">
+  <.form for={:form} class="mx-0 w-full"
+         x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update'">
     <div class="input-group">
       <input
         type="text"
-        class="input-bordered input focus:outline-0 w-full text-center pl-10"
+        name="todo_content"
+        class="input-bordered input focus:outline-0 w-full"
+        autocomplete="off"
         placeholder="To Do..."
         x-model="todoFormInputText"
-        @keypress="formInputHandleKeypress"
       />
-      <button class="btn"
+      <button class="btn min-w-[7rem]"
               disabled
-              @click="formButtonHandleClick"
               x-bind:class="todoIdSelected === 0 && 'btn-primary'"
               x-bind:disabled="!todoFormInputText"
-              x-bind:phx-value-content="todoFormInputText"
               x-text="todoIdSelected === 0 && 'Create' || 'Update'"
+              phx-disable-with="Loading..."
               >
         Create
       </button>
     </div>
-  </div>
+  </.form>
 
   <!-- todo list -->
   <ul class="w-100 mt-6 list-none pl-0">
@@ -29,32 +30,30 @@
       <li class="text-center">No todos created...</li>
     <% else %>
       <%= for todo <- @todos do %>
-        <li class="py-1 flex-center form-control flex cursor-pointer flex-row hover:opacity-75"],
+        <li class="flex-center form-control flex cursor-pointer flex-row hover:opacity-75"
             x-bind:class="Number($el.dataset.id) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
             data-id={todo.id}
             data-content={todo.content}
             data-is-completed={todo.is_completed && "true" || "false"}
             x-data>
-          <div class="flex-start mr-2 grow" x-tooltip="Modify this todo">
-            <button class="btn-link btn-sm btn w-full text-left normal-case no-underline"
+          <div class="py-1 flex-start mr-2 grow" x-tooltip="Modify this todo">
+            <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
                     x-bind:class="JSON.parse($root.dataset.isCompleted)
                       ? 'text-secondary line-through' : 'text-primary'"
-                    @click="todoItemHandleClick($root.dataset.id, $root.dataset.content)">
+                    @click="todoItemHandleClick(Number($root.dataset.id), $root.dataset.content)">
               <%= todo.content %>
             </button>
           </div>
           <div class="w-[3.75rem] text-center">
-            <template x-if="todoIdSelected === Number($root.dataset.Id)">
+            <template x-if="todoIdSelected === Number($root.dataset.id)">
               <button
-                class="p-2"
+                class="mt-2 mr-[2px] btn btn-xs btn-circle btn-outline text-red-500 text-xl"
                 aria-label="Delete todo"
+                x-tooltip="Mark completed"
                 @click="deleteModalShow"
-                phx-click={show_todo_delete_modal(todo.id)}
               >
-                <label for="todo-delete-modal" x-tooltip="Delete todo">
-                  <Heroicons.trash solid class="h-24 w-24 stroke-current" />
-                </label>
+                  <Heroicons.x_mark solid class="h-6 w-6 pb-[1px] text-red-500" />
               </button>
             </template>
             <template x-if="todoIdSelected !== Number($root.dataset.id)">
@@ -91,7 +90,10 @@
         <h2 class="mt-2 text-center font-bold">Delete this todo?</h2>
 
         <div class="form-control mt-6 w-full max-w-xs">
-          <button class="btn-error btn" @click="todoDelete">Yes</button>
+          <.form for={:form} phx-submit="todo_delete">
+            <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
+            <button class="btn-error btn w-full" @click="deleteModalHide">Yes</button>
+          </.form>
         </div>
 
         <div class="form-control mt-4 w-full max-w-xs">

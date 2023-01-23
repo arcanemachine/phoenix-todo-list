@@ -20,22 +20,26 @@ defmodule TodoListWeb.TodosLive do
   #   """
   # end
 
-  # methods
-  def handle_event("todo_create", %{"content" => content} = data, socket) do
+  # events
+  def handle_event("hello_world", _data, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("todo_create", %{"todo_content" => todo_content} = _data, socket) do
     attrs = %{
-      content: content,
+      content: todo_content,
       is_completed: false,
       user_id: socket.assigns.current_user.id
     }
 
     {_status, todo} = Todos.create_todo(attrs)
 
-    socket = socket |> assign(todos: socket.assigns.todos ++ [todo])
+    socket =
+      socket
+      |> put_flash(:info, "New todo created: '#{todo_content}'")
+      |> assign(todos: socket.assigns.todos ++ [todo])
 
     {:noreply, socket}
-  end
-
-  def todo_item_handle_click(todo_id) do
   end
 
   def handle_event(
@@ -58,18 +62,38 @@ defmodule TodoListWeb.TodosLive do
     # insert updated todo into todos list
     todos =
       todos
-      |> Enum.map(fn todo -> if todo.id == updated_todo.id, do: updated_todo, else: todo end)
+      |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
 
+    # return modified todos
     {:noreply, socket |> assign(todos: todos)}
   end
 
-  def handle_event("hello_world", _data, socket) do
-    {:noreply, socket}
-  end
+  def handle_event("todo_delete", %{"todo_id" => todo_id} = _data, socket) do
+    todos = socket.assigns.todos
 
-  def show_todo_delete_modal(_todo_id) do
-  end
+    # cast inputs
+    {todo_id, _remainder} = Integer.parse(todo_id)
 
-  def hide_todo_delete_modal() do
+    # get todo from list
+    todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+
+    # delete todo
+    {status, _deleted_todo} = Todos.delete_todo(todo)
+
+    if status == :ok do
+      # remove deleted todo into todos list
+      todos = todos |> Enum.filter(fn t -> t.id != todo_id end)
+
+      # return modified todos
+      socket =
+        socket
+        |> assign(todos: todos)
+        |> put_flash(:info, "Item deleted successfully")
+
+      {:noreply, socket}
+    else
+      socket = socket |> put_flash(:error, "Item could not be deleted.")
+      {:noreply, socket}
+    end
   end
 end

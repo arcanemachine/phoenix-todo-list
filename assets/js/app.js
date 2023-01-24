@@ -51,6 +51,7 @@ window.Alpine = Alpine;
 Alpine.start();
 
 // setup LiveView
+let Hooks = {};
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
@@ -64,7 +65,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
     },
   },
   params: { _csrf_token: csrfToken },
-  // hooks: phoenixHooks,
+  hooks: Hooks,
 });
 
 // Show progress bar on live navigation and form submits
@@ -79,6 +80,14 @@ liveSocket.connect();
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 // liveSocket.enableDebug()
-// liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
+liveSocket.enableLatencySim(1500); // enabled for duration of browser session
 // liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
+
+// debuggin helpers
+if (location.host.includes(":400")) {
+  window.addEventListener("keyup", (evt) => {
+    /** When '\' key pressed, enable the debugger. */
+    if (evt.key === "\\") debugger;
+  });
+}

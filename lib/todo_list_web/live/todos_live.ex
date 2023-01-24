@@ -49,10 +49,6 @@ defmodule TodoListWeb.TodosLive do
       ) do
     todos = socket.assigns.todos
 
-    # # cast inputs
-    # {todo_id, _remainder} = Integer.parse(todo_id)
-    # todo_is_completed = (todo_is_completed == "true" && true) || false
-
     # get todo from list
     todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
 
@@ -101,6 +97,11 @@ defmodule TodoListWeb.TodosLive do
 
     # get todo from list
     todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+
+    if todo == nil do
+      socket = socket.put_flash(:error, "This todo does not exist. Has it already been deleted?")
+      throw({:noreply, socket})
+    end
 
     # # delete todo
     # {_status, _deleted_todo} = Todos.delete_todo(todo)

@@ -22,6 +22,11 @@ const helpers = {
   get darkModeSavedPreferenceExists(): boolean {
     return localStorage.getItem("darkModeEnabled") !== null;
   },
+  debugShortcut() {
+    window.addEventListener("keyup", (evt) => {
+      debugger;
+    });
+  },
 };
 
 export default helpers;

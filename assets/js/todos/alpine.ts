@@ -9,25 +9,32 @@ export const data = [
 // data - functions
 function todosLive() {
   return {
-    todos: [],
     todoFormInputText: "",
     todoIdSelected: 0,
 
-    something: {
-      hello: "world",
-      goodbye: "troubles",
-    },
-
-    // delete
+    // delete modal
     deleteModalActive: false,
     deleteModalShow() {
       this.deleteModalActive = true;
     },
     deleteModalHide() {
-      // add timeout so todoIdSelected isn't cleared before pushing event to server
-      setTimeout(() => {
-        this.todoIdSelected = 0;
+      this.$nextTick().then(() => {
         this.deleteModalActive = false;
+        this.todoIdSelected = 0;
+      });
+    },
+
+    afterPhxLoading(eventType: string, callback: Function) {
+      /** When loading event has ended, execute a callback. */
+      this.$nextTick().then(() => {
+        const timer = setInterval(() => {
+          if (this.$el.classList.contains(`phx-${eventType}-loading`)) {
+            return;
+          } else {
+            clearInterval(timer);
+            callback.bind(this)();
+          }
+        }, 100);
       });
     },
 

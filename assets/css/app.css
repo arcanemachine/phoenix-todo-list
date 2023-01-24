@@ -41,10 +41,11 @@
 }
 
 @layer components {
-  /* daisyUI */
+  /* daisyUI
   .checkbox {
     border-width: 2px !important;
   }
+   */
 
   /* misc */
   .action-links {

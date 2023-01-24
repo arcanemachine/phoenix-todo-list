@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd $(dirname "$0")
+
+podman-compose up -d
+iex -S mix phx.server
+podman-compose down

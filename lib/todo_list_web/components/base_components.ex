@@ -25,6 +25,24 @@ defmodule TodoListWeb.BaseComponents do
     """
   end
 
+  @doc """
+  Renders a loading indicator.
+
+  ## Examples
+
+      <.loader />
+  """
+  attr :class, :string, default: nil
+
+  def loader(assigns) do
+    ~H"""
+    <Heroicons.arrow_path class={[
+      "w-5 h-5 animate-spin hidden phx-click-loading:inline",
+      @class
+    ]} />
+    """
+  end
+
   def dark_mode_toggle(assigns) do
     ~H"""
     <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>

@@ -13,6 +13,7 @@ defmodule TodoListWeb.CoreComponents do
 
   alias Phoenix.LiveView.JS
   import TodoListWeb.Gettext
+  import TodoListWeb.BaseComponents
 
   @doc """
   Renders a modal.
@@ -232,12 +233,15 @@ defmodule TodoListWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 btn min-w-[7rem]",
+        "btn",
         @class
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      <span class="phx-click-loading:hidden">
+        <%= render_slot(@inner_block) %>
+      </span>
+      <.loader />
     </button>
     """
   end

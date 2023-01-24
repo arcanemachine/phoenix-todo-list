@@ -47,8 +47,9 @@ defmodule TodoListWeb.BaseComponents do
     ~H"""
     <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>
       <label
-        class="flex-center mr-3 flex grid swap swap-rotate"
+        class="flex-center mr-3 flex grid swap swap-rotate hidden"
         x-bind:class="lightModeToggled && 'swap-active'"
+        x-init="$nextTick(() => { $el.classList.remove('hidden') })"
       >
         <Heroicons.sun
           solid
@@ -61,9 +62,9 @@ defmodule TodoListWeb.BaseComponents do
         type="checkbox"
         class="toggle opacity-0 transition-none"
         x-bind:class="lightModeToggled && 'toggle-warning'"
+        x-init="$nextTick(() => { $el.classList.remove('opacity-0', 'transition-none') })"
         x-model="lightModeToggled"
         x-tooltip="Toggle dark mode"
-        x-init="setTimeout(() => { $el.classList.remove('opacity-0', 'transition-none') })"
         @click="darkModeToggle"
         x-cloak
       />

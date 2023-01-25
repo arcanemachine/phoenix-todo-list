@@ -87,8 +87,8 @@
     <div class="modal-box relative max-w-xs"
          x-show="deleteModalActive"
          x-trap.noscroll="deleteModalActive"
-         @keyup.escape="deleteModalHide"
-         @click.outside="deleteModalHide"
+         @keyup.escape="deleteModalHide()"
+         @click.outside="deleteModalHide()"
          x-transition.duration.500ms>
 
       <h2 class="text-center font-bold text-xl">Delete this item?</h2>
@@ -105,7 +105,7 @@
       </div>
 
       <div class="form-control mt-4 w-full max-w-xs">
-        <button class="btn-secondary btn" @click="deleteModalHide">No</button>
+        <button class="btn-secondary btn" @click="deleteModalHide()">No</button>
       </div>
     </div>
   </div>

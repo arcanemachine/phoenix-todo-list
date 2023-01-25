@@ -37,7 +37,8 @@ defmodule TodoListWeb.BaseComponents do
   def loader(assigns) do
     ~H"""
     <Heroicons.arrow_path class={[
-      "w-5 h-5 hidden phx-click-loading:inline phx-submit-loading:inline animate-spin",
+      "absolute w-5 h-5 opacity-0 phx-click-loading:opacity-100 phx-submit-loading:opacity-100",
+      "transition-opacity duration-[3000ms] animate-spin",
       @class
     ]} />
     """

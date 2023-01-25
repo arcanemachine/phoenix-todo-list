@@ -37,7 +37,7 @@ defmodule TodoListWeb.BaseComponents do
   def loader(assigns) do
     ~H"""
     <Heroicons.arrow_path class={[
-      "w-5 h-5 animate-spin hidden phx-click-loading:inline",
+      "w-5 h-5 hidden phx-click-loading:inline phx-submit-loading:inline animate-spin",
       @class
     ]} />
     """
@@ -47,9 +47,8 @@ defmodule TodoListWeb.BaseComponents do
     ~H"""
     <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>
       <label
-        class="flex-center mr-3 flex grid swap swap-rotate hidden"
+        class="flex-center mr-3 flex grid swap swap-rotate"
         x-bind:class="lightModeToggled && 'swap-active'"
-        x-init="$nextTick(() => { $el.classList.remove('hidden') })"
       >
         <Heroicons.sun
           solid
@@ -60,13 +59,11 @@ defmodule TodoListWeb.BaseComponents do
       </label>
       <input
         type="checkbox"
-        class="toggle opacity-0 transition-none"
+        class="toggle"
         x-bind:class="lightModeToggled && 'toggle-warning'"
-        x-init="$nextTick(() => { $el.classList.remove('opacity-0', 'transition-none') })"
         x-model="lightModeToggled"
         x-tooltip="Toggle dark mode"
         @click="darkModeToggle"
-        x-cloak
       />
     </div>
     """

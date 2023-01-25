@@ -14,12 +14,6 @@ defmodule TodoListWeb.TodosLive do
     {:ok, socket}
   end
 
-  # def render(assigns) do
-  #   ~H"""
-  #   <.todo_list todos={@todos} />
-  #   """
-  # end
-
   # events
   def handle_event("hello_world", _data, socket) do
     {:noreply, socket}
@@ -36,7 +30,7 @@ defmodule TodoListWeb.TodosLive do
 
     socket =
       socket
-      |> put_flash(:info, "New todo created: '#{todo_content}'")
+      |> put_flash(:info, "Item created successfully")
       |> assign(todos: socket.assigns.todos ++ [todo])
 
     {:noreply, socket}
@@ -85,8 +79,11 @@ defmodule TodoListWeb.TodosLive do
       todos
       |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
 
-    # return modified todos
-    {:noreply, socket |> assign(todos: todos)}
+    # return modified todos and success message
+    {:noreply,
+     socket
+     |> put_flash(:info, "Item updated successfully")
+     |> assign(todos: todos)}
   end
 
   def handle_event("todo_delete", %{"todo_id" => todo_id} = _data, socket) do

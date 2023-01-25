@@ -4,7 +4,7 @@
   <!-- todo form -->
   <.form for={:form} class="mx-0 w-full"
          x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update_content'"
-         @submit="setTimeout(() => { todoItemSelectedReset(); })">
+         @submit="afterPhxLoading('submit', todoItemSelectedReset)">
     <input type="hidden" name="todo_id" x-bind:value="todoIdSelected || ''" />
     <div class="input-group">
       <input
@@ -15,13 +15,13 @@
         placeholder="To Do..."
         x-model="todoFormInputText"
       />
-      <.button class="btn min-w-[7rem]"
-              disabled
-              x-bind:class="todoIdSelected === 0 && 'btn-primary'"
-              x-bind:disabled="!todoFormInputText"
-              x-text="todoIdSelected === 0 && 'Create' || 'Update'"
-              phx-disable-with="Loading..."
-              >
+      <.button
+        class="btn w-[7rem]"
+        disabled
+        x-bind:class="todoIdSelected === 0 && 'btn-primary'"
+        x-bind:disabled="!todoFormInputText"
+      >
+        <span x-text="todoIdSelected === 0 && 'Create' || 'Update'" />
       </.button>
     </div>
   </.form>
@@ -50,7 +50,7 @@
             </button>
           </div>
 
-          <div class="w-[3.75rem] text-center">
+          <div class="w-[3.75rem] text-center" x-cloak>
 
             <span x-show="todoIdSelected === Number($root.dataset.todoId)">
               <button
@@ -95,9 +95,8 @@
       <div class="form-control mt-6 w-full max-w-xs">
         <form phx-submit="todo_delete">
           <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
-          <.button class="btn-error btn w-full"
-                   @click="afterPhxLoading('submit', deleteModalHide)"
-                   phx-disable-with="Loading...">
+          <.button class="btn-error w-full"
+                   @click="afterPhxLoading('submit', deleteModalHide)">
             Yes
           </.button>
         </form>

@@ -5,6 +5,10 @@
 @import "tippy.js/dist/tippy.css";
 
 @layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+
   a {
     color: hsl(var(--p)) !important;
     font-weight: bold !important;
@@ -13,41 +17,9 @@
   a.btn {
     color: unset !important;
   }
-
-  .phx-submit-loading {
-    opacity: 50;
-    pointer-events: none;
-  }
-
-  .loader {
-    width: 48px;
-    height: 48px;
-    border: 5px solid #fff;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-  }
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 }
 
 @layer components {
-  /* daisyUI
-  .checkbox {
-    border-width: 2px !important;
-  }
-   */
-
-  /* misc */
   .action-links {
     margin-top: 3rem;
 
@@ -60,18 +32,25 @@
     text-align: center;
   }
 
+  .btn * {
+    background-color: unset !important;
+  }
+
+  .modal-button-close {
+    @apply btn-secondary btn btn-sm btn-square absolute right-0 top-0
+           rounded-tr-none rounded-br-none rounded-tl-none;
+  }
+
+  .phx-button {
+  }
+}
+
+@layer utility {
   .flex-center {
     justify-content: center;
     align-items: center;
   }
 
-  .modal-button-close {
-    @apply btn-secondary btn-sm btn absolute right-0 top-0 rounded-tr-none rounded-br-none
-           rounded-tl-none;
-  }
-}
-
-@layer utility {
   .mt-child-0 > * {
     margin-top: 0;
   }

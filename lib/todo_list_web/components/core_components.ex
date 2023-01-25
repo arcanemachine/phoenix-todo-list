@@ -249,12 +249,12 @@ defmodule TodoListWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "btn",
+        "btn phx-button",
         @class
       ]}
       {@rest}
     >
-      <span class="phx-click-loading:hidden">
+      <span class="phx-click-loading:hidden phx-submit-loading:hidden">
         <%= render_slot(@inner_block) %>
       </span>
       <.loader />

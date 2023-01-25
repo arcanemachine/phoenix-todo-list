@@ -84,10 +84,11 @@ liveSocket.connect();
 // liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-// debuggin helpers
-if (location.host.includes(":400")) {
-  window.addEventListener("keyup", (evt) => {
-    /** When '\' key pressed, enable the debugger. */
-    if (evt.key === "\\") debugger;
-  });
-}
+// any logic that shouldn't be committed to source control should be placed in
+// '/assets/js/gitignore.ts' e.g. debugging logic, livesocket latency
+// configuration, etc.
+(() => {
+  try {
+    return import("./gitignore.js");
+  } catch (err) {}
+})();

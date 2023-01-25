@@ -2,6 +2,7 @@
 .env*.override
 Session*.vim
 /.elixir_ls/
+gitignore.*
 
 # The directory Mix will write compiled artifacts to.
 /_build/

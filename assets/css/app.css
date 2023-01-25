@@ -5,33 +5,25 @@
 @import "tippy.js/dist/tippy.css";
 
 @layer base {
+  /* Alpine.JS */
   [x-cloak] {
     display: none !important;
   }
 
+  /* DaisyUI */
+  a.btn {
+    color: unset !important;
+  }
+
+  /* misc */
   a {
     color: hsl(var(--p)) !important;
     font-weight: bold !important;
   }
-
-  a.btn {
-    color: unset !important;
-  }
 }
 
 @layer components {
-  .action-links {
-    margin-top: 3rem;
-
-    @apply max-w-xs;
-  }
-
-  .action-links > * {
-    margin-top: 0.5rem;
-    font-size: 1.2rem;
-    text-align: center;
-  }
-
+  /* DaisyUI */
   .btn * {
     background-color: unset !important;
   }
@@ -41,7 +33,15 @@
            rounded-tr-none rounded-br-none rounded-tl-none;
   }
 
-  .phx-button {
+  /* misc */
+  .action-links {
+    margin-top: 3rem;
+  }
+
+  .action-links > * {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
   }
 }
 

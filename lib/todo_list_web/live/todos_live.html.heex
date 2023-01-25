@@ -1,6 +1,7 @@
 <section class="mx-auto flex max-w-md flex-col justify-center"
+         id="todos-live"
          x-data="todosLive"
-         id="todos-live">
+         x-cloak>
   <!-- todo form -->
   <.form for={:form} class="mx-0 w-full"
          x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update_content'"
@@ -27,13 +28,13 @@
   </.form>
 
   <!-- todo list -->
-  <ul id="todo-list" class="w-100 mt-6 list-none pl-0">
+  <ul id="todo-list" class="w-100 mt-4 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
       <li class="text-center">No todos created...</li>
     <% else %>
       <%= for todo <- @todos do %>
 
-        <li class="flex-center form-control flex cursor-pointer flex-row hover:opacity-75"
+        <li class="flex flex-row flex-center my-1 form-control cursor-pointer hover:opacity-75"
             x-bind:class="Number($el.dataset.todoId) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
             data-todo-id={todo.id}
@@ -50,8 +51,21 @@
             </button>
           </div>
 
-          <div class="w-[3.75rem] text-center" x-cloak>
+          <div class="w-[3.75rem] text-center">
 
+            <!-- checkbox: is_completed -->
+            <span x-show="todoIdSelected !== Number($root.dataset.todoId)">
+              <.button class="mt-1 btn btn-sm btn-square btn-ghost btn-outline text-xl"
+                       phx-click={JS.push(
+                         "todo_toggle_is_completed",
+                         value: %{todo_id: todo.id, todo_is_completed: todo.is_completed},
+                       )}
+                       phx-disable-with>
+                <%= todo.is_completed && "✓" || raw("&nbsp;") %>
+              </.button>
+            </span>
+
+            <!-- icon: delete item -->
             <span x-show="todoIdSelected === Number($root.dataset.todoId)">
               <button
                 class="h-6 w-6 mt-2 mr-[2px] btn btn-xs btn-circle btn-outline text-red-500 text-xl"
@@ -61,17 +75,6 @@
               >
                 <Heroicons.x_mark solid class="h-6 w-6 pb-[1px] text-red-500" />
               </button>
-            </span>
-
-            <span x-show="todoIdSelected !== Number($root.dataset.todoId)">
-              <.button class="btn btn-sm btn-square btn-ghost btn-outline text-xl"
-                       phx-click={JS.push(
-                         "todo_toggle_is_completed",
-                         value: %{todo_id: todo.id, todo_is_completed: todo.is_completed},
-                       )}
-                       phx-disable-with>
-                <%= todo.is_completed && "✓" || raw("&nbsp;") %>
-              </.button>
             </span>
 
           </div>
@@ -85,6 +88,9 @@
        x-bind:class="deleteModalActive && 'modal-open'">
     <div class="modal-box relative max-w-xs rounded-tr-none"
          x-show="deleteModalActive"
+         x-trap.inert.noscroll="deleteModalActive"
+         @keyup.escape="deleteModalHide"
+         @click.outside="deleteModalHide"
          x-transition.duration.500ms>
       <button class="modal-button-close btn-square" @click="deleteModalHide">
         <Heroicons.x_mark solid class="h-5 w-5" />

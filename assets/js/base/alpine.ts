@@ -69,9 +69,8 @@ export const directives = [
     ) {
       const defaultOptions = {
         delay: [750, null],
-        hideOnClick: true,
         interactiveDebounce: 150,
-        touch: "hold",
+        touch: ["hold", 500],
       };
 
       // parse expression and convert to object
@@ -82,13 +81,14 @@ export const directives = [
         options = { content: expression }; // convert expression to object
       }
 
-      // final options
+      // finalized options
       options = {
         ...defaultOptions,
         ...options,
       };
 
-      const tip = tippy(elt, options); // create tooltip
+      // create tooltip
+      const tip = tippy(elt, options);
 
       // when element is removed from the DOM, destroy the tooltip
       cleanup(() => {

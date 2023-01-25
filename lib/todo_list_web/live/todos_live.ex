@@ -115,7 +115,9 @@ defmodule TodoListWeb.TodosLive do
       |> put_flash(:info, "Item deleted successfully")
       |> assign(todos: todos)
 
-    {:noreply, socket}
+    # {:noreply, socket}
+    {:noreply, push_event(socket, "todo-delete-success", %{todo_id: todo_id})}
+
     # else
     #   socket = socket |> put_flash(:error, "Item could not be deleted.")
     #   {:noreply, socket}

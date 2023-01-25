@@ -17,7 +17,12 @@ function todosLive() {
     deleteModalShow() {
       this.deleteModalActive = true;
     },
-    deleteModalHide() {
+    deleteModalHide(todoId?: number) {
+      // when server pushes delete event result, close the delete item modal if the todo ID
+      // matches the currently selected todo ID. this prevents the modal from being closed if
+      // the item delete modal is open for a different todo
+      if (todoId && todoId !== this.todoIdSelected) return;
+
       this.$nextTick().then(() => {
         this.deleteModalActive = false;
         this.todoIdSelected = 0;

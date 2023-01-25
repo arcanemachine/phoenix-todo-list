@@ -37,8 +37,7 @@ defmodule TodoListWeb.BaseComponents do
   def loader(assigns) do
     ~H"""
     <Heroicons.arrow_path class={[
-      "absolute w-5 h-5 opacity-0 phx-click-loading:opacity-100 phx-submit-loading:opacity-100",
-      "animate-spin",
+      "w-5 h-5 hidden phx-click-loading:inline phx-submit-loading:inline animate-spin",
       @class
     ]} />
     """
@@ -92,6 +91,7 @@ defmodule TodoListWeb.BaseComponents do
           class="dropdown-end dropdown"
           x-bind:class="show && 'dropdown-open'"
           x-data="{ show: false }"
+          x-title="Navbar User Actions"
           x-tooltip="User Actions"
         >
           <button

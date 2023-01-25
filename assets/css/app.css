@@ -32,11 +32,6 @@
     background-color: unset !important;
   }
 
-  .modal-button-close {
-    @apply btn-secondary btn btn-sm btn-square absolute right-0 top-0
-           rounded-tr-none rounded-br-none rounded-tl-none;
-  }
-
   /* misc */
   .action-links {
     margin-top: 3rem;

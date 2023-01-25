@@ -41,12 +41,12 @@
             data-todo-content={todo.content}
             data-todo-is-completed={todo.is_completed && "true" || "false"}>
 
-          <div class="grow" x-tooltip="Modify this todo">
+          <div class="grow" x-tooltip="Modify this item">
             <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
                     x-bind:class="JSON.parse($el.closest('li').dataset.todoIsCompleted)
                       ? 'text-secondary line-through' : 'text-primary'"
                     @click="todoItemHandleClick(Number($el.closest('li').dataset.todoId), $el.closest('li').dataset.todoContent)">
-              <%= todo.content %>
+              <%= todo.content %> (<%= todo.id %>)
             </button>
           </div>
 
@@ -84,17 +84,14 @@
   <!-- delete modal -->
   <div class="modal"
        x-bind:class="deleteModalActive && 'modal-open'">
-    <div class="modal-box relative max-w-xs rounded-tr-none"
+    <div class="modal-box relative max-w-xs"
          x-show="deleteModalActive"
          x-trap.inert.noscroll="deleteModalActive"
          @keyup.escape="deleteModalHide"
          @click.outside="deleteModalHide"
          x-transition.duration.500ms>
-      <button class="modal-button-close btn-square" @click="deleteModalHide">
-        <Heroicons.x_mark solid class="h-5 w-5" />
-      </button>
 
-      <h2 class="mt-2 text-center font-bold">Delete this todo?</h2>
+      <h2 class="text-center font-bold text-xl">Delete this item?</h2>
 
       <div class="form-control mt-6 w-full max-w-xs">
         <form phx-submit="todo_delete">

@@ -39,14 +39,13 @@
               && 'rounded-75 rounded bg-base-200 text-info'"
             data-todo-id={todo.id}
             data-todo-content={todo.content}
-            data-todo-is-completed={todo.is_completed && "true" || "false"}
-            x-data>
+            data-todo-is-completed={todo.is_completed && "true" || "false"}>
 
           <div class="py-1 flex-start mr-2 grow" x-tooltip="Modify this todo">
             <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
-                    x-bind:class="JSON.parse($root.dataset.todoIsCompleted)
+                    x-bind:class="JSON.parse($el.closest('li').dataset.todoIsCompleted)
                       ? 'text-secondary line-through' : 'text-primary'"
-                    @click="todoItemHandleClick(Number($root.dataset.todoId), $root.dataset.todoContent)">
+                    @click="todoItemHandleClick(Number($el.closest('li').dataset.todoId), $root.dataset.todoContent)">
               <%= todo.content %> (<%= todo.id %>)
             </button>
           </div>

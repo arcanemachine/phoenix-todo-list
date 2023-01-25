@@ -34,47 +34,46 @@
     <% else %>
       <%= for todo <- @todos do %>
 
-        <li class="flex flex-row flex-center my-1 form-control cursor-pointer hover:opacity-75"
+        <li class="flex flex-row justify-center items-center form-control cursor-pointer hover:opacity-75"
             x-bind:class="Number($el.dataset.todoId) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
             data-todo-id={todo.id}
             data-todo-content={todo.content}
             data-todo-is-completed={todo.is_completed && "true" || "false"}>
 
-          <div class="py-1 flex-start mr-2 grow" x-tooltip="Modify this todo">
+          <div class="grow" x-tooltip="Modify this todo">
             <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
                     x-bind:class="JSON.parse($el.closest('li').dataset.todoIsCompleted)
                       ? 'text-secondary line-through' : 'text-primary'"
-                    @click="todoItemHandleClick(Number($el.closest('li').dataset.todoId), $root.dataset.todoContent)">
-              <%= todo.content %> (<%= todo.id %>)
+                    @click="todoItemHandleClick(Number($el.closest('li').dataset.todoId), $el.closest('li').dataset.todoContent)">
+              <%= todo.content %>
             </button>
           </div>
 
-          <div class="w-[3.75rem] text-center">
+          <div class="flex flex-center w-8 mx-2 py-2">
 
             <!-- checkbox: is_completed -->
-            <span x-show="todoIdSelected !== Number($root.dataset.todoId)">
-              <.button class="mt-1 btn btn-sm btn-square btn-ghost btn-outline text-xl"
-                       phx-click={JS.push(
-                         "todo_toggle_is_completed",
-                         value: %{todo_id: todo.id, todo_is_completed: todo.is_completed},
-                       )}
-                       phx-disable-with>
-                <%= todo.is_completed && "✓" || raw("&nbsp;") %>
-              </.button>
-            </span>
+            <.button class="text-xl btn btn-sm btn-square btn-ghost btn-outline"
+                     phx-click={JS.push(
+                       "todo_toggle_is_completed",
+                       value: %{todo_id: todo.id, todo_is_completed: todo.is_completed},
+                     )}
+                     x-show="todoIdSelected !== Number($el.closest('li').dataset.todoId)"
+                     phx-disable-with>
+              <%= if todo.is_completed do %>
+                <Heroicons.check solid class="h-8 w-8" />
+              <% end %>
+            </.button>
 
             <!-- icon: delete item -->
-            <span x-show="todoIdSelected === Number($root.dataset.todoId)">
-              <button
-                class="h-6 w-6 mt-2 mr-[2px] btn btn-xs btn-circle btn-outline text-red-500 text-xl"
-                aria-label="Delete todo"
-                x-tooltip="Delete todo"
-                @click="deleteModalShow(todoIdSelected)"
-              >
-                <Heroicons.x_mark solid class="h-6 w-6 pb-[1px] text-red-500" />
-              </button>
-            </span>
+            <button class="text-xl text-red-500 btn btn-sm btn-square btn-ghost btn-outline"
+              aria-label="Delete todo"
+              x-show="todoIdSelected === Number($el.closest('li').dataset.todoId)"
+              x-tooltip="Delete todo"
+              @click="deleteModalShow(todoIdSelected)"
+            >
+              <Heroicons.x_mark solid class="h-8 w-8 text-red-500" />
+            </button>
 
           </div>
         </li>

@@ -23,7 +23,7 @@ const helpers = {
     return localStorage.getItem("darkModeEnabled") !== null;
   },
   debugShortcut() {
-    window.addEventListener("keyup", (evt) => {
+    window.addEventListener("keyup", () => {
       debugger;
     });
   },

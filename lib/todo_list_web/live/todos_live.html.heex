@@ -30,7 +30,7 @@
   <!-- todo list -->
   <ul id="todo-list" class="w-100 mt-4 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
-      <li class="text-center">No todos created...</li>
+      <li class="text-center">No items created...</li>
     <% else %>
       <%= for todo <- @todos do %>
 
@@ -41,7 +41,7 @@
             data-todo-content={todo.content}
             data-todo-is-completed={todo.is_completed && "true" || "false"}>
 
-          <div class="grow" x-tooltip="Modify this item">
+          <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start' }">
             <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
                     x-bind:class="JSON.parse($el.closest('li').dataset.todoIsCompleted)
                       ? 'text-secondary line-through' : 'text-primary'"
@@ -69,7 +69,7 @@
             <button class="text-xl text-red-500 btn btn-sm btn-square btn-ghost btn-outline"
               aria-label="Delete todo"
               x-show="todoIdSelected === Number($el.closest('li').dataset.todoId)"
-              x-tooltip="Delete todo"
+              x-tooltip="Delete item"
               @click="deleteModalShow(todoIdSelected)"
             >
               <Heroicons.x_mark solid class="h-8 w-8 text-red-500" />

@@ -9,7 +9,8 @@ defmodule TodoListWeb.TodosLive do
     current_user = Accounts.get_user_by_session_token(session["user_token"])
     todos = Todos.list_todos_by_user_id(current_user.id)
 
-    socket = assign(socket, page_title: "Your Todos", todos: todos, current_user: current_user)
+    socket =
+      assign(socket, page_title: "Your Todo List", todos: todos, current_user: current_user)
 
     {:ok, socket}
   end

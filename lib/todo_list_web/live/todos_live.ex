@@ -88,39 +88,33 @@ defmodule TodoListWeb.TodosLive do
   end
 
   def handle_event("todo_delete", %{"todo_id" => todo_id} = _data, socket) do
-    todos = socket.assigns.todos
-
     # cast inputs
     {todo_id, _remainder} = Integer.parse(todo_id)
 
-    # get todo from list
-    todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
-
-    if todo == nil do
-      socket = socket.put_flash(:error, "This todo does not exist. Has it already been deleted?")
-      throw({:noreply, socket})
-    end
-
     # # delete todo
-    # {_status, _deleted_todo} = Todos.delete_todo(todo)
-    Todos.delete_todo(todo)
+    try do
+      todo = socket.assigns.todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+      Todos.delete_todo(todo)
 
-    # if status == :ok do
-    # # remove deleted todo into todos list
-    todos = todos |> Enum.filter(fn t -> t.id != todo_id end)
+      # remove deleted todo from todos list
+      todos = socket.assigns.todos |> Enum.filter(fn t -> t.id != todo_id end)
 
-    # return modified todos
-    socket =
-      socket
-      |> put_flash(:info, "Item deleted successfully")
-      |> assign(todos: todos)
-
-    # {:noreply, socket}
-    {:noreply, push_event(socket, "todo-delete-success", %{todo_id: todo_id})}
-
-    # else
-    #   socket = socket |> put_flash(:error, "Item could not be deleted.")
-    #   {:noreply, socket}
-    # end
+      # return modified todos
+      {:noreply,
+       socket
+       # delete the item
+       |> put_flash(:info, "Item deleted successfully")
+       # re-assign todos
+       |> assign(todos: todos)
+       # push DOM event
+       |> push_event("todo-delete-finished", %{todo_id: todo_id})}
+    rescue
+      _ ->
+        {:noreply,
+         socket
+         # push DOM event
+         |> push_event("todo-delete-finished", %{todo_id: todo_id})
+         |> put_flash(:error, "Item could not be deleted.")}
+    end
   end
 end

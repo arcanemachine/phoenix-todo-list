@@ -106,7 +106,7 @@ defmodule TodoListWeb.CoreComponents do
                 <section class="text-center">
                   <%= render_slot(@inner_block) %>
                 </section>
-                <div :if={@confirm != [] or @cancel != []} class="text-center">
+                <div :if={@confirm != [] or @cancel != []} class="mt-8 text-center">
                   <.link
                     :for={cancel <- @cancel}
                     phx-click={hide_modal(@on_cancel, @id)}

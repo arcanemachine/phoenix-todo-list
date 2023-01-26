@@ -28,7 +28,7 @@ defmodule TodoListWeb.BaseComponents do
   @doc """
   Renders a loading indicator.
 
-  ## Examples
+  ## Example
 
       <.loader />
   """
@@ -43,6 +43,13 @@ defmodule TodoListWeb.BaseComponents do
     """
   end
 
+  @doc """
+  Renders a toggle for light and dark themes.
+
+  ## Example
+
+      <.dark_mode_toggle />
+  """
   def dark_mode_toggle(assigns) do
     ~H"""
     <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>
@@ -69,6 +76,19 @@ defmodule TodoListWeb.BaseComponents do
     """
   end
 
+  @doc """
+  Renders the primary navbar.
+
+  ## Example
+
+      <.navbar>
+        <ul>
+          <li>
+            <.link navigate={~p"/users/profile"}>Your profile</.link>
+          </li>
+        </ul>
+      </.navbar>
+  """
   slot :user_action_menu_items, required: true
 
   def navbar(assigns) do

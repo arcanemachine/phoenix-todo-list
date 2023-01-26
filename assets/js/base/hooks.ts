@@ -1,7 +1,3 @@
-import TodosHooks from "../todos/hooks";
-
-const Hooks = {
-  ...TodosHooks,
-};
+const Hooks = {};
 
 export default Hooks;

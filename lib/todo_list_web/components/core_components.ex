@@ -75,7 +75,7 @@ defmodule TodoListWeb.CoreComponents do
               phx-window-keydown={hide_modal(@on_cancel, @id)}
               phx-key="escape"
               phx-click-away={hide_modal(@on_cancel, @id)}
-              class="hidden relative rounded-2xl bg-base-100 p-14 shadow-lg shadow-base-700/10 ring-1 ring-zinc-300/10 transition"
+              class="hidden max-w-[30rem] mx-auto relative rounded-2xl bg-base-100 p-14 shadow-lg shadow-base-700/10 ring-1 ring-zinc-300/10 transition"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -89,34 +89,40 @@ defmodule TodoListWeb.CoreComponents do
               </div>
               <div id={"#{@id}-content"}>
                 <header :if={@title != []}>
-                  <h1 id={"#{@id}-title"} class="text-lg font-semibold leading-8 text-base-800">
+                  <h1
+                    id={"#{@id}-title"}
+                    class="text-lg font-semibold leading-8 text-base-800 text-center"
+                  >
                     <%= render_slot(@title) %>
                   </h1>
                   <p
                     :if={@subtitle != []}
                     id={"#{@id}-description"}
-                    class="mt-2 text-sm leading-6 text-base-600"
+                    class="mt-2 text-sm leading-6 text-base-600 text-center"
                   >
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>
-                <%= render_slot(@inner_block) %>
-                <div :if={@confirm != [] or @cancel != []} class="ml-6 mb-4 flex items-center gap-5">
+                <section class="text-center">
+                  <%= render_slot(@inner_block) %>
+                </section>
+                <div :if={@confirm != [] or @cancel != []} class="text-center">
+                  <.link
+                    :for={cancel <- @cancel}
+                    phx-click={hide_modal(@on_cancel, @id)}
+                    class="w-[7rem] mx-2 btn btn-secondary"
+                  >
+                    <%= render_slot(cancel) %>
+                  </.link>
                   <.button
                     :for={confirm <- @confirm}
+                    class="w-[7rem] mx-2"
                     id={"#{@id}-confirm"}
                     phx-click={@on_confirm}
                     phx-disable-with
                   >
                     <%= render_slot(confirm) %>
                   </.button>
-                  <.link
-                    :for={cancel <- @cancel}
-                    phx-click={hide_modal(@on_cancel, @id)}
-                    class="btn btn-secondary min-w-[7rem]"
-                  >
-                    <%= render_slot(cancel) %>
-                  </.link>
                 </div>
               </div>
             </.focus_wrap>
@@ -152,7 +158,7 @@ defmodule TodoListWeb.CoreComponents do
       id={@id}
       x-init="() => {
         /** Automatically clear flash message after a short delay. */
-        const flashMessageTimeout = 5000;
+        const flashMessageTimeout = 2000;
 
         setTimeout(() => {
           // do not auto-close flash messages created during initial render
@@ -162,8 +168,10 @@ defmodule TodoListWeb.CoreComponents do
           } catch (err) {}
 
           // // simulate click event on the 'close' button
-          // $el.click();
           $el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+          // window.dispatchEvent(new CustomEvent('phx:lv:clear-flash', {
+          //   detail: { kind: $el.dataset.kind }
+          // }));
         }, flashMessageTimeout);
       }"
       phx-mounted={@autoshow && show("##{@id}")}

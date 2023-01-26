@@ -96,7 +96,7 @@
       <div class="form-control mt-6 w-full max-w-xs">
         <form id="todo-delete-form"
               phx-submit="todo_delete"
-              @phx:todo-delete-finished.window="(evt) => deleteModalHide(evt.detail.todo_id)">
+              @phx:todo-delete-modal-close.window="(evt) => deleteModalHide(evt.detail.todo_id)">
           <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
           <.button class="btn-error w-full">
             Yes

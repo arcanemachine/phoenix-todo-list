@@ -16,25 +16,24 @@ defmodule TodoListWeb.TodosLive do
   end
 
   # events
-  def handle_event("hello_world", _data, socket) do
-    {:noreply, socket}
-  end
-
   def handle_event("todo_create", %{"todo_content" => todo_content} = _data, socket) do
-    attrs = %{
-      content: todo_content,
-      is_completed: false,
-      user_id: socket.assigns.current_user.id
-    }
+    try do
+      attrs = %{
+        content: todo_content,
+        is_completed: false,
+        user_id: socket.assigns.current_user.id
+      }
 
-    {_status, todo} = Todos.create_todo(attrs)
+      {_status, todo} = Todos.create_todo(attrs)
 
-    socket =
-      socket
-      |> put_flash(:info, "Item created successfully")
-      |> assign(todos: socket.assigns.todos ++ [todo])
-
-    {:noreply, socket}
+      {:noreply,
+       socket
+       # success message
+       |> put_flash(:info, "Item created successfully")
+       |> assign(todos: socket.assigns.todos ++ [todo])}
+    rescue
+      _ -> {:noreply, socket |> put_flash(:error, "Could not create item")}
+    end
   end
 
   def handle_event(
@@ -42,21 +41,27 @@ defmodule TodoListWeb.TodosLive do
         %{"todo_id" => todo_id, "todo_is_completed" => todo_is_completed} = _data,
         socket
       ) do
-    todos = socket.assigns.todos
+    try do
+      todos = socket.assigns.todos
 
-    # get todo from list
-    todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+      # get todo from list
+      todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
 
-    # update todo
-    {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo_is_completed})
+      # update todo
+      {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo_is_completed})
 
-    # put updated todo into todos list
-    todos =
-      todos
-      |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+      # put updated todo into todos list
+      todos =
+        todos
+        |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
 
-    # return modified todos
-    {:noreply, socket |> assign(todos: todos)}
+      # return modified todos
+      {:noreply, socket |> assign(todos: todos)}
+    rescue
+      _ ->
+        # error message
+        {:noreply, socket |> put_flash(:error, "Could not update this todo")}
+    end
   end
 
   def handle_event(
@@ -64,57 +69,59 @@ defmodule TodoListWeb.TodosLive do
         %{"todo_id" => todo_id, "todo_content" => todo_content} = _data,
         socket
       ) do
-    todos = socket.assigns.todos
-
-    # cast inputs
-    {todo_id, _remainder} = Integer.parse(todo_id)
-
     # get todo from list
-    todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+    try do
+      # cast inputs
+      {todo_id, _remainder} = Integer.parse(todo_id)
 
-    # update todo
-    {_status, updated_todo} = Todos.update_todo(todo, %{content: todo_content})
+      todos = socket.assigns.todos
+      todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
 
-    # put updated todo into todos list
-    todos =
-      todos
-      |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+      # update todo
+      {_status, updated_todo} = Todos.update_todo(todo, %{content: todo_content})
 
-    # return modified todos and success message
-    {:noreply,
-     socket
-     |> put_flash(:info, "Item updated successfully")
-     |> assign(todos: todos)}
+      # put updated todo into todos list
+      todos =
+        todos
+        |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+
+      # return modified todos and success message
+      {:noreply,
+       socket
+       # success message
+       |> put_flash(:info, "Item updated successfully")
+       # return modified todos
+       |> assign(todos: todos)}
+    rescue
+      # error message
+      _ -> {:noreply, socket |> put_flash(:error, "Could not update this todo")}
+    end
   end
 
   def handle_event("todo_delete", %{"todo_id" => todo_id} = _data, socket) do
-    # cast inputs
-    {todo_id, _remainder} = Integer.parse(todo_id)
-
-    # # delete todo
     try do
+      # cast inputs
+      {todo_id, _remainder} = Integer.parse(todo_id)
+
+      # delete todo
       todo = socket.assigns.todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
       Todos.delete_todo(todo)
 
       # remove deleted todo from todos list
       todos = socket.assigns.todos |> Enum.filter(fn t -> t.id != todo_id end)
 
-      # return modified todos
       {:noreply,
        socket
-       # delete the item
-       |> put_flash(:info, "Item deleted successfully")
        # re-assign todos
        |> assign(todos: todos)
-       # push DOM event
-       |> push_event("todo-delete-finished", %{todo_id: todo_id})}
+       # success message
+       |> put_flash(:info, "Item deleted successfully")
+       # close delete modal
+       |> push_event("todo-delete-modal-close", %{todo_id: todo_id})}
     rescue
       _ ->
-        {:noreply,
-         socket
-         # push DOM event
-         |> push_event("todo-delete-finished", %{todo_id: todo_id})
-         |> put_flash(:error, "Item could not be deleted.")}
+        # error message
+        {:noreply, socket |> put_flash(:error, "Item could not be deleted.")}
     end
   end
 end

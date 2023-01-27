@@ -8,35 +8,8 @@
       <%= assigns[:page_title] || "" %>
     </.live_title>
 
-    <script>
-      // set initial theme
-      (() => {
-        const darkModeEnabled = (() => {
-          const darkModeSavedPreferenceExists =
-            localStorage.getItem("darkModeEnabled") !== null;
-
-          if (darkModeSavedPreferenceExists) {
-            // use saved preference
-            const savedDarkModePreference = JSON.parse(
-              localStorage.getItem("darkModeEnabled") || "0"
-            );
-            return Boolean(savedDarkModePreference);
-          } else {
-            // use browser preference
-            const browserDarkModePreference = window.matchMedia(
-              "(prefers-color-scheme: dark)"
-            );
-
-            return browserDarkModePreference.matches;
-          }
-        })();
-
-        document.querySelector("html").dataset.theme =
-          darkModeEnabled ? "dark" : "default";
-      })();
-    </script>
-
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script phx-track-static type="text/javascript" src={~p"/assets/init.js"}></script>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>

@@ -5,7 +5,9 @@
   <!-- todo form -->
   <.form for={:form} class="mx-0 w-full"
          x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update_content'"
-         @submit="afterPhxLoading('submit', todoItemSelectedReset)">
+         id="todo-form"
+         phx-hook="TodoForm"
+         @updated="todoItemSelectedReset">
     <input type="hidden" name="todo_id" x-bind:value="todoIdSelected || ''" />
     <div class="input-group">
       <input

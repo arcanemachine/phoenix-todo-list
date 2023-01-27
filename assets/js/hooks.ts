@@ -1,9 +1,9 @@
 import BaseHooks from "./base/hooks";
-// import TodosHooks from "./todos/hooks";
+import TodosHooks from "./todos/hooks";
 
 const Hooks = {
   ...BaseHooks,
-  // ...TodosHooks,
+  ...TodosHooks,
 };
 
 export default Hooks;

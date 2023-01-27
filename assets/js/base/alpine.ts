@@ -1,12 +1,12 @@
 import tippy from "tippy.js";
 
-import projectHelpers from "./helpers";
+import helpers from "../helpers";
 import { data as todosData } from "../todos/alpine";
 
 /* data */
 function darkModeToggle() {
   return {
-    lightModeToggled: !projectHelpers.darkModeEnabled,
+    lightModeToggled: !helpers.base.darkModeEnabled,
 
     init() {
       // watch for changes to dark mode preference
@@ -15,7 +15,7 @@ function darkModeToggle() {
       );
       browserDarkModePreference.addEventListener("change", (evt: any) => {
         // only change if no preference has been assigned manually
-        if (!projectHelpers.darkModeSavedPreferenceExists) {
+        if (!helpers.base.darkModeSavedPreferenceExists) {
           evt.matches
             ? this.darkModeEnable(false)
             : this.darkModeDisable(false);
@@ -24,8 +24,6 @@ function darkModeToggle() {
     },
 
     darkModeEnable(updateLocalStorage: boolean) {
-      // this.$store.darkModeEnabled = true;
-      // this.lightModeToggled = !this.$store.darkModeEnabled;
       this.lightModeToggled = false;
 
       // save data to localStorage and set the theme
@@ -75,7 +73,7 @@ export const directives = [
 
       // parse expression and convert to object
       let options: Record<string, any>;
-      if (projectHelpers.alpineExpressionIsObject(expression)) {
+      if (helpers.base.alpineExpressionIsObject(expression)) {
         options = evaluate(expression); // expression is an object
       } else {
         options = { content: expression }; // convert expression to object

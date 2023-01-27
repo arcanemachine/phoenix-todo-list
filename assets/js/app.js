@@ -31,9 +31,9 @@ import {
   data as alpineData,
   directives as alpineDirectives,
   stores as alpineStores,
-} from "./base/alpine";
+} from "./alpine";
 
-Alpine.plugin(focus);
+Alpine.plugin(focus); // plugins
 
 for (const data of alpineData) {
   Alpine.data(data.name, data.data);

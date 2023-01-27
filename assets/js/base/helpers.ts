@@ -22,9 +22,17 @@ const helpers = {
   get darkModeSavedPreferenceExists(): boolean {
     return localStorage.getItem("darkModeEnabled") !== null;
   },
-  debugShortcut() {
-    window.addEventListener("keyup", () => {
-      debugger;
+  phxAfterLoading(eventType: string, callback: Function) {
+    /** When loading event has ended, execute a callback. */
+    this.$nextTick().then(() => {
+      const timer = setInterval(() => {
+        if (this.$el.classList.contains(`phx-${eventType}-loading`)) {
+          return;
+        } else {
+          clearInterval(timer);
+          callback.bind(this)();
+        }
+      }, 100);
     });
   },
 };

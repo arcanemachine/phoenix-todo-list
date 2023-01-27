@@ -29,20 +29,6 @@ function todosLive() {
       });
     },
 
-    afterPhxLoading(eventType: string, callback: Function) {
-      /** When loading event has ended, execute a callback. */
-      this.$nextTick().then(() => {
-        const timer = setInterval(() => {
-          if (this.$el.classList.contains(`phx-${eventType}-loading`)) {
-            return;
-          } else {
-            clearInterval(timer);
-            callback.bind(this)();
-          }
-        }, 100);
-      });
-    },
-
     // form
     formInputHandleKeypress(evt: KeyboardEvent) {
       if (evt.key === "Enter") {

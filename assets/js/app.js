@@ -56,16 +56,17 @@ let csrfToken = document
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
   dom: {
-    // make LiveView work nicely with AlpineJS
     onBeforeElUpdated(from, to) {
       if (from._x_dataStack) {
-        window.Alpine.clone(from, to);
+        Alpine.clone(from, to);
       }
     },
   },
   params: { _csrf_token: csrfToken },
   hooks: Hooks,
 });
+
+Alpine.store("liveSocket", liveSocket); // add alpine store for livesocket
 
 // Show progress bar on live navigation and form submits
 topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" });

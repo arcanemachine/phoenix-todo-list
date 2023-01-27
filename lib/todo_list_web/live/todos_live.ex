@@ -59,8 +59,10 @@ defmodule TodoListWeb.TodosLive do
       {:noreply, socket |> assign(todos: todos)}
     rescue
       _ ->
-        # error message
-        {:noreply, socket |> put_flash(:error, "Could not update this todo")}
+        {:noreply,
+         socket
+         # error message
+         |> put_flash(:error, "Could not update this todo")}
     end
   end
 
@@ -93,8 +95,11 @@ defmodule TodoListWeb.TodosLive do
        # return modified todos
        |> assign(todos: todos)}
     rescue
-      # error message
-      _ -> {:noreply, socket |> put_flash(:error, "Could not update this todo")}
+      _ ->
+        {:noreply,
+         socket
+         # error message
+         |> put_flash(:error, "Could not update this todo")}
     end
   end
 

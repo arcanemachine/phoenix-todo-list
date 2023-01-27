@@ -156,26 +156,9 @@ defmodule TodoListWeb.CoreComponents do
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
-      x-init="() => {
-        /** Automatically clear flash message after a short delay. */
-        const flashMessageTimeout = 2000;
-
-        setTimeout(() => {
-          // do not auto-close flash messages created during initial render
-          try {
-            if ((Date.now() - window.performance.timing.domContentLoadedEventEnd)
-              < flashMessageTimeout) return;
-          } catch (err) {}
-
-          // // simulate click event on the 'close' button
-          $el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-          // window.dispatchEvent(new CustomEvent('phx:lv:clear-flash', {
-          //   detail: { kind: $el.dataset.kind }
-          // }));
-        }, flashMessageTimeout);
-      }"
       phx-mounted={@autoshow && show("##{@id}")}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+      @contextmenu="$store.liveSocket.execJS($el, $el.getAttribute('phx-click'))"
       role="alert"
       class={[
         "fixed hidden bottom-4 right-4 w-80 sm:w-96 z-50 rounded-lg p-3 shadow-md shadow-base-900/5 ring-1",
@@ -189,7 +172,7 @@ defmodule TodoListWeb.CoreComponents do
         <Heroicons.exclamation_circle :if={@kind == :error} mini class="h-4 w-4" />
         <%= @title %>
       </p>
-      <p x-ref="message" class="mt-2 text-[0.8125rem] leading-5"><%= msg %></p>
+      <p class="mt-2 text-[0.8125rem] leading-5"><%= msg %></p>
       <button
         :if={@close}
         type="button"

@@ -50,6 +50,12 @@ function todosLive() {
       }
     },
 
+    todoItemHandleKeyup(evt: KeyboardEvent) {
+      /** When 'delete' key pressed while todo item is active, show the delete item modal. */
+      if (this.todoIdSelected === 0) return;
+      else if (evt.key === "Delete") this.deleteModalShow();
+    },
+
     todoItemSelectedReset() {
       // reset selected todo and clear form
       this.todoIdSelected = 0;

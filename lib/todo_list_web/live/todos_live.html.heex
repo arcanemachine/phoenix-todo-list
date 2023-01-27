@@ -39,6 +39,7 @@
         <li class="flex flex-row justify-center items-center form-control cursor-pointer hover:opacity-75"
             x-bind:class="Number($el.dataset.todoId) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
+            @keyup="todoItemHandleKeyup"
             data-todo-id={todo.id}
             data-todo-content={todo.content}
             data-todo-is-completed={todo.is_completed && "true" || "false"}>

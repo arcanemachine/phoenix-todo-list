@@ -26,6 +26,7 @@ import Hooks from "./hooks";
 
 // setup Alpine.JS
 import Alpine from "alpinejs";
+import collapse from "@alpinejs/collapse";
 import focus from "@alpinejs/focus";
 import {
   data as alpineData,
@@ -33,7 +34,9 @@ import {
   stores as alpineStores,
 } from "./alpine";
 
-Alpine.plugin(focus); // plugins
+// plugins
+Alpine.plugin(collapse);
+Alpine.plugin(focus);
 
 for (const data of alpineData) {
   Alpine.data(data.name, data.data);

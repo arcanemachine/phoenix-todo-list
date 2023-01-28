@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@alpinejs/collapse": "^3.11.1",
     "@alpinejs/focus": "^3.11.1",
     "alpinejs": "^3.10.5",
     "daisyui": "^2.47.0",

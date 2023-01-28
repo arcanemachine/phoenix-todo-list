@@ -1,7 +1,10 @@
 <section class="mx-auto flex max-w-md flex-col justify-center"
          id="todos-live"
          x-data="todosLive"
-         x-cloak>
+         x-cloak
+         @phx:update-content-success.window="(evt) => {
+           $store.animations.pop(document.querySelector(`[data-todo-id='${evt.detail.todo_id}]`);
+         }">
   <!-- todo form -->
   <.form for={:form} class="mx-0 w-full"
          x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update_content'"
@@ -39,10 +42,14 @@
         <li class="flex flex-row justify-center items-center form-control cursor-pointer hover:opacity-75"
             x-bind:class="Number($el.dataset.todoId) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
-            @keyup="todoItemHandleKeyup"
             data-todo-id={todo.id}
             data-todo-content={todo.content}
-            data-todo-is-completed={todo.is_completed && "true" || "false"}>
+            data-todo-is-completed={todo.is_completed && "true" || "false"}
+            x-data="{ show: true }"
+            x-show="show"
+            x-init="setTimeout(() => { show = true; })"
+            x-collapse
+            @keyup="todoItemHandleKeyup">
 
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start' }">
             <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"

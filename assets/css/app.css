@@ -15,6 +15,10 @@
   }
 
   /* DaisyUI */
+  :root {
+    --animation-btn: 0;
+  }
+
   a.btn {
     color: unset !important;
   }

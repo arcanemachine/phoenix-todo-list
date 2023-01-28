@@ -1,6 +1,7 @@
 import tippy from "tippy.js";
 
 import helpers from "../helpers";
+import { delay } from "./helpers";
 import { data as todosData } from "../todos/alpine";
 
 /* data */
@@ -97,9 +98,23 @@ export const directives = [
 ];
 
 /* stores */
+const animations = {
+  pop(elt: HTMLElement) {
+    /** Create a temporary popping effect. */
+    Promise.resolve()
+      .then(() => elt.classList.add("scale-110"))
+      .then(() => delay(500))
+      .then(() => elt.classList.remove("scale-110"));
+  },
+};
+
 export const stores: Array<object> = [
   // {
   //   name: "helloWorld",
   //   store: "Hello World!",
   // },
+  {
+    name: "animations",
+    store: animations,
+  },
 ];

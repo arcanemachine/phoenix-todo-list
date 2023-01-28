@@ -79,21 +79,27 @@ defmodule TodoListWeb.TodosLive do
       todos = socket.assigns.todos
       todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
 
-      # update todo
-      {_status, updated_todo} = Todos.update_todo(todo, %{content: todo_content})
+      # # update todo
+      # {_status, updated_todo} = Todos.update_todo(todo, %{content: todo_content})
+      Todos.update_todo(todo, %{content: todo_content})
 
-      # put updated todo into todos list
-      todos =
-        todos
-        |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+      # # put updated todo into todos list
+      # todos =
+      #   todos
+      #   |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+
+      # push success event to client
 
       # return modified todos and success message
-      {:noreply,
-       socket
-       # success message
-       |> put_flash(:info, "Item updated successfully")
-       # return modified todos
-       |> assign(todos: todos)}
+      {
+        :noreply,
+        socket
+        # success message
+        |> put_flash(:info, "Item updated successfully")
+        |> push_event("update-content-success", %{todo_id: todo_id})
+        # # return modified todos
+        # |> assign(todos: todos)}
+      }
     rescue
       _ ->
         {:noreply,

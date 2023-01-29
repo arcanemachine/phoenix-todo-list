@@ -17,7 +17,11 @@
   </div>
 
   <%= if false and "if @static_changed?" do %>
-    <.modal id="static-files-updated-modal" show={true} on_confirm={JS.dispatch("window-reload", to: "html")}>
+    <.modal
+      id="static-files-updated-modal"
+      show={true}
+      on_confirm={JS.dispatch("window-reload", to: "html")}
+    >
       <section @window-reload.window="() => { window.location.reload(); }">
         <p>
           This app has been updated.
@@ -30,5 +34,4 @@
       <:confirm>OK</:confirm>
     </.modal>
   <% end %>
-
 </main>

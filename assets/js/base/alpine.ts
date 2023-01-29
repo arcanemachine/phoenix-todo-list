@@ -1,7 +1,7 @@
 import tippy from "tippy.js";
 
 import helpers from "../helpers";
-import { delay } from "./helpers";
+import { delayFor } from "./helpers";
 import { data as todosData } from "../todos/alpine";
 
 /* data */
@@ -99,12 +99,78 @@ export const directives = [
 
 /* stores */
 const animations = {
-  pop(elt: HTMLElement) {
-    /** Create a temporary popping effect. */
+  applyTemporaryStyle(elt: HTMLElement, propObj: any, options: object) {
+    /** Apply a temporary, reversible style with CSS styles. */
+
+    // build options
+    const finalOptions = {
+      duration: 500,
+      transitionDuration: 250,
+      repeat: 0,
+      ...options,
+    };
+
+    // destructure options
+    const duration = finalOptions.duration;
+    const transitionDuration = finalOptions.transitionDuration;
+    const repeat = finalOptions.repeat;
+
+    const propKey = Object.keys(propObj)[0];
+    const propVal = Object.values(propObj)[0];
+    const propValInitial = elt.style[propKey];
+    const transitionValInitial = elt.style.transition;
+
     Promise.resolve()
-      .then(() => elt.classList.add("scale-110"))
-      .then(() => delay(500))
-      .then(() => elt.classList.remove("scale-110"));
+      .then(() => {
+        // apply transition style
+        if (transitionDuration) {
+          elt.style.transition = `${propKey} ${transitionDuration}ms`;
+        }
+
+        // apply custom style
+        elt.style[propKey] = propVal;
+      })
+      .then(() => delayFor(duration / 2)) // initial transition
+      .then(() => {
+        // restore custom style
+        elt.style[propKey] = propValInitial;
+      })
+      .then(() => delayFor(duration / 2)) // final transition
+      .then(() => {
+        // restore initial transition style
+        elt.style.transition = transitionValInitial;
+
+        // loop the animation
+        if (repeat) {
+          this.applyTemporaryStyle(elt, propObj, {
+            duration,
+            transitionDuration: transitionDuration,
+            repeat: repeat - 1,
+          });
+        }
+      });
+  },
+
+  highlight(elt: HTMLElement, theme: "success", delay: 0) {
+    /** Flash an element's background color to highlight it. */
+    const themes = {
+      primary: "#BFDBFE", // blue-200
+      success: "#A7F3D0", // emerald-200
+    };
+    const backgroundColor = themes[theme] || themes.primary;
+
+    setTimeout(() => {
+      this.applyTemporaryStyle(
+        elt,
+        { "background-color": backgroundColor },
+        { repeat: 1 }
+      );
+    }, delay);
+  },
+
+  pop(elt: HTMLElement, iterations: number = 1) {
+    /** Create a temporary popping effect. */
+    this.applyTemporaryStyle(elt, { transform: "scale(1.05)" }, { iterations });
   },
 };
 

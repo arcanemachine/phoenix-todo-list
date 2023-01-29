@@ -52,7 +52,7 @@ defmodule TodoListWeb.BaseComponents do
   """
   def dark_mode_toggle(assigns) do
     ~H"""
-    <div class="pr-2 flex" x-data="darkModeToggle()" x-cloak>
+    <div class="pr-2 flex" x-data="darkModeToggle" x-cloak>
       <label
         class="flex-center mr-3 flex grid swap swap-rotate"
         x-bind:class="lightModeToggled && 'swap-active'"

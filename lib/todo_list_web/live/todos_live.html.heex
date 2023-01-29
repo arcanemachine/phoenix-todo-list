@@ -1,16 +1,13 @@
 <section class="mx-auto flex max-w-md flex-col justify-center"
          id="todos-live"
          x-data="todosLive"
-         x-cloak
-         @phx:update-content-success.window="(evt) => {
-           $store.animations.pop(document.querySelector(`[data-todo-id='${evt.detail.todo_id}]`);
-         }">
+         x-cloak>
   <!-- todo form -->
   <.form for={:form} class="mx-0 w-full"
-         x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' :'todo_update_content'"
+         x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' : 'todo_update_content'"
          id="todo-form"
-         phx-hook="TodoForm"
-         @updated="todoItemSelectedReset">
+         @phx:todo-update-content-success.window="todoUpdateContentSuccess"
+         @submit="formValidate">
     <input type="hidden" name="todo_id" x-bind:value="todoIdSelected || ''" />
     <div class="input-group">
       <input
@@ -19,13 +16,13 @@
         class="input-bordered input focus:outline-0 w-full"
         autocomplete="off"
         placeholder="To Do..."
+        required
         x-model="todoFormInputText"
+        x-ref="formInput"
       />
       <.button
         class="btn w-[7rem]"
-        disabled
         x-bind:class="todoIdSelected === 0 && 'btn-primary'"
-        x-bind:disabled="!todoFormInputText"
       >
         <span x-text="todoIdSelected === 0 && 'Create' || 'Update'" />
       </.button>
@@ -39,15 +36,19 @@
     <% else %>
       <%= for todo <- @todos do %>
 
-        <li class="flex flex-row justify-center items-center form-control cursor-pointer hover:opacity-75"
+        <li class={[
+            "flex flex-row justify-center items-center",
+            "form-control hover:opacity-75 rounded-md transition duration-500 cursor-pointer"
+            ]}
+            id={"todo-item-#{todo.id}"}
             x-bind:class="Number($el.dataset.todoId) === todoIdSelected
               && 'rounded-75 rounded bg-base-200 text-info'"
             data-todo-id={todo.id}
             data-todo-content={todo.content}
             data-todo-is-completed={todo.is_completed && "true" || "false"}
-            x-data="{ show: true }"
+            x-data="{ show: false }"
+            x-init="setTimeout(() => { show = true })"
             x-show="show"
-            x-init="setTimeout(() => { show = true; })"
             x-collapse
             @keyup="todoItemHandleKeyup">
 
@@ -55,8 +56,14 @@
             <button class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
                     x-bind:class="JSON.parse($el.closest('li').dataset.todoIsCompleted)
                       ? 'text-secondary line-through' : 'text-primary'"
-                    @click="todoItemHandleClick(Number($el.closest('li').dataset.todoId), $el.closest('li').dataset.todoContent)">
-              <%= todo.content %> (<%= todo.id %>)
+                    @click="todoItemHandleClick(
+                      Number($el.closest('li').dataset.todoId),
+                      $el.closest('li').dataset.todoContent
+                    )">
+              <span class="todo-item-content">
+                <%= todo.content %>
+              </span>
+              (<%= todo.id %>)
             </button>
           </div>
 
@@ -64,6 +71,7 @@
 
             <!-- checkbox: is_completed -->
             <.button class="text-xl btn btn-sm btn-square btn-ghost btn-outline"
+                     x-bind:id="`todo-checkbox-${$el.closest('li').dataset.todoId}`"
                      phx-click={JS.push(
                        "todo_toggle_is_completed",
                        value: %{todo_id: todo.id, todo_is_completed: todo.is_completed},

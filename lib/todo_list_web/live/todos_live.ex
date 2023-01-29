@@ -68,7 +68,7 @@ defmodule TodoListWeb.TodosLive do
 
   def handle_event(
         "todo_update_content",
-        %{"todo_id" => todo_id, "todo_content" => todo_content} = _data,
+        %{"todo_id" => todo_id, "todo_content" => todo_content} = data,
         socket
       ) do
     # get todo from list
@@ -84,8 +84,8 @@ defmodule TodoListWeb.TodosLive do
       Todos.update_todo(todo, %{content: todo_content})
 
       # # put updated todo into todos list
-      # todos =
-      #   todos
+      # to---dos =
+      #   to---dos
       #   |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
 
       # push success event to client
@@ -96,7 +96,7 @@ defmodule TodoListWeb.TodosLive do
         socket
         # success message
         |> put_flash(:info, "Item updated successfully")
-        |> push_event("update-content-success", %{todo_id: todo_id})
+        |> push_event("todo-update-content-success", data)
         # # return modified todos
         # |> assign(todos: todos)}
       }

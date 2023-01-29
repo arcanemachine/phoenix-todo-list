@@ -40,7 +40,29 @@ function todosLive() {
       }
     },
 
-    // todo items
+    formValidate(evt: SubmitEvent) {
+      if (this.todoIdSelected !== 0) {
+        // when updating an item, do not submit the form if the value has not changed
+        const todoContent = this.todoItemEltGet(this.todoIdSelected).dataset
+          .todoContent;
+
+        if (todoContent === this.$refs.formInput.value) {
+          alert("The content of this item has not changed.");
+          return false;
+          evt.stopPropagation();
+          evt.preventDefault();
+        }
+      }
+    },
+
+    // todo items (UI)
+    todoItemEltGet(todoId: number, customSelectors = "") {
+      /** Return an element based on its todo ID. Accepts custom selectors. */
+      return this.$root.querySelector(
+        `#todo-item-${todoId} ${customSelectors}`
+      );
+    },
+
     todoItemHandleClick(todoId: number, todoContent: string) {
       if (this.todoIdSelected !== todoId) {
         this.todoIdSelected = todoId; // set current todo as 'selected'
@@ -60,6 +82,27 @@ function todosLive() {
       // reset selected todo and clear form
       this.todoIdSelected = 0;
       this.todoFormInputText = "";
+    },
+
+    // todos (CRUD)
+    todoUpdateContentSuccess(evt: CustomEvent) {
+      // get todo item element
+      const todoItemContentElt = this.todoItemEltGet(
+        evt.detail.todo_id,
+        ".todo-item-content"
+      );
+
+      // update todo item content
+      todoItemContentElt.innerText = evt.detail.todo_content;
+
+      // apply 'update' animation
+      this.$store.animations.highlight(
+        todoItemContentElt.closest("li"),
+        "success"
+      );
+
+      // reset the form
+      this.todoItemSelectedReset();
     },
   };
 }

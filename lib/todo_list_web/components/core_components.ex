@@ -161,7 +161,7 @@ defmodule TodoListWeb.CoreComponents do
       @contextmenu="$store.liveSocket.execJS($el, $el.getAttribute('phx-click'))"
       role="alert"
       class={[
-        "fixed hidden bottom-4 right-4 w-80 sm:w-96 z-50 rounded-lg p-3 shadow-md shadow-base-900/5 ring-1",
+        "fixed hidden top-4 right-4 w-80 sm:w-96 z-50 rounded-lg p-3 shadow-md shadow-base-900/5 ring-1",
         @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
         @kind == :error && "bg-rose-50 p-3 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
       ]}
@@ -241,7 +241,8 @@ defmodule TodoListWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "btn phx-button",
+        "btn",
+        "phx-button",
         @class
       ]}
       {@rest}

@@ -1,8 +1,10 @@
+import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
 import helpers from "../helpers";
 import { delayFor } from "./helpers";
 import { data as todosData } from "../todos/alpine";
+import StartToastifyInstance from "toastify-js";
 
 /* data */
 function darkModeToggle() {
@@ -98,14 +100,15 @@ export const directives = [
 ];
 
 /* stores */
+// animations
 const animations = {
   applyTemporaryStyle(elt: HTMLElement, propObj: any, options: object) {
     /** Apply a temporary, reversible style with CSS styles. */
 
     // build options
     const finalOptions = {
-      duration: 500,
-      transitionDuration: 250,
+      duration: 400,
+      transitionDuration: 200,
       repeat: 0,
       ...options,
     };
@@ -174,13 +177,128 @@ const animations = {
   },
 };
 
+// toasts
+type ProjectToastifyOptions = StartToastifyInstance.Options & {
+  content?: string; // use 'content' instead of 'text' for consistency
+  theme?:
+    | "primary"
+    | "secondary"
+    | "accent"
+    | "neutral"
+    | "info"
+    | "success"
+    | "warning"
+    | "error";
+};
+
+const toasts = {
+  show(options: string | ProjectToastifyOptions = {}) {
+    let toast: any;
+
+    if (typeof options === "string") {
+      // convert string to basic toast object
+      options = { text: options } as ProjectToastifyOptions;
+    } else if (options.content) {
+      options.text = options.content; // coerce key 'text' to 'content'
+    }
+
+    // cast variable to required type
+    options = options as ProjectToastifyOptions;
+
+    // themes
+    switch (options.theme) {
+      case "primary":
+        options.style = {
+          background: "hsl(var(--p))",
+          color: "hsl(var(--pc))",
+        };
+        break;
+      case "secondary":
+        options.style = {
+          background: "hsl(var(--s))",
+          color: "hsl(var(--sc))",
+        };
+        break;
+      case "accent":
+        options.style = {
+          background: "hsl(var(--a))",
+          color: "hsl(var(--ac))",
+        };
+        break;
+      case "neutral":
+        options.style = {
+          background: "hsl(var(--n))",
+          color: "hsl(var(--nc))",
+        };
+        break;
+      case "info":
+        options.style = {
+          background: "hsl(var(--in))",
+          color: "hsl(var(--inc))",
+        };
+        break;
+      case "success":
+        options.style = {
+          background: "hsl(var(--su))",
+          color: "hsl(var(--suc))",
+        };
+        break;
+      case "warning":
+        options.style = {
+          background: "hsl(var(--wa))",
+          color: "hsl(var(--wac))",
+        };
+        break;
+      case "error":
+        options.style = {
+          background: "hsl(var(--er))",
+          color: "hsl(var(--erc))",
+        };
+        break;
+      default:
+        // primary
+        options.style = {
+          background: "hsl(var(--p))",
+          color: "hsl(var(--pc))",
+        };
+    }
+
+    // create text element
+    const textElement = document.createElement("span");
+    textElement.className = "toast-text";
+
+    if (options.escapeMarkup) {
+      textElement.innerText = options.text as string;
+    } else {
+      textElement.innerHTML = options.text as string;
+    }
+
+    // create toast
+    toast = Toastify({
+      // text: options.content,
+      node: textElement,
+      close: true,
+      duration: 5000,
+      gravity: "bottom",
+      onClick: () => this.hide(toast),
+      selector: document.querySelector("section#toast-container"),
+      ...options,
+    } as ProjectToastifyOptions).showToast();
+
+    return toast;
+  },
+  hide(toast: any) {
+    toast.hideToast();
+  },
+};
+
 export const stores: Array<object> = [
-  // {
-  //   name: "helloWorld",
-  //   store: "Hello World!",
-  // },
   {
     name: "animations",
     store: animations,
+  },
+  {
+    name: "toasts",
+    store: toasts,
   },
 ];

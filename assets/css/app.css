@@ -3,6 +3,29 @@
 @import "tailwindcss/utilities";
 
 @import "tippy.js/dist/tippy.css";
+@import "toastify-js/src/toastify.css";
+
+/*** BASE ***/
+/* toastify-js */
+.toastify {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 15rem !important;
+  padding: 0;
+  padding-left: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+button.toast-close {
+  padding: 0.75rem 1rem;
+  opacity: 0.8;
+  transition: opacity 0.25s;
+}
+
+button.toast-close:hover {
+  opacity: 0.25;
+}
 
 @layer base {
   /* Alpine.JS */
@@ -19,14 +42,10 @@
     --animation-btn: 0;
   }
 
-  a.btn {
-    color: unset !important;
-  }
-
   /* misc */
   a {
-    color: hsl(var(--p)) !important;
-    font-weight: bold !important;
+    color: hsl(var(--a)) !important;
+    font-weight: bold;
   }
 }
 

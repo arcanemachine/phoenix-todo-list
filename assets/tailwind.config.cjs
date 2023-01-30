@@ -20,15 +20,15 @@ module.exports = {
     themes: [
       {
         default: {
-          primary: "#2563EB",
-          secondary: "#D1D5DB",
-          accent: "#1043B1",
-          neutral: "#312E81",
+          primary: "#0D6EFD",
+          secondary: "#6C757D",
+          accent: "#0254CE",
+          neutral: "#01265E",
           "base-100": "#F6F6FF",
-          info: "#7DD3FC",
-          success: "#25A762",
-          warning: "#FACC15",
-          error: "#DC2626",
+          info: "#97C0FE",
+          success: "#198754",
+          warning: "#FFC107",
+          error: "#DC3545",
         },
         dark: {
           primary: "#1C4E80",

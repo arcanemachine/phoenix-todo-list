@@ -1,7 +1,10 @@
 const Hooks = {
   // TodoForm: {
   //   updated() {
-  //     this.el.dispatchEvent(new CustomEvent("updated"));
+  //     this.handleEvent(
+  //       "todo-update-content-success",
+  //       this.todoUpdateContentSuccess
+  //     );
   //   },
   // },
 };

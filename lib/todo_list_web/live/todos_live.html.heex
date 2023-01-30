@@ -3,17 +3,20 @@
   id="todos-live"
   x-data="todosLive"
   x-cloak
+  @phx:todo-create-success.window="todoCreateSuccess"
+  @phx:todo-toggle-is-completed-success.window="todoToggleIsCompletedSuccess"
+  @phx:todo-update-content-success.window="todoUpdateContentSuccess"
+  @phx:todo-delete-success.window="todoDeleteSuccess"
 >
   <!-- todo form -->
   <.form
     for={:form}
     class="mx-0 w-full"
-    x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' : 'todo_update_content'"
     id="todo-form"
-    @phx:todo-update-content-success.window="todoUpdateContentSuccess"
     @submit="formValidate"
+    x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' : 'todo_update_content'"
   >
-    <input type="hidden" name="todo_id" x-bind:value="todoIdSelected || ''" />
+    <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
     <div class="input-group">
       <input
         type="text"
@@ -25,11 +28,12 @@
         x-model="todoFormInputText"
         x-ref="formInput"
       />
-      <.button class="btn w-[7rem]" x-bind:class="todoIdSelected === 0 && 'btn-primary'">
+      <.button class="btn w-28" x-bind:class="todoIdSelected === 0 ? 'btn-primary' : 'btn-accent'">
         <span x-text="todoIdSelected === 0 && 'Create' || 'Update'" />
       </.button>
     </div>
   </.form>
+
   <!-- todo list -->
   <ul id="todo-list" class="w-100 mt-4 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
@@ -39,78 +43,88 @@
         <li
           class={[
             "flex flex-row justify-center items-center",
-            "form-control hover:opacity-75 rounded-md transition duration-500 cursor-pointer"
+            "form-control hover:opacity-75 cursor-pointer",
+            "rounded-md transition duration-500 rounded-75 rounded",
+            "todo-item"
           ]}
-          id={"todo-item-#{todo.id}"}
-          x-bind:class="Number($el.dataset.todoId) === todoIdSelected
-              && 'rounded-75 rounded bg-base-200 text-info'"
-          data-todo-id={todo.id}
+          x-bind:id="`todo-item-${todo.id}`"
           data-todo-content={todo.content}
-          data-todo-is-completed={(todo.is_completed && "true") || "false"}
-          x-data="{ show: false }"
+          x-title="Todo Item"
+          x-data={"{
+            show: true, // do not animate on initial render
+            todo: {
+              id: #{todo.id},
+              content: $el.dataset.todoContent,
+              isCompleted: #{todo.is_completed},
+            },
+          }"}
           x-init="setTimeout(() => { show = true })"
-          x-show="show"
           x-collapse
+          x-show="show"
           @keyup="todoItemHandleKeyup"
+          @hide="show = false"
         >
-          <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start' }">
+          <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
-              class="block btn-link btn-sm btn w-full text-left normal-case no-underline"
-              x-bind:class="JSON.parse($el.closest('li').dataset.todoIsCompleted)
-                      ? 'text-secondary line-through' : 'text-primary'"
-              @click="todoItemHandleClick(
-                      Number($el.closest('li').dataset.todoId),
-                      $el.closest('li').dataset.todoContent
-                    )"
+              class="block btn w-full text-left normal-case no-underline"
+              x-bind:class="todo.id !== todoIdSelected ? 'btn-ghost hover:bg-gray-200' : 'btn-accent'"
+              @click="todoItemHandleClick(todo.id, todo.content)"
             >
-              <span class="todo-item-content">
-                <%= todo.content %>
+              <span
+                class="todo-item-content"
+                x-bind:class="todo.IsCompleted && 'text-secondary line-through'"
+                x-text="todo.content"
+              >
               </span>
-              (<%= todo.id %>)
+              (<span x-text="todo.id"></span>)
             </button>
           </div>
 
-          <div class="flex flex-center w-8 mx-2 py-2">
+          <div class="flex flex-center w-8 mx-4 py-2">
             <!-- checkbox: is_completed -->
             <.button
-              class="text-xl btn btn-sm btn-square btn-ghost btn-outline"
-              x-bind:id="`todo-checkbox-${$el.closest('li').dataset.todoId}`"
+              class={[
+                "text-xl btn btn-square btn-ghost btn-outline outline-2",
+                "todo-item-is-completed-toggle"
+              ]}
+              x-show="todoIdSelected !== todo.id"
+              x-tooltip="Toggle completion status"
               phx-click={
                 JS.push(
                   "todo_toggle_is_completed",
                   value: %{todo_id: todo.id, todo_is_completed: todo.is_completed}
                 )
               }
-              x-show="todoIdSelected !== Number($el.closest('li').dataset.todoId)"
               phx-disable-with
             >
-              <%= if todo.is_completed do %>
+              <span x-show="todo.isCompleted" x-transition.fade>
                 <Heroicons.check solid class="h-8 w-8" />
-              <% end %>
+              </span>
             </.button>
             <!-- icon: delete item -->
-            <button
-              class="text-xl text-red-500 btn btn-sm btn-square btn-ghost btn-outline"
+            <.button
+              checked="todo.isCompleted"
+              class="text-xl btn btn-square btn-error btn-outline"
               aria-label="Delete todo"
-              x-show="todoIdSelected === Number($el.closest('li').dataset.todoId)"
+              x-show="todoIdSelected === todo.id"
               x-tooltip="Delete item"
-              @click="deleteModalShow(todoIdSelected)"
+              @click="() => todoDeleteModalShow(todoIdSelected)"
             >
-              <Heroicons.x_mark solid class="h-8 w-8 text-red-500" />
-            </button>
+              <Heroicons.x_mark solid class="h-8 w-8" />
+            </.button>
           </div>
         </li>
       <% end %>
     <% end %>
   </ul>
   <!-- delete modal -->
-  <div class="modal" x-bind:class="deleteModalActive && 'modal-open'">
+  <div class="modal" x-bind:class="todoDeleteModalActive && 'modal-open'">
     <div
       class="modal-box relative max-w-xs"
-      x-show="deleteModalActive"
-      x-trap.noscroll="deleteModalActive"
-      @keyup.escape="deleteModalHide()"
-      @click.outside="deleteModalHide()"
+      x-show="todoDeleteModalActive"
+      x-trap.inert.noscroll="todoDeleteModalActive"
+      @keyup.escape="todoDeleteModalHide()"
+      @click.outside="todoDeleteModalHide()"
       x-transition.duration.500ms
     >
       <h2 class="text-center font-bold text-xl">Delete this item?</h2>
@@ -119,7 +133,7 @@
         <form
           id="todo-delete-form"
           phx-submit="todo_delete"
-          @phx:todo-delete-modal-close.window="(evt) => deleteModalHide(evt.detail.todo_id)"
+          @phx:todo-delete-modal-close.window="(evt) => todoDeleteModalHide(evt.detail.todo_id)"
         >
           <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
           <.button class="btn-error w-full">
@@ -129,7 +143,7 @@
       </div>
 
       <div class="form-control mt-4 w-full max-w-xs">
-        <button class="btn-secondary btn" @click="deleteModalHide()">No</button>
+        <button class="btn-secondary btn" @click="todoDeleteModalHide()">No</button>
       </div>
     </div>
   </div>

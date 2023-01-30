@@ -2,7 +2,8 @@ const helpers = (() => {
   return {
     alpineExpressionIsObject(expression: string): boolean {
       /** If expression can be evaluated as an object, return true. */
-      return /^{.*}$/.test(expression);
+      // expression begins and ends with curly braces
+      return expression.substring(0, 1) === "{" && expression.slice(-1) === "}";
     },
 
     get darkModeEnabled(): boolean {

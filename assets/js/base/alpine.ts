@@ -1,8 +1,8 @@
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
+import constants from "../constants";
 import helpers from "../helpers";
-import { delayFor } from "./helpers";
 import { data as todosData } from "../todos/alpine";
 import StartToastifyInstance from "toastify-js";
 
@@ -68,6 +68,10 @@ export const directives = [
       { expression }: any,
       { evaluate, cleanup }: any
     ) {
+      /** Create a tooltip popup. */
+
+      if (!expression) return; // abort if expression is empty
+
       const defaultOptions = {
         delay: [750, null],
         interactiveDebounce: 150,
@@ -133,12 +137,12 @@ const animations = {
         // apply custom style
         elt.style[propKey] = propVal;
       })
-      .then(() => delayFor(duration / 2)) // initial transition
+      .then(() => helpers.base.delayFor(duration / 2)) // initial transition
       .then(() => {
         // restore custom style
         elt.style[propKey] = propValInitial;
       })
-      .then(() => delayFor(duration / 2)) // final transition
+      .then(() => helpers.base.delayFor(duration / 2)) // final transition
       .then(() => {
         // restore initial transition style
         elt.style.transition = transitionValInitial;
@@ -155,10 +159,16 @@ const animations = {
   },
 
   highlight(elt: HTMLElement, theme: "success", delay: 0) {
-    /** Flash an element's background color to highlight it. */
+    /** Higlight an an element by flashing its background color. */
     const themes = {
-      primary: "#BFDBFE", // blue-200
-      success: "#A7F3D0", // emerald-200
+      primary: "hsl(var(--p))",
+      secondary: "hsl(var(--s))",
+      accent: "hsl(var(--a))",
+      neutral: "hsl(var(--n))",
+      info: "hsl(var(--in))",
+      success: "hsl(var(--su))",
+      warning: "hsl(var(--wa))",
+      error: "hsl(var(--er))",
     };
     const backgroundColor = themes[theme] || themes.primary;
 
@@ -172,7 +182,7 @@ const animations = {
   },
 
   pop(elt: HTMLElement, iterations: number = 1) {
-    /** Create a temporary popping effect. */
+    /** Create an attention-grabbing 'pop' effect. */
     this.applyTemporaryStyle(elt, { transform: "scale(1.05)" }, { iterations });
   },
 };
@@ -192,18 +202,31 @@ type ProjectToastifyOptions = StartToastifyInstance.Options & {
 };
 
 const toasts = {
-  show(options: string | ProjectToastifyOptions = {}) {
-    let toast: any;
-
+  coerceInputs(
+    options: string | ProjectToastifyOptions = {}
+  ): ProjectToastifyOptions {
     if (typeof options === "string") {
       // convert string to basic toast object
       options = { text: options } as ProjectToastifyOptions;
     } else if (options.content) {
-      options.text = options.content; // coerce key 'text' to 'content'
+      // if necessary, coerce key 'text' to 'content' for project-level
+      // consistency with other 'content' keys (e.g. todo)
+      options.text = options.text ?? options.content;
     }
 
-    // cast variable to required type
-    options = options as ProjectToastifyOptions;
+    if (!options.text) throw "options['content'|'text'] must not be empty";
+
+    return options;
+  },
+  hide(toast: any) {
+    /** Hide a toast message. */
+    toast.hideToast();
+  },
+  show(options: string | ProjectToastifyOptions = {}) {
+    /** Create a new toast message. */
+    let toast: any; // create instance placeholder for use in 'hide' callback
+
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
 
     // themes
     switch (options.theme) {
@@ -256,7 +279,6 @@ const toasts = {
         };
         break;
       default:
-        // primary
         options.style = {
           background: "hsl(var(--p))",
           color: "hsl(var(--pc))",
@@ -287,8 +309,45 @@ const toasts = {
 
     return toast;
   },
-  hide(toast: any) {
-    toast.hideToast();
+  showPrimary(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "primary" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "primary" });
+  },
+  showSecondary(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "secondary" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "secondary" });
+  },
+  showAccent(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "accent" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "accent" });
+  },
+  showNeutral(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "neutral" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "neutral" });
+  },
+  showInfo(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "info" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "info" });
+  },
+  showSuccess(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "success" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "success" });
+  },
+  showWarning(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "warning" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "warning" });
+  },
+  showError(options: string | ProjectToastifyOptions = {}) {
+    /** Create toast message with "error" theme. */
+    options = this.coerceInputs(options) as ProjectToastifyOptions;
+    return this.show({ ...options, theme: "error" });
   },
 };
 
@@ -296,6 +355,10 @@ export const stores: Array<object> = [
   {
     name: "animations",
     store: animations,
+  },
+  {
+    name: "constants",
+    store: constants,
   },
   {
     name: "toasts",

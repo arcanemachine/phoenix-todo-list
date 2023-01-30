@@ -4,7 +4,6 @@
   x-data="todosLive"
   x-cloak
   @phx:todo-create-success.window="todoCreateSuccess"
-  @phx:todo-toggle-is-completed-success.window="todoToggleIsCompletedSuccess"
   @phx:todo-update-content-success.window="todoUpdateContentSuccess"
   @phx:todo-delete-success.window="todoDeleteSuccess"
 >
@@ -33,7 +32,6 @@
       </.button>
     </div>
   </.form>
-
   <!-- todo list -->
   <ul id="todo-list" class="w-100 mt-4 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
@@ -47,18 +45,22 @@
             "rounded-md transition duration-500 rounded-75 rounded",
             "todo-item"
           ]}
-          x-bind:id="`todo-item-${todo.id}`"
+          id={"todo-item-#{todo.id}"}
+          data-todo-id={todo.id}
           data-todo-content={todo.content}
-          x-title="Todo Item"
-          x-data={"{
-            show: true, // do not animate on initial render
+          data-todo-is-completed={"#{todo.is_completed}"}
+          x-data="{
+            show: performance.now() < 1000, // do not animate on initial render
             todo: {
-              id: #{todo.id},
-              content: $el.dataset.todoContent,
-              isCompleted: #{todo.is_completed},
-            },
-          }"}
-          x-init="setTimeout(() => { show = true })"
+              get id() { return $el.dataset.todoId; },
+              get content() { return $el.dataset.todoContent; },
+              get isCompleted() { return JSON.parse($el.dataset.todoIsCompleted); },
+            }
+          }"
+          x-init="() => {
+            console.log('todo-item.init()');
+            setTimeout(() => { show = true });
+          }"
           x-collapse
           x-show="show"
           @keyup="todoItemHandleKeyup"
@@ -67,16 +69,15 @@
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
               class="block btn w-full text-left normal-case no-underline"
-              x-bind:class="todo.id !== todoIdSelected ? 'btn-ghost hover:bg-gray-200' : 'btn-accent'"
+              x-bind:class="todo.id === todoIdSelected ? 'btn-accent' : 'btn-ghost hover:bg-gray-200'"
               @click="todoItemHandleClick(todo.id, todo.content)"
             >
-              <span
-                class="todo-item-content"
-                x-bind:class="todo.IsCompleted && 'text-secondary line-through'"
-                x-text="todo.content"
-              >
+              <span class={[
+                ["todo-item-content"],
+                [todo.is_completed && "text-secondary line-through"]
+              ]}>
+                <%= todo.content %> (<%= todo.id %>)
               </span>
-              (<span x-text="todo.id"></span>)
             </button>
           </div>
 

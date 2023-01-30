@@ -46,20 +46,21 @@ defmodule TodoListWeb.TodosLive do
       todos = socket.assigns.todos
       todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
 
-      # # update todo
-      Todos.update_todo(todo, %{is_completed: !todo_is_completed})
+      # update todo
+      {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo_is_completed})
+
+      # put updated todo into todos list
+      todos =
+        todos
+        |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+
+      # return modified todos
+      {:noreply, socket |> assign(todos: todos)}
 
       # # update todo
-      # {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo_is_completed})
-
-      # # put updated todo into todos list
-      # to--dos =
-      #   to--dos
-      #   |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
-
-      # # return modified todos
-      # {:noreply, socket |> assign(todos: todos)}
-      {:noreply, socket |> push_event("todo-toggle-is-completed-success", %{todo_id: todo_id})}
+      # To-dos.update_todo(todo, %{is_completed: !todo_is_completed})
+      #
+      # {:noreply, socket |> push_event("todo-toggle-is-completed-success", %{todo_id: todo_id})}
     rescue
       _ -> {:noreply, socket |> toast_error("Item could not be updated.")}
     end

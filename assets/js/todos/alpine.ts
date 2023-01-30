@@ -6,6 +6,10 @@ function todosLive() {
     todoFormInputText: "",
     todoIdSelected: 0,
 
+    init() {
+      console.log("todosLive.init()");
+    },
+
     // form
     formInputHandleKeypress(evt: KeyboardEvent) {
       if (evt.key === "Enter") {
@@ -92,15 +96,6 @@ function todosLive() {
       this.todoItemSelectedReset(); // reset the form
     },
 
-    todoToggleIsCompletedSuccess(evt: CustomEvent) {
-      // get todo item element
-      const todoItemIsCompletedToggleElt = this.$root
-        .querySelector(`#todo-item-${evt.detail.todo_id}`)
-        .querySelector(".todo-item-is-completed-toggle");
-
-      todoItemIsCompletedToggleElt.dispatchEvent(new CustomEvent("toggle"));
-    },
-
     todoUpdateContentSuccess(evt: CustomEvent) {
       // get todo item element
       const todoItemContentElt = this.$root
@@ -121,12 +116,16 @@ function todosLive() {
     },
 
     todoDeleteSuccess(evt: CustomEvent) {
+      /** Hide the element and remove it from the DOM. */
       const todoItemElt = this.$root.querySelector(
         `#todo-item-${evt.detail.todo_id}`
       );
 
       Promise.resolve()
         .then(() => {
+          // disable the element
+          todoItemElt.classList.add("pointer-events-none", "bg-secondary");
+
           this.$store.toasts.showSuccess("Item deleted successfully"); // success message
           this.todoDeleteModalHide(); // hide delete modal
         })

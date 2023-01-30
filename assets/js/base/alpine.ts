@@ -112,7 +112,7 @@ const animations = {
     // build options
     const finalOptions = {
       duration: 400,
-      transitionDuration: 200,
+      transitionDuration: 100,
       repeat: 0,
       ...options,
     };

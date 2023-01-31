@@ -85,15 +85,15 @@ function todosLive() {
 
     // todos (CRUD)
     todoCreateSuccess() {
-      this.$store.toasts.showSuccess("Item created successfully"); // success message
       this.todoItemSelectedReset(); // reset the form
+      this.$store.toasts.showSuccess("Item created successfully"); // success message
     },
 
     todoUpdateContentSuccess(evt: CustomEvent) {
       this.todoItemSelectedReset(); // reset the form
       this.$store.toasts.showSuccess("Item updated successfully"); // success message
 
-      // apply 'update' animation to todo item element
+      // highlight updated element
       const todoItemContentElt = this.$root
         .querySelector(`#todo-item-${evt.detail.todo_id}`)
         .querySelector(".todo-item-content");
@@ -105,26 +105,9 @@ function todosLive() {
       );
     },
 
-    todoDeleteSuccess(evt: CustomEvent) {
-      /** Hide the element and remove it from the DOM. */
-      const todoItemElt = this.$root.querySelector(
-        `#todo-item-${evt.detail.todo_id}`
-      );
-
-      Promise.resolve()
-        .then(() => {
-          this.todoDeleteModalHide(); // hide delete modal
-          todoItemElt.style.pointerEvents = "none"; // disable todo item element
-          this.$store.toasts.showSuccess("Item deleted successfully"); // success message
-        })
-        .then(() => delayFor(500))
-        .then(() => {
-          todoItemElt.dispatchEvent(new CustomEvent("hide")); // hide the todo
-        })
-        .then(() => delayFor(this.$store.constants.collapseTransitionDuration))
-        .then(() => {
-          todoItemElt.remove(); // remove the element from the DOM
-        });
+    todoDeleteSuccess() {
+      this.todoDeleteModalHide(); // hide delete modal
+      this.$store.toasts.showSuccess("Item deleted successfully"); // success message
     },
   };
 }

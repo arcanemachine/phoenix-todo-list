@@ -95,3 +95,6 @@ window.liveSocket = liveSocket;
     return import("./gitignore.js");
   } catch (err) {}
 })();
+
+// var canHover = !matchMedia("(hover: none)").matches;
+// alert(canHover);

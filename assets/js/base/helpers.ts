@@ -27,6 +27,10 @@ const helpers = (() => {
       return localStorage.getItem("darkModeEnabled") !== null;
     },
 
+    get deviceCanHover(): boolean {
+      return !matchMedia("(hover: none)").matches;
+    },
+
     delayFor(timeInMilliseconds: number) {
       /** Create a delay for a specific amount of time. */
       return new Promise(function (resolve) {

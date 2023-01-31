@@ -123,4 +123,9 @@ defmodule TodoListWeb.TodosLive do
   def toast_error(socket, content) do
     toast_show(socket, content, "error")
   end
+
+  def todo_hide(js \\ %JS{}, todo_id) do
+    js
+    |> JS.hide(transition: "fade-out", to: "#todo-item-#{todo_id}")
+  end
 end

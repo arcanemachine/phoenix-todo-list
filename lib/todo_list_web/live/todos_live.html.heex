@@ -6,6 +6,7 @@
   x-cloak
   @phx:todo-create-success.window="todoCreateSuccess"
   @phx:todo-update-content-success.window="todoUpdateContentSuccess"
+  @phx:todo-update-content-success.window="todoUpdateContentSuccess"
   @phx:todo-delete-success.window="todoDeleteSuccess"
 >
   <!-- todo form -->
@@ -44,7 +45,6 @@
             "flex flex-row justify-center items-center",
             "form-control hover:opacity-75 cursor-pointer",
             "rounded-md transition duration-500 rounded-75 rounded",
-            "todo-item"
           ]}
           id={"todo-item-#{todo.id}"}
           data-todo-id={todo.id}
@@ -66,7 +66,7 @@
           x-show="show"
           @keyup="todoItemHandleKeyup"
           @hide="show = false"
-          phx-remove={JS.hide(transition: "fade-out")}
+          phx-remove={todo_hide(todo.id)}
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
@@ -78,8 +78,7 @@
                 ["todo-item-content"],
                 [todo.is_completed && "line-through"]
               ]}>
-                <%= todo.content %>
-                (<%= todo.id %>)
+                <%= todo.content %> (<%= todo.id %>)
               </span>
             </button>
           </div>
@@ -137,7 +136,6 @@
         <form
           id="todo-delete-form"
           phx-submit="todo_delete"
-          @phx:todo-delete-modal-close.window="(evt) => todoDeleteModalHide(evt.detail.todo_id)"
         >
           <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
           <.button class="btn-error w-full">

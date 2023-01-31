@@ -115,16 +115,15 @@ defmodule TodoListWeb.BaseComponents do
           x-tooltip="User Actions"
           @pointerdown.outside="show = false"
         >
-          <label
-            tabindex="0"
+          <button
             class="btn-ghost btn-square btn m-1"
             @focus="show = true"
             @blur="show = false"
             @click="show = !show"
           >
             <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
-          </label>
-          <ul class="dropdown-content dropdown-open menu rounded-box w-52 bg-base-100 p-2 shadow">
+          </button>
+          <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
             <%= render_slot(@user_action_menu_items) %>
           </ul>
         </div>

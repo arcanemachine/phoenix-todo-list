@@ -382,6 +382,10 @@ export const stores: Array<object> = [
     store: constants,
   },
   {
+    name: "helpers",
+    store: helpers,
+  },
+  {
     name: "toasts",
     store: toasts,
   },

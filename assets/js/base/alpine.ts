@@ -116,7 +116,7 @@ const animations = {
     // build options
     const finalOptions = {
       duration: 400,
-      transitionDuration: 150,
+      transitionDuration: 100,
       repeat: 0,
       ...options,
     };
@@ -376,6 +376,10 @@ export const stores: Array<object> = [
   {
     name: "animations",
     store: animations,
+  },
+  {
+    name: "components",
+    store: {},
   },
   {
     name: "constants",

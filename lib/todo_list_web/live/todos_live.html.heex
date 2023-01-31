@@ -2,12 +2,12 @@
   class="mx-auto flex max-w-md flex-col justify-center"
   id="todos-live"
   x-data="todosLive"
-  x-init="() => { console.log('todosLive.init()'); /* deleteme */}"
   x-cloak
   @phx:todo-create-success.window="todoCreateSuccess"
   @phx:todo-update-content-success.window="todoUpdateContentSuccess"
-  @phx:todo-update-content-success.window="todoUpdateContentSuccess"
+  @phx:todo-delete-error.window="todoDeleteError"
   @phx:todo-delete-success.window="todoDeleteSuccess"
+  phx-hook="TodosLive"
 >
   <!-- todo form -->
   <.form
@@ -44,7 +44,7 @@
           class={[
             "flex flex-row justify-center items-center",
             "form-control hover:opacity-75 cursor-pointer",
-            "rounded-md transition duration-500 rounded-75 rounded",
+            "rounded-md rounded-75 rounded",
           ]}
           id={"todo-item-#{todo.id}"}
           data-todo-id={todo.id}
@@ -58,15 +58,13 @@
               get isCompleted() { return JSON.parse($el.dataset.todoIsCompleted); },
             }
           }"
-          x-init="setTimeout(() => {
-            console.log('todo-item.init()'); /* deleteme */
-            show = true;
-          })"
-          x-collapse
+          x-init="setTimeout(() => { show = true; })"
+          x-collapse.duration.500ms
           x-show="show"
-          @keyup="todoItemHandleKeyup"
           @hide="show = false"
-          phx-remove={todo_hide(todo.id)}
+          @keyup="todoItemHandleKeyup"
+          @show="show = true"
+      }
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
@@ -100,9 +98,7 @@
               }
               phx-disable-with
             >
-              <span x-show="todo.isCompleted" x-transition.fade>
-                <Heroicons.check solid class="h-8 w-8" />
-              </span>
+              <Heroicons.check :if={todo.is_completed} solid class="h-8 w-8" />
             </.button>
             <!-- icon: delete item -->
             <.button
@@ -126,22 +122,16 @@
       class="modal-box relative max-w-xs"
       x-show="todoDeleteModalActive"
       x-trap.inert.noscroll="todoDeleteModalActive"
-      @keyup.escape="todoDeleteModalHide()"
       @click.outside="todoDeleteModalHide()"
+      @keyup.escape="todoDeleteModalHide()"
       x-transition.duration.500ms
     >
       <h2 class="text-center font-bold text-xl">Delete this item?</h2>
 
       <div class="form-control mt-6 w-full max-w-xs">
-        <form
-          id="todo-delete-form"
-          phx-submit="todo_delete"
-        >
-          <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
-          <.button class="btn-error w-full">
-            Yes
-          </.button>
-        </form>
+        <.button class="btn-error w-full" @click="todoDelete()">
+          Yes
+        </.button>
       </div>
 
       <div class="form-control mt-4 w-full max-w-xs">

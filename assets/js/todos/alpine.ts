@@ -3,8 +3,14 @@ import { delayFor } from "../base/helpers";
 // data
 function todosLive() {
   return {
+    hook: undefined,
+
     todoFormInputText: "",
     todoIdSelected: 0,
+
+    init() {
+      this.$store.components.todosLive = this;
+    },
 
     // form
     formInputHandleKeypress(evt: KeyboardEvent) {
@@ -55,10 +61,10 @@ function todosLive() {
     todoDeleteModalHide(todoId?: number) {
       if (todoId && todoId !== this.todoIdSelected) return;
 
-      this.$nextTick().then(() => {
-        this.todoDeleteModalActive = false;
-        this.todoItemSelectedReset();
-      });
+      // this.$nextTick().then(() => {
+      this.todoDeleteModalActive = false;
+      this.todoItemSelectedReset();
+      // });
     },
 
     // todo items (UI)
@@ -105,9 +111,48 @@ function todosLive() {
       );
     },
 
-    todoDeleteSuccess() {
-      this.todoDeleteModalHide(); // hide delete modal
-      this.$store.toasts.showSuccess("Item deleted successfully"); // success message
+    todoDelete() {
+      /** Hide the element and push deleted event to the server. */
+      const todoIdSelected = this.todoIdSelected; // get reference to current todo ID
+
+      Promise.resolve()
+        .then(() => {
+          this.todoDeleteModalHide(); // hide todo-delete modal
+        })
+        .then(() =>
+          delayFor(this.$store.constants.collapseTransitionDuration / 2)
+        )
+        .then(() => {
+          // disable pointer events and hide todo item element
+          const todoItemElt = this.$root.querySelector(
+            `#todo-item-${todoIdSelected}`
+          );
+
+          todoItemElt.style.pointerEvents = "none";
+          todoItemElt.dispatchEvent(new CustomEvent("hide"));
+        })
+        .then(() => delayFor(this.$store.constants.collapseTransitionDuration))
+        .then(() => {
+          this.hook.pushEvent("todo_delete", { todo_id: todoIdSelected });
+        });
+    },
+
+    todoDeleteError(evt: CustomEvent) {
+      /** Unhide the (attempted) deleted element and show error message. */
+      Promise.resolve()
+        .then(() => {
+          // enable pointer events and show todo item element
+          const todoItemElt = this.$root.querySelector(
+            `#todo-item-${evt.detail.todo_id}`
+          );
+
+          todoItemElt.style.pointerEvents = "";
+          todoItemElt.dispatchEvent(new CustomEvent("show")); // hide the todo
+        })
+        .then(() => delayFor(this.$store.constants.collapseTransitionDuration))
+        .then(() => {
+          this.$store.toasts.showError("Item could not be deleted"); // error message
+        });
     },
   };
 }

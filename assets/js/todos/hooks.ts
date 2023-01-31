@@ -1,14 +1,11 @@
+import Alpine from "alpinejs";
+
 const Hooks = {
-  // TodosLive: {
-  //   // lifecycle
-  //   updated() {
-  //     this.handleEvent(
-  //       "todo-update-content-success",
-  //       this.todoUpdateContentSuccess
-  //     );
-  //   },
-  //   // methods
-  // },
+  TodosLive: {
+    mounted() {
+      Alpine.store("components").todosLive.hook = this;
+    },
+  },
 };
 
 export default Hooks;

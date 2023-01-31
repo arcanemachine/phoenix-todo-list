@@ -38,7 +38,7 @@ defmodule TodoListWeb.TodosLive do
 
   def handle_event(
         "todo_toggle_is_completed",
-        %{"todo_id" => todo_id, "todo_is_completed" => todo_is_completed} = _data,
+        %{"todo_id" => todo_id} = _data,
         socket
       ) do
     try do
@@ -47,7 +47,7 @@ defmodule TodoListWeb.TodosLive do
       todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
 
       # update todo
-      {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo_is_completed})
+      {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo.is_completed})
 
       # merge updated todo into todos list
       todos =
@@ -104,10 +104,9 @@ defmodule TodoListWeb.TodosLive do
       # remove deleted todo from todos list
       todos = socket.assigns.todos |> Enum.filter(fn t -> t.id != todo_id end)
 
-      {:noreply,
-       socket |> push_event("todo-delete-success", %{todo_id: todo_id}) |> assign(todos: todos)}
+      {:noreply, socket |> toast_success("Item deleted successfully") |> assign(todos: todos)}
     rescue
-      _ -> {:noreply, socket |> toast_error("Item could not be deleted.")}
+      _ -> {:noreply, socket |> push_event("todo-delete-error", %{todo_id: todo_id})}
     end
   end
 
@@ -122,10 +121,5 @@ defmodule TodoListWeb.TodosLive do
 
   def toast_error(socket, content) do
     toast_show(socket, content, "error")
-  end
-
-  def todo_hide(js \\ %JS{}, todo_id) do
-    js
-    |> JS.hide(transition: "fade-out", to: "#todo-item-#{todo_id}")
   end
 end

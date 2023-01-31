@@ -53,18 +53,19 @@ function todosLive() {
       }
     },
 
+    // event handlers
+    handleKeyupEscape() {
+      this.todoDeleteModalHide();
+      this.todoItemSelectedReset();
+    },
+
     // todo delete modal
     todoDeleteModalActive: false,
     todoDeleteModalShow() {
       this.todoDeleteModalActive = true;
     },
-    todoDeleteModalHide(todoId?: number) {
-      if (todoId && todoId !== this.todoIdSelected) return;
-
-      // this.$nextTick().then(() => {
+    todoDeleteModalHide() {
       this.todoDeleteModalActive = false;
-      this.todoItemSelectedReset();
-      // });
     },
 
     // todo items (UI)
@@ -117,7 +118,9 @@ function todosLive() {
 
       Promise.resolve()
         .then(() => {
-          this.todoDeleteModalHide(); // hide todo-delete modal
+          // hide item delete modal and reset selected todo
+          this.todoDeleteModalHide();
+          this.todoItemSelectedReset();
         })
         .then(() =>
           delayFor(this.$store.constants.collapseTransitionDuration / 2)
@@ -131,7 +134,9 @@ function todosLive() {
           todoItemElt.style.pointerEvents = "none";
           todoItemElt.dispatchEvent(new CustomEvent("hide"));
         })
-        .then(() => delayFor(this.$store.constants.collapseTransitionDuration))
+        .then(() =>
+          delayFor(this.$store.constants.collapseTransitionDuration / 2)
+        )
         .then(() => {
           this.hook.pushEvent("todo_delete", { todo_id: todoIdSelected });
         });

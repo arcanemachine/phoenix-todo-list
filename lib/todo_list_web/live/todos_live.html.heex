@@ -3,6 +3,7 @@
   id="todos-live"
   x-data="todosLive"
   x-cloak
+  @keyup.escape="handleKeyupEscape"
   @phx:todo-create-success.window="todoCreateSuccess"
   @phx:todo-update-content-success.window="todoUpdateContentSuccess"
   @phx:todo-delete-error.window="todoDeleteError"
@@ -122,20 +123,19 @@
       class="modal-box relative max-w-xs"
       x-show="todoDeleteModalActive"
       x-trap.inert.noscroll="todoDeleteModalActive"
-      @click.outside="todoDeleteModalHide()"
-      @keyup.escape="todoDeleteModalHide()"
+      @click.outside="todoDeleteModalHide"
       x-transition.duration.500ms
     >
       <h2 class="text-center font-bold text-xl">Delete this item?</h2>
 
       <div class="form-control mt-6 w-full max-w-xs">
-        <.button class="btn-error w-full" @click="todoDelete()">
+        <.button class="btn-error w-full" @click="todoDelete">
           Yes
         </.button>
       </div>
 
       <div class="form-control mt-4 w-full max-w-xs">
-        <button class="btn-secondary btn" @click="todoDeleteModalHide()">No</button>
+        <button class="btn-secondary btn" @click="todoDeleteModalHide">No</button>
       </div>
     </div>
   </div>

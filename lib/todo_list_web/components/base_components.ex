@@ -107,11 +107,23 @@ defmodule TodoListWeb.BaseComponents do
       <div class="mr-1 flex-none">
         <.dark_mode_toggle />
         <!-- menu - user actions -->
-        <div class="dropdown-end dropdown" x-tooltip="User Actions">
-          <label tabindex="0" class="btn-ghost btn-square btn m-1">
+        <div
+          class="dropdown-end dropdown"
+          id="navbar-dropdown-user-actions"
+          x-bind:class="show && 'dropdown-open'"
+          x-data="{ show: false }"
+          x-tooltip="User Actions"
+          @pointerdown.outside="show = false"
+        >
+          <label
+            tabindex="0"
+            class="btn-ghost btn-square btn m-1"
+            @focus="show = true"
+            @blur="show = false"
+          >
             <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
           </label>
-          <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+          <ul class="dropdown-content dropdown-open menu rounded-box w-52 bg-base-100 p-2 shadow">
             <%= render_slot(@user_action_menu_items) %>
           </ul>
         </div>

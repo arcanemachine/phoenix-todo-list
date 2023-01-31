@@ -106,13 +106,17 @@ export const directives = [
 /* stores */
 // animations
 const animations = {
-  applyTemporaryStyle(elt: HTMLElement, propObj: any, options: object) {
-    /** Apply a temporary, reversible style with CSS styles. */
+  applyTemporaryStyle(
+    elt: HTMLElement,
+    temporaryStyles: object,
+    options: object
+  ) {
+    /** Apply temporary, reversible CSS styles. */
 
     // build options
     const finalOptions = {
       duration: 400,
-      transitionDuration: 100,
+      transitionDuration: 150,
       repeat: 0,
       ...options,
     };
@@ -122,34 +126,40 @@ const animations = {
     const transitionDuration = finalOptions.transitionDuration;
     const repeat = finalOptions.repeat;
 
-    const propKey = Object.keys(propObj)[0];
-    const propVal = Object.values(propObj)[0];
-    const propValInitial = elt.style[propKey];
-    const transitionValInitial = elt.style.transition;
+    // remember initial styles
+    let initialStyles = {};
+    for (const key of Object.keys(temporaryStyles)) {
+      initialStyles[key] = elt.style[key];
+    }
+
+    const initialTransitionValue = elt.style.transition;
 
     Promise.resolve()
       .then(() => {
-        // apply transition style
+        // apply temporary styles
         if (transitionDuration) {
-          elt.style.transition = `${propKey} ${transitionDuration}ms`;
+          // elt.style.transitionDuration = `${transitionDuration}ms`;
+          // elt.style.transitionProperty = Object.keys(initialStyles).join(", ");
+          elt.style.transition = `all ${transitionDuration}ms`;
+        } else {
+          elt.style.transition = `none`;
         }
 
-        // apply custom style
-        elt.style[propKey] = propVal;
+        Object.assign(elt.style, temporaryStyles);
       })
       .then(() => helpers.base.delayFor(duration / 2)) // initial transition
       .then(() => {
-        // restore custom style
-        elt.style[propKey] = propValInitial;
+        // restore initial styles
+        Object.assign(elt.style, initialStyles);
       })
       .then(() => helpers.base.delayFor(duration / 2)) // final transition
       .then(() => {
         // restore initial transition style
-        elt.style.transition = transitionValInitial;
+        elt.style.transition = initialTransitionValue;
 
         // loop the animation
         if (repeat) {
-          this.applyTemporaryStyle(elt, propObj, {
+          this.applyTemporaryStyle(elt, temporaryStyles, {
             duration,
             transitionDuration: transitionDuration,
             repeat: repeat - 1,
@@ -171,11 +181,12 @@ const animations = {
       error: "hsl(var(--er))",
     };
     const backgroundColor = themes[theme] || themes.primary;
+    const opacity = "0.75";
 
     setTimeout(() => {
       this.applyTemporaryStyle(
         elt,
-        { "background-color": backgroundColor },
+        { backgroundColor, opacity },
         { repeat: 1 }
       );
     }, delay);

@@ -1,5 +1,5 @@
 const Hooks = {
-  // TodoForm: {
+  // TodosLive: {
   //   updated() {
   //     this.handleEvent(
   //       "todo-update-content-success",

@@ -199,19 +199,36 @@ type ProjectToastifyOptions = StartToastifyInstance.Options & {
     | "success"
     | "warning"
     | "error";
+  detail?: CustomEvent;
 };
 
 const toasts = {
   coerceInputs(
     options: string | ProjectToastifyOptions = {}
   ): ProjectToastifyOptions {
+    /** Coerce the value of 'options' based on certain factors:
+     *  a. If 'options' is a string, convert it to a basic toast options object.
+     *      - e.g. "hello" -> { text: "hello" }
+     *  b. If 'options' is an object with a 'detail' key, we'll assume it came
+     *     from a CustomEvent. Convert options.detail to an options object.
+     *      - e.g. {detail: {content: "hello" } -> { text: "hello" }
+     *  c. If 'options' object contains 'content' key, convert it to a 'text'
+     *    key. This maintains consistency with the use of the 'content' key
+     *    in other areas of this project (tooltips, etc.).
+     *      - e.g. { content: "hello"} -> { text: "hello" }
+     */
     if (typeof options === "string") {
-      // convert string to basic toast object
+      // a. Convert string to basic toast object
       options = { text: options } as ProjectToastifyOptions;
-    } else if (options.content) {
-      // if necessary, coerce key 'text' to 'content' for project-level
-      // consistency with other 'content' keys (e.g. todo)
+    } else if (options.detail instanceof Object) {
+      // b. Convert CustomEvent detail object to toast options object.
+      options = options.detail;
+    }
+
+    if (options.content) {
+      // c. Remap options.content to options.text
       options.text = options.text ?? options.content;
+      delete options.content;
     }
 
     if (!options.text) throw "options['content'|'text'] must not be empty";

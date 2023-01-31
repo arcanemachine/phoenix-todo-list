@@ -34,7 +34,7 @@ defmodule TodoList.Todos do
 
   """
   def list_todos_by_user_id(user_id) do
-    query = from(Todo, where: [user_id: ^user_id])
+    query = from(Todo, where: [user_id: ^user_id], order_by: :id)
     Repo.all(query)
   end
 

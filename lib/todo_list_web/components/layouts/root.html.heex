@@ -53,6 +53,7 @@
         <!-- toast container -->
         <section
           id="toast-container"
+          phx-hook="ToastHook"
           @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
           @phx:toast-show-primary.window="(evt) => $store.toasts.showPrimary(evt.detail)"
           @phx:toast-show-secondary.window="(evt) => $store.toasts.showSecondary(evt.detail)"

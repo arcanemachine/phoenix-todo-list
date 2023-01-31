@@ -2,6 +2,7 @@
   class="mx-auto flex max-w-md flex-col justify-center"
   id="todos-live"
   x-data="todosLive"
+  x-init="() => { console.log('todosLive.init()'); /* deleteme */}"
   x-cloak
   @phx:todo-create-success.window="todoCreateSuccess"
   @phx:todo-update-content-success.window="todoUpdateContentSuccess"
@@ -47,8 +48,8 @@
           ]}
           id={"todo-item-#{todo.id}"}
           data-todo-id={todo.id}
-          data-todo-content={todo.content}
           data-todo-is-completed={"#{todo.is_completed}"}
+          data-todo-content={todo.content}
           x-data="{
             show: performance.now() < 1000, // do not animate on initial render
             todo: {
@@ -57,14 +58,15 @@
               get isCompleted() { return JSON.parse($el.dataset.todoIsCompleted); },
             }
           }"
-          x-init="() => {
-            console.log('todo-item.init()');
-            setTimeout(() => { show = true });
-          }"
+          x-init="setTimeout(() => {
+            console.log('todo-item.init()'); /* deleteme */
+            show = true;
+          })"
           x-collapse
           x-show="show"
           @keyup="todoItemHandleKeyup"
           @hide="show = false"
+          phx-remove={JS.hide(transition: "fade-out")}
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
@@ -74,9 +76,10 @@
             >
               <span class={[
                 ["todo-item-content"],
-                [todo.is_completed && "text-secondary line-through"]
+                [todo.is_completed && "line-through"]
               ]}>
-                <%= todo.content %> (<%= todo.id %>)
+                <%= todo.content %>
+                (<%= todo.id %>)
               </span>
             </button>
           </div>

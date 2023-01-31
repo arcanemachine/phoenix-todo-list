@@ -44,7 +44,7 @@ button.toast-close:hover {
   }
 
   /* misc */
-  a {
+  a:not(.btn) {
     color: hsl(var(--a)) !important;
     font-weight: bold;
   }

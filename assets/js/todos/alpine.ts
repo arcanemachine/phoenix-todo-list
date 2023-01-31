@@ -6,10 +6,6 @@ function todosLive() {
     todoFormInputText: "",
     todoIdSelected: 0,
 
-    init() {
-      console.log("todosLive.init()");
-    },
-
     // form
     formInputHandleKeypress(evt: KeyboardEvent) {
       if (evt.key === "Enter") {
@@ -57,9 +53,6 @@ function todosLive() {
       this.todoDeleteModalActive = true;
     },
     todoDeleteModalHide(todoId?: number) {
-      // when server pushes delete event result, close the delete item modal if the todo ID
-      // matches the currently selected todo ID. this prevents the modal from being closed if
-      // the item delete modal is open for a different todo
       if (todoId && todoId !== this.todoIdSelected) return;
 
       this.$nextTick().then(() => {
@@ -97,22 +90,19 @@ function todosLive() {
     },
 
     todoUpdateContentSuccess(evt: CustomEvent) {
-      // get todo item element
+      this.todoItemSelectedReset(); // reset the form
+      this.$store.toasts.showSuccess("Item updated successfully"); // success message
+
+      // apply 'update' animation to todo item element
       const todoItemContentElt = this.$root
         .querySelector(`#todo-item-${evt.detail.todo_id}`)
         .querySelector(".todo-item-content");
 
-      todoItemContentElt.innerText = evt.detail.todo_content; // update todo item content
-      this.$store.toasts.showSuccess("Item updated successfully"); // success message
-
-      // apply 'update' animation
       this.$store.animations.highlight(
         todoItemContentElt.closest("button"),
         "success",
         750
       );
-
-      this.todoItemSelectedReset(); // reset the form
     },
 
     todoDeleteSuccess(evt: CustomEvent) {
@@ -123,13 +113,11 @@ function todosLive() {
 
       Promise.resolve()
         .then(() => {
-          // disable the element
-          todoItemElt.classList.add("pointer-events-none", "bg-secondary");
-
-          this.$store.toasts.showSuccess("Item deleted successfully"); // success message
           this.todoDeleteModalHide(); // hide delete modal
+          todoItemElt.style.pointerEvents = "none"; // disable todo item element
+          this.$store.toasts.showSuccess("Item deleted successfully"); // success message
         })
-        .then(() => delayFor(250))
+        .then(() => delayFor(500))
         .then(() => {
           todoItemElt.dispatchEvent(new CustomEvent("hide")); // hide the todo
         })

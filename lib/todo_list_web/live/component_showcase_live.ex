@@ -83,35 +83,33 @@ defmodule TodoListWeb.ComponentShowcaseLive do
       </div>
 
       <div class="form-control">
-        <.input
-          type="textarea"
-          field={{f, :textarea}}
-          checked={true}
-          class="checkbox checkbox-primary"
-          label="Textarea Input"
-        />
+        <.label>
+          Label + Textarea
+          <.input
+            type="textarea"
+            field={{f, :textarea}}
+            checked={true}
+            class="checkbox checkbox-primary"
+          />
+        </.label>
+        <.error>Error message</.error>
       </div>
       <!-- actions -->
       <:actions>
-        <.button>Submit</.button>
-        <input type="reset" value="Reset" class="btn-secondary min-w-[7rem]" />
+        <.button class="w-28">Submit</.button>
+        <input type="reset" value="Reset" class="w-28 btn btn-secondary" />
       </:actions>
     </.simple_form>
 
-    <h2 class="mt-16 mb-4 text-3xl text-center">Error/Label</h2>
-
-    <.label>Label</.label>
-    <.error>Error message</.error>
-
     <h2 class="mt-16 mb-4 text-3xl text-center">Header</h2>
 
-    <.header class="bg-secondary/40 p-4 rounded-lg">
+    <.header class="bg-info/30 p-4 rounded-lg">
       Header Title
       <:subtitle>
         Header subtitle
       </:subtitle>
       <:actions>
-        <.button>OK</.button>
+        <.button class="w-28 btn-primary">OK</.button>
       </:actions>
     </.header>
 
@@ -143,10 +141,10 @@ defmodule TodoListWeb.ComponentShowcaseLive do
     <.button phx-click={show("#showcase-show-hide")}>Show</.button>
     <.button phx-click={hide("#showcase-show-hide")}>Hide</.button>
 
-    <p id="showcase-show-hide">
+    <p>
       <!-- prevent page jumping when element visibility toggled -->
+      <span id="showcase-show-hide">Now you see me...</span>
       <span>&nbsp;</span>
-      Now you see me...
     </p>
     """
   end

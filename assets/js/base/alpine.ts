@@ -199,7 +199,6 @@ type ProjectToastifyOptions = StartToastifyInstance.Options & {
     | "success"
     | "warning"
     | "error";
-  detail?: CustomEvent;
 };
 
 const toasts = {
@@ -209,10 +208,7 @@ const toasts = {
     /** Coerce the value of 'options' based on certain factors:
      *  a. If 'options' is a string, convert it to a basic toast options object.
      *      - e.g. "hello" -> { text: "hello" }
-     *  b. If 'options' is an object with a 'detail' key, we'll assume it came
-     *     from a CustomEvent. Convert options.detail to an options object.
-     *      - e.g. {detail: {content: "hello" } -> { text: "hello" }
-     *  c. If 'options' object contains 'content' key, convert it to a 'text'
+     *  b. If 'options' object contains 'content' key, convert it to a 'text'
      *    key. This maintains consistency with the use of the 'content' key
      *    in other areas of this project (tooltips, etc.).
      *      - e.g. { content: "hello"} -> { text: "hello" }
@@ -220,9 +216,6 @@ const toasts = {
     if (typeof options === "string") {
       // a. Convert string to basic toast object
       options = { text: options } as ProjectToastifyOptions;
-    } else if (options.detail instanceof Object) {
-      // b. Convert CustomEvent detail object to toast options object.
-      options = options.detail;
     }
 
     if (options.content) {

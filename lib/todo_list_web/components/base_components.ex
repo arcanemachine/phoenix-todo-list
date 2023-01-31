@@ -120,6 +120,7 @@ defmodule TodoListWeb.BaseComponents do
             class="btn-ghost btn-square btn m-1"
             @focus="show = true"
             @blur="show = false"
+            @click="show = !show"
           >
             <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
           </label>

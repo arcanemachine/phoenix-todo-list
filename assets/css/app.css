@@ -42,12 +42,6 @@ button.toast-close:hover {
   :root {
     --animation-btn: 0; /* disable button 'pop' animations during initial render */
   }
-  .device-cannot-hover .btn-ghost:hover {
-    /* iOS hover workaround */
-    background-color: rgb(255, 255, 255, 0);
-    color: hsl(var(--bc));
-    border: 1px solid hsl(var(--bc));
-  }
 
   /* misc */
   a:not(.btn) {

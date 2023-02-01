@@ -9,11 +9,12 @@ function todosLive() {
     todoIdSelected: 0,
 
     init() {
-      this.$store.components.todosLive = this;
+      this.$store.components.todosLive = this; // save component reference in store
     },
 
     // form
     formInputHandleKeypress(evt: KeyboardEvent) {
+      /** Dispatch the proper event to create or update an item. */
       if (evt.key === "Enter") {
         if (this.todoIdSelected !== 0) {
           this.todoUpdateContent();
@@ -55,6 +56,7 @@ function todosLive() {
 
     // event handlers
     handleKeyupEscape() {
+      /** Hide the item-delete modal and reset the currently-selected todo item. */
       this.todoDeleteModalHide();
       this.todoItemSelectedReset();
     },
@@ -69,7 +71,18 @@ function todosLive() {
     },
 
     // todo items (UI)
+    todoItemEltGet(todoId: number) {
+      /** Return the component that matches a given todo ID. */
+      const todoItemElt = this.$root.querySelector(`#todo-item-${todoId}`);
+
+      if (!todoItemElt)
+        this.$store.toasts.showError("The item you requested does not exist.");
+
+      return todoItemElt;
+    },
+
     todoItemHandleClick(todoId: number, todoContent: string) {
+      /** Toggle a todo's 'currently-selected' status. */
       if (this.todoIdSelected !== todoId) {
         this.todoIdSelected = todoId; // set current todo as 'selected'
         this.todoFormInputText = todoContent; // assign todo content to the form's input field
@@ -85,35 +98,40 @@ function todosLive() {
     },
 
     todoItemSelectedReset() {
-      // reset selected todo and clear form
+      /** Reset selected todo and clear the form. */
       this.todoIdSelected = 0;
       this.todoFormInputText = "";
     },
 
     // todos (CRUD)
     todoCreateSuccess() {
-      this.todoItemSelectedReset(); // reset the form
-      this.$store.toasts.showSuccess("Item created successfully"); // success message
+      /** Reset the form and show success message. */
+      this.todoItemSelectedReset();
+      this.$store.toasts.showSuccess("Item created successfully");
+    },
+
+    todoToggleIsCompletedSuccess() {
+      /** Show success message. */
+      this.$store.toasts.showSuccess("Item updated successfully");
     },
 
     todoUpdateContentSuccess(evt: CustomEvent) {
+      /** Reset the form, show success message, and highlight the updated element. */
       this.todoItemSelectedReset(); // reset the form
       this.$store.toasts.showSuccess("Item updated successfully"); // success message
 
       // highlight updated element
-      const todoItemContentElt = this.$root
-        .querySelector(`#todo-item-${evt.detail.todo_id}`)
-        .querySelector(".todo-item-content");
+      const todoItemElt = this.todoItemEltGet(evt.detail.todo_id);
 
       this.$store.animations.highlight(
-        todoItemContentElt.closest("button"),
+        todoItemElt.querySelector(".todo-item-content-container"),
         "success",
         750
       );
     },
 
     todoDelete() {
-      /** Hide the element and push deleted event to the server. */
+      /** Hide the element and push deletion event to the server. */
       const todoIdSelected = this.todoIdSelected; // get reference to current todo ID
 
       Promise.resolve()
@@ -126,10 +144,8 @@ function todosLive() {
           delayFor(this.$store.constants.collapseTransitionDuration / 2)
         )
         .then(() => {
-          // disable pointer events and hide todo item element
-          const todoItemElt = this.$root.querySelector(
-            `#todo-item-${todoIdSelected}`
-          );
+          /* disable pointer events and hide todo item element */
+          const todoItemElt = this.todoItemEltGet(todoIdSelected);
 
           todoItemElt.style.pointerEvents = "none";
           todoItemElt.dispatchEvent(new CustomEvent("hide"));
@@ -142,17 +158,20 @@ function todosLive() {
         });
     },
 
+    todoDeleteSuccess() {
+      /** Show success message. */
+      this.$store.toasts.showSuccess("Item deleted successfully");
+    },
+
     todoDeleteError(evt: CustomEvent) {
       /** Unhide the (attempted) deleted element and show error message. */
       Promise.resolve()
         .then(() => {
-          // enable pointer events and show todo item element
-          const todoItemElt = this.$root.querySelector(
-            `#todo-item-${evt.detail.todo_id}`
-          );
+          /* unhide the todo item and re-enable pointer events */
+          const todoItemElt = this.todoItemEltGet(evt.detail.todo_id);
 
           todoItemElt.style.pointerEvents = "";
-          todoItemElt.dispatchEvent(new CustomEvent("show")); // hide the todo
+          todoItemElt.dispatchEvent(new CustomEvent("show"));
         })
         .then(() => delayFor(this.$store.constants.collapseTransitionDuration))
         .then(() => {

@@ -5,9 +5,10 @@
   x-cloak
   @keyup.escape="handleKeyupEscape"
   @phx:todo-create-success.window="todoCreateSuccess"
+  @phx:todo-toggle-is-completed-success.window="todoToggleIsCompletedSuccess"
   @phx:todo-update-content-success.window="todoUpdateContentSuccess"
-  @phx:todo-delete-error.window="todoDeleteError"
   @phx:todo-delete-success.window="todoDeleteSuccess"
+  @phx:todo-delete-error.window="todoDeleteError"
   phx-hook="TodosLive"
 >
   <!-- todo form -->
@@ -69,7 +70,7 @@
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
-              class="block btn w-full text-left normal-case no-underline"
+              class="block btn w-full text-left normal-case no-underline todo-item-content-container"
               x-bind:class="todo.id === todoIdSelected ? 'btn-accent' : 'btn-ghost hover:bg-gray-200'"
               @click="todoItemHandleClick(todo.id, todo.content)"
             >

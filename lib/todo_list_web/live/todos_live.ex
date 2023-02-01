@@ -33,21 +33,57 @@ defmodule TodoListWeb.TodosLive do
     socket =
       if msg.payload.socket_id === socket.id,
         do: socket |> push_event("todo-create-success", %{}),
-        else: socket |> toast_success("New item has been created in another window")
+        else: socket |> toast_success("A new item has been created in another window.")
 
-    {:noreply, socket}
+    {:noreply, assign(socket, todos: msg.payload.todos)}
   end
 
-  def handle_info(msg, socket) do
-    {:noreply,
-     assign(
-       socket
-       |> toast_success(
-         "If you can read this message, then a 'handle_info()' function needs to be created for this event."
-       ),
-       todos: msg.payload.todos
-     )}
+  def handle_info(%{:event => "todo_toggle_is_completed"} = msg, socket) do
+    socket =
+      if msg.payload.socket_id === socket.id,
+        do: socket |> push_event("todo-toggle-is-completed-success", %{}),
+        else: socket |> toast_success("An item has been updated in another window.")
+
+    {:noreply, assign(socket, todos: msg.payload.todos)}
   end
+
+  def handle_info(%{:event => "todo_update_content"} = msg, socket) do
+    socket =
+      if msg.payload.socket_id === socket.id,
+        do: socket |> push_event("todo-update-content", %{}),
+        else: socket |> toast_success("An item has been updated in another window.")
+
+    {:noreply, assign(socket, todos: msg.payload.todos)}
+  end
+
+  def handle_info(%{:event => "todo_delete"} = msg, socket) do
+    socket =
+      if msg.payload.socket_id === socket.id,
+        do: socket |> push_event("todo-delete-success", %{}),
+        else: socket |> toast_success("An item has been deleted in another window.")
+
+    {:noreply, assign(socket, todos: msg.payload.todos)}
+  end
+
+  # def handle_info(%{:event => "todo_toggle_is_completed"} = msg, socket) do
+  #   socket =
+  #     if msg.payload.socket_id === socket.id,
+  #       do: socket |> push_event("todo-create-success", %{}),
+  #       else: socket |> toast_success("A item has been updated in another window.")
+
+  #   {:noreply, socket}
+  # end
+
+  # def handle_info(msg, socket) do
+  #   {:noreply,
+  #    assign(
+  #      socket
+  #      |> toast_success(
+  #        "If you can read this message, then a 'handle_info()' function needs to be created for this event."
+  #      ),
+  #      to-dos: msg.payload.todos
+  #    )}
+  # end
 
   # events
   def handle_event("todo_create", %{"todo_content" => todo_content} = _data, socket) do
@@ -92,7 +128,7 @@ defmodule TodoListWeb.TodosLive do
         todos
         |> Enum.map(fn t -> if t.id === updated_todo.id, do: updated_todo, else: t end)
 
-      socket = socket |> toast_success("Item updated successfully") |> assign(todos: todos)
+      socket = socket |> assign(todos: todos)
 
       # broadcast assigns to channel
       Endpoint.broadcast(@topic, "todo_toggle_is_completed", socket.assigns)
@@ -148,7 +184,7 @@ defmodule TodoListWeb.TodosLive do
       # remove deleted todo from todos list
       todos = socket.assigns.todos |> Enum.filter(fn t -> t.id !== todo_id end)
 
-      socket = socket |> toast_success("Item deleted successfully") |> assign(todos: todos)
+      socket = socket |> assign(todos: todos)
 
       # broadcast assigns to channel
       Endpoint.broadcast(@topic, "todo_delete", socket.assigns)

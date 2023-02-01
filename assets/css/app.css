@@ -18,14 +18,18 @@
   border-radius: 0.25rem;
 }
 
-button.toast-close {
+.toast-close {
   padding: 0.75rem 1rem;
   opacity: 0.8;
   transition: opacity 0.25s;
 }
 
-button.toast-close:hover {
+.toast-close:hover {
   opacity: 0.25;
+}
+
+.toast-text {
+  text-align: center;
 }
 
 @layer base {

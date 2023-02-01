@@ -2,8 +2,14 @@ import Alpine from "alpinejs";
 
 const Hooks = {
   TodosLive: {
+    // data
+    get component() {
+      return Alpine.store("components").todosLive;
+    },
+
+    // lifecycle
     mounted() {
-      Alpine.store("components").todosLive.hook = this;
+      this.component.hook = this;
     },
   },
 };

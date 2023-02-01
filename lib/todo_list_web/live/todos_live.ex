@@ -21,15 +21,32 @@ defmodule TodoListWeb.TodosLive do
       assign(socket,
         page_title: "Your Todo List",
         todos: todos,
-        current_user: current_user
+        current_user: current_user,
+        socket_id: socket.id
       )
 
     {:ok, socket}
   end
 
   # channels
+  def handle_info(%{:event => "todo_create"} = msg, socket) do
+    socket =
+      if msg.payload.socket_id === socket.id,
+        do: socket |> push_event("todo-create-success", %{}),
+        else: socket |> toast_success("New item has been created in another window")
+
+    {:noreply, socket}
+  end
+
   def handle_info(msg, socket) do
-    {:noreply, assign(socket, todos: msg.payload.todos)}
+    {:noreply,
+     assign(
+       socket
+       |> toast_success(
+         "If you can read this message, then a 'handle_info()' function needs to be created for this event."
+       ),
+       todos: msg.payload.todos
+     )}
   end
 
   # events
@@ -46,7 +63,6 @@ defmodule TodoListWeb.TodosLive do
       socket =
         socket
         |> update(:todos, &(&1 ++ [todo]))
-        |> push_event("todo-create-success", %{})
 
       # broadcast assigns to channel
       Endpoint.broadcast(@topic, "todo_create", socket.assigns)
@@ -66,7 +82,7 @@ defmodule TodoListWeb.TodosLive do
     try do
       # get todo
       todos = socket.assigns.todos
-      todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+      todo = todos |> Enum.filter(fn todo -> todo.id === todo_id end) |> Enum.at(0)
 
       # update todo
       {_status, updated_todo} = Todos.update_todo(todo, %{is_completed: !todo.is_completed})
@@ -74,7 +90,7 @@ defmodule TodoListWeb.TodosLive do
       # merge updated todo into todos list
       todos =
         todos
-        |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
+        |> Enum.map(fn t -> if t.id === updated_todo.id, do: updated_todo, else: t end)
 
       socket = socket |> toast_success("Item updated successfully") |> assign(todos: todos)
 
@@ -99,7 +115,7 @@ defmodule TodoListWeb.TodosLive do
 
       # get todo
       todos = socket.assigns.todos
-      todo = todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+      todo = todos |> Enum.filter(fn todo -> todo.id === todo_id end) |> Enum.at(0)
 
       # update todo
       {_status, updated_todo} = Todos.update_todo(todo, %{content: todo_content})
@@ -107,10 +123,7 @@ defmodule TodoListWeb.TodosLive do
       # merge updated todo into todos list
       todos =
         todos
-        |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
-
-      IO.puts("Before: #{todo.content}")
-      IO.puts("After: #{updated_todo.content}")
+        |> Enum.map(fn t -> if t.id === updated_todo.id, do: updated_todo, else: t end)
 
       socket = socket |> push_event("todo-update-content-success", data) |> assign(todos: todos)
 
@@ -129,11 +142,11 @@ defmodule TodoListWeb.TodosLive do
       {todo_id, _remainder} = Integer.parse(todo_id)
 
       # delete todo
-      todo = socket.assigns.todos |> Enum.filter(fn todo -> todo.id == todo_id end) |> Enum.at(0)
+      todo = socket.assigns.todos |> Enum.filter(fn todo -> todo.id === todo_id end) |> Enum.at(0)
       Todos.delete_todo(todo)
 
       # remove deleted todo from todos list
-      todos = socket.assigns.todos |> Enum.filter(fn t -> t.id != todo_id end)
+      todos = socket.assigns.todos |> Enum.filter(fn t -> t.id !== todo_id end)
 
       socket = socket |> toast_success("Item deleted successfully") |> assign(todos: todos)
 
@@ -147,7 +160,7 @@ defmodule TodoListWeb.TodosLive do
   end
 
   # helpers
-  def toast_show(socket, content, theme) do
+  def toast_show(socket, content, theme \\ "primary") do
     push_event(socket, "toast-show", %{content: content, theme: theme})
   end
 

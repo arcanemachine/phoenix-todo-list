@@ -3,16 +3,33 @@ defmodule TodoListWeb.TodosLive do
 
   alias TodoList.Accounts
   alias TodoList.Todos
+  alias TodoListWeb.Endpoint
+
+  @topic "todos"
 
   # lifecycle
   def mount(_params, session, socket) do
     current_user = Accounts.get_user_by_session_token(session["user_token"])
     todos = Todos.list_todos_by_user_id(current_user.id)
 
+    if connected?(socket) do
+      # subscribe to channel
+      TodoListWeb.Endpoint.subscribe(@topic)
+    end
+
     socket =
-      assign(socket, page_title: "Your Todo List", todos: todos, current_user: current_user)
+      assign(socket,
+        page_title: "Your Todo List",
+        todos: todos,
+        current_user: current_user
+      )
 
     {:ok, socket}
+  end
+
+  # channels
+  def handle_info(msg, socket) do
+    {:noreply, assign(socket, todos: msg.payload.todos)}
   end
 
   # events
@@ -26,10 +43,15 @@ defmodule TodoListWeb.TodosLive do
 
       {_status, todo} = Todos.create_todo(attrs)
 
-      {:noreply,
-       socket
-       |> push_event("todo-create-success", %{})
-       |> assign(todos: socket.assigns.todos ++ [todo])}
+      socket =
+        socket
+        |> update(:todos, &(&1 ++ [todo]))
+        |> push_event("todo-create-success", %{})
+
+      # broadcast assigns to channel
+      Endpoint.broadcast(@topic, "todo_create", socket.assigns)
+
+      {:noreply, socket}
     rescue
       _ ->
         {:noreply, socket |> toast_error("Item could not be created.")}
@@ -54,7 +76,12 @@ defmodule TodoListWeb.TodosLive do
         todos
         |> Enum.map(fn t -> if t.id == updated_todo.id, do: updated_todo, else: t end)
 
-      {:noreply, socket |> toast_success("Item updated successfully") |> assign(todos: todos)}
+      socket = socket |> toast_success("Item updated successfully") |> assign(todos: todos)
+
+      # broadcast assigns to channel
+      Endpoint.broadcast(@topic, "todo_toggle_is_completed", socket.assigns)
+
+      {:noreply, socket}
     rescue
       _ -> {:noreply, socket |> toast_error("Item could not be updated.")}
     end
@@ -85,8 +112,12 @@ defmodule TodoListWeb.TodosLive do
       IO.puts("Before: #{todo.content}")
       IO.puts("After: #{updated_todo.content}")
 
-      {:noreply,
-       socket |> push_event("todo-update-content-success", data) |> assign(todos: todos)}
+      socket = socket |> push_event("todo-update-content-success", data) |> assign(todos: todos)
+
+      # broadcast assigns to channel
+      Endpoint.broadcast(@topic, "todo_update_content", socket.assigns)
+
+      {:noreply, socket}
     rescue
       _ -> {:noreply, socket |> toast_error("Item could not be updated.")}
     end
@@ -104,7 +135,12 @@ defmodule TodoListWeb.TodosLive do
       # remove deleted todo from todos list
       todos = socket.assigns.todos |> Enum.filter(fn t -> t.id != todo_id end)
 
-      {:noreply, socket |> toast_success("Item deleted successfully") |> assign(todos: todos)}
+      socket = socket |> toast_success("Item deleted successfully") |> assign(todos: todos)
+
+      # broadcast assigns to channel
+      Endpoint.broadcast(@topic, "todo_delete", socket.assigns)
+
+      {:noreply, socket}
     rescue
       _ -> {:noreply, socket |> push_event("todo-delete-error", %{todo_id: todo_id})}
     end

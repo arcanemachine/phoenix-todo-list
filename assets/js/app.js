@@ -60,8 +60,20 @@ let csrfToken = document
 let liveSocket = new LiveSocket("/live", Socket, {
   dom: {
     onBeforeElUpdated(from, to) {
-      if (from._x_dataStack) {
-        Alpine.clone(from, to);
+      // if (from._x_dataStack) {
+      //   Alpine.clone(from, to);
+      // }
+      if (!window.Alpine || !from || !to || depth > 2) return;
+
+      if (from._x_dataStack) return window.Alpine.clone(from, to);
+
+      for (let index = 0; index < to.children.length; index++) {
+        const from2 = from.children[index];
+        const to2 = to.children[index];
+
+        if (from2 instanceof HTMLElement && to2 instanceof HTMLElement) {
+          cloneAlpineJSData(from2, to2, depth++);
+        }
       }
     },
   },

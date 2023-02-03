@@ -3,29 +3,52 @@ defmodule TodoListWeb.TodosLive do
 
   alias TodoList.Accounts
   alias TodoList.Todos
+  alias TodoList.Presence
   alias TodoListWeb.Endpoint
 
   @topic "todos"
+  @presence_topic "presence"
 
   # lifecycle
   def mount(_params, session, socket) do
     current_user = Accounts.get_user_by_session_token(session["user_token"])
     todos = Todos.list_todos_by_user_id(current_user.id)
 
+    # channels #
     if connected?(socket) do
       # subscribe to channel
-      TodoListWeb.Endpoint.subscribe(@topic)
+      Endpoint.subscribe(@topic)
     end
+
+    # presence #
+    user_presence_topic = "#{@presence_topic}:#{current_user.id}"
+
+    Presence.track(self(), user_presence_topic, socket.id, %{})
+    Endpoint.subscribe(user_presence_topic)
+
+    initial_user_count = Presence.list(user_presence_topic) |> map_size() |> Kernel.-(1)
 
     socket =
       assign(socket,
+        socket_id: socket.id,
         page_title: "Your Todo List",
         todos: todos,
         current_user: current_user,
-        socket_id: socket.id
+        user_count: initial_user_count
       )
 
     {:ok, socket}
+  end
+
+  # presence
+  def handle_info(
+        %{event: "presence_diff", payload: %{joins: joins, leaves: leaves}},
+        %{assigns: %{user_count: user_count}} = socket
+      ) do
+    # update user count
+    new_user_count = user_count + map_size(joins) - map_size(leaves)
+
+    {:noreply, assign(socket, :user_count, new_user_count)}
   end
 
   # channels
@@ -64,26 +87,6 @@ defmodule TodoListWeb.TodosLive do
 
     {:noreply, assign(socket, todos: msg.payload.todos)}
   end
-
-  # def handle_info(%{:event => "todo_toggle_is_completed"} = msg, socket) do
-  #   socket =
-  #     if msg.payload.socket_id === socket.id,
-  #       do: socket |> push_event("todo-create-success", %{}),
-  #       else: socket |> toast_success("A item has been updated in another window.")
-
-  #   {:noreply, socket}
-  # end
-
-  # def handle_info(msg, socket) do
-  #   {:noreply,
-  #    assign(
-  #      socket
-  #      |> toast_success(
-  #        "If you can read this message, then a 'handle_info()' function needs to be created for this event."
-  #      ),
-  #      to-dos: msg.payload.todos
-  #    )}
-  # end
 
   # events
   def handle_event("todo_create", %{"todo_content" => todo_content} = _data, socket) do

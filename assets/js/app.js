@@ -23,6 +23,7 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import Hooks from "./hooks";
+import { liveSocketInitializeAlpine } from "./base/helpers";
 
 // setup Alpine.JS
 import Alpine from "alpinejs";
@@ -63,18 +64,23 @@ let liveSocket = new LiveSocket("/live", Socket, {
       // if (from._x_dataStack) {
       //   Alpine.clone(from, to);
       // }
-      if (!window.Alpine || !from || !to || depth > 2) return;
 
-      if (from._x_dataStack) return window.Alpine.clone(from, to);
+      const liveSocketInitializeAlpine = (from, to) => {
+        if (!Alpine || !from || !to) return;
 
-      for (let index = 0; index < to.children.length; index++) {
-        const from2 = from.children[index];
-        const to2 = to.children[index];
+        for (let index = 0; index < to.children.length; index++) {
+          const from2 = from.children[index];
+          const to2 = to.children[index];
 
-        if (from2 instanceof HTMLElement && to2 instanceof HTMLElement) {
-          cloneAlpineJSData(from2, to2, depth++);
+          if (from2 instanceof HTMLElement && to2 instanceof HTMLElement) {
+            liveSocketInitializeAlpine.call(from2, to2);
+          }
         }
-      }
+
+        if (from._x_dataStack) Alpine.clone(from, to);
+      };
+
+      liveSocketInitializeAlpine(from, to);
     },
   },
   params: { _csrf_token: csrfToken },

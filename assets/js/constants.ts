@@ -1,5 +1,5 @@
 const constants = {
-  collapseTransitionDuration: 500,
+  transitionDuration: 500,
 };
 
 export default constants;

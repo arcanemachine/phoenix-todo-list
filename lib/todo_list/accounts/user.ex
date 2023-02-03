@@ -1,4 +1,7 @@
 defmodule TodoList.Accounts.User do
+  @moduledoc """
+  The User schema.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

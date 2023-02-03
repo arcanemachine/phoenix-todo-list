@@ -1,3 +1,13 @@
+<!-- presence: user count -->
+<%= if assigns[:user_count] && @user_count > 0 do %>
+  <div
+    id="presence-user-count"
+    class="fixed bottom-0 left-0 px-4 py-2 bg-info font-bold rounded-tr-lg"
+  >
+    <%= @user_count %> user<%= @user_count > 1 && "s" || "" %> viewing this page
+  </div>
+<% end %>
+
 <section
   class="mx-auto flex max-w-sm md:max-w-md flex-col justify-center"
   id="todos-live"
@@ -46,7 +56,7 @@
           class={[
             "flex flex-row justify-center items-center",
             "form-control hover:opacity-75 cursor-pointer",
-            "rounded-md rounded-75 rounded",
+            "rounded-md rounded-75 rounded"
           ]}
           id={"todo-item-#{todo.id}"}
           data-todo-id={todo.id}
@@ -66,7 +76,7 @@
           @hide="show = false"
           @keyup="todoItemHandleKeyup"
           @show="show = true"
-      }
+          }
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button

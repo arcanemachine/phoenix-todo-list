@@ -14,6 +14,7 @@ defmodule TodoList.Application do
       TodoList.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: TodoList.PubSub},
+      TodoList.Presence,
       # Start Finch
       {Finch, name: TodoList.Finch},
       # Start the Endpoint (http/https)

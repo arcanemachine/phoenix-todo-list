@@ -3,6 +3,9 @@
   <div
     id="presence-user-count"
     class="fixed bottom-0 left-0 px-4 py-2 bg-info font-bold rounded-tr-lg"
+    x-data="{ show: performance.now() < 1000 }"
+    x-init="() => { show = true; }"
+    x-show="show"
   >
     <%= @user_count %> user<%= @user_count > 1 && "s" || "" %> viewing this page
   </div>
@@ -71,11 +74,11 @@
             }
           }"
           x-init="setTimeout(() => { show = true; })"
-          x-collapse.duration.500ms
+          x-collapse.500ms
           x-show="show"
-          @hide="show = false"
           @keyup="todoItemHandleKeyup"
           @show="show = true"
+          @hide="show = false"
           }
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">

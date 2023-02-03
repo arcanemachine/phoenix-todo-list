@@ -1,5 +1,5 @@
 const constants = {
-  transitionDuration: 500,
+  transitionDurationDefault: 500,
 };
 
 export default constants;

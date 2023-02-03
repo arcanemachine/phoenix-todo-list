@@ -23,7 +23,6 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import Hooks from "./hooks";
-import { liveSocketInitializeAlpine } from "./base/helpers";
 
 // setup Alpine.JS
 import Alpine from "alpinejs";

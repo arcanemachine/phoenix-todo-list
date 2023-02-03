@@ -141,7 +141,7 @@ function todosLive() {
           this.todoItemSelectedReset();
         })
         .then(() =>
-          delayFor(this.$store.constants.collapseTransitionDuration / 2)
+          delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
           /* disable pointer events and hide todo item element */
@@ -151,7 +151,7 @@ function todosLive() {
           todoItemElt.dispatchEvent(new CustomEvent("hide"));
         })
         .then(() =>
-          delayFor(this.$store.constants.collapseTransitionDuration / 2)
+          delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
           this.hook.pushEvent("todo_delete", { todo_id: todoIdSelected });
@@ -173,7 +173,7 @@ function todosLive() {
           todoItemElt.style.pointerEvents = "";
           todoItemElt.dispatchEvent(new CustomEvent("show"));
         })
-        .then(() => delayFor(this.$store.constants.collapseTransitionDuration))
+        .then(() => delayFor(this.$store.constants.transitionDurationDefault))
         .then(() => {
           this.$store.toasts.showError("Item could not be deleted"); // error message
         });

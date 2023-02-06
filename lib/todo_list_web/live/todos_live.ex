@@ -1,4 +1,5 @@
 defmodule TodoListWeb.TodosLive do
+  use Phoenix.Component, global_prefixes: ~w(x-)
   use TodoListWeb, :live_view
 
   alias TodoList.Accounts

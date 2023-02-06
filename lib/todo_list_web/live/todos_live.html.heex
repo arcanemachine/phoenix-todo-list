@@ -16,12 +16,12 @@
   id="todos-live"
   x-data="todosLive"
   x-cloak
-  @keyup.escape="handleKeyupEscape"
-  @phx:todo-create-success.window="todoCreateSuccess"
-  @phx:todo-toggle-is-completed-success.window="todoToggleIsCompletedSuccess"
-  @phx:todo-update-content-success.window="todoUpdateContentSuccess"
-  @phx:todo-delete-success.window="todoDeleteSuccess"
-  @phx:todo-delete-error.window="todoDeleteError"
+  x-on:keyup.escape="handleKeyupEscape"
+  x-on:phx:todo-create-success.window="todoCreateSuccess"
+  x-on:phx:todo-toggle-is-completed-success.window="todoToggleIsCompletedSuccess"
+  x-on:phx:todo-update-content-success.window="todoUpdateContentSuccess"
+  x-on:phx:todo-delete-success.window="todoDeleteSuccess"
+  x-on:phx:todo-delete-error.window="todoDeleteError"
   phx-hook="TodosLive"
 >
   <!-- todo form -->
@@ -29,7 +29,7 @@
     for={:form}
     class="mx-0 w-full"
     id="todo-form"
-    @submit="formValidate"
+    x-on:submit="formValidate"
     x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' : 'todo_update_content'"
   >
     <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
@@ -76,16 +76,16 @@
           x-init="setTimeout(() => { show = true; })"
           x-collapse.500ms
           x-show="show"
-          @keyup="todoItemHandleKeyup"
-          @show="show = true"
-          @hide="show = false"
+          x-on:keyup="todoItemHandleKeyup"
+          x-on:show="show = true"
+          x-on:hide="show = false"
           }
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
               class="block btn w-full text-left normal-case no-underline todo-item-content-container"
               x-bind:class="todo.id === todoIdSelected ? 'btn-accent' : 'btn-ghost hover:bg-gray-200'"
-              @click="todoItemHandleClick(todo.id, todo.content)"
+              x-on:click="todoItemHandleClick(todo.id, todo.content)"
             >
               <span class={[
                 ["todo-item-content"],
@@ -100,8 +100,8 @@
             <!-- checkbox: is_completed -->
             <.button
               class={[
-                "text-xl btn btn-square btn-ghost btn-outline outline-2",
-                "todo-item-is-completed-toggle"
+                ["text-xl btn btn-square btn-ghost btn-outline outline-2"],
+                ["todo-item-is-completed-toggle"]
               ]}
               x-show="todoIdSelected !== todo.id"
               x-tooltip="Toggle completion status"
@@ -117,12 +117,11 @@
             </.button>
             <!-- icon: delete item -->
             <.button
-              checked="todo.isCompleted"
               class="text-xl btn btn-square btn-error btn-outline"
               aria-label="Delete todo"
               x-show="todoIdSelected === todo.id"
               x-tooltip="Delete item"
-              @click="() => todoDeleteModalShow(todoIdSelected)"
+              x-on:click="() => todoDeleteModalShow(todoIdSelected)"
             >
               <Heroicons.x_mark solid class="h-8 w-8" />
             </.button>
@@ -137,19 +136,19 @@
       class="modal-box relative max-w-xs"
       x-show="todoDeleteModalActive"
       x-trap.inert.noscroll="todoDeleteModalActive"
-      @click.outside="todoDeleteModalHide"
+      x-on:click.outside="todoDeleteModalHide"
       x-transition.duration.500ms
     >
       <h2 class="text-center font-bold text-xl">Delete this item?</h2>
 
       <div class="form-control mt-6 w-full max-w-xs">
-        <.button class="btn-error w-full" @click="todoDelete">
+        <.button class="btn-error w-full" x-on:click="todoDelete">
           Yes
         </.button>
       </div>
 
       <div class="form-control mt-4 w-full max-w-xs">
-        <button class="btn-secondary btn" @click="todoDeleteModalHide">No</button>
+        <button class="btn-secondary btn" x-on:click="todoDeleteModalHide">No</button>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@ defmodule TodoListWeb.BaseComponents do
   Provides basic UI components that are accessible from any template.
   """
 
-  use Phoenix.Component
+  use Phoenix.Component, global_prefixes: ~w(x-)
 
   attr :title, :string, default: nil
   attr :items, :list, required: true
@@ -70,7 +70,7 @@ defmodule TodoListWeb.BaseComponents do
         x-bind:class="lightModeToggled && 'toggle-warning'"
         x-model="lightModeToggled"
         x-tooltip="Toggle dark mode"
-        @click="darkModeToggle"
+        x-on:click="darkModeToggle"
       />
     </div>
     """
@@ -113,13 +113,13 @@ defmodule TodoListWeb.BaseComponents do
           x-bind:class="show && 'dropdown-open'"
           x-data="{ show: false }"
           x-tooltip="User Actions"
-          @pointerdown.outside="show = false"
+          x-on:pointerdown.outside="show = false"
         >
           <button
             class="btn-ghost btn-square btn m-1"
-            @focus="show = true"
-            @blur="show = false"
-            @click="show = !show"
+            x-on:focus="show = true"
+            x-on:blur="show = false"
+            x-on:click="show = !show"
           >
             <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
           </button>

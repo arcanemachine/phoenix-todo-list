@@ -9,7 +9,7 @@ defmodule TodoListWeb.CoreComponents do
   Icons are provided by [heroicons](https://heroicons.com), using the
   [heroicons_elixir](https://github.com/mveytsman/heroicons_elixir) project.
   """
-  use Phoenix.Component
+  use Phoenix.Component, global_prefixes: ~w(x-)
 
   alias Phoenix.LiveView.JS
   import TodoListWeb.Gettext
@@ -158,7 +158,7 @@ defmodule TodoListWeb.CoreComponents do
       id={@id}
       phx-mounted={@autoshow && show("##{@id}")}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
-      @contextmenu="$store.liveSocket.execJS($el, $el.getAttribute('phx-click'))"
+      x-on:contextmenu="$store.liveSocket.execJS($el, $el.getAttribute('phx-click'))"
       role="alert"
       class={[
         "fixed hidden top-4 right-4 w-80 sm:w-96 z-50 rounded-lg p-3 shadow-md shadow-base-900/5 ring-1",
@@ -233,7 +233,7 @@ defmodule TodoListWeb.CoreComponents do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   attr :type, :string, default: nil
-  attr :class, :string, default: nil
+  attr :class, :any, default: nil
   # attr :rest, :global, include: ~w(disabled form name value)
   attr :rest, :global
 

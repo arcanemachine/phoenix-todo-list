@@ -65,10 +65,9 @@
     margin-top: 3rem;
   }
 
-  .action-links > * {
+  .action-links > li {
     margin-top: 0.5rem;
     font-size: 1.2rem;
-    text-align: center;
   }
 }
 
@@ -88,6 +87,9 @@
     margin-top: 0.5rem;
   }
   .mt-child-3 > *:not(:first-child) {
+    margin-top: 0.75rem;
+  }
+  .mt-child-4 > *:not(:first-child) {
     margin-top: 1rem;
   }
 }

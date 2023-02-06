@@ -65,7 +65,7 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/users/profile", PageController, :show
+    get "/users/profile", UserSessionController, :show
     live "/todos/live", TodosLive
     resources "/todos", TodoController
 

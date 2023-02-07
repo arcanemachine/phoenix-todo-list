@@ -51,7 +51,7 @@ defmodule TodoListWeb.UserSessionControllerTest do
         })
 
       assert redirected_to(conn) == "/foo/bar"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Welcome back!"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "You are now logged in."
     end
 
     test "login following registration", %{conn: conn, user: user} do
@@ -100,14 +100,14 @@ defmodule TodoListWeb.UserSessionControllerTest do
       conn = conn |> log_in_user(user) |> delete(~p"/users/log_out")
       assert redirected_to(conn) == ~p"/"
       refute get_session(conn, :user_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged out successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "You are now logged out."
     end
 
     test "succeeds even if the user is not logged in", %{conn: conn} do
       conn = delete(conn, ~p"/users/log_out")
       assert redirected_to(conn) == ~p"/"
       refute get_session(conn, :user_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged out successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "You are now logged out."
     end
   end
 end

@@ -8,7 +8,7 @@ defmodule TodoListWeb.UserLoginLive do
         Sign in to account
         <:subtitle>
           Don't have an account?
-          <.link navigate={~p"/users/register"} class="font-semibold hover:underline">
+          <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
             Sign up
           </.link>
           for an account now.
@@ -33,7 +33,7 @@ defmodule TodoListWeb.UserLoginLive do
           </.link>
         </:actions>
         <:actions>
-          <.button phx-disable-with="Signing in..." class="w-full btn-success">
+          <.button phx-disable-with="Signing in..." class="w-full">
             Sign in <span aria-hidden="true">→</span>
           </.button>
         </:actions>
@@ -43,9 +43,7 @@ defmodule TodoListWeb.UserLoginLive do
   end
 
   def mount(_params, _session, socket) do
-    page_title = "Login"
-
     email = live_flash(socket.assigns.flash, :email)
-    {:ok, assign(socket, email: email, page_title: page_title), temporary_assigns: [email: nil]}
+    {:ok, assign(socket, email: email), temporary_assigns: [email: nil]}
   end
 end

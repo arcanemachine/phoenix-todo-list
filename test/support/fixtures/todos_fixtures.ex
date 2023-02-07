@@ -12,8 +12,7 @@ defmodule TodoList.TodosFixtures do
       attrs
       |> Enum.into(%{
         content: "some content",
-        is_completed: true,
-        user_id: 1
+        is_completed: true
       })
       |> TodoList.Todos.create_todo()
 

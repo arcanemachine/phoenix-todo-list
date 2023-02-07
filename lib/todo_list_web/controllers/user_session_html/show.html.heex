@@ -3,6 +3,6 @@
 </ul>
 
 <.action_links items={[
-  %{content: "Update your user profile", href: ~p"/users/settings"},
-  %{content: "Log out of your account", href: ~p"/users/log_out"}
+  %{content: "Update your user profile", navigate: ~p"/users/settings"},
+  %{content: "Log out of your account", href: ~p"/users/log_out", method: "delete"}
 ]} />

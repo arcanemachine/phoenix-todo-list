@@ -28,17 +28,23 @@
       <:user_action_menu_items>
         <%= if @current_user do %>
           <li>
+            <%= @current_user.email %>
+          </li>
+          <li>
             <.link href={~p"/users/profile"}>Your profile</.link>
           </li>
           <li>
-            <.link href={~p"/users/log_out"} method="delete">Logout</.link>
+            <.link href={~p"/users/settings"}>Settings</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/log_out"} method="delete">Log out</.link>
           </li>
         <% else %>
           <li>
             <.link href={~p"/users/register"}>Register</.link>
           </li>
           <li>
-            <.link href={~p"/users/log_in"}>Login</.link>
+            <.link href={~p"/users/log_in"}>Log in</.link>
           </li>
         <% end %>
       </:user_action_menu_items>

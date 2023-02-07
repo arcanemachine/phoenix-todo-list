@@ -39,15 +39,17 @@ defmodule TodoList.Todos do
   end
 
   @doc """
-  Gets a user by email and password.
+  Gets a single todo.
+
+  Raises `Ecto.NoResultsError` if the Todo does not exist.
 
   ## Examples
 
-      iex> get_user_by_email_and_password("foo@example.com", "correct_password")
-      %User{}
+      iex> get_todo!(123)
+      %Todo{}
 
-      iex> get_user_by_email_and_password("foo@example.com", "invalid_password")
-      nil
+      iex> get_todo!(456)
+      ** (Ecto.NoResultsError)
 
   """
   def get_todo!(id), do: Repo.get!(Todo, id)

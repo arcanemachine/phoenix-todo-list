@@ -1,70 +1,71 @@
 defmodule TodoListWeb.TodoControllerTest do
   use TodoListWeb.ConnCase
 
+  import TodoList.AccountsFixtures
   import TodoList.TodosFixtures
 
-  alias TodoList.Todos.Todo
-
-  @create_attrs %{
-    content: "some content",
-    is_completed: true
-  }
-  @update_attrs %{
-    content: "some updated content",
-    is_completed: false
-  }
-  @invalid_attrs %{content: nil, is_completed: nil}
-
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+  setup do
+    %{user: user_fixture()}
   end
 
+  @create_attrs %{content: "some content", is_completed: true}
+  @update_attrs %{content: "some updated content", is_completed: false}
+  @invalid_attrs %{content: nil, is_completed: nil}
+
   describe "index" do
-    test "lists all todos", %{conn: conn} do
-      conn = get(conn, ~p"/api/todos")
-      assert json_response(conn, 200)["data"] == []
+    test "lists all todos", %{conn: conn, user: user} do
+      conn = conn |> log_in_user(user) |> get(~p"/todos")
+      assert html_response(conn, 200) =~ "Listing Todos"
+    end
+  end
+
+  describe "new todo" do
+    test "renders form", %{conn: conn} do
+      conn = get(conn, ~p"/todos/new")
+      assert html_response(conn, 200) =~ "New Todo"
     end
   end
 
   describe "create todo" do
-    test "renders todo when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"/api/todos", todo: @create_attrs)
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+    test "redirects to show when data is valid", %{conn: conn, user: user} do
+      conn = conn |> log_in_user(user) |> post(~p"/todos", todo: @create_attrs)
 
-      conn = get(conn, ~p"/api/todos/#{id}")
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == ~p"/todos/#{id}"
 
-      assert %{
-               "id" => ^id,
-               "content" => "some content",
-               "is_completed" => true
-             } = json_response(conn, 200)["data"]
+      conn = get(conn, ~p"/todos/#{id}")
+      assert html_response(conn, 200) =~ "Todo #{id}"
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, ~p"/api/todos", todo: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
+    test "renders errors when data is invalid", %{conn: conn, user: user} do
+      conn = conn |> log_in_user(user) |> post(~p"/todos", todo: @invalid_attrs)
+      assert html_response(conn, 200) =~ "New Todo"
+    end
+  end
+
+  describe "edit todo" do
+    setup [:create_todo]
+
+    test "renders form for editing chosen todo", %{conn: conn, todo: todo} do
+      conn = get(conn, ~p"/todos/#{todo}/edit")
+      assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
 
   describe "update todo" do
     setup [:create_todo]
 
-    test "renders todo when data is valid", %{conn: conn, todo: %Todo{id: id} = todo} do
-      conn = put(conn, ~p"/api/todos/#{todo}", todo: @update_attrs)
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+    test "redirects when data is valid", %{conn: conn, todo: todo} do
+      conn = put(conn, ~p"/todos/#{todo}", todo: @update_attrs)
+      assert redirected_to(conn) == ~p"/todos/#{todo}"
 
-      conn = get(conn, ~p"/api/todos/#{id}")
-
-      assert %{
-               "id" => ^id,
-               "content" => "some updated content",
-               "is_completed" => false
-             } = json_response(conn, 200)["data"]
+      conn = get(conn, ~p"/todos/#{todo}")
+      assert html_response(conn, 200) =~ "some updated content"
     end
 
     test "renders errors when data is invalid", %{conn: conn, todo: todo} do
-      conn = put(conn, ~p"/api/todos/#{todo}", todo: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
+      conn = put(conn, ~p"/todos/#{todo}", todo: @invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
 
@@ -72,11 +73,11 @@ defmodule TodoListWeb.TodoControllerTest do
     setup [:create_todo]
 
     test "deletes chosen todo", %{conn: conn, todo: todo} do
-      conn = delete(conn, ~p"/api/todos/#{todo}")
-      assert response(conn, 204)
+      conn = delete(conn, ~p"/todos/#{todo}")
+      assert redirected_to(conn) == ~p"/todos"
 
       assert_error_sent 404, fn ->
-        get(conn, ~p"/api/todos/#{todo}")
+        get(conn, ~p"/todos/#{todo}")
       end
     end
   end

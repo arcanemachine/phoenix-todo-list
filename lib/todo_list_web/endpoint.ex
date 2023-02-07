@@ -7,7 +7,7 @@ defmodule TodoListWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_todo_list_key",
-    signing_salt: "K3PsiclO",
+    signing_salt: "MkNUzqam",
     same_site: "Lax"
   ]
 

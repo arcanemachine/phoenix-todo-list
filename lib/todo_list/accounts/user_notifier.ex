@@ -1,7 +1,4 @@
 defmodule TodoList.Accounts.UserNotifier do
-  @moduledoc """
-  User notification helpers.
-  """
   import Swoosh.Email
 
   alias TodoList.Mailer

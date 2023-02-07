@@ -18,10 +18,12 @@ defmodule TodoListWeb.Router do
   end
 
   scope "/", TodoListWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    live "/component-showcase", ComponentShowcaseLive
     get "/", PageController, :home
+    live "/component-showcase", ComponentShowcaseLive
+    live "/todos/live", TodosLive
+    resources("/todos", TodoController)
   end
 
   # Other scopes may use custom stacks.
@@ -39,9 +41,9 @@ defmodule TodoListWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: TodoListWeb.Telemetry
+      live_dashboard("/dashboard", metrics: TodoListWeb.Telemetry)
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
@@ -49,42 +51,39 @@ defmodule TodoListWeb.Router do
   ## Authentication routes
 
   scope "/", TodoListWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
+    pipe_through([:browser, :redirect_if_user_is_authenticated])
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{TodoListWeb.UserAuth, :redirect_if_user_is_authenticated}] do
-      live "/users/register", UserRegistrationLive, :new
-      live "/users/log_in", UserLoginLive, :new
-      live "/users/reset_password", UserForgotPasswordLive, :new
-      live "/users/reset_password/:token", UserResetPasswordLive, :edit
+      live("/users/register", UserRegistrationLive, :new)
+      live("/users/log_in", UserLoginLive, :new)
+      live("/users/reset_password", UserForgotPasswordLive, :new)
+      live("/users/reset_password/:token", UserResetPasswordLive, :edit)
     end
 
     post "/users/log_in", UserSessionController, :create
   end
 
   scope "/", TodoListWeb do
-    pipe_through [:browser, :require_authenticated_user]
-
-    get "/users/profile", UserSessionController, :show
-    live "/todos/live", TodosLive
-    resources "/todos", TodoController
+    pipe_through([:browser, :require_authenticated_user])
 
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
-      live "/users/settings", UserSettingsLive, :edit
-      live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      get "/users/profile", UserSessionController, :show
+      live("/users/settings", UserSettingsLive, :edit)
+      live("/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email)
     end
   end
 
   scope "/", TodoListWeb do
-    pipe_through [:browser]
+    pipe_through([:browser])
 
     delete "/users/log_out", UserSessionController, :delete
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
-      live "/users/confirm/:token", UserConfirmationLive, :edit
-      live "/users/confirm", UserConfirmationInstructionsLive, :new
+      live("/users/confirm/:token", UserConfirmationLive, :edit)
+      live("/users/confirm", UserConfirmationInstructionsLive, :new)
     end
   end
 end

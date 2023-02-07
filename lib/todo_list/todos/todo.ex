@@ -1,7 +1,4 @@
 defmodule TodoList.Todos.Todo do
-  @moduledoc """
-  The Todo schema.
-  """
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -16,7 +13,7 @@ defmodule TodoList.Todos.Todo do
   @doc false
   def changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:content, :is_completed, :user_id])
-    |> validate_required([:content, :is_completed, :user_id])
+    |> cast(attrs, [:content, :is_completed])
+    |> validate_required([:content, :is_completed])
   end
 end

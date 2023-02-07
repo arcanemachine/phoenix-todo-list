@@ -11,19 +11,6 @@ defmodule TodoList.Accounts do
   ## Database getters
 
   @doc """
-  Returns the list of users.
-
-  ## Examples
-
-      iex> list_users()
-      [%User{}, ...]
-
-  """
-  def list_users do
-    Repo.all(User)
-  end
-
-  @doc """
   Gets a user by email.
 
   ## Examples

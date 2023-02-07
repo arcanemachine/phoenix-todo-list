@@ -5,7 +5,7 @@ defmodule TodoListWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header class="mt-8">Change Email</.header>
+    <.header>Change Email</.header>
 
     <.simple_form
       :let={f}
@@ -34,7 +34,7 @@ defmodule TodoListWeb.UserSettingsLive do
       </:actions>
     </.simple_form>
 
-    <.header class="mt-12">Change Password</.header>
+    <.header>Change Password</.header>
 
     <.simple_form
       :let={f}
@@ -67,10 +67,6 @@ defmodule TodoListWeb.UserSettingsLive do
         <.button phx-disable-with="Changing...">Change Password</.button>
       </:actions>
     </.simple_form>
-
-    <.action_links items={[
-      %{content: "Return to your user profile", href: ~p"/users/profile"}
-    ]} />
     """
   end
 

@@ -16,7 +16,11 @@ defmodule TodoListWeb.BaseComponents do
       </h3>
       <ul class="mt-2 ml-8 list-disc">
         <li :for={item <- @items} class="mt-2 pl-2">
-          <.link navigate={item.href}>
+          <.link
+            href={Map.get(item, :href, false)}
+            navigate={Map.get(item, :navigate, false)}
+            method={Map.get(item, :method, "get")}
+          >
             <%= item.content %>
           </.link>
         </li>

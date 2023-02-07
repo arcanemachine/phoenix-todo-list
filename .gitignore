@@ -1,8 +1,19 @@
+# container stuff
 /volumes/
-.env*.override
-Session*.vim
+
+# elixir stuff
 /.elixir_ls/
+
+# environment stuff
+.env*.override
+
+# vim session files
+Session*.vim
+
+# misc stuff
 gitignore.*
+*.tmp
+
 
 # The directory Mix will write compiled artifacts to.
 /_build/

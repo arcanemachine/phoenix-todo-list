@@ -10,7 +10,7 @@
 # vim session files
 Session*.vim
 
-# misc stuff
+# misc stuff to ignore
 gitignore.*
 *.tmp
 

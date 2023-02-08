@@ -6,7 +6,12 @@ defmodule TodoList.TodosTest do
   describe "todos" do
     alias TodoList.Todos.Todo
 
+    import TodoList.AccountsFixtures
     import TodoList.TodosFixtures
+
+    setup do
+      %{user: user_fixture()}
+    end
 
     @invalid_attrs %{content: nil, is_completed: nil}
 
@@ -20,8 +25,8 @@ defmodule TodoList.TodosTest do
       assert Todos.get_todo!(todo.id) == todo
     end
 
-    test "create_todo/1 with valid data creates a todo" do
-      valid_attrs = %{content: "some content", is_completed: true}
+    test "create_todo/1 with valid data creates a todo", %{user: user} do
+      valid_attrs = %{content: "some content", is_completed: true, user_id: user.id}
 
       assert {:ok, %Todo{} = todo} = Todos.create_todo(valid_attrs)
       assert todo.content == "some content"

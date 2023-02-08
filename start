@@ -1,6 +1,0 @@
-#!/bin/sh
-
-cd $(dirname "$0")
-
-mix setup
-iex -S mix phx.server

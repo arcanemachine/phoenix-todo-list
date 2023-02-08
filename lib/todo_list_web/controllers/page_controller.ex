@@ -6,6 +6,6 @@ defmodule TodoListWeb.PageController do
     # so skip the default app layout.
     conn
     # |> put_flash(:info, "Hello world!")
-    |> render(:home, layout: false)
+    |> render(:home, layout: false, page_title: "Home")
   end
 end

@@ -67,9 +67,11 @@ defmodule TodoListWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
+      # todos
       live "/todos/live", TodosLive
       resources("/todos", TodoController)
 
+      # users
       get "/users/profile", UserSessionController, :show
       live("/users/settings", UserSettingsLive, :edit)
       live("/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email)

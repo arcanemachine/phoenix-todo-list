@@ -16,8 +16,7 @@ defmodule TodoListWeb.TodoController do
 
   def create(conn, %{"todo" => todo_params}) do
     # set user_id to current user
-    user = conn.assigns.current_user
-    todo_params = Map.merge(todo_params, %{"user_id" => user.id})
+    todo_params = Map.merge(todo_params, %{"user_id" => conn.assigns.current_user.id})
 
     case Todos.create_todo(todo_params) do
       {:ok, todo} ->
@@ -32,7 +31,15 @@ defmodule TodoListWeb.TodoController do
 
   def show(conn, %{"id" => id}) do
     todo = Todos.get_todo!(id)
-    render(conn, :show, todo: todo)
+
+    if todo.user_id == conn.assigns.current_user.id do
+      render(conn, :show, todo: todo)
+    else
+      conn
+      |> put_status(:forbidden)
+      |> text("403 Forbidden")
+      |> halt()
+    end
   end
 
   def edit(conn, %{"id" => id}) do

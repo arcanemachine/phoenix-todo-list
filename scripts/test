@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# change to project root directory
+cd $(dirname "$0")/../
+
+# run tests (watch mode enabled by default)
+
+until ag -g "\.(ex|exs|eex|heex|js|ts)$" | entr -d mix test "$@"; do sleep 1; done

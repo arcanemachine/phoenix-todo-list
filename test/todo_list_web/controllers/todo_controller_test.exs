@@ -12,6 +12,13 @@ defmodule TodoListWeb.TodoControllerTest do
   @update_attrs %{content: "some updated content", is_completed: false}
   @invalid_attrs %{content: nil, is_completed: nil}
 
+  describe "unauthenticated user" do
+    test "is redirected to login page", %{conn: conn} do
+      conn = get(conn, ~p"/todos")
+      assert redirected_to(conn) == ~p"/users/log_in"
+    end
+  end
+
   describe "index" do
     test "lists all todos", %{conn: conn, user: user} do
       conn = conn |> log_in_user(user) |> get(~p"/todos")
@@ -20,8 +27,8 @@ defmodule TodoListWeb.TodoControllerTest do
   end
 
   describe "new todo" do
-    test "renders form", %{conn: conn} do
-      conn = get(conn, ~p"/todos/new")
+    test "renders form", %{conn: conn, user: user} do
+      conn = conn |> log_in_user(user) |> get(~p"/todos/new")
       assert html_response(conn, 200) =~ "New Todo"
     end
   end
@@ -46,8 +53,8 @@ defmodule TodoListWeb.TodoControllerTest do
   describe "edit todo" do
     setup [:create_todo]
 
-    test "renders form for editing chosen todo", %{conn: conn, todo: todo} do
-      conn = get(conn, ~p"/todos/#{todo}/edit")
+    test "renders form for editing chosen todo", %{conn: conn, user: user, todo: todo} do
+      conn = conn |> log_in_user(user) |> get(~p"/todos/#{todo}/edit")
       assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
@@ -55,16 +62,16 @@ defmodule TodoListWeb.TodoControllerTest do
   describe "update todo" do
     setup [:create_todo]
 
-    test "redirects when data is valid", %{conn: conn, todo: todo} do
-      conn = put(conn, ~p"/todos/#{todo}", todo: @update_attrs)
+    test "redirects when data is valid", %{conn: conn, user: user, todo: todo} do
+      conn = conn |> log_in_user(user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
       assert redirected_to(conn) == ~p"/todos/#{todo}"
 
-      conn = get(conn, ~p"/todos/#{todo}")
+      conn = conn |> get(~p"/todos/#{todo}")
       assert html_response(conn, 200) =~ "some updated content"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, todo: todo} do
-      conn = put(conn, ~p"/todos/#{todo}", todo: @invalid_attrs)
+    test "renders errors when data is invalid", %{conn: conn, user: user, todo: todo} do
+      conn = conn |> log_in_user(user) |> put(~p"/todos/#{todo}", todo: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
@@ -72,8 +79,8 @@ defmodule TodoListWeb.TodoControllerTest do
   describe "delete todo" do
     setup [:create_todo]
 
-    test "deletes chosen todo", %{conn: conn, todo: todo} do
-      conn = delete(conn, ~p"/todos/#{todo}")
+    test "deletes chosen todo", %{conn: conn, user: user, todo: todo} do
+      conn = conn |> log_in_user(user) |> delete(~p"/todos/#{todo}")
       assert redirected_to(conn) == ~p"/todos"
 
       assert_error_sent 404, fn ->

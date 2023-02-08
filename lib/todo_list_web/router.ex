@@ -22,8 +22,6 @@ defmodule TodoListWeb.Router do
 
     get "/", PageController, :home
     live "/component-showcase", ComponentShowcaseLive
-    live "/todos/live", TodosLive
-    resources("/todos", TodoController)
   end
 
   # Other scopes may use custom stacks.
@@ -69,6 +67,9 @@ defmodule TodoListWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
+      live "/todos/live", TodosLive
+      resources("/todos", TodoController)
+
       get "/users/profile", UserSessionController, :show
       live("/users/settings", UserSettingsLive, :edit)
       live("/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email)

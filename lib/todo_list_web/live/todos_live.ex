@@ -7,8 +7,8 @@ defmodule TodoListWeb.TodosLive do
   alias TodoList.Presence
   alias TodoListWeb.Endpoint
 
-  @topic "todos"
-  @presence_topic "presence"
+  @channels_topic "todos_live"
+  @presence_topic "todos_live"
 
   # lifecycle
   def mount(_params, session, socket) do
@@ -16,16 +16,16 @@ defmodule TodoListWeb.TodosLive do
     todos = Todos.list_todos_by_user_id(current_user.id)
 
     # channels #
+    user_channels_topic = "#{@channels_topic}:#{current_user.id}"
+
     if connected?(socket) do
       # subscribe to channel
-      Endpoint.subscribe(@topic)
+      Endpoint.subscribe(user_channels_topic)
     end
 
     # presence #
     user_presence_topic = "#{@presence_topic}:#{current_user.id}"
-
     Presence.track(self(), user_presence_topic, socket.id, %{})
-    Endpoint.subscribe(user_presence_topic)
 
     initial_user_count = Presence.list(user_presence_topic) |> map_size() |> Kernel.-(1)
 
@@ -105,7 +105,7 @@ defmodule TodoListWeb.TodosLive do
         |> update(:todos, &(&1 ++ [todo]))
 
       # broadcast assigns to channel
-      Endpoint.broadcast(@topic, "todo_create", socket.assigns)
+      Endpoint.broadcast(@channels_topic, "todo_create", socket.assigns)
 
       {:noreply, socket}
     rescue
@@ -135,7 +135,11 @@ defmodule TodoListWeb.TodosLive do
       socket = socket |> assign(todos: todos)
 
       # broadcast assigns to channel
-      Endpoint.broadcast(@topic, "todo_toggle_is_completed", socket.assigns)
+      Endpoint.broadcast(
+        "#{@channels_topic}:#{socket.assigns.current_user.id}",
+        "todo_toggle_is_completed",
+        socket.assigns
+      )
 
       {:noreply, socket}
     rescue
@@ -168,7 +172,11 @@ defmodule TodoListWeb.TodosLive do
       socket = socket |> push_event("todo-update-content-success", data) |> assign(todos: todos)
 
       # broadcast assigns to channel
-      Endpoint.broadcast(@topic, "todo_update_content", socket.assigns)
+      Endpoint.broadcast(
+        "#{@channels_topic}:#{socket.assigns.current_user.id}",
+        "todo_update_content",
+        socket.assigns
+      )
 
       {:noreply, socket}
     rescue
@@ -191,7 +199,11 @@ defmodule TodoListWeb.TodosLive do
       socket = socket |> assign(todos: todos)
 
       # broadcast assigns to channel
-      Endpoint.broadcast(@topic, "todo_delete", socket.assigns)
+      Endpoint.broadcast(
+        "#{@channels_topic}:#{socket.assigns.current_user.id}",
+        "todo_delete",
+        socket.assigns
+      )
 
       {:noreply, socket}
     rescue

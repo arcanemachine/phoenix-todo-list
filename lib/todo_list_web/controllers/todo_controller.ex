@@ -31,15 +31,7 @@ defmodule TodoListWeb.TodoController do
 
   def show(conn, %{"id" => id}) do
     todo = Todos.get_todo!(id)
-
-    if todo.user_id == conn.assigns.current_user.id do
-      render(conn, :show, todo: todo)
-    else
-      conn
-      |> put_status(:forbidden)
-      |> text("403 Forbidden")
-      |> halt()
-    end
+    conn |> render(:show, todo: todo)
   end
 
   def edit(conn, %{"id" => id}) do

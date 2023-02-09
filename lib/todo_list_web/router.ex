@@ -2,6 +2,7 @@ defmodule TodoListWeb.Router do
   use TodoListWeb, :router
 
   import TodoListWeb.UserAuth
+  import TodoListWeb.TodosAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -16,6 +17,10 @@ defmodule TodoListWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+
+  # pipeline :todos do
+  #   plug TodoListWeb.TodosAuth
+  # end
 
   scope "/", TodoListWeb do
     pipe_through(:browser)
@@ -65,17 +70,27 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through([:browser, :require_authenticated_user])
 
+    # todos
+    resources("/todos", TodoController, only: [:index, :new, :create])
+
+    # users
+    get "/users/profile", UserSessionController, :show
+
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
       # todos
       live "/todos/live", TodosLive
-      resources("/todos", TodoController)
 
       # users
-      get "/users/profile", UserSessionController, :show
       live("/users/settings", UserSettingsLive, :edit)
       live("/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email)
     end
+  end
+
+  scope "/", TodoListWeb do
+    pipe_through([:browser, :require_authenticated_user, :require_todo_permissions])
+
+    resources("/todos", TodoController, only: [:show, :edit, :update, :delete])
   end
 
   scope "/", TodoListWeb do

@@ -32,7 +32,7 @@ defmodule TodoListWeb.TodosLive do
     socket =
       assign(socket,
         socket_id: socket.id,
-        page_title: "Your Todo List",
+        # page_title: "Your Todo List",
         todos: todos,
         current_user: current_user,
         user_count: initial_user_count

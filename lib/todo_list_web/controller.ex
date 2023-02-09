@@ -4,9 +4,9 @@ defmodule TodoListWeb.Controller do
   import Plug.Conn
   import Phoenix.Controller
 
-  def forbidden(conn) do
+  def http_response_403(conn) do
     conn
-    |> put_status(:forbidden)
+    |> put_status(403)
     |> text("403 Forbidden")
     |> halt()
   end

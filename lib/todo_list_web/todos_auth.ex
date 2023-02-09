@@ -16,7 +16,7 @@ defmodule TodoListWeb.TodosAuth do
         conn |> assign(:todo, todo)
 
       false ->
-        conn |> Controller.forbidden()
+        conn |> Controller.http_response_403()
     end
   end
 end

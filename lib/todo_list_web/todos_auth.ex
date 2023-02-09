@@ -5,8 +5,9 @@ defmodule TodoListWeb.TodosAuth do
   alias TodoListWeb.Controller
 
   @doc """
-  Get Todo from parameters. Ensure that the user has permission to access it,
-  then add it to the request.
+  Get Todo from parameters.
+
+  Ensure that the user has permission to access it, then add it to `conn`.
   """
   def require_todo_permissions(conn, _opts) do
     todo = Todos.get_todo!(conn.params["id"])

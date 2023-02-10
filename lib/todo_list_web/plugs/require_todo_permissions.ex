@@ -1,5 +1,5 @@
 defmodule TodoListWeb.Plug.RequireTodoPermissions do
-  alias TodoListWeb.Controller
+  alias TodoListWeb.Helpers.Controller
 
   def init(opts), do: opts
 

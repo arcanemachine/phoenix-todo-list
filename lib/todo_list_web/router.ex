@@ -48,8 +48,7 @@ defmodule TodoListWeb.Router do
     end
   end
 
-  ## Authentication routes
-
+  # auth - register/login
   scope "/", TodoListWeb do
     pipe_through([:browser, :redirect_if_user_is_authenticated])
 
@@ -64,6 +63,7 @@ defmodule TodoListWeb.Router do
     post "/users/log_in", UserSessionController, :create
   end
 
+  # login required
   scope "/", TodoListWeb do
     pipe_through([:browser, :require_authenticated_user])
 
@@ -84,6 +84,7 @@ defmodule TodoListWeb.Router do
     end
   end
 
+  # todo permissions required
   scope "/", TodoListWeb do
     pipe_through([
       :browser,
@@ -95,6 +96,7 @@ defmodule TodoListWeb.Router do
     resources("/todos", TodoController, only: [:show, :edit, :update, :delete])
   end
 
+  # auth - logout
   scope "/", TodoListWeb do
     pipe_through([:browser])
 

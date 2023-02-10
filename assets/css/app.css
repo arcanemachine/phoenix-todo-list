@@ -44,7 +44,7 @@
 
   /* DaisyUI */
   :root {
-    --animation-btn: 0; /* disable button 'pop' animations during initial render */
+    --animation-btn: 0; /* disable button 'pop' effect during initial render */
   }
 
   /* misc */

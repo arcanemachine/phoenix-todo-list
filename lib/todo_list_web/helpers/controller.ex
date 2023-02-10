@@ -1,4 +1,4 @@
-defmodule TodoListWeb.Controller do
+defmodule TodoListWeb.Helpers.Controller do
   @moduledoc "Generic controller helper functions."
 
   import Plug.Conn

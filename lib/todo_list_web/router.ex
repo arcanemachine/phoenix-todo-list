@@ -2,7 +2,8 @@ defmodule TodoListWeb.Router do
   use TodoListWeb, :router
 
   import TodoListWeb.UserAuth
-  import TodoListWeb.TodosAuth
+
+  alias TodoListWeb.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -17,10 +18,6 @@ defmodule TodoListWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-
-  # pipeline :todos do
-  #   plug TodoListWeb.TodosAuth
-  # end
 
   scope "/", TodoListWeb do
     pipe_through(:browser)
@@ -88,7 +85,12 @@ defmodule TodoListWeb.Router do
   end
 
   scope "/", TodoListWeb do
-    pipe_through([:browser, :require_authenticated_user, :require_todo_permissions])
+    pipe_through([
+      :browser,
+      :require_authenticated_user,
+      Plug.FetchTodo,
+      Plug.RequireTodoPermissions
+    ])
 
     resources("/todos", TodoController, only: [:show, :edit, :update, :delete])
   end

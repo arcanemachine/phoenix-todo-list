@@ -29,19 +29,18 @@ defmodule TodoListWeb.TodoController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    todo = Todos.get_todo!(id)
-    conn |> render(:show, todo: todo)
+  def show(conn, _params) do
+    conn |> render(:show, todo: conn.assigns.todo)
   end
 
-  def edit(conn, %{"id" => id}) do
-    todo = Todos.get_todo!(id)
+  def edit(conn, _params) do
+    todo = conn.assigns.todo
     changeset = Todos.change_todo(todo)
     render(conn, :edit, todo: todo, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "todo" => todo_params}) do
-    todo = Todos.get_todo!(id)
+  def update(conn, %{"todo" => todo_params}) do
+    todo = conn.assigns.todo
 
     case Todos.update_todo(todo, todo_params) do
       {:ok, todo} ->
@@ -54,8 +53,8 @@ defmodule TodoListWeb.TodoController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    todo = Todos.get_todo!(id)
+  def delete(conn, _params) do
+    todo = conn.assigns.todo
     {:ok, _todo} = Todos.delete_todo(todo)
 
     conn

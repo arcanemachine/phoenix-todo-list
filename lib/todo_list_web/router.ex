@@ -22,7 +22,8 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through(:browser)
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
+    live "/", HomeLive
     live "/component-showcase", ComponentShowcaseLive
   end
 
@@ -48,7 +49,21 @@ defmodule TodoListWeb.Router do
     end
   end
 
-  # auth - register/login
+  # auth
+  scope "/", TodoListWeb do
+    pipe_through([:browser])
+
+    delete "/users/log_out", UserSessionController, :delete
+
+    live_session :current_user,
+      on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
+      live("/users/confirm/:token", UserConfirmationLive, :edit)
+      live("/users/confirm", UserConfirmationInstructionsLive, :new)
+      live("/users/log_out", UserLogoutLive, :new)
+    end
+  end
+
+  # auth - logout required
   scope "/", TodoListWeb do
     pipe_through([:browser, :redirect_if_user_is_authenticated])
 
@@ -94,18 +109,5 @@ defmodule TodoListWeb.Router do
     ])
 
     resources("/todos", TodoController, only: [:show, :edit, :update, :delete])
-  end
-
-  # auth - logout
-  scope "/", TodoListWeb do
-    pipe_through([:browser])
-
-    delete "/users/log_out", UserSessionController, :delete
-
-    live_session :current_user,
-      on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
-      live("/users/confirm/:token", UserConfirmationLive, :edit)
-      live("/users/confirm", UserConfirmationInstructionsLive, :new)
-    end
   end
 end

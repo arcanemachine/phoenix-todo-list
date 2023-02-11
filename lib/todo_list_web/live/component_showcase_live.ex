@@ -96,8 +96,8 @@ defmodule TodoListWeb.ComponentShowcaseLive do
       </div>
       <!-- actions -->
       <:actions>
-        <.button class="w-28">Submit</.button>
-        <input type="reset" value="Reset" class="w-28 btn btn-secondary" />
+        <.button class="min-w-[7rem]">Submit</.button>
+        <input type="reset" value="Reset" class="min-w-[7rem] btn btn-secondary" />
       </:actions>
     </.simple_form>
 

@@ -13,7 +13,48 @@ defmodule TodoListWeb.CoreComponents do
 
   alias Phoenix.LiveView.JS
   import TodoListWeb.Gettext
-  import TodoListWeb.BaseComponents
+
+  attr :title, :string, default: nil
+  attr :items, :list, required: true
+
+  def action_links(assigns) do
+    ~H"""
+    <section class="mt-12">
+      <h3 class="text-2xl font-bold">
+        <%= @title || "Actions" %>
+      </h3>
+      <ul class="mt-2 ml-8 list-disc">
+        <li :for={item <- @items} class="mt-2 pl-2">
+          <.link
+            href={Map.get(item, :href, false)}
+            navigate={Map.get(item, :navigate, false)}
+            method={Map.get(item, :method, "get")}
+          >
+            <%= item.content %>
+          </.link>
+        </li>
+      </ul>
+    </section>
+    """
+  end
+
+  @doc """
+  Renders a loading indicator.
+
+  ## Example
+
+      <.loader />
+  """
+  attr :class, :string, default: nil
+
+  def loader(assigns) do
+    ~H"""
+    <Heroicons.arrow_path class={[
+      "w-5 h-5 hidden phx-click-loading:inline phx-submit-loading:inline animate-spin",
+      @class
+    ]} />
+    """
+  end
 
   @doc """
   Renders a modal.
@@ -134,6 +175,95 @@ defmodule TodoListWeb.CoreComponents do
   end
 
   @doc """
+  Renders the primary navbar.
+
+  ## Example
+
+      <.navbar>
+        <ul>
+          <li>
+            <.link navigate={~p"/users/profile"}>Your profile</.link>
+          </li>
+        </ul>
+      </.navbar>
+  """
+  slot :user_action_menu_items, required: true
+
+  def navbar(assigns) do
+    ~H"""
+    <nav class="navbar py-0 border-y-2 transition-colors duration-300">
+      <!-- navbar start items -->
+      <div class="flex-1">
+        <!-- navbar title -->
+        <.link href="/" aria-label="Todo List" class="flex-0 btn-ghost btn px-2">
+          <div class="font-title inline-flex text-2xl normal-case text-primary">
+            Todo List
+          </div>
+        </.link>
+      </div>
+      <!-- navbar end items -->
+      <div class="mr-1 flex-none">
+        <.navbar_dark_mode_toggle />
+        <!-- menu - user actions -->
+        <div
+          class="dropdown-end dropdown"
+          id="navbar-dropdown-user-actions"
+          x-bind:class="show && 'dropdown-open'"
+          x-data="{ show: false }"
+          x-tooltip="User Actions"
+          x-on:pointerdown.outside="show = false"
+        >
+          <button
+            class="btn-ghost btn-square btn m-1"
+            x-on:focus="show = true"
+            x-on:blur="show = false"
+            x-on:click="show = !show"
+          >
+            <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
+          </button>
+          <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+            <%= render_slot(@user_action_menu_items) %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    """
+  end
+
+  @doc """
+  Renders a toggle for light and dark mode.
+
+  ## Example
+
+      <.navbar_dark_mode_toggle />
+  """
+  def navbar_dark_mode_toggle(assigns) do
+    ~H"""
+    <div class="pr-2 flex" x-data="darkModeToggle" x-cloak>
+      <label
+        class="flex-center mr-3 flex grid swap swap-rotate"
+        x-bind:class="lightModeToggled && 'swap-active'"
+      >
+        <Heroicons.sun
+          solid
+          class="h-4 w-4 stroke-current text-warning swap-on"
+          aria-label="Light Mode Icon"
+        />
+        <Heroicons.moon solid class="h-4 w-4 stroke-current swap-off" aria-label="Dark Mode Icon" />
+      </label>
+      <input
+        type="checkbox"
+        class="toggle transition-none"
+        x-bind:class="lightModeToggled && 'toggle-warning'"
+        x-model="lightModeToggled"
+        x-tooltip="Toggle dark mode"
+        x-on:click="darkModeToggle"
+      />
+    </div>
+    """
+  end
+
+  @doc """
   Renders flash notices.
 
   ## Examples
@@ -158,10 +288,11 @@ defmodule TodoListWeb.CoreComponents do
       id={@id}
       phx-mounted={@autoshow && show("##{@id}")}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+      x-on:click="$store.liveSocket.execJS($el, $el.getAttribute('phx-click'))"
       x-on:contextmenu="$store.liveSocket.execJS($el, $el.getAttribute('phx-click'))"
       role="alert"
       class={[
-        "fixed hidden top-4 right-4 w-80 sm:w-96 z-50 rounded-lg p-3 shadow-md shadow-base-900/5 ring-1",
+        "fixed hidden top-4 right-4 w-80 sm:w-96 z-50 rounded-lg p-3 shadow-md shadow-base-900/5 ring-1 transition-opacity duration-500",
         @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
         @kind == :error && "bg-rose-50 p-3 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
       ]}
@@ -421,6 +552,35 @@ defmodule TodoListWeb.CoreComponents do
   end
 
   @doc """
+  Renders a form button.
+
+  ## Examples
+
+      <.form_button>Send!</.form_button>
+      <.form_button phx-click="go" class="ml-2">Send!</.form_button>
+  """
+  attr :type, :string, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: true
+
+  def form_button(assigns) do
+    ~H"""
+    <.button
+      type={@type}
+      class={[
+        "min-w-[7rem]",
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </.button>
+    """
+  end
+
+  @doc """
   Renders a header with title.
   """
   attr :class, :string, default: nil
@@ -570,7 +730,17 @@ defmodule TodoListWeb.CoreComponents do
     JS.show(js,
       to: selector,
       transition:
-        {"transition-all transform ease-out duration-300",
+        {"transition-all transform ease-out duration-500",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+         "opacity-100 translate-y-0 sm:scale-100"}
+    )
+  end
+
+  def show_with_delay(js \\ %JS{}, selector) do
+    JS.show(js,
+      to: selector,
+      transition:
+        {"transition-all transform ease-out duration-500 delay-1000",
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
          "opacity-100 translate-y-0 sm:scale-100"}
     )

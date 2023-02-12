@@ -17,6 +17,7 @@ defmodule TodoListWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :api_fetch_current_user
   end
 
   scope "/", TodoListWeb do
@@ -27,11 +28,17 @@ defmodule TodoListWeb.Router do
     live "/component-showcase", ComponentShowcaseLive
   end
 
-  # Other scopes may use custom stacks.
   scope "/api", TodoListWeb do
-    pipe_through :api
+    pipe_through(:api)
 
     resources "/todos", Api.TodoController
+    resources "/users", Api.UserSessionController, only: [:create, :delete]
+  end
+
+  scope "/api", TodoListWeb do
+    pipe_through([:api, :api_require_authenticated_user, Plug.ApiRequireUserPermissions])
+
+    get "/users/:id", Api.UserSessionController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -84,6 +91,7 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through([:browser, :require_authenticated_user])
 
+    # credo:disable-for-next-line
     # todos
     resources("/todos", TodoController, only: [:index, :new, :create])
 
@@ -92,6 +100,7 @@ defmodule TodoListWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
+      # credo:disable-for-next-line
       # todos
       live "/todos/live", TodosLive
 
@@ -101,6 +110,7 @@ defmodule TodoListWeb.Router do
     end
   end
 
+  # credo:disable-for-next-line
   # todo permissions required
   scope "/", TodoListWeb do
     pipe_through([

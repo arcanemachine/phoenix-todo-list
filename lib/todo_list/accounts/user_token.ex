@@ -1,4 +1,5 @@
 defmodule TodoList.Accounts.UserToken do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Query
   alias TodoList.Accounts.UserToken

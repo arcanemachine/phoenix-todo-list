@@ -13,6 +13,7 @@ defmodule TodoListWeb.Api.TodoController do
 
   def create(conn, %{"todo" => todo_params}) do
     # # set user_id to current user
+    # credo:disable-for-next-line
     # todo_params = Map.merge(todo_params, %{"user_id" => conn.assigns.current_user.id})
     todo_params = Map.merge(todo_params, %{"user_id" => 1})
 

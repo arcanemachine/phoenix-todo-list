@@ -1,4 +1,5 @@
 defmodule TodoListWeb.UserAuth do
+  @moduledoc false
   use TodoListWeb, :verified_routes
 
   import Plug.Conn
@@ -34,6 +35,13 @@ defmodule TodoListWeb.UserAuth do
     |> put_token_in_session(token)
     |> maybe_write_remember_me_cookie(token, params)
     |> redirect(to: user_return_to || signed_in_path(conn))
+  end
+
+  @doc "Create a session token and return it to the user."
+  def api_log_in_user(conn, user) do
+    token = Accounts.generate_user_session_token(user)
+
+    conn |> json(%{user: %{id: user.id, token: Base.url_encode64(token)}})
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -84,6 +92,14 @@ defmodule TodoListWeb.UserAuth do
     |> redirect(to: "/")
   end
 
+  @doc "Log the user out by clearing the session token from the database."
+  def api_log_out_user(conn) do
+    {user_token, _conn} = api_ensure_user_token(conn)
+    user_token && Accounts.delete_user_session_token(user_token)
+
+    conn |> json(%{message: "OK"})
+  end
+
   @doc """
   Authenticates the user by looking into the session
   and remember me token.
@@ -105,6 +121,29 @@ defmodule TodoListWeb.UserAuth do
       else
         {nil, conn}
       end
+    end
+  end
+
+  @doc "Authenticates the user by parsing the 'authorization' header."
+  def api_fetch_current_user(conn, _opts) do
+    {user_token, conn} = api_ensure_user_token(conn)
+    user = user_token && Accounts.get_user_by_session_token(user_token)
+    assign(conn, :current_user, user)
+  end
+
+  defp api_ensure_user_token(conn) do
+    auth_header = conn |> get_req_header("authorization") |> Enum.at(0)
+
+    try do
+      # parse token from header
+      [_, token] = String.split(auth_header, " ", parts: 2)
+
+      # decode token
+      token = Base.url_decode64(token) |> elem(1)
+
+      {token, conn}
+    rescue
+      _ -> {nil, conn}
     end
   end
 
@@ -198,6 +237,19 @@ defmodule TodoListWeb.UserAuth do
   end
 
   @doc """
+  Used for API routes that require the user to not be authenticated.
+  """
+  def api_redirect_if_user_is_authenticated(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+      |> put_status(:bad_request)
+      |> json(%{message: "This endpoint is only accessible to unauthenticated users."})
+    else
+      conn
+    end
+  end
+
+  @doc """
   Used for routes that require the user to be authenticated.
 
   If you want to enforce the user email is confirmed before
@@ -212,6 +264,22 @@ defmodule TodoListWeb.UserAuth do
       |> maybe_store_return_to()
       |> redirect(to: ~p"/users/log_in")
       |> halt()
+    end
+  end
+
+  @doc """
+  Used for routes that require the user to be authenticated.
+
+  If you want to enforce the user email is confirmed before
+  they use the application at all, here would be a good place.
+  """
+  def api_require_authenticated_user(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{message: "This endpoint is only accessible to authenticated users."})
     end
   end
 

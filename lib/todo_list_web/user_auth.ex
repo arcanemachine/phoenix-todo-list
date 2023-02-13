@@ -136,7 +136,7 @@ defmodule TodoListWeb.UserAuth do
 
     try do
       # parse token from header
-      [_, token] = String.split(auth_header, " ", parts: 2)
+      ["Bearer", token] = String.split(auth_header, " ", parts: 2)
 
       # decode token
       token = Base.url_decode64(token) |> elem(1)

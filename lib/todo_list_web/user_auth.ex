@@ -38,10 +38,10 @@ defmodule TodoListWeb.UserAuth do
   end
 
   @doc "Create a session token and return it to the user."
-  def api_log_in_user(conn, user) do
+  def api_log_in_user(conn, user, status \\ :ok) do
     token = Accounts.generate_user_session_token(user)
 
-    conn |> json(%{user: %{id: user.id, token: Base.url_encode64(token)}})
+    conn |> put_status(status) |> json(%{user: %{id: user.id, token: Base.url_encode64(token)}})
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do

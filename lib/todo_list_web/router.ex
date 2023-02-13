@@ -1,9 +1,8 @@
 defmodule TodoListWeb.Router do
   use TodoListWeb, :router
 
+  import TodoListWeb.Plug
   import TodoListWeb.UserAuth
-
-  alias TodoListWeb.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -47,8 +46,8 @@ defmodule TodoListWeb.Router do
     pipe_through([
       :api,
       :api_require_authenticated_user,
-      Plug.FetchTodo,
-      Plug.ApiRequireTodoPermissions
+      :fetch_todo,
+      :api_require_todo_permissions
     ])
 
     resources "/todos", Api.TodoController, except: [:index, :create]
@@ -56,7 +55,7 @@ defmodule TodoListWeb.Router do
 
   # user ID must match :id
   scope "/api", TodoListWeb do
-    pipe_through([:api, :api_require_authenticated_user, Plug.ApiRequireUserPermissions])
+    pipe_through([:api, :api_require_authenticated_user, :api_require_user_permissions])
 
     resources "/users", Api.UserSessionController, only: [:show, :update, :delete]
   end
@@ -136,8 +135,8 @@ defmodule TodoListWeb.Router do
     pipe_through([
       :browser,
       :require_authenticated_user,
-      Plug.FetchTodo,
-      Plug.RequireTodoPermissions
+      :fetch_todo,
+      :require_todo_permissions
     ])
 
     resources("/todos", TodoController, only: [:show, :edit, :update, :delete])

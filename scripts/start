@@ -3,5 +3,4 @@
 # change to project root directory
 cd $(dirname "$0")/../
 
-mix setup
 iex -S mix phx.server

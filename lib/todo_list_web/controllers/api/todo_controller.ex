@@ -7,15 +7,13 @@ defmodule TodoListWeb.Api.TodoController do
   action_fallback TodoListWeb.FallbackController
 
   def index(conn, _params) do
-    todos = Todos.list_todos()
+    todos = Todos.list_todos_by_user_id(conn.assigns.current_user.id)
     render(conn, :index, todos: todos)
   end
 
   def create(conn, %{"todo" => todo_params}) do
-    # # set user_id to current user
-    # credo:disable-for-next-line
-    # todo_params = Map.merge(todo_params, %{"user_id" => conn.assigns.current_user.id})
-    todo_params = Map.merge(todo_params, %{"user_id" => 1})
+    # set user_id to current user
+    todo_params = Map.merge(todo_params, %{"user_id" => conn.assigns.current_user.id})
 
     with {:ok, %Todo{} = todo} <- Todos.create_todo(todo_params) do
       conn
@@ -25,21 +23,22 @@ defmodule TodoListWeb.Api.TodoController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    todo = Todos.get_todo!(id)
+  def show(conn, _params) do
+    todo = conn.assigns.todo
+
     render(conn, :show, todo: todo)
   end
 
-  def update(conn, %{"id" => id, "todo" => todo_params}) do
-    todo = Todos.get_todo!(id)
+  def update(conn, %{"todo" => todo_params}) do
+    todo = conn.assigns.todo
 
     with {:ok, %Todo{} = todo} <- Todos.update_todo(todo, todo_params) do
       render(conn, :show, todo: todo)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    todo = Todos.get_todo!(id)
+  def delete(conn, _params) do
+    todo = conn.assigns.todo
 
     with {:ok, %Todo{}} <- Todos.delete_todo(todo) do
       send_resp(conn, :no_content, "")

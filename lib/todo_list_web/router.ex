@@ -28,13 +28,33 @@ defmodule TodoListWeb.Router do
     live "/component-showcase", ComponentShowcaseLive
   end
 
+  # forbid authenticated user
   scope "/api", TodoListWeb do
-    pipe_through(:api)
+    pipe_through([:api, :api_forbid_authenticated_user])
 
-    resources "/todos", Api.TodoController
     resources "/users", Api.UserSessionController, only: [:create]
   end
 
+  # require authenticated user
+  scope "/api", TodoListWeb do
+    pipe_through([:api, :require_authenticated_user])
+
+    resources "/todos", Api.TodoController, only: [:index, :create]
+  end
+
+  # user ID must match todo.user_id
+  scope "/api", TodoListWeb do
+    pipe_through([
+      :api,
+      :api_require_authenticated_user,
+      Plug.FetchTodo,
+      Plug.ApiRequireTodoPermissions
+    ])
+
+    resources "/todos", Api.TodoController, except: [:index, :create]
+  end
+
+  # user ID must match :id
   scope "/api", TodoListWeb do
     pipe_through([:api, :api_require_authenticated_user, Plug.ApiRequireUserPermissions])
 

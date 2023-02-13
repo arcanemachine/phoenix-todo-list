@@ -239,7 +239,7 @@ defmodule TodoListWeb.UserAuth do
   @doc """
   Used for API routes that require the user to not be authenticated.
   """
-  def api_redirect_if_user_is_authenticated(conn, _opts) do
+  def api_forbid_authenticated_user(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
       |> put_status(:bad_request)

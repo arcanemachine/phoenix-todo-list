@@ -97,7 +97,7 @@ defmodule TodoListWeb.UserAuth do
     {user_token, _conn} = api_ensure_user_token(conn)
     user_token && Accounts.delete_user_session_token(user_token)
 
-    conn |> json(%{message: "OK"})
+    conn |> json(%{message: "Logged out successfully"})
   end
 
   @doc """

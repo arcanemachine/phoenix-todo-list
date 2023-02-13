@@ -1,4 +1,5 @@
 defmodule TodoListWeb.Api.TodoJSON do
+  @moduledoc false
   alias TodoList.Todos.Todo
 
   @doc """

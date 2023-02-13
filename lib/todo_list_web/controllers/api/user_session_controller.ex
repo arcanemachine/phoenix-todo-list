@@ -8,26 +8,18 @@ defmodule TodoListWeb.Api.UserSessionController do
   def create(conn, %{"_action" => "registered", "user" => user_params} = _params) do
     # register the user
     case Accounts.register_user(user_params) do
-      {:ok, _user} ->
-        # log the user in with response code 201
-        conn |> create(%{"user" => user_params}, :created)
+      {:ok, user} ->
+        # return status 201 and user token
+        conn
+        |> put_resp_header("location", ~p"/api/users/#{user}")
+        |> create(%{"user" => user_params}, :created)
 
       {:error, changeset} ->
-        # parse and return errors
+        # return errors
         json_response = TodoListWeb.Helpers.Ecto.changeset_errors_to_json(changeset)
-        conn |> put_status(:bad_request) |> json(json_response)
+        conn |> put_status(:bad_request) |> json(%{errors: json_response})
     end
   end
-
-  # def create(conn, %{"_action" => "password_updated"} = params) do
-  #   conn
-  #   |> put_session(:user_return_to, ~p"/users/settings")
-  #   |> create(params, "Password updated successfully!")
-  # end
-
-  # def create(conn, params) do
-  #   create(conn, params, "Welcome back!")
-  # end
 
   @doc "Login - Confirm authentication credentials and return a session token."
   def create(conn, %{"user" => user_params} = _params, status \\ :ok) do
@@ -48,14 +40,21 @@ defmodule TodoListWeb.Api.UserSessionController do
   Will always return `true` since unauthenticated users should be rejected
   further up in the pipeline.
   """
-  def show(conn, _params) do
+  def show(conn, %{"_action" => "check_token"} = _params) do
     conn |> json(true)
   end
 
+  def show(conn, _params) do
+    render(conn, :show, user: conn.assigns.current_user)
+  end
+
   @doc "Update - Change user password"
-  def update(conn, %{"old_password" => old_password, "new_password" => new_password} = _params) do
-    case Accounts.update_user_password(conn.assigns.current_user, old_password, %{
-           password: new_password
+  def update(
+        conn,
+        %{"current_password" => current_password, "password" => password} = _params
+      ) do
+    case Accounts.update_user_password(conn.assigns.current_user, current_password, %{
+           password: password
          }) do
       {:ok, _user} ->
         conn
@@ -67,7 +66,7 @@ defmodule TodoListWeb.Api.UserSessionController do
       {:error, changeset} ->
         # parse and return errors
         json_response = TodoListWeb.Helpers.Ecto.changeset_errors_to_json(changeset)
-        conn |> put_status(:bad_request) |> json(json_response)
+        conn |> put_status(:bad_request) |> json(%{errors: json_response})
     end
   end
 

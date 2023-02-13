@@ -29,7 +29,7 @@ defmodule TodoListWeb.Api.UserSessionController do
   #   create(conn, params, "Welcome back!")
   # end
 
-  @doc "Log in - Confirm authentication credentials and return a session token."
+  @doc "Login - Confirm authentication credentials and return a session token."
   def create(conn, %{"user" => user_params} = _params, status \\ :ok) do
     %{"email" => email, "password" => password} = user_params
 
@@ -52,7 +52,26 @@ defmodule TodoListWeb.Api.UserSessionController do
     conn |> json(true)
   end
 
-  @doc "Log out - Delete user session token."
+  @doc "Update - Change user password"
+  def update(conn, %{"old_password" => old_password, "new_password" => new_password} = _params) do
+    case Accounts.update_user_password(conn.assigns.current_user, old_password, %{
+           password: new_password
+         }) do
+      {:ok, _user} ->
+        conn
+        |> json(%{
+          message:
+            "Password changed successfully. All sessions for this user have been logged out."
+        })
+
+      {:error, changeset} ->
+        # parse and return errors
+        json_response = TodoListWeb.Helpers.Ecto.changeset_errors_to_json(changeset)
+        conn |> put_status(:bad_request) |> json(json_response)
+    end
+  end
+
+  @doc "Logout - Delete user session token."
   def delete(conn, _params) do
     conn |> UserAuth.api_log_out_user()
   end

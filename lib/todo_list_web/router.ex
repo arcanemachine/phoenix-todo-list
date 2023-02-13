@@ -38,7 +38,7 @@ defmodule TodoListWeb.Router do
   scope "/api", TodoListWeb do
     pipe_through([:api, :api_require_authenticated_user, Plug.ApiRequireUserPermissions])
 
-    resources "/users", Api.UserSessionController, only: [:show, :delete]
+    resources "/users", Api.UserSessionController, only: [:show, :update, :delete]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

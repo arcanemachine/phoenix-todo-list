@@ -37,7 +37,7 @@ defmodule TodoListWeb.Router do
 
   # require authenticated user
   scope "/api", TodoListWeb do
-    pipe_through([:api, :require_authenticated_user])
+    pipe_through([:api, :api_require_authenticated_user])
 
     resources "/todos", Api.TodoController, only: [:index, :create]
   end

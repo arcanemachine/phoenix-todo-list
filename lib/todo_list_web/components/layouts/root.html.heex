@@ -26,25 +26,27 @@
       </h1>
     </noscript>
 
-    <.navbar>
-      <:user_action_menu_items>
-        <%= if @current_user do %>
-          <li>
-            <.link href={~p"/users/profile"}>Your profile</.link>
-          </li>
-          <li>
-            <.link href={~p"/users/log_out"}>Log out</.link>
-          </li>
-        <% else %>
-          <li>
-            <.link href={~p"/users/register"}>Register</.link>
-          </li>
-          <li>
-            <.link href={~p"/users/log_in"}>Log in</.link>
-          </li>
-        <% end %>
-      </:user_action_menu_items>
-    </.navbar>
+    <%= if !Helpers.platform_is_flutter(@conn) do %>
+      <.navbar>
+        <:user_action_menu_items>
+          <%= if @current_user do %>
+            <li>
+              <.link href={~p"/users/profile"}>Your profile</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_out"}>Log out</.link>
+            </li>
+          <% else %>
+            <li>
+              <.link href={~p"/users/register"}>Register</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_in"}>Log in</.link>
+            </li>
+          <% end %>
+        </:user_action_menu_items>
+      </.navbar>
+    <% end %>
     <!-- inner content -->
     <main>
       <h1 class="mt-4 text-4xl text-center font-bold">

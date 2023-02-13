@@ -90,6 +90,9 @@ defmodule TodoListWeb do
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 
+      # custom template helpers
+      alias TodoListWeb.Helpers.Template, as: Helpers
+
       # Routes generation with the ~p sigil
       unquote(verified_routes())
     end

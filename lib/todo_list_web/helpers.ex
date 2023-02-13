@@ -20,3 +20,11 @@ defmodule TodoListWeb.Helpers.Ecto do
     end)
   end
 end
+
+defmodule TodoListWeb.Helpers.Template do
+  @moduledoc "Helper functions for use in templates."
+
+  def platform_is_flutter(conn) do
+    Enum.member?(conn.req_headers, {"x-platform", "flutter"})
+  end
+end

@@ -11,11 +11,35 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-width: 15rem;
+  min-width: 17rem;
   min-height: 3rem;
   padding: 0.5rem 0;
   padding-left: 0.75rem;
   border-radius: 0.25rem;
+}
+
+.toastify.on {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toastify.on:nth-child(1) {
+  opacity: 0.8;
+  pointer-events: initial;
+}
+
+.toastify.on:nth-child(2) {
+  opacity: 0.6;
+  pointer-events: initial;
+}
+
+.toastify.on:nth-child(3) {
+  opacity: 0.4;
+  pointer-events: initial;
+}
+
+.toastify.on:hover {
+  opacity: 1;
 }
 
 .toast-close {
@@ -33,7 +57,7 @@
 }
 
 @layer base {
-  /* Alpine.JS */
+  /* alpinejs */
   [x-cloak] {
     display: none !important;
   }
@@ -42,7 +66,7 @@
     user-select: none;
   }
 
-  /* DaisyUI */
+  /* daisyui */
   :root {
     --animation-btn: 0; /* disable button 'pop' effect during initial render */
   }
@@ -77,6 +101,15 @@
 
   .h-content {
     height: calc(100vh - 10rem);
+  }
+
+  .template-center {
+    display: flex;
+    height: 100%;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
 

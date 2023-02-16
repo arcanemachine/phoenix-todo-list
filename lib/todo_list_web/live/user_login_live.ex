@@ -3,42 +3,44 @@ defmodule TodoListWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Sign in to account
-        <:subtitle>
-          Don't have an account?
-          <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
-            Sign up
-          </.link>
-          for an account now.
-        </:subtitle>
-      </.header>
+    <section class="h-full flex flex-center flex-col h-full">
+      <div class="mx-auto max-w-sm">
+        <.header class="text-center">
+          Sign in to account
+          <:subtitle>
+            Don't have an account?
+            <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
+              Sign up
+            </.link>
+            for an account now.
+          </:subtitle>
+        </.header>
 
-      <.simple_form
-        :let={f}
-        id="login_form"
-        for={:user}
-        action={~p"/users/log_in"}
-        as={:user}
-        phx-update="ignore"
-      >
-        <.input field={{f, :email}} type="email" label="Email" required />
-        <.input field={{f, :password}} type="password" label="Password" required />
+        <.simple_form
+          :let={f}
+          id="login_form"
+          for={:user}
+          action={~p"/users/log_in"}
+          as={:user}
+          phx-update="ignore"
+        >
+          <.input field={{f, :email}} type="email" label="Email" required />
+          <.input field={{f, :password}} type="password" label="Password" required />
 
-        <:actions :let={f}>
-          <.input field={{f, :remember_me}} type="checkbox" label="Remember me" />
-          <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
-            Forgot your password?
-          </.link>
-        </:actions>
-        <:actions>
-          <.button phx-disable-with="Signing in..." class="w-full">
-            Sign in <span aria-hidden="true">→</span>
-          </.button>
-        </:actions>
-      </.simple_form>
-    </div>
+          <:actions :let={f}>
+            <.input field={{f, :remember_me}} type="checkbox" label="Remember me" />
+            <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
+              Forgot your password?
+            </.link>
+          </:actions>
+          <:actions>
+            <.button phx-disable-with="Signing in..." class="w-full">
+              Sign in <span aria-hidden="true">→</span>
+            </.button>
+          </:actions>
+        </.simple_form>
+      </div>
+    </section>
     """
   end
 

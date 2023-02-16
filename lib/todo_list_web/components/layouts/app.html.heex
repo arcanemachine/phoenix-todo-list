@@ -1,37 +1,22 @@
-<main class="px-4 mt-10 pb-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash kind={:error} title="Error!" flash={@flash} />
-    <.flash kind={:info} title="Info" flash={@flash} />
-    <.flash
-      id="disconnected"
-      kind={:error}
-      title="Lost connection to server"
-      close={false}
-      autoshow={false}
-      phx-disconnected={show_with_delay("#disconnected")}
-      phx-connected={hide("#disconnected")}
-    >
-      Attempting to reconnect <Heroicons.arrow_path class="ml-1 w-3 h-3 inline animate-spin" />
-    </.flash>
-    <%= @inner_content %>
-  </div>
+<%= @inner_content %>
 
-  <%= if false and "if @static_changed?" do %>
-    <.modal
-      id="static-files-updated-modal"
-      show={true}
-      on_confirm={JS.dispatch("window-reload", to: "html")}
-    >
-      <section @window-reload.window="() => { window.location.reload(); }">
-        <p>
-          This app has been updated.
-        </p>
-        <p class="mt-4">
-          Do you want to reload the page?
-        </p>
-      </section>
-      <:cancel>Cancel</:cancel>
-      <:confirm>OK</:confirm>
-    </.modal>
-  <% end %>
-</main>
+<!--
+<%= if false and "if @static_changed?" do %>
+  <.modal
+    id="static-files-updated-modal"
+    show={true}
+    on_confirm={JS.dispatch("window-reload", to: "html")}
+  >
+    <section @window-reload.window="() => { window.location.reload(); }">
+      <p>
+        This app has been updated.
+      </p>
+      <p class="mt-4">
+        Do you want to reload the page?
+      </p>
+    </section>
+    <:cancel>Cancel</:cancel>
+    <:confirm>OK</:confirm>
+  </.modal>
+<% end %>
+-->

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
+
     <.live_title suffix=" - Todo List">
       <%= assigns[:page_title] || "Todo List" %>
     </.live_title>
@@ -15,71 +16,100 @@
     </script>
   </head>
   <body
-    class="bg-base-100 antialiased"
+    class="h-full bg-base-100 antialiased"
     data-platform={TemplateHelpers.detect_platform(@conn)}
     x-data="$store.components.body"
     x-title="body"
   >
-    <!-- search engine text (bing) -->
-    <div style="display: none">A todo list made with Phoenix LiveView.</div>
-    <!-- noscript text -->
+    <div style="display: none">
+      <!-- search engine text (bing) -->
+      A todo list made with Phoenix LiveView.
+    </div>
+
     <noscript>
+      <!-- noscript text -->
       <h1 class="py-4 text-3xl bg-gray-700 text-white text-center">
         Please enable Javascript to view this website.
       </h1>
     </noscript>
 
-    <.navbar>
-      <:user_action_menu_items>
-        <%= if @current_user do %>
-          <li>
-            <.link href={~p"/users/profile"}>Your profile</.link>
-          </li>
-          <li>
-            <.link href={~p"/users/log_out"}>Log out</.link>
-          </li>
-        <% else %>
-          <li>
-            <.link href={~p"/users/register"}>Register</.link>
-          </li>
-          <li>
-            <.link href={~p"/users/log_in"}>Log in</.link>
-          </li>
-        <% end %>
-      </:user_action_menu_items>
-    </.navbar>
-    <!-- inner content -->
-    <main>
-      <h1 class="mt-4 text-4xl text-center font-bold">
-        <%= assigns[:page_title] || "" %>
-      </h1>
+    <section x-show="$store.globals.platformIsWeb">
+      <.navbar>
+        <:user_action_menu_items>
+          <%= if @current_user do %>
+            <li>
+              <.link href={~p"/users/profile"}>Your profile</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_out"}>Log out</.link>
+            </li>
+          <% else %>
+            <li>
+              <.link href={~p"/users/register"}>Register</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_in"}>Log in</.link>
+            </li>
+          <% end %>
+        </:user_action_menu_items>
+      </.navbar>
+    </section>
+
+    <section
+      id="toast-container"
+      @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
+      @phx:toast-show-primary.window="(evt) => $store.toasts.showPrimary(evt.detail)"
+      @phx:toast-show-secondary.window="(evt) => $store.toasts.showSecondary(evt.detail)"
+      @phx:toast-show-accent.window="(evt) => $store.toasts.showAccent(evt.detail)"
+      @phx:toast-show-neutral.window="(evt) => $store.toasts.showNeutral(evt.detail)"
+      @phx:toast-show-info.window="(evt) => $store.toasts.showInfo(evt.detail)"
+      @phx:toast-show-success.window="(evt) => $store.toasts.showSuccess(evt.detail)"
+      @phx:toast-show-warning.window="(evt) => $store.toasts.showWarning(evt.detail)"
+      @phx:toast-show-error.window="(evt) => $store.toasts.showError(evt.detail)"
+    >
+      <!-- toasts -->
+    </section>
+
+    <section>
+      <!-- title/subtitle -->
       <template x-if="$store.globals.platformIsFlutter">
+        <div class="h-12" x-show="!$store.globals.platformIsWeb">
+          &nbsp;
+          <!-- navbar placeholder so toast messages don't block the title on flutter -->
+        </div>
         <div x-data x-init="() => {
-            alert('hello!');
+            // alert('hello!');
           }"></div>
       </template>
 
-      <h2 class="text-2xl text-center">
+      <h1 class="mt-4 text-4xl text-center font-bold">
+        <%= assigns[:page_title] || "" %>
+      </h1>
+
+      <h2 class="mt-2 text-2xl text-center">
         <%= assigns[:page_subtitle] || "" %>
       </h2>
-      <div class="h-content container mx-auto">
-        <!-- toast container -->
-        <section
-          id="toast-container"
-          @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
-          @phx:toast-show-primary.window="(evt) => $store.toasts.showPrimary(evt.detail)"
-          @phx:toast-show-secondary.window="(evt) => $store.toasts.showSecondary(evt.detail)"
-          @phx:toast-show-accent.window="(evt) => $store.toasts.showAccent(evt.detail)"
-          @phx:toast-show-neutral.window="(evt) => $store.toasts.showNeutral(evt.detail)"
-          @phx:toast-show-info.window="(evt) => $store.toasts.showInfo(evt.detail)"
-          @phx:toast-show-success.window="(evt) => $store.toasts.showSuccess(evt.detail)"
-          @phx:toast-show-warning.window="(evt) => $store.toasts.showWarning(evt.detail)"
-          @phx:toast-show-error.window="(evt) => $store.toasts.showError(evt.detail)"
-        >
-        </section>
+    </section>
 
-        <%= @inner_content %>
-      </div>
-    </main>
+    <section>
+      <!-- flash messages -->
+      <.flash kind={:error} title="Error!" flash={@flash} />
+      <.flash kind={:info} title="Info" flash={@flash} />
+      <.flash
+        id="disconnected"
+        kind={:error}
+        title="Lost connection to server"
+        close={false}
+        autoshow={false}
+        phx-disconnected={show_with_delay("#disconnected")}
+        phx-connected={hide("#disconnected")}
+      >
+        Attempting to reconnect <Heroicons.arrow_path class="ml-1 w-3 h-3 inline animate-spin" />
+      </.flash>
+    </section>
+
+    <div class="h-content mx-auto container">
+      <%= @inner_content %>
+    </div>
   </body>
 </html>

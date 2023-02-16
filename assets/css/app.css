@@ -47,6 +47,11 @@
     --animation-btn: 0; /* disable button 'pop' effect during initial render */
   }
 
+  /* phoenix */
+  [data-phx-main] {
+    height: 100%;
+  }
+
   /* misc */
   a:not(.btn) {
     color: hsl(var(--a)) !important;

@@ -110,7 +110,9 @@ window.liveSocket = liveSocket;
 (() => {
   try {
     return import("./gitignore.js");
-  } catch (err) {}
+  } catch (err) {
+    alert("Couldn't import gitignore.js");
+  }
 })();
 
 // var canHover = !matchMedia("(hover: none)").matches;

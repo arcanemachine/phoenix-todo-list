@@ -91,7 +91,7 @@ defmodule TodoListWeb do
       alias Phoenix.LiveView.JS
 
       # custom template helpers
-      alias TodoListWeb.Helpers.Template, as: Helpers
+      alias TodoListWeb.Helpers.Template, as: TemplateHelpers
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())

@@ -6,6 +6,20 @@ const helpers = (() => {
       return expression.substring(0, 1) === "{" && expression.slice(-1) === "}";
     },
 
+    consoleStatementsWriteToDocument() {
+      /** Write console statements directly to the page. Helps debug on mobile. */
+      return (function () {
+        const prependToBody = (s: string) => {
+          const outputEl = document.createElement("div");
+          outputEl.textContent = s + "\n";
+          document.body.prepend(outputEl);
+        };
+        console.log = (s) => prependToBody(s);
+        console.warn = (s) => prependToBody(s);
+        console.error = (s) => prependToBody(s);
+      })();
+    },
+
     get darkModeEnabled(): boolean {
       if (this.darkModeSavedPreferenceExists) {
         // use saved preference

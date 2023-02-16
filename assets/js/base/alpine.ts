@@ -1,3 +1,4 @@
+import Alpine from "alpinejs";
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
@@ -69,7 +70,6 @@ export const directives = [
       { evaluate, cleanup }: any
     ) {
       /** Create a tooltip popup. */
-
       if (!expression) return; // abort if expression is empty
 
       const defaultOptions = {
@@ -195,6 +195,27 @@ const animations = {
   pop(elt: HTMLElement, iterations: number = 1) {
     /** Create an attention-grabbing 'pop' effect. */
     this.applyTemporaryStyle(elt, { transform: "scale(1.05)" }, { iterations });
+  },
+};
+
+const components = {
+  body: () => {
+    return {
+      init() {
+        // this.$store.components.body = this;
+        this.$store.globals.platform = this.$el.dataset.platform;
+      },
+    };
+  },
+};
+
+const globals = {
+  platform: undefined,
+  get platformIsWeb() {
+    return this.platform === "web";
+  },
+  get platformIsFlutter() {
+    return this.platform === "flutter";
   },
 };
 
@@ -379,11 +400,15 @@ export const stores: Array<object> = [
   },
   {
     name: "components",
-    store: {},
+    store: components,
   },
   {
     name: "constants",
     store: constants,
+  },
+  {
+    name: "globals",
+    store: globals,
   },
   {
     name: "helpers",

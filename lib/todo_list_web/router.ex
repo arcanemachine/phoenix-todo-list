@@ -22,8 +22,8 @@ defmodule TodoListWeb.Router do
   scope "/", TodoListWeb do
     pipe_through(:browser)
 
-    # get "/", PageController, :home
-    live "/", HomeLive
+    get "/", PageController, :home
+    # live "/", HomeLive
     live "/component-showcase", ComponentShowcaseLive
   end
 

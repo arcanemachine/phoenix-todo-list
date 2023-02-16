@@ -14,7 +14,12 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <body class="min-h-screen bg-base-100 antialiased" x-data>
+  <body
+    class="bg-base-100 antialiased"
+    data-platform={TemplateHelpers.detect_platform(@conn)}
+    x-data="$store.components.body"
+    x-title="body"
+  >
     <!-- search engine text (bing) -->
     <div style="display: none">A todo list made with Phoenix LiveView.</div>
     <!-- noscript text -->
@@ -24,32 +29,36 @@
       </h1>
     </noscript>
 
-    <%= if !Helpers.platform_is_flutter(@conn) do %>
-      <.navbar>
-        <:user_action_menu_items>
-          <%= if @current_user do %>
-            <li>
-              <.link href={~p"/users/profile"}>Your profile</.link>
-            </li>
-            <li>
-              <.link href={~p"/users/log_out"}>Log out</.link>
-            </li>
-          <% else %>
-            <li>
-              <.link href={~p"/users/register"}>Register</.link>
-            </li>
-            <li>
-              <.link href={~p"/users/log_in"}>Log in</.link>
-            </li>
-          <% end %>
-        </:user_action_menu_items>
-      </.navbar>
-    <% end %>
+    <.navbar>
+      <:user_action_menu_items>
+        <%= if @current_user do %>
+          <li>
+            <.link href={~p"/users/profile"}>Your profile</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/log_out"}>Log out</.link>
+          </li>
+        <% else %>
+          <li>
+            <.link href={~p"/users/register"}>Register</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/log_in"}>Log in</.link>
+          </li>
+        <% end %>
+      </:user_action_menu_items>
+    </.navbar>
     <!-- inner content -->
     <main>
       <h1 class="mt-4 text-4xl text-center font-bold">
         <%= assigns[:page_title] || "" %>
       </h1>
+      <template x-if="$store.globals.platformIsFlutter">
+        <div x-data x-init="() => {
+            alert('hello!');
+          }"></div>
+      </template>
+
       <h2 class="text-2xl text-center">
         <%= assigns[:page_subtitle] || "" %>
       </h2>

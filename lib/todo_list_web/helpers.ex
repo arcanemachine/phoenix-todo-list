@@ -24,7 +24,8 @@ end
 defmodule TodoListWeb.Helpers.Template do
   @moduledoc "Helper functions for use in templates."
 
-  def platform_is_flutter(conn) do
-    Enum.member?(conn.req_headers, {"x-platform", "flutter"})
+  def detect_platform(conn) do
+    (Enum.member?(conn.req_headers, {"x-requested-with", "com.example.flutter_todo_phoenix"}) &&
+       "flutter") || "web"
   end
 end

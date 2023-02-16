@@ -27,7 +27,7 @@ defmodule TodoListWeb.UserLoginLive do
         <.input field={{f, :password}} type="password" label="Password" required />
 
         <:actions :let={f}>
-          <.input field={{f, :remember_me}} type="checkbox" label="Keep me logged in" />
+          <.input field={{f, :remember_me}} type="checkbox" label="Remember me" />
           <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
             Forgot your password?
           </.link>

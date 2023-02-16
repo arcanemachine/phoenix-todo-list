@@ -7,7 +7,7 @@
     x-init="() => { show = true; }"
     x-show="show"
   >
-    <%= @user_count %> user<%= @user_count > 1 && "s" || "" %> viewing this page
+    <%= @user_count %> user<%= (@user_count > 1 && "s") || "" %> viewing this page
   </div>
 <% end %>
 

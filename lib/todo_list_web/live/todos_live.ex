@@ -105,7 +105,11 @@ defmodule TodoListWeb.TodosLive do
         |> update(:todos, &(&1 ++ [todo]))
 
       # broadcast assigns to channel
-      Endpoint.broadcast(@channels_topic, "todo_create", socket.assigns)
+      Endpoint.broadcast(
+        "#{@channels_topic}:#{socket.assigns.current_user.id}",
+        "todo_create",
+        socket.assigns
+      )
 
       {:noreply, socket}
     rescue

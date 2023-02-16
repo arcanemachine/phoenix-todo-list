@@ -337,6 +337,15 @@ const toasts = {
       textElement.innerHTML = options.text as string;
     }
 
+    // only show 3 toasts at a time
+    const existingToasts = document.querySelectorAll(".toastify.on");
+    if (existingToasts.length > 2) {
+      // remove the last toast
+      Array.from(existingToasts)
+        .slice(-1)[0]
+        .dispatchEvent(new MouseEvent("click"));
+    }
+
     // create toast
     toast = Toastify({
       // text: options.content,

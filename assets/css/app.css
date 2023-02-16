@@ -18,10 +18,12 @@
   border-radius: 0.25rem;
 }
 
+/*
 .toastify.on {
   opacity: 0;
   pointer-events: none;
 }
+*/
 
 .toastify.on:nth-child(1) {
   opacity: 0.9;

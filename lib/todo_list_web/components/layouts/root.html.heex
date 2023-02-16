@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html class="h-full" lang="en">
   <head>
+    <!-- meta -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
 
+    <!-- title -->
     <.live_title suffix=" - Todo List">
       <%= assigns[:page_title] || "Todo List" %>
     </.live_title>
 
+    <!-- css -->
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+
+    <!-- js -->
     <script phx-track-static type="text/javascript" src={~p"/assets/init.js"}>
     </script>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
@@ -21,19 +26,23 @@
     x-data="$store.components.body"
     x-title="body"
   >
-    <div style="display: none">
-      <!-- search engine text (bing) -->
-      A todo list made with Phoenix LiveView.
-    </div>
+    <section>
+      <!-- utility -->
+      <div style="display: none">
+        <!-- search engine text (bing) -->
+        A todo list made with Phoenix LiveView.
+      </div>
 
-    <noscript>
-      <!-- noscript text -->
-      <h1 class="py-4 text-3xl bg-gray-700 text-white text-center">
-        Please enable Javascript to view this website.
-      </h1>
-    </noscript>
+      <noscript>
+        <!-- noscript text -->
+        <h1 class="py-4 text-3xl bg-gray-700 text-white text-center">
+          Please enable Javascript to view this website.
+        </h1>
+      </noscript>
+    </section>
 
     <section x-show="$store.globals.platformIsWeb">
+      <!-- navbar -->
       <.navbar>
         <:user_action_menu_items>
           <%= if @current_user do %>
@@ -55,6 +64,23 @@
       </.navbar>
     </section>
 
+    <section>
+      <!-- flash messages -->
+      <.flash kind={:error} title="Error!" flash={@flash} />
+      <.flash kind={:info} title="Info" flash={@flash} />
+      <.flash
+        id="disconnected"
+        kind={:error}
+        title="Lost connection to server"
+        close={false}
+        autoshow={false}
+        phx-disconnected={show_with_delay("#disconnected")}
+        phx-connected={hide("#disconnected")}
+      >
+        Attempting to reconnect <Heroicons.arrow_path class="ml-1 w-3 h-3 inline animate-spin" />
+      </.flash>
+    </section>
+
     <section
       id="toast-container"
       @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
@@ -73,42 +99,27 @@
     <section>
       <!-- title/subtitle -->
       <template x-if="$store.globals.platformIsFlutter">
+        <!-- utility - flutter -->
         <div class="h-12" x-show="!$store.globals.platformIsWeb">
-          &nbsp;
-          <!-- navbar placeholder so toast messages don't block the title on flutter -->
+          &nbsp; <!-- navbar placeholder so toast messages don't block the title on flutter -->
         </div>
         <div x-data x-init="() => {
             // alert('hello!');
           }"></div>
       </template>
 
-      <h1 class="mt-4 text-4xl text-center font-bold">
-        <%= assigns[:page_title] || "" %>
-      </h1>
+      <section class="mb-8">
+        <h1 class="mt-4 text-4xl text-center font-bold">
+          <%= assigns[:page_title] || "" %>
+        </h1>
 
-      <h2 class="mt-2 text-2xl text-center">
-        <%= assigns[:page_subtitle] || "" %>
-      </h2>
+        <h2 class="mt-2 text-2xl text-center">
+          <%= assigns[:page_subtitle] || "" %>
+        </h2>
+      </section>
     </section>
 
-    <section>
-      <!-- flash messages -->
-      <.flash kind={:error} title="Error!" flash={@flash} />
-      <.flash kind={:info} title="Info" flash={@flash} />
-      <.flash
-        id="disconnected"
-        kind={:error}
-        title="Lost connection to server"
-        close={false}
-        autoshow={false}
-        phx-disconnected={show_with_delay("#disconnected")}
-        phx-connected={hide("#disconnected")}
-      >
-        Attempting to reconnect <Heroicons.arrow_path class="ml-1 w-3 h-3 inline animate-spin" />
-      </.flash>
-    </section>
-
-    <div class="h-content mx-auto container">
+    <div class="h-content mx-auto px-4 container">
       <%= @inner_content %>
     </div>
   </body>

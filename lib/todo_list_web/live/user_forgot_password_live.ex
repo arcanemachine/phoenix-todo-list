@@ -5,26 +5,28 @@ defmodule TodoListWeb.UserForgotPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Forgot your password?
-        <:subtitle>We'll send a password reset link to your inbox</:subtitle>
-      </.header>
+    <section class="template-center">
+      <div class="max-w-sm">
+        <.header class="text-center">
+          Forgot your password?
+          <:subtitle>We'll send a password reset link to your inbox</:subtitle>
+        </.header>
 
-      <.simple_form :let={f} id="reset_password_form" for={:user} phx-submit="send_email">
-        <.input field={{f, :email}} type="email" placeholder="Email" required />
-        <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
-          </.button>
-        </:actions>
-      </.simple_form>
-      <p class="text-center mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        |
-        <.link href={~p"/users/log_in"}>Log in</.link>
-      </p>
-    </div>
+        <.simple_form :let={f} id="reset_password_form" for={:user} phx-submit="send_email">
+          <.input field={{f, :email}} type="email" placeholder="Your email" required />
+          <:actions>
+            <.button phx-disable-with="Sending..." class="w-full">
+              Submit
+            </.button>
+          </:actions>
+        </.simple_form>
+        <p class="text-center mt-4">
+          <.link href={~p"/users/register"}>Register</.link>
+          |
+          <.link href={~p"/users/log_in"}>Log in</.link>
+        </p>
+      </div>
+    </section>
     """
   end
 

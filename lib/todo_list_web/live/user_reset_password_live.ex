@@ -5,7 +5,7 @@ defmodule TodoListWeb.UserResetPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
+    <div class="template-center max-w-sm">
       <.header class="text-center">Reset Password</.header>
 
       <.simple_form

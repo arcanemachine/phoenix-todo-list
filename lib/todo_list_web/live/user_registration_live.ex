@@ -6,8 +6,8 @@ defmodule TodoListWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <section class="h-full flex flex-center flex-col h-full text-center">
-      <div class="mx-auto max-w-sm">
+    <section class="template-center">
+      <div class="max-w-sm">
         <.header class="text-center">
           Register for an account
           <:subtitle>

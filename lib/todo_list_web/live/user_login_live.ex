@@ -3,7 +3,7 @@ defmodule TodoListWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <section class="h-full flex flex-center flex-col h-full">
+    <section class="template-center">
       <div class="mx-auto max-w-sm">
         <.header class="text-center">
           Sign in to account

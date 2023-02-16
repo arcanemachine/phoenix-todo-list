@@ -69,6 +69,10 @@
     margin-top: 0.5rem;
     font-size: 1.2rem;
   }
+
+  .h-content {
+    height: calc(100vh - 10rem);
+  }
 }
 
 @layer utility {

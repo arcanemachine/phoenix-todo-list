@@ -5,15 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-
     <!-- title -->
     <.live_title suffix=" - Todo List">
       <%= assigns[:page_title] || "Todo List" %>
     </.live_title>
-
     <!-- css -->
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-
     <!-- js -->
     <script phx-track-static type="text/javascript" src={~p"/assets/init.js"}>
     </script>
@@ -23,6 +20,7 @@
   <body
     class="h-full bg-base-100 antialiased"
     data-platform={TemplateHelpers.detect_platform(@conn)}
+    data-user-is-authenticated={@conn.assigns[:current_user] && "true" || "false"}
     x-data="$store.components.body"
     x-title="body"
   >
@@ -64,23 +62,6 @@
       </.navbar>
     </section>
 
-    <section>
-      <!-- flash messages -->
-      <.flash kind={:error} title="Error!" flash={@flash} />
-      <.flash kind={:info} title="Info" flash={@flash} />
-      <.flash
-        id="disconnected"
-        kind={:error}
-        title="Lost connection to server"
-        close={false}
-        autoshow={false}
-        phx-disconnected={show_with_delay("#disconnected")}
-        phx-connected={hide("#disconnected")}
-      >
-        Attempting to reconnect <Heroicons.arrow_path class="ml-1 w-3 h-3 inline animate-spin" />
-      </.flash>
-    </section>
-
     <section
       id="toast-container"
       @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
@@ -100,15 +81,16 @@
       <!-- title/subtitle -->
       <template x-if="$store.globals.platformIsFlutter">
         <!-- utility - flutter -->
-        <div class="h-12" x-show="!$store.globals.platformIsWeb">
-          &nbsp; <!-- navbar placeholder so flash messages don't block the title on flutter -->
+        <div class="h-4" x-show="!$store.globals.platformIsWeb">
+          &nbsp; <!-- top spacer -->
         </div>
+
         <div x-data x-init="() => {
             // alert('hello!');
           }"></div>
       </template>
 
-      <section class="mb-8">
+      <section class="mb-12">
         <h1 class="mt-4 text-4xl text-center font-bold">
           <%= assigns[:page_title] || "" %>
         </h1>
@@ -119,7 +101,7 @@
       </section>
     </section>
 
-    <div class="h-content mx-auto px-4 container">
+    <div class="h-content mx-auto px-4 container max-w-4xl">
       <%= @inner_content %>
     </div>
   </body>

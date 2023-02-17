@@ -20,7 +20,40 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
   def render(assigns) do
     ~H"""
-    <h2 class="text-3xl mb-4 text-center">Modal</h2>
+    <h2 class="text-3xl mb-4 text-center">Button</h2>
+
+    <section class="text-center">
+      <div>
+        <.button class="w-40 btn-primary">
+          Primary
+        </.button>
+        <.button class="w-40 ml-2 btn-secondary">
+          Secondary
+        </.button>
+        <.button class="w-40 ml-2 btn-accent">
+          Accent
+        </.button>
+        <.button class="w-40 ml-2 btn-neutral">
+          Neutral
+        </.button>
+      </div>
+      <div class="mt-4">
+        <.button class="w-40 btn-info">
+          Info
+        </.button>
+        <.button class="w-40 ml-2 btn-success">
+          Success
+        </.button>
+        <.button class="w-40 ml-2 btn-warning">
+          Warning
+        </.button>
+        <.button class="w-40 ml-2 btn-error">
+          Error
+        </.button>
+      </div>
+    </section>
+
+    <h2 class="mt-16 mb-4 text-3xl text-center">Modal</h2>
 
     <.modal id="showcase-modal" on_confirm={hide_modal("showcase-modal")}>
       <:title>Modal Title</:title>
@@ -57,7 +90,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
     <h2 class="mt-16 text-3xl text-center">Simple Form</h2>
 
-    <.simple_form :let={f} for={:nothing}>
+    <.simple_form :let={f} class="max-w-lg mx-auto" for={:nothing}>
       <!-- fields -->
       <.input field={{f, :text}} label="Text Input" />
       <.input field={{f, :email}} label="Email Input" />

@@ -5,7 +5,9 @@ defmodule TodoListWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header>Change Email</.header>
+    <h2 class="text-2xl font-bold text-center">
+      Change Email
+    </h2>
 
     <.simple_form
       :let={f}
@@ -30,11 +32,13 @@ defmodule TodoListWeb.UserSettingsLive do
         required
       />
       <:actions>
-        <.button phx-disable-with="Changing...">Change Email</.button>
+        <.button class="btn-primary" phx-disable-with="Changing...">Change Email</.button>
       </:actions>
     </.simple_form>
 
-    <.header>Change Password</.header>
+    <h2 class="mt-12 text-2xl font-bold text-center">
+      Change Password
+    </h2>
 
     <.simple_form
       :let={f}
@@ -64,9 +68,12 @@ defmodule TodoListWeb.UserSettingsLive do
         required
       />
       <:actions>
-        <.button phx-disable-with="Changing...">Change Password</.button>
+        <.button class="btn-primary" phx-disable-with="Changing...">Change Password</.button>
       </:actions>
     </.simple_form>
+    <.action_links items={[
+      %{content: "Return to your profile", navigate: ~p"/users/profile", class: "list-back"}
+    ]} />
     """
   end
 
@@ -123,7 +130,7 @@ defmodule TodoListWeb.UserSettingsLive do
           &url(~p"/users/settings/confirm_email/#{&1}")
         )
 
-        info = "A link to confirm your email change has been sent to the new address."
+        info = "Check your email inbox for a confirmation link."
         {:noreply, put_flash(socket, :info, info)}
 
       {:error, changeset} ->

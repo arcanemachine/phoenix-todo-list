@@ -1,0 +1,14 @@
+<section class="template-center max-w-xs">
+  <div class="h-full w-full flex flex-center">
+    <.settings_content />
+  </div>
+
+  <ul class="h-full w-full w-max-xs flex flex-col justify-center align-start"
+      x-show="$store.globals.userIsAuthenticated && $store.globals.platformIsFlutter">
+    <li>
+      <.link class="w-full mt-4 btn btn-lg btn-primary" href={~p"/users/profile"}>
+        View Your Profile
+      </.link>
+    </li>
+  </ul>
+</section>

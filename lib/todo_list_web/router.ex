@@ -82,6 +82,7 @@ defmodule TodoListWeb.Router do
     pipe_through([:browser])
 
     delete "/users/log_out", UserSessionController, :delete
+    get "/users/settings", UserSessionController, :settings
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
@@ -124,7 +125,7 @@ defmodule TodoListWeb.Router do
       live "/todos/live", TodosLive
 
       # users
-      live("/users/settings", UserSettingsLive, :edit)
+      live("/users/profile/update", UserSettingsLive, :edit)
       live("/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email)
     end
   end

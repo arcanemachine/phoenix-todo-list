@@ -15,14 +15,14 @@ defmodule TodoListWeb.UserForgotPasswordLive do
         <.simple_form :let={f} id="reset_password_form" for={:user} phx-submit="send_email">
           <.input field={{f, :email}} type="email" placeholder="Your email" required />
           <:actions>
-            <.button phx-disable-with="Sending..." class="w-full">
+            <.button phx-disable-with="Sending..." class="mt-2 btn-primary w-full">
               Submit
             </.button>
           </:actions>
         </.simple_form>
-        <p class="text-center mt-4">
+        <p class="text-center mt-6">
           <.link href={~p"/users/register"}>Register</.link>
-          |
+          <span class="inline-block w-8">|</span>
           <.link href={~p"/users/log_in"}>Log in</.link>
         </p>
       </div>

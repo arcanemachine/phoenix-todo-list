@@ -38,7 +38,9 @@ defmodule TodoListWeb.UserRegistrationLive do
           <.input field={{f, :password}} type="password" label="Password" required />
 
           <:actions>
-            <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
+            <.button phx-disable-with="Creating account..." class="mt-2 btn-primary w-full">
+              Complete Registration
+            </.button>
           </:actions>
         </.simple_form>
       </div>

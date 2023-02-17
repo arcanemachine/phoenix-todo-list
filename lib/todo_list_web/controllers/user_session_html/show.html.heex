@@ -1,8 +1,25 @@
-<ul>
-  <li>Email: <%= @current_user.email %></li>
-</ul>
+<section class="template-center w-full max-w-xs">
+  <div class="h-full w-full flex flex-center">
+    <ul class="w-full my-4 ml-1 flex justify-between align-center">
+      <div class="font-semibold">
+        Email:
+      </div>
+      <div class="truncate">
+        <%= @current_user.email %>
+      </div>
+    </ul>
+  </div>
 
-<.action_links items={[
-  %{content: "Update your user profile", navigate: ~p"/users/settings"},
-  %{content: "Log out of your account", href: ~p"/users/log_out", method: "delete"}
-]} />
+  <ul class="h-full w-full flex flex-col justify-center align-start text-2xl">
+    <li>
+      <.link class="w-full btn btn-lg btn-primary" href={~p"/users/profile/update"}>
+        Update your profile
+      </.link>
+    </li>
+    <li>
+      <.link class="w-full mt-4 btn btn-lg btn-error" href={~p"/users/log_out"}>
+        Log out
+      </.link>
+    </li>
+  </ul>
+</section>

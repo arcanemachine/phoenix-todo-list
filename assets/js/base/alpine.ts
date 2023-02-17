@@ -204,6 +204,9 @@ const components = {
       init() {
         // this.$store.components.body = this;
         this.$store.globals.platform = this.$el.dataset.platform;
+        this.$store.globals.userIsAuthenticated = JSON.parse(
+          this.$el.dataset.userIsAuthenticated
+        );
       },
     };
   },
@@ -251,7 +254,7 @@ const toasts = {
     }
 
     if (options.content) {
-      // c. Remap options.content to options.text
+      // b. Remap options.content to options.text
       options.text = options.text ?? options.content;
       delete options.content;
     }

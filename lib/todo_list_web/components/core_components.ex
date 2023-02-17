@@ -23,8 +23,8 @@ defmodule TodoListWeb.CoreComponents do
       <h3 class="text-2xl font-bold">
         <%= @title || "Actions" %>
       </h3>
-      <ul class="mt-2 ml-8 list-disc">
-        <li :for={item <- @items} class="mt-2 pl-2">
+      <ul class="mt-2 ml-8">
+        <li :for={item <- @items} class={[["mt-2 pl-2"], [Map.get(item, :class, "")]]}>
           <.link
             href={Map.get(item, :href, false)}
             navigate={Map.get(item, :navigate, false)}
@@ -239,7 +239,8 @@ defmodule TodoListWeb.CoreComponents do
       >
         <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
       </button>
-      <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+      <ul class="mt-1 dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+        <div class="mt-2 mb-3 text-center text-lg font-bold text-underline">User Actions</div>
         <%= render_slot(@user_action_menu_items) %>
       </ul>
     </div>
@@ -268,7 +269,9 @@ defmodule TodoListWeb.CoreComponents do
           x-on:click.outside="show = false"
           x-transition.duration.500ms
         >
-          <.settings_body />
+          <h2 class="mb-12 text-3xl font-bold text-center">Settings</h2>
+
+          <.settings_content />
 
           <div class="form-control mt-12 w-full max-w-xs">
             <button class="btn btn-secondary" x-on:click="show = false">Close</button>
@@ -287,13 +290,11 @@ defmodule TodoListWeb.CoreComponents do
 
   ## Example
 
-      <.navbar_settings_menu />
+      <.settings_content />
   """
-  def settings_body(assigns) do
+  def settings_content(assigns) do
     ~H"""
-    <h2 class="mb-12 text-3xl font-bold text-center">Settings</h2>
-
-    <div class="my-4 ml-1 flex justify-between align-center">
+    <div class="w-full max-w-xs my-4 ml-1 flex justify-between align-center">
       <div class="flex flex-center text-lg font-semibold">
         Dark Mode
       </div>
@@ -619,7 +620,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="phx-no-feedback:hidden mt-3 flex gap-3 text-sm leading-6 text-rose-600">
+    <p class="phx-no-feedback:hidden mt-3 flex gap-3 font-bold tracking-wide leading-6 text-rose-500">
       <Heroicons.exclamation_circle mini class="mt-0.5 h-5 w-5 flex-none fill-rose-500" />
       <%= render_slot(@inner_block) %>
     </p>
@@ -645,7 +646,7 @@ defmodule TodoListWeb.CoreComponents do
     <.button
       type={@type}
       class={[
-        "min-w-[7rem]",
+        "btn-lg min-w-[9rem]",
         @class
       ]}
       {@rest}

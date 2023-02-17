@@ -2,10 +2,10 @@
 <%= if assigns[:user_count] && @user_count > 0 do %>
   <div
     id="presence-user-count"
-    class="fixed bottom-0 left-0 px-4 py-2 bg-info font-bold rounded-tr-lg"
-    x-data="{ show: performance.now() < 1000 }"
-    x-init="() => { show = true; }"
-    x-show="show"
+    class={[
+      ["fixed bottom-[-0.33rem] left-[-0.33rem] px-4 py-2 btn btn-info font-bold normal-case"],
+      ["rounded-none rounded-tr-lg pointer-events-none"]
+    ]}
   >
     <%= @user_count %> user<%= (@user_count > 1 && "s") || "" %> viewing this page
   </div>
@@ -50,7 +50,7 @@
     </div>
   </.form>
   <!-- todo list -->
-  <ul id="todo-list" class="w-100 mt-4 list-none pl-0">
+  <ul id="todo-list" class="w-100 mt-8 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
       <li class="text-center">No items created...</li>
     <% else %>

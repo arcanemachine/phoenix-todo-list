@@ -15,7 +15,7 @@ defmodule TodoListWeb.UserSessionController do
   end
 
   def create(conn, params) do
-    create(conn, params, "Welcome back!")
+    create(conn, params, "Login successful")
   end
 
   defp create(conn, %{"user" => user_params}, info) do
@@ -26,7 +26,6 @@ defmodule TodoListWeb.UserSessionController do
       |> put_flash(:info, info)
       |> UserAuth.log_in_user(user, user_params)
     else
-      # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       conn
       |> put_flash(:error, "Invalid email or password")
       |> put_flash(:email, String.slice(email, 0, 160))
@@ -38,9 +37,13 @@ defmodule TodoListWeb.UserSessionController do
     render(conn, :show, page_title: "Your Profile")
   end
 
+  def settings(conn, _params) do
+    conn |> render(:settings, layout: false, page_title: "Settings")
+  end
+
   def delete(conn, _params) do
     conn
-    |> put_flash(:info, "Logged out successfully.")
+    |> put_flash(:info, "Logout successful")
     |> UserAuth.log_out_user()
   end
 end

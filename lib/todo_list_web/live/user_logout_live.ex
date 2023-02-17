@@ -3,7 +3,7 @@ defmodule TodoListWeb.UserLogoutLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
+    <div class="template-center max-w-sm">
       <.header class="text-center">
         Are you sure you want to log out?
       </.header>
@@ -11,7 +11,7 @@ defmodule TodoListWeb.UserLogoutLive do
       <.simple_form for={:nothing}>
         <:actions>
           <.link href={~p"/users/log_out"} method="delete">
-            <.form_button phx-disable-with="Logging out...">
+            <.form_button class="btn-primary" phx-disable-with="Logging out...">
               Yes
             </.form_button>
           </.link>

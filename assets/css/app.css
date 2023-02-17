@@ -68,6 +68,12 @@
     user-select: none;
   }
 
+  input {
+    /* fixme: this section will not be necessary after improving default styles
+       for input components */
+    color: #222;
+  }
+
   /* daisyui */
   :root {
     --animation-btn: 0; /* disable button 'pop' effect during initial render */
@@ -91,6 +97,14 @@
     background-color: unset !important;
   }
 
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .dropdown-content {
+    border: 2px solid hsl(var(--nc));
+  }
+
   /* misc */
   .action-links {
     margin-top: 3rem;
@@ -108,6 +122,8 @@
   .template-center {
     display: flex;
     height: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
     flex-direction: column;
     justify-content: center;
@@ -119,6 +135,14 @@
   .flex-center {
     justify-content: center;
     align-items: center;
+  }
+
+  .list-back {
+    list-style-type: "<";
+  }
+
+  .list-dash {
+    list-style-type: "- ";
   }
 
   .mt-child-0 > * {

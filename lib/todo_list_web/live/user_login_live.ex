@@ -28,17 +28,19 @@ defmodule TodoListWeb.UserLoginLive do
           <.input field={{f, :password}} type="password" label="Password" required />
 
           <:actions :let={f}>
-            <.input field={{f, :remember_me}} type="checkbox" label="Remember me" />
-            <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
-              Forgot your password?
-            </.link>
+            <.input field={{f, :remember_me}} type="checkbox" label="Remember me" checked />
           </:actions>
           <:actions>
-            <.button phx-disable-with="Signing in..." class="w-full">
+            <.button phx-disable-with="Signing in..." class="mt-2 btn-primary w-full">
               Sign in <span aria-hidden="true">→</span>
             </.button>
           </:actions>
         </.simple_form>
+        <div class="mt-12 text-center">
+          <.link href={~p"/users/reset_password"} class="text font-semibold">
+            Forgot your password?
+          </.link>
+        </div>
       </div>
     </section>
     """

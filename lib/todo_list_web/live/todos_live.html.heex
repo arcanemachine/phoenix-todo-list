@@ -83,8 +83,8 @@
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
-              class="block btn w-full text-left normal-case no-underline todo-item-content-container"
-              x-bind:class="todo.id === todoIdSelected ? 'btn-accent' : 'btn-ghost hover:bg-gray-200'"
+              class="block btn btn-accent w-full text-left normal-case no-underline todo-item-content-container"
+              x-bind:class="todo.id === todoIdSelected ? 'btn-accent' : 'btn-ghost'"
               x-on:click="todoItemHandleClick(todo.id, todo.content)"
             >
               <span class={[

@@ -203,9 +203,8 @@ defmodule TodoListWeb.CoreComponents do
       </div>
       <!-- navbar end items -->
       <div class="mr-1 flex-none">
-        <.navbar_dark_mode_toggle />
-        <!-- menu - user actions -->
         <.navbar_user_action_menu user_action_menu_items={@user_action_menu_items} />
+        <.navbar_settings_menu />
       </div>
     </nav>
     """
@@ -216,13 +215,7 @@ defmodule TodoListWeb.CoreComponents do
 
   ## Example
 
-      <.navbar>
-        <ul>
-          <li>
-            <.link navigate={~p"/users/profile"}>Your profile</.link>
-          </li>
-        </ul>
-      </.navbar>
+      <.navbar_user_action_menu user_action_menu_items={@user_action_menu_items} />
   """
   slot :user_action_menu_items, required: true
 
@@ -231,8 +224,9 @@ defmodule TodoListWeb.CoreComponents do
     <div
       class="dropdown-end dropdown"
       id="navbar-dropdown-user-actions"
-      x-bind:class="show && 'dropdown-open'"
       x-data="{ show: false }"
+      x-title="navbarUserActionMenu"
+      x-bind:class="show && 'dropdown-open'"
       x-tooltip="User Actions"
       x-on:pointerdown.outside="show = false"
     >
@@ -240,13 +234,72 @@ defmodule TodoListWeb.CoreComponents do
         class="btn-ghost btn-square btn m-1"
         x-on:focus="show = true"
         x-on:blur="show = false"
-        x-on:click="show = !show"
+        x-on:click="show = true"
+        x-on:click.outside="show = false"
       >
         <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
       </button>
       <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
         <%= render_slot(@user_action_menu_items) %>
       </ul>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a settings menu in the navbar.
+
+  ## Example
+
+      <.navbar_settings_menu />
+  """
+
+  def navbar_settings_menu(assigns) do
+    ~H"""
+    <div x-data="{ show: false }" x-title="navbarSettingsMenu">
+      <button class="btn-ghost btn-square btn m-1" x-on:click="show = true" x-tooltip="Settings">
+        <Heroicons.cog_6_tooth solid class="h-7 w-7 stroke-current" />
+      </button>
+      <div class="modal" x-bind:class="show && 'modal-open'">
+        <div
+          class="relative max-w-xs modal-box border-2"
+          x-show="show"
+          x-trap.inert.noscroll="show"
+          x-on:click.outside="show = false"
+          x-transition.duration.500ms
+        >
+          <.settings_body />
+
+          <div class="form-control mt-12 w-full max-w-xs">
+            <button class="btn btn-secondary" x-on:click="show = false">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders the body content of the settings menu.
+
+  This component is separate from the settings modal so that it can be
+  embedded in the Flutter settings page.
+
+  ## Example
+
+      <.navbar_settings_menu />
+  """
+  def settings_body(assigns) do
+    ~H"""
+    <h2 class="mb-12 text-3xl font-bold text-center">Settings</h2>
+
+    <div class="my-4 ml-1 flex justify-between align-center">
+      <div class="flex flex-center text-lg font-semibold">
+        Dark Mode
+      </div>
+      <div class="flex flex-center">
+        <.navbar_dark_mode_toggle />
+      </div>
     </div>
     """
   end

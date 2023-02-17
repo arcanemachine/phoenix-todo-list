@@ -205,28 +205,49 @@ defmodule TodoListWeb.CoreComponents do
       <div class="mr-1 flex-none">
         <.navbar_dark_mode_toggle />
         <!-- menu - user actions -->
-        <div
-          class="dropdown-end dropdown"
-          id="navbar-dropdown-user-actions"
-          x-bind:class="show && 'dropdown-open'"
-          x-data="{ show: false }"
-          x-tooltip="User Actions"
-          x-on:pointerdown.outside="show = false"
-        >
-          <button
-            class="btn-ghost btn-square btn m-1"
-            x-on:focus="show = true"
-            x-on:blur="show = false"
-            x-on:click="show = !show"
-          >
-            <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
-          </button>
-          <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
-            <%= render_slot(@user_action_menu_items) %>
-          </ul>
-        </div>
+        <.navbar_user_action_menu user_action_menu_items={@user_action_menu_items} />
       </div>
     </nav>
+    """
+  end
+
+  @doc """
+  Renders a user action menu in the navbar.
+
+  ## Example
+
+      <.navbar>
+        <ul>
+          <li>
+            <.link navigate={~p"/users/profile"}>Your profile</.link>
+          </li>
+        </ul>
+      </.navbar>
+  """
+  slot :user_action_menu_items, required: true
+
+  def navbar_user_action_menu(assigns) do
+    ~H"""
+    <div
+      class="dropdown-end dropdown"
+      id="navbar-dropdown-user-actions"
+      x-bind:class="show && 'dropdown-open'"
+      x-data="{ show: false }"
+      x-tooltip="User Actions"
+      x-on:pointerdown.outside="show = false"
+    >
+      <button
+        class="btn-ghost btn-square btn m-1"
+        x-on:focus="show = true"
+        x-on:blur="show = false"
+        x-on:click="show = !show"
+      >
+        <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
+      </button>
+      <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+        <%= render_slot(@user_action_menu_items) %>
+      </ul>
+    </div>
     """
   end
 

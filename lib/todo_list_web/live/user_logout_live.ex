@@ -11,13 +11,13 @@ defmodule TodoListWeb.UserLogoutLive do
       <.simple_form for={:nothing}>
         <:actions>
           <.link href={~p"/users/log_out"} method="delete">
-            <.form_button class="btn-primary" phx-disable-with="Logging out...">
+            <.form_button type="button" class="btn-primary" phx-disable-with="Logging out...">
               Yes
             </.form_button>
           </.link>
-          <.form_button class="btn-secondary" onclick="history.go(-1)">
+          <button type="button" class="btn btn-lg btn-secondary form-button" onclick="history.back()">
             Cancel
-          </.form_button>
+          </button>
         </:actions>
       </.simple_form>
     </div>

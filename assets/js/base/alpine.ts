@@ -1,4 +1,3 @@
-import Alpine from "alpinejs";
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
@@ -33,6 +32,11 @@ function darkModeToggle() {
       // save data to localStorage and set the theme
       if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "1");
       document!.querySelector("html")!.dataset.theme = "dark";
+
+      // push flutter event
+      if (this.$store.globals.platformIsFlutter) {
+        this.$store.globals.flutterHandler.callHandler("darkModeSet", true);
+      }
     },
 
     darkModeDisable(updateLocalStorage: boolean) {
@@ -43,6 +47,11 @@ function darkModeToggle() {
       // save data to localStorage and reset the theme
       if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "0");
       document!.querySelector("html")!.dataset.theme = "default";
+
+      // push flutter event
+      if (this.$store.globals.platformIsFlutter) {
+        this.$store.globals.flutterHandler.callHandler("darkModeSet", false);
+      }
     },
 
     darkModeToggle() {
@@ -203,10 +212,25 @@ const components = {
     return {
       init() {
         // this.$store.components.body = this;
-        this.$store.globals.platform = this.$el.dataset.platform;
-        this.$store.globals.userIsAuthenticated = JSON.parse(
+
+        /* set global values */
+        const globals = this.$store.globals;
+
+        // auth
+        globals.userIsAuthenticated = JSON.parse(
           this.$el.dataset.userIsAuthenticated
         );
+
+        // platform
+        globals.platform = this.$el.dataset.platform;
+        if (globals.platformIsFlutter) {
+          // flutter handler
+          globals.flutterHandler = window["flutter_inappwebview"];
+
+          if (globals.flutterHandler === undefined) {
+            console.error("Flutter handler has not been initialized");
+          }
+        }
       },
     };
   },

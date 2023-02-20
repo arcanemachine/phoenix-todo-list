@@ -191,7 +191,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="navbar py-0 border-y-2 transition-colors duration-300">
+    <nav class="navbar py-0 border-y-2 transition-colors duration-300" x-cloak>
       <!-- navbar start items -->
       <div class="flex-1">
         <!-- navbar title -->
@@ -637,7 +637,7 @@ defmodule TodoListWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :class, :any, default: nil
-  attr :rest, :global
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form button"
 
   slot :inner_block, required: true
 

@@ -115,6 +115,10 @@
     font-size: 1.2rem;
   }
 
+  .form-button {
+    min-width: 9rem;
+  }
+
   .h-content {
     height: calc(100vh - 10rem);
   }

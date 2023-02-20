@@ -114,6 +114,3 @@ window.liveSocket = liveSocket;
     alert("Couldn't import gitignore.js");
   }
 })();
-
-// var canHover = !matchMedia("(hover: none)").matches;
-// alert(canHover);

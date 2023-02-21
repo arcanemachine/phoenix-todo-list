@@ -4,16 +4,7 @@ defmodule TodoListWeb.Router do
   import TodoListWeb.Plug
   import TodoListWeb.UserAuth
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {TodoListWeb.Layouts, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-    plug :fetch_current_user
-  end
-
+  # API #
   pipeline :api do
     plug :accepts, ["json"]
     plug :api_fetch_current_user
@@ -26,21 +17,21 @@ defmodule TodoListWeb.Router do
     live "/component-showcase", ComponentShowcaseLive
   end
 
-  # forbid authenticated user
+  # api - forbid authenticated user
   scope "/api", TodoListWeb do
     pipe_through([:api, :api_forbid_authenticated_user])
 
     resources "/users", Api.UserSessionController, only: [:create]
   end
 
-  # require authenticated user
+  # api - require authenticated user
   scope "/api", TodoListWeb do
     pipe_through([:api, :api_require_authenticated_user])
 
     resources "/todos", Api.TodoController, only: [:index, :create]
   end
 
-  # user ID must match todo.user_id
+  # api - user ID must match todo.user_id
   scope "/api", TodoListWeb do
     pipe_through([
       :api,
@@ -52,20 +43,25 @@ defmodule TodoListWeb.Router do
     resources "/todos", Api.TodoController, except: [:index, :create]
   end
 
-  # user ID must match :id
+  # api - user ID must match :id parameter
   scope "/api", TodoListWeb do
     pipe_through([:api, :api_require_authenticated_user, :api_require_user_permissions])
 
     resources "/users", Api.UserSessionController, only: [:show, :update, :delete]
   end
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
+  # BROWSER #
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, {TodoListWeb.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :fetch_current_user
+  end
+
   if Application.compile_env(:todo_list, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do

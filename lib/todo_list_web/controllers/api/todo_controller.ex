@@ -18,7 +18,7 @@ defmodule TodoListWeb.Api.TodoController do
     with {:ok, %Todo{} = todo} <- Todos.create_todo(todo_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/todos/#{todo}")
+      |> put_resp_header("location", ~p"/api/todos/#{todo.id}")
       |> render(:show, todo: todo)
     end
   end

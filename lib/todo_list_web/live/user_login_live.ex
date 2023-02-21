@@ -5,11 +5,12 @@ defmodule TodoListWeb.UserLoginLive do
     ~H"""
     <template x-if="$store.globals.platformIsFlutter">
       <div x-init="() => {
-        // ensure that selected bottom bar tab is 'Items'
+        // after logging out, select the 'Items' tab
         $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);
       }">
       </div>
     </template>
+
     <section class="template-center">
       <div class="mx-auto max-w-sm">
         <.header class="text-center">
@@ -43,7 +44,8 @@ defmodule TodoListWeb.UserLoginLive do
             </.button>
           </:actions>
         </.simple_form>
-        <div class="mt-12 text-center">
+
+        <div class="mt-8 text-center">
           <.link href={~p"/users/reset_password"} class="text font-semibold">
             Forgot your password?
           </.link>

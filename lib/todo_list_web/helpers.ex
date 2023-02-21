@@ -24,8 +24,8 @@ end
 defmodule TodoListWeb.Helpers.Template do
   @moduledoc "Helper functions for use in templates."
 
+  @doc "Determine the platform used by reading the `x-requested-with` header."
   def detect_platform(conn) do
-    (Enum.member?(conn.req_headers, {"x-requested-with", "com.example.flutter_todo_phoenix"}) &&
-       "flutter") || "web"
+    (Enum.member?(conn.req_headers, {"x-platform", "flutter"}) && "flutter") || "web"
   end
 end

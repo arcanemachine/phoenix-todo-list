@@ -11,7 +11,7 @@ defmodule TodoListWeb.Api.UserSessionController do
       {:ok, user} ->
         # return status 201 and user token
         conn
-        |> put_resp_header("location", ~p"/api/users/#{user}")
+        |> put_resp_header("location", ~p"/api/users/#{user.id}")
         |> create(%{"user" => user_params}, :created)
 
       {:error, changeset} ->

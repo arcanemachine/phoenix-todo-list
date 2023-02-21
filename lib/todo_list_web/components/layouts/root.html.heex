@@ -39,8 +39,13 @@
       </noscript>
     </section>
 
-    <section x-show="$store.globals.platformIsWeb">
-      <!-- navbar -->
+    <template x-if="$store.globals.platformIsFlutter">
+      <section>
+        <!-- add spacer so flash messages don't block the title -->
+        <div class="h-12">&nbsp;</div>
+      </section>
+    </template>
+    <section x-show="!$store.globals.platformIsFlutter">
       <.navbar>
         <:user_action_menu_items>
           <%= if @current_user do %>
@@ -60,6 +65,7 @@
           <% end %>
         </:user_action_menu_items>
       </.navbar>
+
     </section>
 
     <section
@@ -78,21 +84,6 @@
     </section>
 
     <section>
-      <!-- title/subtitle -->
-      <template x-if="$store.globals.platformIsFlutter">
-        <section>
-          <!-- utility - flutter -->
-          <div class="h-12">&nbsp;</div> <!-- top spacer -->
-
-          <div
-            x-data
-            x-init="() => {
-              // alert('hello!');
-            }"
-          ></div>
-        </section>
-      </template>
-
       <section class="mb-12">
         <h1 class="mt-4 text-4xl text-center font-bold">
           <%= assigns[:page_title] || "" %>

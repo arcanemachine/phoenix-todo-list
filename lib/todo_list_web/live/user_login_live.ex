@@ -3,6 +3,13 @@ defmodule TodoListWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
+    <template x-if="$store.globals.platformIsFlutter">
+      <div x-init="() => {
+        // ensure that selected bottom bar tab is 'Items'
+        $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);
+      }">
+      </div>
+    </template>
     <section class="template-center">
       <div class="mx-auto max-w-sm">
         <.header class="text-center">

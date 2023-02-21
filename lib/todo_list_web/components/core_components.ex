@@ -294,6 +294,14 @@ defmodule TodoListWeb.CoreComponents do
   """
   def settings_content(assigns) do
     ~H"""
+    <template x-if="$store.globals.platformIsFlutter">
+      <div x-init="() => {
+        // flutter: select bottom bar item 'Items'
+        $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);
+      }">
+      </div>
+    </template>
+
     <div class="w-full max-w-xs my-4 ml-1 flex justify-between align-center">
       <div class="flex flex-center text-lg font-semibold">
         Dark Mode

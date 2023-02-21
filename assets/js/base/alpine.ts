@@ -33,7 +33,7 @@ function darkModeToggle() {
       if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "1");
       document!.querySelector("html")!.dataset.theme = "dark";
 
-      // push flutter event
+      // flutter: push theme change to UI
       if (this.$store.globals.platformIsFlutter) {
         this.$store.globals.flutterHandler.callHandler("darkModeSet", true);
       }
@@ -48,7 +48,7 @@ function darkModeToggle() {
       if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "0");
       document!.querySelector("html")!.dataset.theme = "default";
 
-      // push flutter event
+      // flutter: push theme change to UI
       if (this.$store.globals.platformIsFlutter) {
         this.$store.globals.flutterHandler.callHandler("darkModeSet", false);
       }

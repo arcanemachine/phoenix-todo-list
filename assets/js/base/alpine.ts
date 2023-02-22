@@ -7,10 +7,12 @@ import { data as todosData } from "../todos/alpine";
 import StartToastifyInstance from "toastify-js";
 
 /* data */
-function darkModeToggle() {
+function darkModeSelect() {
   return {
-    lightModeToggled: !helpers.base.darkModeEnabled,
+    // data
+    choice: undefined,
 
+    // lifecycle
     init() {
       // watch for changes to dark mode preference
       const browserDarkModePreference = window.matchMedia(
@@ -26,45 +28,76 @@ function darkModeToggle() {
       });
     },
 
-    darkModeEnable(updateLocalStorage: boolean) {
-      this.lightModeToggled = false;
+    // methods
+    darkModeClearPreference() {
+      // set the theme
+      const browserDarkModePreference = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+      if (browserDarkModePreference.matches) {
+        this.darkModeEnable(false);
+      } else {
+        this.darkModeDisable(false);
+      }
 
-      // save data to localStorage and set the theme
-      if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "1");
+      // remove saved preference
+      localStorage.removeItem("darkModeEnabled");
+
+      // flutter: push theme change to UI
+      if (this.$store.globals.platformIsFlutter) {
+        this.$store.globals.flutterHandler.callHandler("darkModeSet", "system");
+      }
+    },
+
+    darkModeEnable(updateSavedPreference: boolean) {
+      // set the theme
       document!.querySelector("html")!.dataset.theme = "dark";
 
-      // flutter: push theme change to UI
-      if (this.$store.globals.platformIsFlutter) {
-        this.$store.globals.flutterHandler.callHandler("darkModeSet", true);
+      if (updateSavedPreference) {
+        // save data to localStorage
+        localStorage.setItem("darkModeEnabled", "1");
+
+        // flutter: push theme change to UI
+        if (this.$store.globals.platformIsFlutter) {
+          this.$store.globals.flutterHandler.callHandler("darkModeSet", "dark");
+        }
       }
     },
 
-    darkModeDisable(updateLocalStorage: boolean) {
-      // this.$store.darkModeEnabled = false;
-      // this.lightModeToggled = !this.$store.darkModeEnabled;
-      this.lightModeToggled = true;
-
-      // save data to localStorage and reset the theme
-      if (updateLocalStorage) localStorage.setItem("darkModeEnabled", "0");
+    darkModeDisable(updateSavedPreference: boolean) {
+      // set the theme
       document!.querySelector("html")!.dataset.theme = "default";
 
-      // flutter: push theme change to UI
-      if (this.$store.globals.platformIsFlutter) {
-        this.$store.globals.flutterHandler.callHandler("darkModeSet", false);
+      if (updateSavedPreference) {
+        // save data to localStorage
+        localStorage.setItem("darkModeEnabled", "0");
+
+        // flutter: push theme change to UI
+        if (this.$store.globals.platformIsFlutter) {
+          this.$store.globals.flutterHandler.callHandler(
+            "darkModeSet",
+            "light"
+          );
+        }
       }
     },
 
-    darkModeToggle() {
-      if (this.lightModeToggled) this.darkModeEnable(true);
-      else this.darkModeDisable(true);
+    handleChange() {
+      if (this.choice === "Auto") {
+        this.darkModeClearPreference();
+      } else if (this.choice === "Light") {
+        this.darkModeDisable(true);
+      } else if (this.choice === "Dark") {
+        this.darkModeEnable(true);
+      }
     },
   };
 }
 
 export const data = [
   {
-    name: "darkModeToggle",
-    data: darkModeToggle,
+    name: "darkModeSelect",
+    data: darkModeSelect,
   },
   ...todosData,
 ];
@@ -222,14 +255,13 @@ const components = {
         );
 
         // platform
-        globals.platform = this.$el.dataset.platform;
+        globals.platform = globals.platform || this.$el.dataset.platform;
         if (globals.platformIsFlutter) {
-          // flutter handler
-          globals.flutterHandler = window["flutter_inappwebview"];
+          // preserve platform setting for the duration of the session
+          sessionStorage.setItem("platform", "flutter");
 
-          if (globals.flutterHandler === undefined) {
-            console.error("Flutter handler has not been initialized");
-          }
+          // store flutter handler
+          globals.flutterHandler = window["flutter_inappwebview"];
         }
       },
     };
@@ -238,11 +270,11 @@ const components = {
 
 const globals = {
   platform: undefined,
-  get platformIsWeb() {
-    return this.platform === "web";
-  },
   get platformIsFlutter() {
-    return this.platform === "flutter";
+    return (
+      sessionStorage.getItem("platform") === "flutter" ||
+      this.platform === "flutter"
+    );
   },
 };
 

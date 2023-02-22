@@ -257,7 +257,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar_settings_menu(assigns) do
     ~H"""
-    <div x-data="{ show: false }" x-title="navbarSettingsMenu">
+    <div x-data="{ show: true }" x-title="navbarSettingsMenu">
       <button class="btn-ghost btn-square btn m-1" x-on:click="show = true" x-tooltip="Settings">
         <Heroicons.cog_6_tooth solid class="h-7 w-7 stroke-current" />
       </button>
@@ -295,18 +295,25 @@ defmodule TodoListWeb.CoreComponents do
   def settings_content(assigns) do
     ~H"""
     <div class="w-full max-w-xs my-4 ml-1 flex justify-between align-center">
-      <div class="text-lg font-semibold">
+      <div class="flex flex-center text-lg font-semibold">
         Dark Mode
       </div>
-      <div>
-        <.navbar_dark_mode_toggle />
+      <div x-data="darkModeSelect">
+        <select class="select select-bordered" x-model="choice" x-on:change="handleChange">
+          <option>Auto</option>
+          <option>Light</option>
+          <option>Dark</option>
+        </select>
       </div>
     </div>
     """
   end
 
   @doc """
-  Renders a toggle for light and dark mode.
+  DEPRECATED - Renders a toggle for light and dark mode.
+
+  This module is deprecated and is being kept for future reference for
+  icon swaps and toggle actions (e.g. color changes).
 
   ## Example
 
@@ -314,7 +321,7 @@ defmodule TodoListWeb.CoreComponents do
   """
   def navbar_dark_mode_toggle(assigns) do
     ~H"""
-    <div class="pr-2 flex" x-data="darkModeToggle" x-cloak>
+    <div class="pr-2 flex" x-cloak>
       <label
         class="flex-center mr-3 flex grid swap swap-rotate"
         x-bind:class="lightModeToggled && 'swap-active'"
@@ -330,9 +337,7 @@ defmodule TodoListWeb.CoreComponents do
         type="checkbox"
         class="toggle transition-none"
         x-bind:class="lightModeToggled && 'toggle-warning'"
-        x-model="lightModeToggled"
         x-tooltip="Toggle dark mode"
-        x-on:click="darkModeToggle"
       />
     </div>
     """

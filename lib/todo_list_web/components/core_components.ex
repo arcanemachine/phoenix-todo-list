@@ -294,8 +294,8 @@ defmodule TodoListWeb.CoreComponents do
   """
   def settings_content(assigns) do
     ~H"""
-    <div class="w-full max-w-xs my-4 ml-1 flex justify-between align-center">
-      <div class="flex flex-center text-lg font-semibold">
+    <div class="flex justify-between align-center h-12 w-full max-w-xs my-4 ml-1">
+      <div class="my-auto text-lg font-semibold">
         Dark Mode
       </div>
       <div x-data="darkModeSelect">

@@ -257,7 +257,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar_settings_menu(assigns) do
     ~H"""
-    <div x-data="{ show: true }" x-title="navbarSettingsMenu">
+    <div x-data="{ show: false }" x-title="navbarSettingsMenu">
       <button class="btn-ghost btn-square btn m-1" x-on:click="show = true" x-tooltip="Settings">
         <Heroicons.cog_6_tooth solid class="h-7 w-7 stroke-current" />
       </button>

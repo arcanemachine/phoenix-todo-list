@@ -10,7 +10,14 @@ import StartToastifyInstance from "toastify-js";
 function darkModeSelect() {
   return {
     // data
-    choice: undefined,
+    choice: () => {
+      /** Get initial choice. */
+      if (helpers.base.darkModeSavedPreferenceExists) {
+        return localStorage.getItem("darkModeEnabled") === "1"
+          ? "Dark"
+          : "Light";
+      } else return "Auto";
+    },
 
     // lifecycle
     init() {
@@ -18,6 +25,16 @@ function darkModeSelect() {
       const browserDarkModePreference = window.matchMedia(
         "(prefers-color-scheme: dark)"
       );
+
+      // set initial theme
+      if (
+        !helpers.base.darkModeSavedPreferenceExists &&
+        browserDarkModePreference.matches
+      ) {
+        this.darkModeEnable(false);
+      }
+
+      // watch for browser-level changes to dark mode preference
       browserDarkModePreference.addEventListener("change", (evt: any) => {
         // only change if no preference has been assigned manually
         if (!helpers.base.darkModeSavedPreferenceExists) {

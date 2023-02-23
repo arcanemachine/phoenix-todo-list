@@ -277,8 +277,8 @@ const components = {
           // preserve platform setting for the duration of the session
           sessionStorage.setItem("platform", "flutter");
 
-          // store flutter handler
-          globals.flutterHandler = window["flutter_inappwebview"];
+          // // store flutter handler
+          // globals.flutterHandler = window["flutter_inappwebview"];
         }
       },
     };
@@ -287,6 +287,9 @@ const components = {
 
 const globals = {
   platform: undefined,
+  get flutterHandler() {
+    return this.platformIsFlutter ? window["flutter_inappwebview"] : null;
+  },
   get platformIsFlutter() {
     return (
       sessionStorage.getItem("platform") === "flutter" ||

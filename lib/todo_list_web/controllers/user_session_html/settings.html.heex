@@ -1,4 +1,4 @@
-<template x-if="$store.globals.platformIsFlutter">
+<template x-if="$store.globals.platformIsNative">
   <div x-init="() => {
     // ensure the 'Settings' tab is selected while viewing this page
     $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 1);
@@ -14,9 +14,11 @@
     <.settings_content />
   </div>
 
-  <template x-if="$store.globals.platformIsFlutter">
-    <ul class="h-full w-full w-max-xs flex flex-col justify-center align-start"
-        x-show="$store.globals.userIsAuthenticated">
+  <template x-if="$store.globals.platformIsNative">
+    <ul
+      class="h-full w-full w-max-xs flex flex-col justify-center align-start"
+      x-show="$store.globals.userIsAuthenticated"
+    >
       <li>
         <.link class="w-full mt-4 btn btn-lg btn-primary" href={~p"/users/profile"}>
           View Your Profile

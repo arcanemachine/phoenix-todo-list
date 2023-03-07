@@ -3,7 +3,7 @@ defmodule TodoListWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <template x-if="$store.globals.platformIsFlutter">
+    <template x-if="$store.globals.platformIsNative">
       <div x-init="() => {
         // after logging out, select the 'Items' tab
         $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);

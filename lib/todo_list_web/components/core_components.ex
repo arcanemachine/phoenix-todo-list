@@ -14,6 +14,15 @@ defmodule TodoListWeb.CoreComponents do
   alias Phoenix.LiveView.JS
   import TodoListWeb.Gettext
 
+  @doc """
+  Renders a list of links.
+
+  ## Example
+
+    <.action_links items={[
+      %{content: "Return to your profile", navigate: ~p"/users/profile", class: "list-back"}
+    ]} />
+  """
   attr :title, :string, default: nil
   attr :items, :list, required: true
 
@@ -53,6 +62,55 @@ defmodule TodoListWeb.CoreComponents do
       "w-5 h-5 hidden phx-click-loading:inline phx-submit-loading:inline animate-spin",
       @class
     ]} />
+    """
+  end
+
+  @doc """
+  Renders a page footer.
+
+  ## Example
+
+    <.footer />
+  """
+  def footer(assigns) do
+    ~H"""
+    <section class="w-full bg-base-200 py-4 text-center">
+      <ul class="mt-child-2 list-none">
+        <li>
+          <h4 class="text-xl font-bold">
+            Todo List
+          </h4>
+        </li>
+
+        <li class="mt-6">
+          <.link href="/">
+            Home
+          </.link>
+        </li>
+        <li>
+          <.link href="/users/profile">
+            Your Account
+          </.link>
+        </li>
+
+        <li class="mt-6">
+          <.link href="/terms-of-use">
+            Terms of Use
+          </.link>
+        </li>
+        <li>
+          <.link href="/privacy-policy">
+            Privacy Policy
+          </.link>
+        </li>
+
+        <li class="mt-6">
+          <small>
+            &copy; Copyright <%= DateTime.utc_now().year %>.  All rights reserved.
+          </small>
+        </li>
+      </ul>
+    </section>
     """
   end
 
@@ -191,7 +249,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="navbar py-0 border-y-2 transition-colors duration-300" x-cloak>
+    <nav class="navbar py-0 border-bottom-2 transition-colors duration-300" x-cloak>
       <!-- navbar start items -->
       <div class="flex-1">
         <!-- navbar title -->

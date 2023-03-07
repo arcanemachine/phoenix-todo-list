@@ -119,10 +119,6 @@
     min-width: 9rem;
   }
 
-  .h-content {
-    height: calc(100vh - 10rem);
-  }
-
   .template-center {
     display: flex;
     height: 100%;

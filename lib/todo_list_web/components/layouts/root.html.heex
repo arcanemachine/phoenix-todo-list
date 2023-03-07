@@ -18,14 +18,14 @@
     </script>
   </head>
   <body
-    class="h-full bg-base-100 antialiased"
+    class="flex flex-col h-full bg-base-200 antialiased"
     data-platform={TemplateHelpers.detect_platform(@conn)}
-    data-user-is-authenticated={@conn.assigns[:current_user] && "true" || "false"}
+    data-user-is-authenticated={(@conn.assigns[:current_user] && "true") || "false"}
     x-data="$store.components.body"
     x-title="body"
   >
+    <!-- utility -->
     <section>
-      <!-- utility -->
       <div style="display: none">
         <!-- search engine text (bing) -->
         A todo list made with Phoenix LiveView.
@@ -39,13 +39,29 @@
       </noscript>
     </section>
 
-    <template x-if="$store.globals.platformIsFlutter">
+    <template x-if="$store.globals.platformIsNative">
       <section>
         <!-- add spacer so flash messages don't block the title -->
         <div class="h-12">&nbsp;</div>
       </section>
     </template>
-    <section x-show="!$store.globals.platformIsFlutter">
+
+    <section
+      id="toast-container"
+      @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
+      @phx:toast-show-primary.window="(evt) => $store.toasts.showPrimary(evt.detail)"
+      @phx:toast-show-secondary.window="(evt) => $store.toasts.showSecondary(evt.detail)"
+      @phx:toast-show-accent.window="(evt) => $store.toasts.showAccent(evt.detail)"
+      @phx:toast-show-neutral.window="(evt) => $store.toasts.showNeutral(evt.detail)"
+      @phx:toast-show-info.window="(evt) => $store.toasts.showInfo(evt.detail)"
+      @phx:toast-show-success.window="(evt) => $store.toasts.showSuccess(evt.detail)"
+      @phx:toast-show-warning.window="(evt) => $store.toasts.showWarning(evt.detail)"
+      @phx:toast-show-error.window="(evt) => $store.toasts.showError(evt.detail)"
+    >
+      <!-- toasts -->
+    </section>
+
+    <section x-show="!$store.globals.platformIsNative">
       <.navbar>
         <:user_action_menu_items>
           <%= if @current_user do %>
@@ -65,38 +81,29 @@
           <% end %>
         </:user_action_menu_items>
       </.navbar>
-
     </section>
 
-    <section
-      id="toast-container"
-      @phx:toast-show.window="(evt) => $store.toasts.show(evt.detail)"
-      @phx:toast-show-primary.window="(evt) => $store.toasts.showPrimary(evt.detail)"
-      @phx:toast-show-secondary.window="(evt) => $store.toasts.showSecondary(evt.detail)"
-      @phx:toast-show-accent.window="(evt) => $store.toasts.showAccent(evt.detail)"
-      @phx:toast-show-neutral.window="(evt) => $store.toasts.showNeutral(evt.detail)"
-      @phx:toast-show-info.window="(evt) => $store.toasts.showInfo(evt.detail)"
-      @phx:toast-show-success.window="(evt) => $store.toasts.showSuccess(evt.detail)"
-      @phx:toast-show-warning.window="(evt) => $store.toasts.showWarning(evt.detail)"
-      @phx:toast-show-error.window="(evt) => $store.toasts.showError(evt.detail)"
-    >
-      <!-- toasts -->
-    </section>
+    <section class="grow flex flex-col bg-base-100">
+      <!-- content -->
+      <section>
+        <section class="mb-12">
+          <h1 class="mt-4 text-4xl text-center font-bold">
+            <%= assigns[:page_title] || "" %>
+          </h1>
 
-    <section>
-      <section class="mb-12">
-        <h1 class="mt-4 text-4xl text-center font-bold">
-          <%= assigns[:page_title] || "" %>
-        </h1>
+          <h2 class="mt-2 text-2xl text-center">
+            <%= assigns[:page_subtitle] || "" %>
+          </h2>
+        </section>
+      </section>
 
-        <h2 class="mt-2 text-2xl text-center">
-          <%= assigns[:page_subtitle] || "" %>
-        </h2>
+      <div class="grow flex flex-col max-w-4xl min-h-[15rem] mx-auto mb-16 px-4 container">
+        <%= @inner_content %>
+      </div>
+
+      <section x-show="!$store.globals.platformIsNative">
+        <.footer />
       </section>
     </section>
-
-    <div class="h-content mx-auto px-4 container max-w-4xl">
-      <%= @inner_content %>
-    </div>
   </body>
 </html>

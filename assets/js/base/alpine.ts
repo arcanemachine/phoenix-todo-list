@@ -61,7 +61,7 @@ function darkModeSelect() {
       localStorage.removeItem("darkModeEnabled");
 
       // flutter: push theme change to UI
-      if (this.$store.globals.platformIsFlutter) {
+      if (this.$store.globals.platformIsNative) {
         this.$store.globals.flutterHandler.callHandler("darkModeSet", "system");
       }
     },
@@ -75,7 +75,7 @@ function darkModeSelect() {
         localStorage.setItem("darkModeEnabled", "1");
 
         // flutter: push theme change to UI
-        if (this.$store.globals.platformIsFlutter) {
+        if (this.$store.globals.platformIsNative) {
           this.$store.globals.flutterHandler.callHandler("darkModeSet", "dark");
         }
       }
@@ -90,7 +90,7 @@ function darkModeSelect() {
         localStorage.setItem("darkModeEnabled", "0");
 
         // flutter: push theme change to UI
-        if (this.$store.globals.platformIsFlutter) {
+        if (this.$store.globals.platformIsNative) {
           this.$store.globals.flutterHandler.callHandler(
             "darkModeSet",
             "light"
@@ -273,7 +273,7 @@ const components = {
 
         // platform
         globals.platform = globals.platform || this.$el.dataset.platform;
-        if (globals.platformIsFlutter) {
+        if (globals.platformIsNative) {
           // preserve platform setting for the duration of the session
           sessionStorage.setItem("platform", "flutter");
 
@@ -288,9 +288,9 @@ const components = {
 const globals = {
   platform: undefined,
   get flutterHandler() {
-    return this.platformIsFlutter ? window["flutter_inappwebview"] : null;
+    return this.platformIsNative ? window["flutter_inappwebview"] : null;
   },
-  get platformIsFlutter() {
+  get platformIsNative() {
     return (
       sessionStorage.getItem("platform") === "flutter" ||
       this.platform === "flutter"

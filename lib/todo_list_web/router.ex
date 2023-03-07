@@ -72,10 +72,15 @@ defmodule TodoListWeb.Router do
     end
   end
 
-  # auth
+  # no auth requirements
   scope "/", TodoListWeb do
     pipe_through([:browser])
 
+    get("/contact-us", PageController, :contact_us)
+    get("/privacy-policy", PageController, :privacy_policy)
+    get("/terms-of-use", PageController, :terms_of_use)
+
+    # users
     delete "/users/log_out", UserSessionController, :delete
     get "/users/settings", UserSessionController, :settings
 

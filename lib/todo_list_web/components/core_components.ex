@@ -103,6 +103,11 @@ defmodule TodoListWeb.CoreComponents do
             Privacy Policy
           </.link>
         </li>
+        <li>
+          <.link href="/contact-us">
+            Contact Us
+          </.link>
+        </li>
 
         <li class="mt-6">
           <small>

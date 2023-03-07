@@ -1,14 +1,27 @@
+<template x-if="$store.globals.platformIsFlutter">
+  <div x-init="() => {
+    // ensure the 'Settings' tab is selected while viewing this page
+    $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 1);
+
+    // clear the navigation stack
+    $store.globals.flutterHandler.callHandler('clearNavigationStack', 0);
+  }">
+  </div>
+</template>
+
 <section class="template-center max-w-xs">
   <div class="h-full w-full flex flex-center">
     <.settings_content />
   </div>
 
-  <ul class="h-full w-full w-max-xs flex flex-col justify-center align-start"
-      x-show="$store.globals.userIsAuthenticated && $store.globals.platformIsFlutter">
-    <li>
-      <.link class="w-full mt-4 btn btn-lg btn-primary" href={~p"/users/profile"}>
-        View Your Profile
-      </.link>
-    </li>
-  </ul>
+  <template x-if="$store.globals.platformIsFlutter">
+    <ul class="h-full w-full w-max-xs flex flex-col justify-center align-start"
+        x-show="$store.globals.userIsAuthenticated">
+      <li>
+        <.link class="w-full mt-4 btn btn-lg btn-primary" href={~p"/users/profile"}>
+          View Your Profile
+        </.link>
+      </li>
+    </ul>
+  </template>
 </section>

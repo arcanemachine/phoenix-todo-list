@@ -1,3 +1,14 @@
+<template x-if="$store.globals.platformIsFlutter">
+  <div x-init="() => {
+    // ensure the 'Items' tab is selected while viewing this page
+    $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);
+
+    // clear the navigation stack
+    $store.globals.flutterHandler.callHandler('clearNavigationStack', 0);
+  }">
+  </div>
+</template>
+
 <!-- presence: user count -->
 <%= if assigns[:user_count] && @user_count > 0 do %>
   <div

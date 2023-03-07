@@ -26,7 +26,7 @@ defmodule TodoListWeb.UserAuth do
   disconnected on log out. The line can be safely removed
   if you are not using LiveView.
   """
-  def log_in_user(conn, user, params \\ %{}) do
+  def login_user(conn, user, params \\ %{}) do
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
 
@@ -38,7 +38,7 @@ defmodule TodoListWeb.UserAuth do
   end
 
   @doc "Create a session token and return it to the user."
-  def api_log_in_user(conn, user, status \\ :ok) do
+  def api_login_user(conn, user, status \\ :ok) do
     token = Accounts.generate_user_session_token(user)
 
     conn |> put_status(status) |> json(%{user: %{id: user.id, token: Base.url_encode64(token)}})
@@ -78,7 +78,7 @@ defmodule TodoListWeb.UserAuth do
 
   It clears all session data for safety. See renew_session.
   """
-  def log_out_user(conn) do
+  def logout_user(conn) do
     user_token = get_session(conn, :user_token)
     user_token && Accounts.delete_user_session_token(user_token)
 
@@ -93,7 +93,7 @@ defmodule TodoListWeb.UserAuth do
   end
 
   @doc "Log the user out by clearing the session token from the database."
-  def api_log_out_user(conn) do
+  def api_logout_user(conn) do
     {user_token, _conn} = api_ensure_user_token(conn)
     user_token && Accounts.delete_user_session_token(user_token)
 
@@ -195,7 +195,7 @@ defmodule TodoListWeb.UserAuth do
       socket =
         socket
         |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/login")
 
       {:halt, socket}
     end
@@ -262,7 +262,7 @@ defmodule TodoListWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log_in")
+      |> redirect(to: ~p"/users/login")
       |> halt()
     end
   end

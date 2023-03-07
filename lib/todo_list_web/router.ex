@@ -81,14 +81,14 @@ defmodule TodoListWeb.Router do
     get("/terms-of-use", PageController, :terms_of_use)
 
     # users
-    delete "/users/log_out", UserSessionController, :delete
+    delete "/users/logout", UserSessionController, :delete
     get "/users/settings", UserSessionController, :settings
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
       live("/users/confirm/:token", UserConfirmationLive, :edit)
       live("/users/confirm", UserConfirmationInstructionsLive, :new)
-      live("/users/log_out", UserLogoutLive, :new)
+      live("/users/logout", UserLogoutLive, :new)
     end
   end
 
@@ -99,12 +99,12 @@ defmodule TodoListWeb.Router do
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{TodoListWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live("/users/register", UserRegistrationLive, :new)
-      live("/users/log_in", UserLoginLive, :new)
+      live("/users/login", UserLoginLive, :new)
       live("/users/reset_password", UserForgotPasswordLive, :new)
       live("/users/reset_password/:token", UserResetPasswordLive, :edit)
     end
 
-    post "/users/log_in", UserSessionController, :create
+    post "/users/login", UserSessionController, :create
   end
 
   # login required

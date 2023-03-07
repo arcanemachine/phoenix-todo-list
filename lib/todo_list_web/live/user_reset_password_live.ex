@@ -34,7 +34,7 @@ defmodule TodoListWeb.UserResetPasswordLive do
       <p class="text-center mt-4">
         <.link href={~p"/users/register"}>Register</.link>
         |
-        <.link href={~p"/users/log_in"}>Log in</.link>
+        <.link href={~p"/users/login"}>Log in</.link>
       </p>
     </div>
     """
@@ -63,7 +63,7 @@ defmodule TodoListWeb.UserResetPasswordLive do
         {:noreply,
          socket
          |> put_flash(:info, "Password reset successfully.")
-         |> redirect(to: ~p"/users/log_in")}
+         |> redirect(to: ~p"/users/login")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :changeset, Map.put(changeset, :action, :insert))}

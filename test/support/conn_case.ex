@@ -39,14 +39,14 @@ defmodule TodoListWeb.ConnCase do
   @doc """
   Setup helper that registers and logs in users.
 
-      setup :register_and_log_in_user
+      setup :register_and_login_user
 
   It stores an updated connection and a registered user in the
   test context.
   """
-  def register_and_log_in_user(%{conn: conn}) do
+  def register_and_login_user(%{conn: conn}) do
     user = TodoList.AccountsFixtures.user_fixture()
-    %{conn: log_in_user(conn, user), user: user}
+    %{conn: login_user(conn, user), user: user}
   end
 
   @doc """
@@ -54,7 +54,7 @@ defmodule TodoListWeb.ConnCase do
 
   It returns an updated `conn`.
   """
-  def log_in_user(conn, user) do
+  def login_user(conn, user) do
     token = TodoList.Accounts.generate_user_session_token(user)
 
     conn

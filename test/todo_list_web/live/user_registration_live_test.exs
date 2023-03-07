@@ -15,7 +15,7 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
     test "redirects if already logged in", %{conn: conn} do
       result =
         conn
-        |> log_in_user(user_fixture())
+        |> login_user(user_fixture())
         |> live(~p"/users/register")
         |> follow_redirect(conn, "/")
 
@@ -78,7 +78,7 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
         lv
         |> element(~s|main a:fl-contains("Sign in")|)
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/log_in")
+        |> follow_redirect(conn, ~p"/users/login")
 
       assert login_html =~ "Log in"
     end

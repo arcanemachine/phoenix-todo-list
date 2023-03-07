@@ -10,7 +10,7 @@ defmodule TodoListWeb.UserLogoutLive do
 
       <.simple_form for={:nothing}>
         <:actions>
-          <.link href={~p"/users/log_out"} method="delete">
+          <.link href={~p"/users/logout"} method="delete">
             <button
               type="button"
               class="btn btn-lg btn-primary form-button"

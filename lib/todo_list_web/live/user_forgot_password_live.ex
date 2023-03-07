@@ -23,7 +23,7 @@ defmodule TodoListWeb.UserForgotPasswordLive do
         <p class="text-center mt-6">
           <.link href={~p"/users/register"}>Register</.link>
           <span class="inline-block w-8">|</span>
-          <.link href={~p"/users/log_in"}>Log in</.link>
+          <.link href={~p"/users/login"}>Log in</.link>
         </p>
       </div>
     </section>

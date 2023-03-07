@@ -28,7 +28,7 @@ defmodule TodoListWeb.UserLoginLive do
           :let={f}
           id="login_form"
           for={:user}
-          action={~p"/users/log_in"}
+          action={~p"/users/login"}
           as={:user}
           phx-update="ignore"
         >

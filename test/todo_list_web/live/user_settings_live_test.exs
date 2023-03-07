@@ -9,7 +9,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
     test "renders settings page", %{conn: conn} do
       {:ok, _lv, html} =
         conn
-        |> log_in_user(user_fixture())
+        |> login_user(user_fixture())
         |> live(~p"/users/settings")
 
       assert html =~ "Change Email"
@@ -20,7 +20,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
       assert {:error, redirect} = live(conn, ~p"/users/settings")
 
       assert {:redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/users/log_in"
+      assert path == ~p"/users/login"
       assert %{"error" => "You must log in to access this page."} = flash
     end
   end
@@ -29,7 +29,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
     setup %{conn: conn} do
       password = valid_user_password()
       user = user_fixture(%{password: password})
-      %{conn: log_in_user(conn, user), user: user, password: password}
+      %{conn: login_user(conn, user), user: user, password: password}
     end
 
     test "updates the user email", %{conn: conn, password: password, user: user} do
@@ -86,7 +86,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
     setup %{conn: conn} do
       password = valid_user_password()
       user = user_fixture(%{password: password})
-      %{conn: log_in_user(conn, user), user: user, password: password}
+      %{conn: login_user(conn, user), user: user, password: password}
     end
 
     test "updates the user password", %{conn: conn, user: user, password: password} do
@@ -168,7 +168,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
           Accounts.deliver_user_update_email_instructions(%{user | email: email}, user.email, url)
         end)
 
-      %{conn: log_in_user(conn, user), token: token, email: email, user: user}
+      %{conn: login_user(conn, user), token: token, email: email, user: user}
     end
 
     test "updates the user email once", %{conn: conn, user: user, token: token, email: email} do
@@ -202,7 +202,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
       conn = build_conn()
       {:error, redirect} = live(conn, ~p"/users/settings/confirm_email/#{token}")
       assert {:redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/users/log_in"
+      assert path == ~p"/users/login"
       assert %{"error" => message} = flash
       assert message == "You must log in to access this page."
     end

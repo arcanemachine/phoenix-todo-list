@@ -26,7 +26,7 @@ defmodule TodoListWeb.Api.UserSessionController do
     %{"email" => email, "password" => password} = user_params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do
-      conn |> UserAuth.api_log_in_user(user, status)
+      conn |> UserAuth.api_login_user(user, status)
     else
       conn
       |> put_status(:unauthorized)
@@ -72,6 +72,6 @@ defmodule TodoListWeb.Api.UserSessionController do
 
   @doc "Logout - Delete user session token."
   def delete(conn, _params) do
-    conn |> UserAuth.api_log_out_user()
+    conn |> UserAuth.api_logout_user()
   end
 end

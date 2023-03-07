@@ -44,7 +44,7 @@ defmodule TodoListWeb.UserSettingsLive do
       :let={f}
       id="password_form"
       for={@password_changeset}
-      action={~p"/users/log_in?_action=password_updated"}
+      action={~p"/users/login?_action=password_updated"}
       method="post"
       phx-change="validate_password"
       phx-submit="update_password"

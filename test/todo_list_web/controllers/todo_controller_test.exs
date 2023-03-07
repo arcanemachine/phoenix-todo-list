@@ -18,37 +18,37 @@ defmodule TodoListWeb.TodoControllerTest do
     test "cannot :index todos", %{conn: conn} do
       # test "cannot :index todos", %{conn: conn} do
       conn = conn |> get(~p"/todos")
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
 
     test "cannot make :new todo", %{conn: conn} do
       conn = conn |> get(~p"/todos/new")
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
 
     test "cannot :create todo", %{conn: conn} do
       conn = conn |> post(~p"/todos", todo: @create_attrs)
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
 
     test "cannot :show todo", %{conn: conn, todo: todo} do
       conn = conn |> get(~p"/todos/#{todo}")
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
 
     test "cannot :edit todo", %{conn: conn, todo: todo} do
       conn = conn |> get(~p"/todos/#{todo}/edit")
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
 
     test "cannot :update todo", %{conn: conn, todo: todo} do
       conn = conn |> put(~p"/todos/#{todo}", todo: @update_attrs)
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
 
     test "cannot :delete todo", %{conn: conn, todo: todo} do
       conn = conn |> delete(~p"/todos/#{todo}")
-      assert redirected_to(conn) == ~p"/users/log_in"
+      assert redirected_to(conn) == ~p"/users/login"
     end
   end
 
@@ -58,49 +58,49 @@ defmodule TodoListWeb.TodoControllerTest do
     test "cannot :show another user's todo", %{conn: conn, todo: todo} do
       other_user = user_fixture()
 
-      conn = conn |> log_in_user(other_user) |> get(~p"/todos/#{todo}")
+      conn = conn |> login_user(other_user) |> get(~p"/todos/#{todo}")
       assert text_response(conn, 403) =~ "Forbidden"
     end
 
     test "cannot :edit another user's todo", %{conn: conn, todo: todo} do
       other_user = user_fixture()
 
-      conn = conn |> log_in_user(other_user) |> get(~p"/todos/#{todo}/edit")
+      conn = conn |> login_user(other_user) |> get(~p"/todos/#{todo}/edit")
       assert text_response(conn, 403) =~ "Forbidden"
     end
 
     test "cannot :update another user's todo", %{conn: conn, todo: todo} do
       other_user = user_fixture()
 
-      conn = conn |> log_in_user(other_user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
+      conn = conn |> login_user(other_user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
       assert text_response(conn, 403) =~ "Forbidden"
     end
 
     test "cannot :delete another user's todo", %{conn: conn, todo: todo} do
       other_user = user_fixture()
 
-      conn = conn |> log_in_user(other_user) |> delete(~p"/todos/#{todo}")
+      conn = conn |> login_user(other_user) |> delete(~p"/todos/#{todo}")
       assert text_response(conn, 403) =~ "Forbidden"
     end
   end
 
   describe "index" do
     test "lists all todos", %{conn: conn, user: user} do
-      conn = conn |> log_in_user(user) |> get(~p"/todos")
+      conn = conn |> login_user(user) |> get(~p"/todos")
       assert html_response(conn, 200) =~ "Listing Todos"
     end
   end
 
   describe "new todo" do
     test "renders form", %{conn: conn, user: user} do
-      conn = conn |> log_in_user(user) |> get(~p"/todos/new")
+      conn = conn |> login_user(user) |> get(~p"/todos/new")
       assert html_response(conn, 200) =~ "New Todo"
     end
   end
 
   describe "create todo" do
     test "redirects to show when data is valid", %{conn: conn, user: user} do
-      conn = conn |> log_in_user(user) |> post(~p"/todos", todo: @create_attrs)
+      conn = conn |> login_user(user) |> post(~p"/todos", todo: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == ~p"/todos/#{id}"
@@ -110,7 +110,7 @@ defmodule TodoListWeb.TodoControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = conn |> log_in_user(user) |> post(~p"/todos", todo: @invalid_attrs)
+      conn = conn |> login_user(user) |> post(~p"/todos", todo: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Todo"
     end
   end
@@ -119,7 +119,7 @@ defmodule TodoListWeb.TodoControllerTest do
     setup [:create_fixtures]
 
     test "allows user to view their todo", %{conn: conn, user: user, todo: todo} do
-      conn = conn |> log_in_user(user) |> get(~p"/todos/#{todo}")
+      conn = conn |> login_user(user) |> get(~p"/todos/#{todo}")
       assert html_response(conn, 200) =~ "Show Todo"
     end
   end
@@ -128,7 +128,7 @@ defmodule TodoListWeb.TodoControllerTest do
     setup [:create_fixtures]
 
     test "renders form for editing chosen todo", %{conn: conn, user: user, todo: todo} do
-      conn = conn |> log_in_user(user) |> get(~p"/todos/#{todo}/edit")
+      conn = conn |> login_user(user) |> get(~p"/todos/#{todo}/edit")
       assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
@@ -137,7 +137,7 @@ defmodule TodoListWeb.TodoControllerTest do
     setup [:create_fixtures]
 
     test "redirects when data is valid", %{conn: conn, user: user, todo: todo} do
-      conn = conn |> log_in_user(user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
+      conn = conn |> login_user(user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
       assert redirected_to(conn) == ~p"/todos/#{todo}"
 
       conn = conn |> get(~p"/todos/#{todo}")
@@ -145,7 +145,7 @@ defmodule TodoListWeb.TodoControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user, todo: todo} do
-      conn = conn |> log_in_user(user) |> put(~p"/todos/#{todo}", todo: @invalid_attrs)
+      conn = conn |> login_user(user) |> put(~p"/todos/#{todo}", todo: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
@@ -154,7 +154,7 @@ defmodule TodoListWeb.TodoControllerTest do
     setup [:create_fixtures]
 
     test "deletes chosen todo", %{conn: conn, user: user, todo: todo} do
-      conn = conn |> log_in_user(user) |> delete(~p"/todos/#{todo}")
+      conn = conn |> login_user(user) |> delete(~p"/todos/#{todo}")
       assert redirected_to(conn) == ~p"/todos"
 
       assert_error_sent 404, fn ->

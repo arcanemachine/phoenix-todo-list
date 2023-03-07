@@ -19,7 +19,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
     test "redirects if already logged in", %{conn: conn} do
       result =
         conn
-        |> log_in_user(user_fixture())
+        |> login_user(user_fixture())
         |> live(~p"/users/reset_password")
         |> follow_redirect(conn, ~p"/")
 

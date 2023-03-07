@@ -57,7 +57,7 @@ defmodule TodoListWeb.UserConfirmationLiveTest do
       # when logged in
       {:ok, lv, _html} =
         build_conn()
-        |> log_in_user(user)
+        |> login_user(user)
         |> live(~p"/users/confirm/#{token}")
 
       result =

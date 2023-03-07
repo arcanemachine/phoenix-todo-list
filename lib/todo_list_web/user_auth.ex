@@ -89,7 +89,7 @@ defmodule TodoListWeb.UserAuth do
     conn
     |> renew_session()
     |> delete_resp_cookie(@remember_me_cookie)
-    |> redirect(to: ~p"/todos/live")
+    |> redirect(to: ~p"/")
   end
 
   @doc "Log the user out by clearing the session token from the database."
@@ -98,6 +98,20 @@ defmodule TodoListWeb.UserAuth do
     user_token && Accounts.delete_user_session_token(user_token)
 
     conn |> json(%{message: "Logged out successfully"})
+  end
+
+  @doc """
+  Deletes the user.
+  """
+  def delete_user(conn) do
+    user = conn.assigns.current_user
+
+    conn = logout_user(conn)
+    Accounts.delete_user(user)
+
+    conn
+    |> put_flash(:info, "Account deleted successfully")
+    |> redirect(to: ~p"/")
   end
 
   @doc """

@@ -81,8 +81,8 @@ defmodule TodoListWeb.Router do
     get("/terms-of-use", PageController, :terms_of_use)
 
     # users
-    delete "/users/logout", UserSessionController, :delete
-    get "/users/settings", UserSessionController, :settings
+    delete("/users/logout", UserSessionController, :delete)
+    get("/users/settings", UserSessionController, :settings)
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
@@ -116,7 +116,9 @@ defmodule TodoListWeb.Router do
     resources("/todos", TodoController, only: [:index, :new, :create])
 
     # users
-    get "/users/profile", UserSessionController, :show
+    delete("/users/profile/delete", UserController, :delete)
+    get("/users/profile", UserSessionController, :show)
+    get("/users/profile/update", UserSessionController, :update)
 
     live_session :require_authenticated_user,
       on_mount: [{TodoListWeb.UserAuth, :ensure_authenticated}] do
@@ -125,8 +127,10 @@ defmodule TodoListWeb.Router do
       live "/todos/live", TodosLive
 
       # users
-      live("/users/profile/update", UserSettingsLive, :edit)
-      live("/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email)
+      live("/users/profile/delete", UserDeleteLive)
+      live("/users/profile/update/email", UserUpdateEmailLive, :edit)
+      live("/users/profile/update/password", UserUpdatePasswordLive, :edit)
+      live("/users/profile/confirm_email/:token", UserUpdateEmailLive, :confirm_email)
     end
   end
 

@@ -1,4 +1,4 @@
-<template x-if="$store.globals.platformIsNative">
+<template x-if="$store.globals.platformIsApp">
   <div x-init="() => {
     // ensure the 'Items' tab is selected while viewing this page
     $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);
@@ -36,7 +36,8 @@
 >
   <!-- todo form -->
   <.form
-    for={:form}
+    for={%{}}
+    as={:form}
     class="mx-0 w-full"
     id="todo-form"
     x-on:submit="formValidate"

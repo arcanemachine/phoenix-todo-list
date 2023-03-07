@@ -1,4 +1,4 @@
-<template x-if="$store.globals.platformIsNative">
+<template x-if="$store.globals.platformIsApp">
   <div x-init="() => {
     // ensure the 'Settings' tab is selected while viewing this page
     $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 1);
@@ -14,7 +14,7 @@
     <.settings_content />
   </div>
 
-  <template x-if="$store.globals.platformIsNative">
+  <template x-if="$store.globals.platformIsApp">
     <ul
       class="h-full w-full w-max-xs flex flex-col justify-center align-start"
       x-show="$store.globals.userIsAuthenticated"

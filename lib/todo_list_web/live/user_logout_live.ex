@@ -1,6 +1,10 @@
 defmodule TodoListWeb.UserLogoutLive do
   use TodoListWeb, :live_view
 
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, page_title: "Confirm Logout")}
+  end
+
   def render(assigns) do
     ~H"""
     <div class="template-center max-w-sm">
@@ -8,7 +12,7 @@ defmodule TodoListWeb.UserLogoutLive do
         Are you sure you want to log out?
       </.header>
 
-      <.simple_form for={:nothing}>
+      <.simple_form for={%{}}>
         <:actions>
           <.link href={~p"/users/logout"} method="delete">
             <button
@@ -26,9 +30,5 @@ defmodule TodoListWeb.UserLogoutLive do
       </.simple_form>
     </div>
     """
-  end
-
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, page_title: "Confirm Logout")}
   end
 end

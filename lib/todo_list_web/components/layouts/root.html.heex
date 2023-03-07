@@ -39,7 +39,7 @@
       </noscript>
     </section>
 
-    <template x-if="$store.globals.platformIsNative">
+    <template x-if="$store.globals.platformIsApp">
       <section>
         <!-- add spacer so flash messages don't block the title -->
         <div class="h-12">&nbsp;</div>
@@ -61,7 +61,7 @@
       <!-- toasts -->
     </section>
 
-    <section x-show="!$store.globals.platformIsNative">
+    <section x-show="!$store.globals.platformIsApp">
       <.navbar>
         <:user_action_menu_items>
           <%= if @current_user do %>
@@ -101,7 +101,7 @@
         <%= @inner_content %>
       </div>
 
-      <section x-show="!$store.globals.platformIsNative">
+      <section x-show="!$store.globals.platformIsApp">
         <.footer />
       </section>
     </section>

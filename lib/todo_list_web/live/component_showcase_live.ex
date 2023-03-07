@@ -90,7 +90,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
     <h2 class="mt-16 text-3xl text-center">Simple Form</h2>
 
-    <.simple_form :let={f} class="max-w-lg mx-auto" for={:nothing}>
+    <.simple_form :let={f} class="max-w-lg mx-auto" for={%{}}>
       <!-- fields -->
       <.input field={{f, :text}} label="Text Input" />
       <.input field={{f, :email}} label="Email Input" />

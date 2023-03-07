@@ -74,8 +74,8 @@ defmodule TodoListWeb.CoreComponents do
   """
   def footer(assigns) do
     ~H"""
-    <section class="w-full bg-base-200 py-4 text-center">
-      <ul class="mt-child-2 list-none">
+    <section class="w-full bg-base-200 py-6 text-center">
+      <ul class="list-none">
         <li>
           <h4 class="text-xl font-bold">
             Todo List
@@ -87,7 +87,7 @@ defmodule TodoListWeb.CoreComponents do
             Home
           </.link>
         </li>
-        <li>
+        <li class="mt-2">
           <.link href="/users/profile">
             Your Account
           </.link>
@@ -98,12 +98,12 @@ defmodule TodoListWeb.CoreComponents do
             Terms of Use
           </.link>
         </li>
-        <li>
+        <li class="mt-2">
           <.link href="/privacy-policy">
             Privacy Policy
           </.link>
         </li>
-        <li>
+        <li class="mt-2">
           <.link href="/contact-us">
             Contact Us
           </.link>
@@ -111,7 +111,8 @@ defmodule TodoListWeb.CoreComponents do
 
         <li class="mt-6">
           <small>
-            &copy; Copyright <%= DateTime.utc_now().year %>.  All rights reserved.
+            &copy; Copyright <%= DateTime.utc_now().year %>.
+            <br />This project is licensed under <a href="https://github.com/aws/mit-0">MIT-0</a>.
           </small>
         </li>
       </ul>
@@ -440,7 +441,7 @@ defmodule TodoListWeb.CoreComponents do
       ]}
       {@rest}
     >
-      <p :if={@title} class="px-4 text-sm font-semibold text-center">
+      <p :if={@title} class="mt-[1px] px-4 text-sm font-semibold text-center">
         <!--
           <Heroicons.information_circle :if={@kind == :info} mini class="inline h-4 w-4" />
           <Heroicons.exclamation_circle :if={@kind == :error} mini class="inline h-4 w-4" />
@@ -465,7 +466,7 @@ defmodule TodoListWeb.CoreComponents do
 
   ## Examples
 
-      <.simple_form :let={f} for={:user} phx-change="validate" phx-submit="save">
+      <.simple_form :let={f} for={%{}} as={:user} phx-change="validate" phx-submit="save">
         <.input field={{f, :email}} label="Email"/>
         <.input field={{f, :username}} label="Username" />
         <:actions>

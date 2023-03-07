@@ -162,7 +162,7 @@ defmodule TodoList.Accounts do
 
   ## Examples
 
-      iex> deliver_user_update_email_instructions(user, current_email, &url(~p"/users/settings/confirm_email/#{&1})")
+      iex> deliver_user_update_email_instructions(user, current_email, &url(~p"/users/profile/confirm_email/#{&1})")
       {:ok, %{to: ..., body: ...}}
 
   """
@@ -240,6 +240,13 @@ defmodule TodoList.Accounts do
   def delete_user_session_token(token) do
     Repo.delete_all(UserToken.token_and_context_query(token, "session"))
     :ok
+  end
+
+  @doc """
+  Deletes a user.
+  """
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
   end
 
   ## Confirmation

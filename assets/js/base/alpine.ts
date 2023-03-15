@@ -283,6 +283,112 @@ const components = {
       },
     };
   },
+  simpleForm: () => {
+    const dataConfirmationRequired = {
+      /** If a form requires confirmation, show a checkbox element at the
+       *  bottom of the form, and do not allow the form to be submitted
+       *  unless the checkbox has been checked. This is intended to prevent
+       *  users from unintentionally submitting the form.
+       */
+      confirmationRequired: undefined,
+      confirmed: false,
+
+      init() {
+        this.confirmationRequired = this.$el.dataset.confirmationRequired;
+      },
+    };
+
+    const dataFormModifiedAlertOnExit = {
+      /** If a form has been modified, show a warning when exiting the page
+       *  before the form has been submitted.
+       */
+
+      defaultValue: "defaultValue",
+      modifiedInputs: undefined,
+
+      init() {
+        // initialize modified input fields
+        this.modifiedInputs = new Set();
+
+        // add event listeners
+        addEventListener("beforeinput", this.handleBeforeInput.bind(this));
+        addEventListener("input", this.handleInput.bind(this));
+        addEventListener("submit", this.handleSubmit.bind(this));
+        addEventListener("beforeunload", this.handleBeforeUnload.bind(this));
+      },
+
+      destroy() {
+        // clear modified input fields
+        this.modifiedInputs.clear();
+
+        // remove event listeners
+        removeEventListener("beforeinput", this.handleBeforeInput);
+        removeEventListener("input", this.handleInput);
+        removeEventListener("submit", this.handleSubmit);
+        removeEventListener("beforeunload", this.handleBeforeUnload);
+      },
+
+      handleBeforeInput(evt: Event) {
+        /** Store default values. */
+
+        const target = evt.target as any;
+        if (
+          !(this.defaultValue in target || this.defaultValue in target.dataset)
+        ) {
+          target.dataset[this.defaultValue] = (
+            "" + (target.value || target.textContent)
+          ).trim();
+        }
+      },
+
+      handleInput(evt: InputEvent) {
+        /** Keep a record of which form inputs have been modified. */
+        const target = evt.target as any;
+
+        let original: string;
+        if (this.defaultValue in target) {
+          original = target[this.defaultValue];
+        } else {
+          original = target.dataset[this.defaultValue];
+        }
+
+        if (original !== ("" + (target.value || target.textContent)).trim()) {
+          if (!this.modifiedInputs.has(target)) {
+            this.modifiedInputs.add(target);
+          }
+        } else if (this.modifiedInputs.has(target)) {
+          this.modifiedInputs.delete(target);
+        }
+      },
+
+      // handleSubmit(evt: SubmitEvent) {
+      handleSubmit() {
+        /** Clear modified inputs before submitting the form. */
+        this.modifiedInputs.clear();
+      },
+
+      handleBeforeUnload(evt: BeforeUnloadEvent) {
+        /** Warn before exiting if any inputs have been modified. */
+        if (this.modifiedInputs.size) {
+          evt.returnValue = true;
+        }
+      },
+    };
+
+    return {
+      ...dataConfirmationRequired,
+      ...dataFormModifiedAlertOnExit,
+
+      init() {
+        dataConfirmationRequired.init.bind(this)();
+        dataFormModifiedAlertOnExit.init.bind(this)();
+      },
+
+      destroy() {
+        dataFormModifiedAlertOnExit.destroy.bind(this)();
+      },
+    };
+  },
 };
 
 const globals = {

@@ -491,7 +491,7 @@ defmodule TodoListWeb.CoreComponents do
       <div
         class="space-y-8 mt-10"
         data-confirmation-required={@confirmation_required}
-        x-data="{ confirmationRequired: $el.dataset.confirmationRequired, confirmed: false }"
+        x-data="$store.components.simpleForm"
       >
         <%= render_slot(@inner_block, f) %>
 

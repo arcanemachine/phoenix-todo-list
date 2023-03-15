@@ -13,7 +13,7 @@ defmodule TodoListWeb.UserController do
 
     # queue success message and log the user out
     conn
-    |> put_flash(:info, "Account deleted successfully. You are now logged out.")
+    |> put_flash(:info, "Account deleted successfully")
     |> UserAuth.logout_user()
   end
 end

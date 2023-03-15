@@ -72,6 +72,7 @@
     /* fixme: this section will not be necessary after improving default styles
        for input components */
     color: #222;
+    background-color: white !important;
   }
 
   /* daisyui */
@@ -135,6 +136,11 @@
   .flex-center {
     justify-content: center;
     align-items: center;
+  }
+
+  .disabled-button-wrapper {
+    opacity: 0.6;
+    pointer-events: none;
   }
 
   .list-back {

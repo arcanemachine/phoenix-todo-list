@@ -21,18 +21,19 @@ defmodule TodoListWeb.UserDeleteLive do
         Are you sure you want to delete your account?
       </.header>
 
-      <.simple_form for={%{}}>
+      <.simple_form for={%{}} confirmation_required={true}>
         <:actions>
-          <.link href={~p"/users/profile/delete"} method="delete">
-            <.button
-              type="button"
+          <!-- emulate disabled button if confirmation checkbox not checked -->
+          <span x-bind:class="!confirmed && 'disabled-button-wrapper'">
+            <.link
+              href={~p"/users/profile/delete"}
+              method="delete"
               class="btn btn-lg btn-error form-button"
-              phx-click="user_delete_confirm"
               phx-disable-with
             >
               Yes
-            </.button>
-          </.link>
+            </.link>
+          </span>
           <button type="button" class="btn btn-lg btn-secondary form-button" onclick="history.back()">
             Cancel
           </button>

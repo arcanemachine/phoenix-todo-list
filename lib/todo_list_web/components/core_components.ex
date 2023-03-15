@@ -482,13 +482,36 @@ defmodule TodoListWeb.CoreComponents do
     doc: "the arbitrary HTML attributes to apply to the form tag"
 
   slot :inner_block, required: true
+  attr :confirmation_required, :boolean, default: false
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="space-y-8 mt-10">
+      <div
+        class="space-y-8 mt-10"
+        data-confirmation-required={@confirmation_required}
+        x-data="{ confirmationRequired: $el.dataset.confirmationRequired, confirmed: false }"
+      >
         <%= render_slot(@inner_block, f) %>
+
+        <%= if @confirmation_required do %>
+          <.header class="bg-info/30 p-4 rounded-lg">
+            <span class="font-normal text-sm">
+              I have confirmed that the above data is accurate.
+            </span>
+            <:actions>
+              <input
+                type="checkbox"
+                class="py-4 align-middle checkbox checkbox-lg bg-base-100"
+                name="confirm-checkbox"
+                x-model="confirmed"
+                required
+              />
+            </:actions>
+          </.header>
+        <% end %>
+
         <div
           :for={action <- @actions}
           class="mt-2 flex flex-row-reverse items-center justify-center gap-6"
@@ -885,7 +908,7 @@ defmodule TodoListWeb.CoreComponents do
     JS.show(js,
       to: selector,
       transition:
-        {"transition-all transform ease-out duration-500 delay-1000",
+        {"transition-all transform ease-out duration-1000 delay-1000",
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
          "opacity-100 translate-y-0 sm:scale-100"}
     )

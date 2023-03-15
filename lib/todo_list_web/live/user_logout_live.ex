@@ -7,6 +7,13 @@ defmodule TodoListWeb.UserLogoutLive do
 
   def render(assigns) do
     ~H"""
+    <%= if !assigns[:current_user] do %>
+      <script>
+        // if user is not authenticated, redirect them to homepage
+        window.location.replace('/');
+      </script>
+    <% end %>
+
     <div class="template-center max-w-sm">
       <.header class="text-center">
         Are you sure you want to log out?

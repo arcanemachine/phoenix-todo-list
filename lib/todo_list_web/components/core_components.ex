@@ -267,47 +267,34 @@ defmodule TodoListWeb.CoreComponents do
       </div>
       <!-- navbar end items -->
       <div class="mr-1 flex-none">
-        <.navbar_user_action_menu user_action_menu_items={@user_action_menu_items} />
+        <!-- user actions -->
+        <div
+          class="dropdown-end dropdown"
+          id="navbar-dropdown-user-actions"
+          x-data="{ show: false }"
+          x-title="navbarUserActionMenu"
+          x-bind:class="show && 'dropdown-open'"
+          x-tooltip="User Actions"
+          x-on:pointerdown.outside="show = false"
+        >
+          <button
+            class="btn-ghost btn-square btn m-1"
+            x-on:focus="show = true"
+            x-on:blur="show = false"
+            x-on:click="show = true"
+            x-on:click.outside="show = false"
+          >
+            <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
+          </button>
+          <ul class="mt-1 dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+            <div class="mt-2 mb-3 text-center text-lg font-bold text-underline">User Actions</div>
+            <%= render_slot(@user_action_menu_items) %>
+          </ul>
+        </div>
+        <!-- settings -->
         <.navbar_settings_menu />
       </div>
     </nav>
-    """
-  end
-
-  @doc """
-  Renders a user action menu in the navbar.
-
-  ## Example
-
-      <.navbar_user_action_menu user_action_menu_items={@user_action_menu_items} />
-  """
-  slot :user_action_menu_items, required: true
-
-  def navbar_user_action_menu(assigns) do
-    ~H"""
-    <div
-      class="dropdown-end dropdown"
-      id="navbar-dropdown-user-actions"
-      x-data="{ show: false }"
-      x-title="navbarUserActionMenu"
-      x-bind:class="show && 'dropdown-open'"
-      x-tooltip="User Actions"
-      x-on:pointerdown.outside="show = false"
-    >
-      <button
-        class="btn-ghost btn-square btn m-1"
-        x-on:focus="show = true"
-        x-on:blur="show = false"
-        x-on:click="show = true"
-        x-on:click.outside="show = false"
-      >
-        <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
-      </button>
-      <ul class="mt-1 dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
-        <div class="mt-2 mb-3 text-center text-lg font-bold text-underline">User Actions</div>
-        <%= render_slot(@user_action_menu_items) %>
-      </ul>
-    </div>
     """
   end
 
@@ -712,9 +699,9 @@ defmodule TodoListWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="phx-no-feedback:hidden mt-3 flex gap-3 font-bold tracking-wide leading-6 text-rose-500">
+    <p class="phx-no-feedback:hidden mt-3 flex gap-2 font-bold tracking-wide leading-6 text-rose-500">
       <Heroicons.exclamation_circle mini class="mt-0.5 h-5 w-5 flex-none fill-rose-500" />
-      <%= render_slot(@inner_block) %>
+      &nbsp;<%= render_slot(@inner_block) %>
     </p>
     """
   end

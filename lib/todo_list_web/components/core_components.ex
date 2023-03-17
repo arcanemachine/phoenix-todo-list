@@ -255,7 +255,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="navbar py-0 border-bottom-2 transition-colors duration-300" x-cloak>
+    <nav class="navbar py-0 border-bottom-2 transition-colors duration-300">
       <!-- navbar start items -->
       <div class="flex-1">
         <!-- navbar title -->
@@ -475,11 +475,7 @@ defmodule TodoListWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div
-        class="mt-12"
-        data-confirmation-required={@confirmation_required}
-        x-data="$store.components.simpleForm"
-      >
+      <div data-confirmation-required={@confirmation_required} x-data="$store.components.simpleForm">
         <%= render_slot(@inner_block, f) %>
 
         <%= if @confirmation_required do %>

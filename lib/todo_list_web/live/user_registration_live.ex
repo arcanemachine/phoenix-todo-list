@@ -6,19 +6,12 @@ defmodule TodoListWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <section class="template-center">
-      <div class="max-w-sm">
-        <.header class="text-center">
-          Register for an account
-          <:subtitle>
-            Already registered?
-            <.link navigate={~p"/users/login"} class="font-semibold text-brand hover:underline">
-              Sign in
-            </.link>
-            to your account now.
-          </:subtitle>
-        </.header>
+    <div :if={@changeset.action == :insert} class="alert alert-error" role="alert">
+      To continue, fix the errors in the form.
+    </div>
 
+    <section class="template-center">
+      <div>
         <.simple_form
           :let={f}
           id="registration_form"
@@ -30,19 +23,23 @@ defmodule TodoListWeb.UserRegistrationLive do
           method="post"
           as={:user}
         >
-          <.error :if={@changeset.action == :insert}>
-            Oops, something went wrong! Please check the errors below.
-          </.error>
-
-          <.input field={{f, :email}} type="email" label="Email" required />
-          <.input field={{f, :password}} type="password" label="Password" required />
+          <.input field={{f, :email}} type="email" label="Email" required phx-debounce="500" />
+          <.input field={{f, :password}} type="password" label="Password" required phx-debounce="500" />
 
           <:actions>
-            <.button phx-disable-with="Creating account..." class="mt-2 btn-primary w-full">
-              Complete Registration
+            <.button phx-disable-with class="mt-2 btn-primary w-full">
+              Submit
             </.button>
           </:actions>
         </.simple_form>
+
+        <div class="mt-20">
+          Already registered?
+          <.link navigate={~p"/users/login"} class="font-semibold text-brand hover:underline">
+            Sign in
+          </.link>
+          to your account now.
+        </div>
       </div>
     </section>
     """
@@ -50,7 +47,14 @@ defmodule TodoListWeb.UserRegistrationLive do
 
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_registration(%User{})
-    socket = assign(socket, changeset: changeset, trigger_submit: false)
+
+    socket =
+      assign(socket,
+        changeset: changeset,
+        trigger_submit: false,
+        page_title: "Register New Account"
+      )
+
     {:ok, socket, temporary_assigns: [changeset: nil]}
   end
 

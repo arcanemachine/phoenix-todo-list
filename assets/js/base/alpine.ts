@@ -258,6 +258,25 @@ const animations = {
 };
 
 const components = {
+  showOnInit: () => {
+    return {
+      show: false,
+
+      bindings: {
+        ["x-transition.opacity.duration.500ms"]() {
+          return this.show;
+        },
+      },
+
+      init() {
+        this.$el.setAttribute("x-bind", "bindings");
+
+        setTimeout(() => {
+          this.show = true;
+        });
+      },
+    };
+  },
   body: () => {
     return {
       init() {

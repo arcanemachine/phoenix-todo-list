@@ -93,7 +93,21 @@
 }
 
 @layer components {
-  /* DaisyUI */
+  /* daisyui */
+  .alert {
+    max-width: 40rem;
+    margin: auto;
+    margin-bottom: 2rem;
+    justify-content: center;
+    filter: hue-rotate(20deg);
+
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+
+    border-radius: 0.5rem;
+  }
+
   .btn * {
     background-color: unset !important;
   }

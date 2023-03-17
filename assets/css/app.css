@@ -133,6 +133,10 @@
 }
 
 @layer utility {
+  .show-empty-element:after {
+    content: "\00A0"; /* non-breaking space */
+  }
+
   .flex-center {
     justify-content: center;
     align-items: center;

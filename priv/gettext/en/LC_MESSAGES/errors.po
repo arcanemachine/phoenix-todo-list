@@ -12,11 +12,11 @@ msgstr ""
 
 ## From Ecto.Changeset.cast/4
 msgid "can't be blank"
-msgstr "This field can't be blank."
+msgstr "This can't be blank."
 
 ## From Ecto.Changeset.unique_constraint/3
 msgid "has already been taken"
-msgstr "Value is already in use"
+msgstr "This value is already in use."
 
 ## From Ecto.Changeset.put_change/3
 msgid "is invalid"
@@ -24,7 +24,7 @@ msgstr "Value is invalid"
 
 ## From Ecto.Changeset.validate_acceptance/3
 msgid "must be accepted"
-msgstr "Item must be accepted"
+msgstr "Must be accepted"
 
 ## From Ecto.Changeset.validate_format/3
 msgid "has invalid format"
@@ -44,10 +44,10 @@ msgstr "Value does not match confirmation"
 
 ## From Ecto.Changeset.no_assoc_constraint/3
 msgid "is still associated with this entry"
-msgstr "Value is still associated with this entry"
+msgstr "Value is associated with this entry"
 
 msgid "are still associated with this entry"
-msgstr "Values are still associated with this entry"
+msgstr "Values are associated with this entry"
 
 ## From Ecto.Changeset.validate_length/3
 msgid "should have %{count} item(s)"
@@ -97,16 +97,16 @@ msgstr[1] "Must be %{count} or fewer byte(s)"
 
 ## From Ecto.Changeset.validate_number/3
 msgid "must be less than %{number}"
-msgstr "Value must be less than %{number}"
+msgstr "Must be less than %{number}"
 
 msgid "must be greater than %{number}"
-msgstr "Value must be greater than %{number}"
+msgstr "Must be greater than %{number}"
 
 msgid "must be less than or equal to %{number}"
-msgstr "Value must be less than or equal to %{number}"
+msgstr "Must be equal or less than %{number}"
 
 msgid "must be greater than or equal to %{number}"
-msgstr "Value must be greater than or equal to %{number}"
+msgstr "Must be equal or greater than %{number}"
 
 msgid "must be equal to %{number}"
-msgstr "Value must be equal to %{number}"
+msgstr "Must be equal to %{number}"

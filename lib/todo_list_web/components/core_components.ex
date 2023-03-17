@@ -476,7 +476,7 @@ defmodule TodoListWeb.CoreComponents do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
       <div
-        class="space-y-8 mt-10"
+        class="mt-12"
         data-confirmation-required={@confirmation_required}
         x-data="$store.components.simpleForm"
       >
@@ -499,10 +499,7 @@ defmodule TodoListWeb.CoreComponents do
           </.header>
         <% end %>
 
-        <div
-          :for={action <- @actions}
-          class="mt-2 flex flex-row-reverse items-center justify-center gap-6"
-        >
+        <div :for={action <- @actions} class="flex flex-row-reverse items-center justify-center gap-6">
           <%= render_slot(action, f) %>
         </div>
       </div>
@@ -667,7 +664,11 @@ defmodule TodoListWeb.CoreComponents do
         ]}
         {@rest}
       />
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <div class="flex min-h-[2.5rem] show-empty-element">
+        <.error :for={msg <- @errors}>
+          <%= msg %>
+        </.error>
+      </div>
     </div>
     """
   end
@@ -699,10 +700,10 @@ defmodule TodoListWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="phx-no-feedback:hidden mt-3 flex gap-2 font-bold tracking-wide leading-6 text-rose-500">
+    <div class="phx-no-feedback:hidden flex mt-1 gap-2 font-bold leading-6 text-xs text-rose-500">
       <Heroicons.exclamation_circle mini class="mt-0.5 h-5 w-5 flex-none fill-rose-500" />
-      &nbsp;<%= render_slot(@inner_block) %>
-    </p>
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 

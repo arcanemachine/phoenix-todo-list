@@ -21,12 +21,12 @@ defmodule TodoListWeb.UserRegistrationLive do
       method="post"
       as={:user}
     >
-      <.input field={{f, :email}} type="email" label="Email" required phx-debounce="500" />
-      <.input field={{f, :password}} type="password" label="Password" required phx-debounce="500" />
+      <.input field={{f, :email}} type="email" label="Email" required />
+      <.input field={{f, :password}} type="password" label="Password" required />
 
       <:actions>
-        <.form_button_submit />
         <.form_button_cancel />
+        <.form_button_submit />
       </:actions>
     </.simple_form>
 

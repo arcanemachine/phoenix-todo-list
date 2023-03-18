@@ -29,8 +29,8 @@ defmodule TodoListWeb.UserLoginLive do
       </:actions>
 
       <:actions>
-        <.form_button_submit />
         <.form_button_cancel />
+        <.form_button_submit />
       </:actions>
     </.simple_form>
 

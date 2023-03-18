@@ -496,8 +496,10 @@ defmodule TodoListWeb.CoreComponents do
           </.header>
         <% end %>
 
-        <div :for={action <- @actions} class="flex flex-row-reverse items-center justify-center gap-6">
-          <%= render_slot(action, f) %>
+        <div class="mt-4">
+          <div :for={action <- @actions} class="flex items-center justify-center gap-6">
+            <%= render_slot(action, f) %>
+          </div>
         </div>
       </div>
     </.form>
@@ -525,7 +527,6 @@ defmodule TodoListWeb.CoreComponents do
       type={@type}
       class={[
         "btn",
-        "phx-button",
         @class
       ]}
       {@rest}
@@ -566,6 +567,7 @@ defmodule TodoListWeb.CoreComponents do
   attr :checked, :boolean, doc: "the checked flag for checkbox inputs"
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
+  attr :debounce, :integer, default: 500, doc: "how long to debounce before emitting an event"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
   attr :rest, :global, include: ~w(autocomplete cols disabled form max maxlength min minlength
                                    pattern placeholder readonly required rows size step)
@@ -597,10 +599,19 @@ defmodule TodoListWeb.CoreComponents do
         value="true"
         checked={@checked}
         class={@class}
+        phx-debounce={@debounce}
         {@rest}
       />
       <%= @label %>
     </label>
+    """
+  end
+
+  def input(%{type: "hidden"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <input type="hidden" name={@name} id={@id || @name} class={["hidden", @class]} {@rest} />
+    </div>
     """
   end
 
@@ -613,6 +624,7 @@ defmodule TodoListWeb.CoreComponents do
         name={@name}
         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-base-100 rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500 sm:text-sm"
         multiple={@multiple}
+        phx-debounce={@debounce}
         {@rest}
       >
         <option :if={@prompt} value=""><%= @prompt %></option>
@@ -636,6 +648,7 @@ defmodule TodoListWeb.CoreComponents do
           "text-base-900 focus:border-base-400 focus:outline-none focus:ring-4 focus:ring-zinc-500/5 sm:text-sm sm:leading-6",
           "phx-no-feedback:border-base-300 phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"
         ]}
+        phx-debounce={@debounce}
         {@rest}
       >
     <%= @value %></textarea>
@@ -659,6 +672,7 @@ defmodule TodoListWeb.CoreComponents do
           "text-base-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
           "phx-no-feedback:border-base-300 phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"
         ]}
+        phx-debounce={@debounce}
         {@rest}
       />
       <div class="flex min-h-[2.5rem] show-empty-element">
@@ -749,7 +763,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def form_button_submit(assigns) do
     ~H"""
-    <.form_button type={@type} class={["btn-primary", @class]} phx-disable-with {@rest}>
+    <.form_button type={@type} class={["btn-success", @class]} phx-disable-with {@rest}>
       <%= @content %>
     </.form_button>
     """
@@ -781,7 +795,7 @@ defmodule TodoListWeb.CoreComponents do
   """
   def form_error_alert(assigns) do
     ~H"""
-    <div class="alert alert-error" role="alert">
+    <div class="alert alert-error shadow-xl" role="alert">
       To continue, fix the errors in the form.
     </div>
     """

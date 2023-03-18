@@ -43,10 +43,6 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
       phx-submit="update_password"
       phx-trigger-action={@trigger_submit}
     >
-      <.error :if={@password_changeset.action == :insert}>
-        Oops, something went wrong! Please check the errors below.
-      </.error>
-
       <.input field={{f, :email}} type="hidden" value={@current_email} />
 
       <.input field={{f, :password}} type="password" label="New password" required />

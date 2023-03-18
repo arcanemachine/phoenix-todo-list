@@ -6,42 +6,36 @@ defmodule TodoListWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div :if={@changeset.action == :insert} class="alert alert-error" role="alert">
-      To continue, fix the errors in the form.
+    <div :if={@changeset.action == :insert}>
+      <.form_error_alert />
     </div>
 
-    <section class="template-center">
-      <div>
-        <.simple_form
-          :let={f}
-          id="registration_form"
-          for={@changeset}
-          phx-submit="save"
-          phx-change="validate"
-          phx-trigger-action={@trigger_submit}
-          action={~p"/users/login?_action=registered"}
-          method="post"
-          as={:user}
-        >
-          <.input field={{f, :email}} type="email" label="Email" required phx-debounce="500" />
-          <.input field={{f, :password}} type="password" label="Password" required phx-debounce="500" />
+    <.simple_form
+      :let={f}
+      id="registration_form"
+      for={@changeset}
+      phx-submit="save"
+      phx-change="validate"
+      phx-trigger-action={@trigger_submit}
+      action={~p"/users/login?_action=registered"}
+      method="post"
+      as={:user}
+    >
+      <.input field={{f, :email}} type="email" label="Email" required phx-debounce="500" />
+      <.input field={{f, :password}} type="password" label="Password" required phx-debounce="500" />
 
-          <:actions>
-            <.button phx-disable-with class="mt-2 btn-primary w-full">
-              Submit
-            </.button>
-          </:actions>
-        </.simple_form>
+      <:actions>
+        <.form_button_submit />
+        <.form_button_cancel />
+      </:actions>
+    </.simple_form>
 
-        <div class="mt-20">
-          Already registered?
-          <.link navigate={~p"/users/login"} class="font-semibold text-brand hover:underline">
-            Sign in
-          </.link>
-          to your account now.
-        </div>
-      </div>
-    </section>
+    <.action_links
+      class="mt-16"
+      items={[
+        %{content: "Login to an existing account", navigate: ~p"/users/login"}
+      ]}
+    />
     """
   end
 

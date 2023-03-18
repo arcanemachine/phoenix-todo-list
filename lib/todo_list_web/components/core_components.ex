@@ -24,16 +24,17 @@ defmodule TodoListWeb.CoreComponents do
     ]} />
   """
   attr :title, :string, default: nil
+  attr :class, :string, default: nil
   attr :items, :list, required: true
 
   def action_links(assigns) do
     ~H"""
-    <section class="mt-12">
+    <section class={["mt-12", @class]}>
       <h3 class="text-2xl font-bold">
         <%= @title || "Actions" %>
       </h3>
       <ul class="mt-2 ml-8">
-        <li :for={item <- @items} class={[["mt-2 pl-2"], [Map.get(item, :class, "")]]}>
+        <li :for={item <- @items} class={[["mt-2 pl-2 list-dash"], [Map.get(item, :class, "")]]}>
           <.link
             href={Map.get(item, :href, false)}
             navigate={Map.get(item, :navigate, false)}
@@ -474,7 +475,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest}>
+    <.form :let={f} for={@for} as={@as} class="w-full max-w-sm mx-auto" {@rest}>
       <div data-confirmation-required={@confirmation_required} x-data="$store.components.simpleForm">
         <%= render_slot(@inner_block, f) %>
 
@@ -703,15 +704,16 @@ defmodule TodoListWeb.CoreComponents do
     """
   end
 
+  # FORM HELPERS #
   @doc """
   Renders a form button.
 
   ## Examples
 
-      <.form_button>Send!</.form_button>
-      <.form_button phx-click="go" class="ml-2">Send!</.form_button>
+      <.form_button>Button Text</.form_button>
+      <.form_button phx-click="go" class="ml-2">Button Text</.form_button>
   """
-  attr :type, :string, default: nil
+  attr :type, :string, default: "button"
   attr :class, :any, default: nil
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form button"
 
@@ -722,13 +724,66 @@ defmodule TodoListWeb.CoreComponents do
     <.button
       type={@type}
       class={[
-        "btn-lg min-w-[9rem]",
+        "min-w-[8rem]",
         @class
       ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
     </.button>
+    """
+  end
+
+  @doc """
+  Renders a form submit button.
+
+  ## Examples
+
+      <.form_submit_button />Send!</.form_submit_button>
+      <.form_submit_button phx-click="go" class="ml-2">Custom submit text</.form_submit_button>
+  """
+  attr :type, :string, default: "submit"
+  attr :class, :any, default: nil
+  attr :content, :string, default: "Submit"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form submit button"
+
+  def form_button_submit(assigns) do
+    ~H"""
+    <.form_button type={@type} class={["btn-primary", @class]} phx-disable-with {@rest}>
+      <%= @content %>
+    </.form_button>
+    """
+  end
+
+  @doc """
+  Renders a form cancel button.
+
+  ## Examples
+
+      <.form_submit_button />Send!</.form_submit_button>
+      <.form_submit_button phx-click="go" class="ml-2">Custom submit text</.form_submit_button>
+  """
+  attr :type, :string, default: "button"
+  attr :class, :any, default: nil
+  attr :content, :string, default: "Cancel"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form cancel button"
+
+  def form_button_cancel(assigns) do
+    ~H"""
+    <.form_button type={@type} class={["btn-secondary", @class]} onclick="history.go(-1)" {@rest}>
+      <%= @content %>
+    </.form_button>
+    """
+  end
+
+  @doc """
+  Renders an alert indicating that the form has errors.
+  """
+  def form_error_alert(assigns) do
+    ~H"""
+    <div class="alert alert-error" role="alert">
+      To continue, fix the errors in the form.
+    </div>
     """
   end
 

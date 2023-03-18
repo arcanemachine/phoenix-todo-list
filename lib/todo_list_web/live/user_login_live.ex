@@ -11,52 +11,41 @@ defmodule TodoListWeb.UserLoginLive do
       </div>
     </template>
 
-    <section class="template-center">
-      <div class="mx-auto max-w-sm">
-        <.header class="text-center">
-          Sign in to account
-          <:subtitle>
-            Don't have an account?
-            <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
-              Sign up
-            </.link>
-            for an account now.
-          </:subtitle>
-        </.header>
+    <.simple_form
+      :let={f}
+      id="login_form"
+      for={%{}}
+      action={~p"/users/login"}
+      as={:user}
+      phx-update="ignore"
+    >
+      <.input field={{f, :email}} type="email" label="Email" required />
+      <.input field={{f, :password}} type="password" label="Password" required />
 
-        <.simple_form
-          :let={f}
-          id="login_form"
-          for={%{}}
-          action={~p"/users/login"}
-          as={:user}
-          phx-update="ignore"
-        >
-          <.input field={{f, :email}} type="email" label="Email" required />
-          <.input field={{f, :password}} type="password" label="Password" required />
-
-          <:actions :let={f}>
-            <.input field={{f, :remember_me}} type="checkbox" label="Remember me" checked />
-          </:actions>
-          <:actions>
-            <.button phx-disable-with="Signing in..." class="mt-2 btn-primary w-full">
-              Sign in <span aria-hidden="true">→</span>
-            </.button>
-          </:actions>
-        </.simple_form>
-
-        <div class="mt-8 text-center">
-          <.link href={~p"/users/reset_password"} class="text font-semibold">
-            Forgot your password?
-          </.link>
+      <:actions :let={f}>
+        <div class="mb-8">
+          <.input field={{f, :remember_me}} type="checkbox" label="Remember me" checked />
         </div>
-      </div>
-    </section>
+      </:actions>
+
+      <:actions>
+        <.form_button_submit />
+        <.form_button_cancel />
+      </:actions>
+    </.simple_form>
+
+    <.action_links
+      class="mt-16"
+      items={[
+        %{content: "Register new account", navigate: ~p"/users/register"},
+        %{content: "Forgot your password?", navigate: ~p"/users/reset_password"}
+      ]}
+    />
     """
   end
 
   def mount(_params, _session, socket) do
     email = live_flash(socket.assigns.flash, :email)
-    {:ok, assign(socket, email: email), temporary_assigns: [email: nil]}
+    {:ok, assign(socket, email: email, page_title: "Login"), temporary_assigns: [email: nil]}
   end
 end

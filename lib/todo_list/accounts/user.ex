@@ -114,7 +114,7 @@ defmodule TodoList.Accounts.User do
   def password_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:password])
-    |> validate_confirmation(:password, message: "This is not your current password.")
+    |> validate_confirmation(:password, message: "The passwords do not match.")
     |> validate_password(opts)
   end
 

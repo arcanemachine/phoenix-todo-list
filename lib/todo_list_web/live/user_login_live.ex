@@ -44,6 +44,6 @@ defmodule TodoListWeb.UserLoginLive do
 
   def mount(_params, _session, socket) do
     email = live_flash(socket.assigns.flash, :email)
-    {:ok, assign(socket, email: email, page_title: "Login"), temporary_assigns: [email: nil]}
+    {:ok, assign(socket, page_title: "Login", email: email), temporary_assigns: [email: nil]}
   end
 end

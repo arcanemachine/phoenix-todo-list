@@ -50,9 +50,9 @@ defmodule TodoListWeb.UserRegistrationLive do
 
     socket =
       assign(socket,
+        page_title: "Register New Account",
         changeset: changeset,
-        trigger_submit: false,
-        page_title: "Register New Account"
+        trigger_submit: false
       )
 
     {:ok, socket, temporary_assigns: [changeset: nil]}

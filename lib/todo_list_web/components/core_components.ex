@@ -174,16 +174,20 @@ defmodule TodoListWeb.CoreComponents do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
-          <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
+          <div class="w-full max-w-3xl p-2 sm:p-4 lg:py-4">
             <.focus_wrap
               id={"#{@id}-container"}
               phx-mounted={@show && show_modal(@id)}
               phx-window-keydown={hide_modal(@on_cancel, @id)}
               phx-key="escape"
               phx-click-away={hide_modal(@on_cancel, @id)}
-              class="hidden max-w-[30rem] mx-auto relative rounded-2xl bg-base-100 p-14 shadow-lg shadow-base-700/10 ring-1 ring-zinc-300/10 transition"
+              class={[
+                "hidden max-w-[30rem] mx-auto relative rounded-2xl bg-base-100 p-8",
+                "shadow-lg shadow-base-700/10 ring-1 ring-zinc-300/10 transition"
+              ]}
             >
-              <div class="absolute top-6 right-5">
+              <!-- close button -->
+              <div class="absolute top-5 right-4">
                 <button
                   phx-click={hide_modal(@on_cancel, @id)}
                   type="button"
@@ -193,22 +197,26 @@ defmodule TodoListWeb.CoreComponents do
                   <Heroicons.x_mark solid class="h-5 w-5 stroke-current" />
                 </button>
               </div>
+
               <div id={"#{@id}-content"}>
                 <header :if={@title != []}>
                   <h1
                     id={"#{@id}-title"}
-                    class="text-lg font-semibold leading-8 text-base-800 text-center"
+                    class="text-2xl font-semibold leading-8 text-base-800 text-center"
                   >
+                    <!-- title -->
                     <%= render_slot(@title) %>
                   </h1>
                   <p
                     :if={@subtitle != []}
                     id={"#{@id}-description"}
-                    class="mt-2 text-sm leading-6 text-base-600 text-center"
+                    class="mt-2 text-lg leading-6 text-base-600 text-center"
                   >
+                    <!-- subtitle -->
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>
+
                 <section class="text-center">
                   <%= render_slot(@inner_block) %>
                 </section>
@@ -480,24 +488,29 @@ defmodule TodoListWeb.CoreComponents do
         <%= render_slot(@inner_block, f) %>
 
         <%= if @confirmation_required do %>
-          <.header class="bg-info/30 p-4 rounded-lg">
-            <span class="font-normal text-sm">
-              I have confirmed that the above data is accurate.
-            </span>
-            <:actions>
-              <input
-                type="checkbox"
-                class="py-4 align-middle checkbox checkbox-lg bg-base-100"
-                name="confirm-checkbox"
-                x-model="confirmed"
-                required
-              />
-            </:actions>
-          </.header>
+          <label>
+            <.header class="bg-info/30 mb-6 p-4 rounded-lg">
+              <span class="font-normal text-sm">
+                I have confirmed that the data above is accurate.
+              </span>
+              <:actions>
+                <input
+                  type="checkbox"
+                  class="py-4 align-middle checkbox checkbox-lg bg-base-100"
+                  name="confirm-checkbox"
+                  x-model="confirmed"
+                  required
+                />
+              </:actions>
+            </.header>
+          </label>
         <% end %>
 
-        <div class="mt-4">
-          <div :for={action <- @actions} class="flex items-center justify-center gap-6">
+        <div
+          class="mt-4"
+          x-bind:class={@confirmation_required && "!confirmed && 'disabled-button-wrapper'"}
+        >
+          <div :for={action <- @actions} class="flex items-center justify-center gap-4">
             <%= render_slot(action, f) %>
           </div>
         </div>
@@ -516,8 +529,8 @@ defmodule TodoListWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :class, :any, default: nil
-  # attr :rest, :global, include: ~w(disabled form name value)
-  attr :rest, :global
+  attr :loader, :boolean, default: false
+  attr :rest, :global, default: %{loader: false}
 
   slot :inner_block, required: true
 
@@ -531,10 +544,14 @@ defmodule TodoListWeb.CoreComponents do
       ]}
       {@rest}
     >
-      <span class="phx-click-loading:hidden phx-submit-loading:hidden">
+      <%= if @loader do %>
+        <span class="phx-click-loading:hidden phx-submit-loading:hidden">
+          <%= render_slot(@inner_block) %>
+        </span>
+        <.loader />
+      <% else %>
         <%= render_slot(@inner_block) %>
-      </span>
-      <.loader />
+      <% end %>
     </button>
     """
   end
@@ -630,7 +647,7 @@ defmodule TodoListWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-1 mb-4 block w-full py-2 px-3 border border-gray-300 bg-base-100 sm:text-sm",
+          "mt-1 mb-12 block w-full py-2 px-3 border border-gray-300 bg-white sm:text-sm",
           "rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500"
         ]}
         multiple={@multiple}
@@ -654,9 +671,10 @@ defmodule TodoListWeb.CoreComponents do
         name={@name}
         class={[
           input_border(@errors),
-          "mt-2 block min-h-[6rem] w-full rounded-lg border-base-300 py-[7px] px-[11px]",
-          "text-base-900 focus:border-base-400 focus:outline-none focus:ring-4 focus:ring-zinc-500/5 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-base-300 phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"
+          "mt-2 mb-12 block min-h-[6rem] w-full rounded-lg border-base-300 py-[7px] px-[11px]",
+          "text-base-900 focus:border-base-400 focus:outline-none focus:ring-4",
+          "focus:ring-zinc-500/5 sm:text-sm sm:leading-6 phx-no-feedback:border-base-300",
+          "phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"
         ]}
         phx-debounce={@debounce}
         {@rest}
@@ -678,9 +696,9 @@ defmodule TodoListWeb.CoreComponents do
         value={@value}
         class={[
           input_border(@errors),
-          "mt-2 block w-full rounded-lg border-base-300 py-[7px] px-[11px]",
-          "text-base-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-base-300 phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"
+          "mt-2 block w-full rounded-lg border-base-300 py-[7px] px-[11px] text-base-900",
+          "focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 phx-no-feedback:border-base-300",
+          "phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"
         ]}
         phx-debounce={@debounce}
         {@rest}
@@ -739,21 +757,28 @@ defmodule TodoListWeb.CoreComponents do
   """
   attr :type, :string, default: "button"
   attr :class, :any, default: nil
+  attr :content, :string, default: ""
+  attr :loader, :boolean, default: false
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form button"
 
-  slot :inner_block, required: true
+  slot :inner_block
 
   def form_button(assigns) do
     ~H"""
     <.button
       type={@type}
       class={[
-        "min-w-[8rem]",
+        "form-button",
         @class
       ]}
+      loader={@loader}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      <%= if @content != "" do %>
+        <%= @content %>
+      <% else %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
     </.button>
     """
   end
@@ -769,13 +794,18 @@ defmodule TodoListWeb.CoreComponents do
   attr :type, :string, default: "submit"
   attr :class, :any, default: nil
   attr :content, :string, default: "Submit"
+  attr :loader, :boolean, default: true
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form button"
 
   def form_button_submit(assigns) do
     ~H"""
-    <.form_button type={@type} class={["btn-success", @class]} phx-disable-with {@rest}>
-      <%= @content %>
-    </.form_button>
+    <.form_button
+      type={@type}
+      class={["btn-success", @class]}
+      content={@content}
+      loader={@loader}
+      {@rest}
+    />
     """
   end
 
@@ -800,11 +830,9 @@ defmodule TodoListWeb.CoreComponents do
         type={@type}
         class={["btn-secondary", @class]}
         onclick={@url || "history.back()"}
-        phx-disable-with={false}
+        content={@content}
         {@rest}
-      >
-        <%= @content %>
-      </.form_button>
+      />
     </a>
     """
   end
@@ -831,7 +859,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
+    <header class={[@actions != [] && "flex items-center justify-between gap-4", @class]}>
       <div>
         <h1 class="text-lg font-semibold leading-8">
           <%= render_slot(@inner_block) %>
@@ -879,7 +907,7 @@ defmodule TodoListWeb.CoreComponents do
           <tr
             :for={row <- @rows}
             id={"#{@id}-#{Phoenix.Param.to_param(row)}"}
-            class="relative group hover:bg-base-50"
+            class="relative group hover:bg-white"
           >
             <td
               :for={{col, i} <- Enum.with_index(@col)}

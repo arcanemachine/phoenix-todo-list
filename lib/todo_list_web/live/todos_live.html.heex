@@ -8,8 +8,9 @@
   }">
   </div>
 </template>
-<!-- presence: user count -->
+
 <%= if assigns[:user_count] && @user_count > 0 do %>
+  <!-- presence: user count -->
   <div
     id="presence-user-count"
     class={[

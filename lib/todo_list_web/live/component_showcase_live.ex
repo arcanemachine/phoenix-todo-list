@@ -57,6 +57,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
     <.modal id="showcase-modal" on_confirm={hide_modal("showcase-modal")}>
       <:title>Modal Title</:title>
+      <:subtitle>Modal Subtitle</:subtitle>
       <div class="my-8">
         Modal content
       </div>
@@ -129,8 +130,9 @@ defmodule TodoListWeb.ComponentShowcaseLive do
       </div>
       <!-- actions -->
       <:actions>
-        <.button class="min-w-[7rem]">Submit</.button>
-        <input type="reset" value="Reset" class="min-w-[7rem] btn btn-secondary" />
+        <.form_button_cancel />
+        <.form_button>Form Button</.form_button>
+        <.form_button_submit />
       </:actions>
     </.simple_form>
 

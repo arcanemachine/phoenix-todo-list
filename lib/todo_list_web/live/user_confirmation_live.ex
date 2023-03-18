@@ -25,7 +25,8 @@ defmodule TodoListWeb.UserConfirmationLive do
   end
 
   def mount(params, _session, socket) do
-    {:ok, assign(socket, token: params["token"]), temporary_assigns: [token: nil]}
+    {:ok, assign(socket, page_title: "Confirm Account", token: params["token"]),
+     temporary_assigns: [token: nil]}
   end
 
   # Do not log in the user after confirmation to avoid a

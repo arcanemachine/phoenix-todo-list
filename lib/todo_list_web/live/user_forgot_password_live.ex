@@ -16,6 +16,7 @@ defmodule TodoListWeb.UserForgotPasswordLive do
         <.form_button_submit />
       </:actions>
     </.simple_form>
+
     <.action_links
       class="mt-16"
       items={[

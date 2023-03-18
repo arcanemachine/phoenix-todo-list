@@ -5,8 +5,7 @@ defmodule TodoListWeb.UserConfirmationInstructionsLive do
 
   def render(assigns) do
     ~H"""
-    <.header>Resend confirmation instructions</.header>
-
+    <!-- .header>Resend confirmation instructions</.header -->
     <.simple_form
       :let={f}
       for={%{}}
@@ -29,7 +28,7 @@ defmodule TodoListWeb.UserConfirmationInstructionsLive do
   end
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, page_title: "Resend Confirmation Instructions")}
   end
 
   def handle_event("send_instructions", %{"user" => %{"email" => email}}, socket) do

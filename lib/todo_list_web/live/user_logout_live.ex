@@ -14,28 +14,18 @@ defmodule TodoListWeb.UserLogoutLive do
       </script>
     <% end %>
 
-    <div class="template-center max-w-sm">
-      <.header class="text-center">
-        Are you sure you want to log out?
-      </.header>
+    <.header class="my-8 text-center">
+      Are you sure you want to log out?
+    </.header>
 
-      <.simple_form for={%{}}>
-        <:actions>
-          <.link href={~p"/users/logout"} method="delete">
-            <button
-              type="button"
-              class="btn btn-lg btn-primary form-button"
-              phx-disable-with="Logging out..."
-            >
-              Yes
-            </button>
-          </.link>
-          <button type="button" class="btn btn-lg btn-secondary form-button" onclick="history.back()">
-            Cancel
-          </button>
-        </:actions>
-      </.simple_form>
-    </div>
+    <.simple_form for={%{}}>
+      <:actions>
+        <.form_button_cancel />
+        <.link href={~p"/users/logout"} method="delete">
+          <.form_button class="btn-primary" content="Yes" />
+        </.link>
+      </:actions>
+    </.simple_form>
     """
   end
 end

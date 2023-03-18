@@ -3,6 +3,21 @@ defmodule TodoListWeb.UserResetPasswordLive do
 
   alias TodoList.Accounts
 
+  def mount(params, _session, socket) do
+    socket = assign_user_and_token(socket, params)
+
+    socket =
+      case socket.assigns do
+        %{user: user} ->
+          assign(socket, :changeset, Accounts.change_user_password(user))
+
+        _ ->
+          socket
+      end
+
+    {:ok, assign(socket, page_title: "Set New Password"), temporary_assigns: [changeset: nil]}
+  end
+
   def render(assigns) do
     ~H"""
     <div :if={@changeset.action == :insert}>
@@ -43,21 +58,6 @@ defmodule TodoListWeb.UserResetPasswordLive do
       ]}
     />
     """
-  end
-
-  def mount(params, _session, socket) do
-    socket = assign_user_and_token(socket, params)
-
-    socket =
-      case socket.assigns do
-        %{user: user} ->
-          assign(socket, :changeset, Accounts.change_user_password(user))
-
-        _ ->
-          socket
-      end
-
-    {:ok, assign(socket, page_title: "Set a New Password"), temporary_assigns: [changeset: nil]}
   end
 
   # Do not log in the user after reset password to avoid a

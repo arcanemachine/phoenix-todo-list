@@ -16,30 +16,23 @@ defmodule TodoListWeb.UserDeleteLive do
 
   def render(assigns) do
     ~H"""
-    <div class="template-center max-w-md">
-      <.header class="text-center">
-        Are you sure you want to delete your account?
-      </.header>
+    <.header class="my-8 text-center">
+      Are you sure you want to delete your account?
+    </.header>
 
-      <.simple_form for={%{}} confirmation_required={true}>
-        <:actions>
-          <!-- emulate disabled button if confirmation checkbox not checked -->
-          <span x-bind:class="!confirmed && 'disabled-button-wrapper'">
-            <.link
-              href={~p"/users/profile/delete"}
-              method="delete"
-              class="btn btn-lg btn-error form-button"
-              phx-disable-with
-            >
-              Yes
-            </.link>
-          </span>
-          <button type="button" class="btn btn-lg btn-secondary form-button" onclick="history.back()">
-            Cancel
-          </button>
-        </:actions>
-      </.simple_form>
-    </div>
+    <.simple_form for={%{}} confirmation_required={true}>
+      <:actions>
+        <.form_button_cancel />
+        <.link
+          href={~p"/users/profile/delete"}
+          method="delete"
+          class="btn btn-error form-button"
+          phx-disable-with
+        >
+          Yes
+        </.link>
+      </:actions>
+    </.simple_form>
     """
   end
 end

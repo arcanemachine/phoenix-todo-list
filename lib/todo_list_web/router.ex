@@ -82,7 +82,6 @@ defmodule TodoListWeb.Router do
 
     # users
     delete("/users/logout", UserSessionController, :delete)
-    get("/users/settings", UserSessionController, :settings)
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do

@@ -23,15 +23,7 @@ defmodule TodoListWeb.UserLoginLive do
       <.input field={{f, :password}} type="password" label="Password" required />
 
       <:actions :let={f}>
-        <div class="mb-8">
-          <.input
-            field={{f, :remember_me}}
-            type="checkbox"
-            class="text-lg"
-            label="Remember me"
-            checked
-          />
-        </div>
+        <.input field={{f, :remember_me}} type="checkbox" class="text-lg" label="Remember me" checked />
       </:actions>
 
       <:actions>

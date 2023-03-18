@@ -16,7 +16,13 @@ defmodule TodoListWeb.UserResetPasswordLive do
       phx-submit="reset_password"
       phx-change="validate"
     >
-      <.input field={{f, :password}} type="password" label="New password" required />
+      <.input
+        field={{f, :password}}
+        type="password"
+        label="New password"
+        minlength={TodoList.Accounts.User.password_length_min()}
+        required
+      />
       <.input
         field={{f, :password_confirmation}}
         type="password"

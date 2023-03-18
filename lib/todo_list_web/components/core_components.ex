@@ -610,7 +610,14 @@ defmodule TodoListWeb.CoreComponents do
   def input(%{type: "hidden"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
-      <input type="hidden" name={@name} id={@id || @name} class={["hidden", @class]} {@rest} />
+      <input
+        type="hidden"
+        name={@name}
+        id={@id || @name}
+        class={["hidden", @class]}
+        value={@value}
+        {@rest}
+      />
     </div>
     """
   end
@@ -622,7 +629,10 @@ defmodule TodoListWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 mb-4 block w-full py-2 px-3 border border-gray-300 bg-base-100 rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500 sm:text-sm"
+        class={[
+          "mt-1 mb-4 block w-full py-2 px-3 border border-gray-300 bg-base-100 sm:text-sm",
+          "rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500"
+        ]}
         multiple={@multiple}
         phx-debounce={@debounce}
         {@rest}

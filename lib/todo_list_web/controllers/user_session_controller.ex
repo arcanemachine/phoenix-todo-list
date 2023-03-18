@@ -18,12 +18,12 @@ defmodule TodoListWeb.UserSessionController do
     create(conn, params, "Logged in successfully")
   end
 
-  defp create(conn, %{"user" => user_params}, info) do
+  defp create(conn, %{"user" => user_params}, success_message) do
     %{"email" => email, "password" => password} = user_params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do
       conn
-      |> put_flash(:info, info)
+      |> put_flash(:info, success_message)
       |> UserAuth.login_user(user, user_params)
     else
       conn

@@ -9,9 +9,8 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
     socket =
       socket
       |> assign(:page_title, "Update Password")
+      |> assign(:email, user.email)
       |> assign(:current_password, nil)
-      |> assign(:email_form_current_password, nil)
-      |> assign(:current_email, user.email)
       |> assign(:password_changeset, Accounts.change_user_password(user))
       |> assign(:trigger_submit, false)
 
@@ -22,24 +21,16 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
     ~H"""
     <.simple_form
       :let={f}
-      id="password_form"
       for={@password_changeset}
+      id="password_form"
       action={~p"/users/login?_action=password_updated"}
       method="post"
       phx-change="validate_password"
       phx-submit="update_password"
       phx-trigger-action={@trigger_submit}
     >
-      <.input field={{f, :email}} type="hidden" value={@current_email} />
+      <.input field={{f, :email}} type="hidden" value={@email} />
 
-      <.input
-        field={{f, :password}}
-        type="password"
-        label="New password"
-        minlength={TodoList.Accounts.User.password_length_min()}
-        required
-      />
-      <.input field={{f, :password_confirmation}} type="password" label="Confirm new password" />
       <.input
         field={{f, :current_password}}
         name="current_password"
@@ -49,8 +40,21 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
         value={@current_password}
         required
       />
+      <.input
+        field={{f, :password}}
+        type="password"
+        label="New password"
+        minlength={TodoList.Accounts.User.password_length_min()}
+        required
+      />
+      <.input
+        field={{f, :password_confirmation}}
+        type="password"
+        minlength={TodoList.Accounts.User.password_length_min()}
+        label="Confirm new password"
+      />
       <:actions>
-        <.form_button_cancel url={~p"/users/profile"} />
+        <.form_button_cancel phx-disable-with={false} url={~p"/users/profile"} />
         <.form_button_submit />
       </:actions>
     </.simple_form>

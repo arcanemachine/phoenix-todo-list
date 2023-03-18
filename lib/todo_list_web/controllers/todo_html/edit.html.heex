@@ -1,17 +1,23 @@
+<div :if={@changeset.action == :insert}>
+  <.form_error_alert />
+</div>
+
 <.header>
   Edit Todo <%= @todo.id %>
   <:subtitle>Use this form to manage todo records in your database.</:subtitle>
 </.header>
 
 <.simple_form :let={f} for={@changeset} method="put" action={~p"/todos/#{@todo}"}>
-  <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
-  </.error>
-  <.input field={{f, :content}} type="text" label="Content" />
+  <.input field={{f, :content}} type="text" label="Content" required />
   <.input field={{f, :is_completed}} type="checkbox" label="Is completed" />
   <:actions>
     <.button>Save Todo</.button>
   </:actions>
 </.simple_form>
 
-<.back navigate={~p"/todos"}>Back to todos</.back>
+<.action_links
+  class="mt-16"
+  items={[
+    %{content: "Return to Todos", navigate: ~p"/todos"},
+  ]}
+/>

@@ -22,7 +22,13 @@ defmodule TodoListWeb.UserRegistrationLive do
       as={:user}
     >
       <.input field={{f, :email}} type="email" label="Email" required />
-      <.input field={{f, :password}} type="password" label="Password" required />
+      <.input
+        field={{f, :password}}
+        type="password"
+        label="Password"
+        minlength={TodoList.Accounts.User.password_length_min()}
+        required
+      />
 
       <:actions>
         <.form_button_cancel />

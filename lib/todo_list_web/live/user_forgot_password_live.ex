@@ -5,33 +5,29 @@ defmodule TodoListWeb.UserForgotPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <section class="template-center">
-      <div class="max-w-sm">
-        <.header class="text-center">
-          Forgot your password?
-          <:subtitle>We'll send a password reset link to your inbox</:subtitle>
-        </.header>
+    <div class="mb-8 text-center">
+      Complete this form, then check your email inbox.
+    </div>
 
-        <.simple_form :let={f} id="reset_password_form" for={%{}} as={:user} phx-submit="send_email">
-          <.input field={{f, :email}} type="email" placeholder="Your email" required />
-          <:actions>
-            <.button phx-disable-with="Sending..." class="mt-2 btn-primary w-full">
-              Submit
-            </.button>
-          </:actions>
-        </.simple_form>
-        <p class="text-center mt-6">
-          <.link href={~p"/users/register"}>Register</.link>
-          <span class="inline-block w-8">|</span>
-          <.link href={~p"/users/login"}>Log in</.link>
-        </p>
-      </div>
-    </section>
+    <.simple_form :let={f} id="reset_password_form" for={%{}} as={:user} phx-submit="send_email">
+      <.input field={{f, :email}} type="email" placeholder="Your email" required />
+      <:actions>
+        <.form_button_cancel />
+        <.form_button_submit />
+      </:actions>
+    </.simple_form>
+    <.action_links
+      class="mt-16"
+      items={[
+        %{content: "Register new account", navigate: ~p"/users/register"},
+        %{content: "Login", navigate: ~p"/users/login"}
+      ]}
+    />
     """
   end
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, page_title: "Forget Your Password")}
   end
 
   def handle_event("send_email", %{"user" => %{"email" => email}}, socket) do
@@ -43,7 +39,8 @@ defmodule TodoListWeb.UserForgotPasswordLive do
     end
 
     info =
-      "If your email is in our system, you will receive instructions to reset your password shortly."
+      "If your email is in our system, then we have sent an email to your inbox " <>
+        "containing password reset instructions."
 
     {:noreply,
      socket

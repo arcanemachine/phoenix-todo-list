@@ -5,38 +5,37 @@ defmodule TodoListWeb.UserResetPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="template-center max-w-sm">
-      <.header class="text-center">Reset Password</.header>
-
-      <.simple_form
-        :let={f}
-        for={@changeset}
-        id="reset_password_form"
-        phx-submit="reset_password"
-        phx-change="validate"
-      >
-        <.error :if={@changeset.action == :insert}>
-          Oops, something went wrong! Please check the errors below.
-        </.error>
-
-        <.input field={{f, :password}} type="password" label="New password" required />
-        <.input
-          field={{f, :password_confirmation}}
-          type="password"
-          label="Confirm new password"
-          required
-        />
-        <:actions>
-          <.button phx-disable-with="Resetting..." class="w-full">Reset Password</.button>
-        </:actions>
-      </.simple_form>
-
-      <p class="text-center mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        |
-        <.link href={~p"/users/login"}>Log in</.link>
-      </p>
+    <div :if={@changeset.action == :insert}>
+      <.form_error_alert />
     </div>
+
+    <.simple_form
+      :let={f}
+      for={@changeset}
+      id="reset_password_form"
+      phx-submit="reset_password"
+      phx-change="validate"
+    >
+      <.input field={{f, :password}} type="password" label="New password" required />
+      <.input
+        field={{f, :password_confirmation}}
+        type="password"
+        label="Confirm new password"
+        required
+      />
+      <:actions>
+        <.form_button_cancel />
+        <.form_button_submit />
+      </:actions>
+    </.simple_form>
+
+    <.action_links
+      class="mt-16"
+      items={[
+        %{content: "Register new account", navigate: ~p"/users/register"},
+        %{content: "Login", navigate: ~p"/users/login"}
+      ]}
+    />
     """
   end
 
@@ -52,7 +51,7 @@ defmodule TodoListWeb.UserResetPasswordLive do
           socket
       end
 
-    {:ok, socket, temporary_assigns: [changeset: nil]}
+    {:ok, assign(socket, page_title: "Set a New Password"), temporary_assigns: [changeset: nil]}
   end
 
   # Do not log in the user after reset password to avoid a

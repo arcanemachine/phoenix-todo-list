@@ -590,7 +590,7 @@ defmodule TodoListWeb.CoreComponents do
     assigns = assign_new(assigns, :checked, fn -> input_equals?(assigns.value, "true") end)
 
     ~H"""
-    <label phx-feedback-for={@name} class="flex items-center gap-4 text-sm leading-6 text-base-600">
+    <label phx-feedback-for={@name} class="flex items-center gap-4 mb-12 leading-6 text-base-600">
       <input type="hidden" name={@name} value="false" />
       <input
         type="checkbox"
@@ -598,7 +598,7 @@ defmodule TodoListWeb.CoreComponents do
         name={@name}
         value="true"
         checked={@checked}
-        class={@class}
+        class={["checkbox", @class]}
         phx-debounce={@debounce}
         {@rest}
       />
@@ -622,7 +622,7 @@ defmodule TodoListWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-base-100 rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500 sm:text-sm"
+        class="mt-1 mb-4 block w-full py-2 px-3 border border-gray-300 bg-base-100 rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500 sm:text-sm"
         multiple={@multiple}
         phx-debounce={@debounce}
         {@rest}
@@ -759,7 +759,7 @@ defmodule TodoListWeb.CoreComponents do
   attr :type, :string, default: "submit"
   attr :class, :any, default: nil
   attr :content, :string, default: "Submit"
-  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form submit button"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form button"
 
   def form_button_submit(assigns) do
     ~H"""
@@ -779,14 +779,23 @@ defmodule TodoListWeb.CoreComponents do
   """
   attr :type, :string, default: "button"
   attr :class, :any, default: nil
+  attr :url, :string, default: nil, doc: "the URL to redirect to"
   attr :content, :string, default: "Cancel"
-  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form cancel button"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the form button"
 
   def form_button_cancel(assigns) do
     ~H"""
-    <.form_button type={@type} class={["btn-secondary", @class]} onclick="history.go(-1)" {@rest}>
-      <%= @content %>
-    </.form_button>
+    <a href={@url} tabindex="-1">
+      <.form_button
+        type={@type}
+        class={["btn-secondary", @class]}
+        onclick={@url || "history.back()"}
+        phx-disable-with={false}
+        {@rest}
+      >
+        <%= @content %>
+      </.form_button>
+    </a>
     """
   end
 

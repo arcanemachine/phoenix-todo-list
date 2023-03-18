@@ -1,17 +1,19 @@
-<.header>
-  New Todo
-  <:subtitle>Use this form to manage todo records in your database.</:subtitle>
-</.header>
+<div :if={@changeset.action == :insert}>
+  <.form_error_alert />
+</div>
 
 <.simple_form :let={f} for={@changeset} action={~p"/todos"}>
-  <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
-  </.error>
   <.input field={{f, :content}} type="text" label="Content" />
   <.input field={{f, :is_completed}} type="checkbox" label="Is completed" />
-  <:actions>
-    <.button>Save Todo</.button>
-  </:actions>
+    <:actions>
+      <.form_button_cancel />
+      <.form_button_submit />
+    </:actions>
 </.simple_form>
 
-<.back navigate={~p"/todos"}>Back to todos</.back>
+<.action_links
+  class="mt-16"
+  items={[
+    %{content: "Return to Todos", navigate: ~p"/todos"},
+  ]}
+/>

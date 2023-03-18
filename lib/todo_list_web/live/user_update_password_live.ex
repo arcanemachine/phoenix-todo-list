@@ -32,7 +32,13 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
     >
       <.input field={{f, :email}} type="hidden" value={@current_email} />
 
-      <.input field={{f, :password}} type="password" label="New password" required />
+      <.input
+        field={{f, :password}}
+        type="password"
+        label="New password"
+        minlength={TodoList.Accounts.User.password_length_min()}
+        required
+      />
       <.input field={{f, :password_confirmation}} type="password" label="Confirm new password" />
       <.input
         field={{f, :current_password}}
@@ -44,13 +50,8 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
         required
       />
       <:actions>
-        <.button class="btn-lg btn-primary form-button" phx-disable-with="Changing...">
-          Confirm
-        </.button>
-
-        <button type="button" class="btn btn-lg btn-secondary form-button" onclick="history.back()">
-          Cancel
-        </button>
+        <.form_button_cancel url={~p"/users/profile"} />
+        <.form_button_submit />
       </:actions>
     </.simple_form>
     """

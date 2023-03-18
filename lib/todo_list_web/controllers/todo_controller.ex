@@ -11,7 +11,7 @@ defmodule TodoListWeb.TodoController do
 
   def new(conn, _params) do
     changeset = Todos.change_todo(%Todo{})
-    render(conn, :new, changeset: changeset)
+    render(conn, :new, changeset: changeset, page_title: "Create Todo")
   end
 
   def create(conn, %{"todo" => todo_params}) do

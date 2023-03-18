@@ -11,6 +11,10 @@ defmodule TodoList.Accounts.User do
     timestamps()
   end
 
+  def password_length_min do
+    8
+  end
+
   @doc """
   A user changeset for registration.
 
@@ -52,7 +56,7 @@ defmodule TodoList.Accounts.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 8, max: 72)
+    |> validate_length(:password, min: password_length_min, max: 72)
     # |> validate_format(:password, ~r/[a-z]/, message: "Password must have a lowercase character.")
     # |> validate_format(:password, ~r/[A-Z]/, message: "Password must have an uppercase character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "Password must have at least one special character")

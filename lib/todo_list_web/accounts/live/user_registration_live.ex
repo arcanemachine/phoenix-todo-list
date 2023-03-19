@@ -10,8 +10,13 @@ defmodule TodoListWeb.UserRegistrationLive do
       <.form_error_alert />
     </div>
 
+    <p class="text-center">
+      Make a new account and create your own todo list!
+    </p>
+
     <.simple_form
       :let={f}
+      class="mt-8"
       id="registration_form"
       for={@changeset}
       phx-submit="save"

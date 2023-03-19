@@ -472,6 +472,7 @@ defmodule TodoListWeb.CoreComponents do
   """
   attr :for, :any, default: nil, doc: "the datastructure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+  attr :class, :any, default: nil
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target),
@@ -483,7 +484,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} class="w-full max-w-sm mx-auto" {@rest}>
+    <.form :let={f} for={@for} as={@as} class={["w-full max-w-sm mx-auto", @class]} {@rest}>
       <div data-confirmation-required={@confirmation_required} x-data="$store.components.simpleForm">
         <%= render_slot(@inner_block, f) %>
 

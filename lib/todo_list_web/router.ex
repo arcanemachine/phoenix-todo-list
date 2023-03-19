@@ -4,6 +4,7 @@ defmodule TodoListWeb.Router do
   import TodoListWeb.Plug
   import TodoListWeb.UserAuth
 
+  alias TodoListWeb.Base.Router, as: BaseRouter
   alias TodoListWeb.Accounts.Router, as: AccountsRouter
   alias TodoListWeb.Todos.Router, as: TodosRouter
 
@@ -22,18 +23,15 @@ defmodule TodoListWeb.Router do
     plug :fetch_current_user
   end
 
+  # DEV #
+  use BaseRouter, :base_dev
+
   # BROWSER #
   # allow any user
   scope "/", TodoListWeb do
     pipe_through(:browser)
 
-    get("/contact-us", PageController, :contact_us)
-    get("/privacy-policy", PageController, :privacy_policy)
-    get("/terms-of-use", PageController, :terms_of_use)
-
-    live "/", HomeLive
-    live "/component-showcase", ComponentShowcaseLive
-
+    use BaseRouter, :base_allow_any_user
     use AccountsRouter, :accounts_allow_any_user
 
     live_session :current_user,
@@ -112,17 +110,5 @@ defmodule TodoListWeb.Router do
     ])
 
     use TodosRouter, :todos_api_require_todo_permissions
-  end
-
-  # DEV #
-  if Application.compile_env(:todo_list, :dev_routes) do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/dev" do
-      pipe_through(:browser)
-
-      live_dashboard("/dashboard", metrics: TodoListWeb.Telemetry)
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
-    end
   end
 end

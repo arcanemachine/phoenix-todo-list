@@ -1,5 +1,5 @@
 defmodule TodoListWeb.Todos.Router do
-  # browser
+  # BROWSER #
   def todos_login_required do
     quote do
       resources("/todos", TodoController, only: [:index, :new, :create])
@@ -18,7 +18,7 @@ defmodule TodoListWeb.Todos.Router do
     end
   end
 
-  # api
+  # API #
   def todos_api_login_required do
     quote do
       resources "/todos", Api.TodoController, only: [:index, :create]

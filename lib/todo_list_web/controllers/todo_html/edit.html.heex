@@ -2,22 +2,18 @@
   <.form_error_alert />
 </div>
 
-<.header>
-  Edit Todo <%= @todo.id %>
-  <:subtitle>Use this form to manage todo records in your database.</:subtitle>
-</.header>
-
 <.simple_form :let={f} for={@changeset} method="put" action={~p"/todos/#{@todo}"}>
   <.input field={{f, :content}} type="text" label="Content" required />
   <.input field={{f, :is_completed}} type="checkbox" label="Is completed" />
   <:actions>
-    <.button>Save Todo</.button>
+    <.form_button_cancel />
+    <.form_button_submit />
   </:actions>
 </.simple_form>
 
 <.action_links
   class="mt-16"
   items={[
-    %{content: "Return to Todos", navigate: ~p"/todos"},
+    %{content: "Return to Todos", navigate: ~p"/todos"}
   ]}
 />

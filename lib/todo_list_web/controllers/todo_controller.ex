@@ -6,7 +6,7 @@ defmodule TodoListWeb.TodoController do
 
   def index(conn, _params) do
     todos = Todos.list_todos_by_user_id(conn.assigns.current_user.id)
-    render(conn, :index, todos: todos)
+    render(conn, :index, todos: todos, page_title: "Todo List")
   end
 
   def new(conn, _params) do
@@ -30,23 +30,23 @@ defmodule TodoListWeb.TodoController do
   end
 
   def show(conn, _params) do
-    conn |> render(:show, todo: conn.assigns.todo)
+    conn |> render(:show, page_title: "Todo Info", todo: conn.assigns.todo)
   end
 
   def edit(conn, _params) do
     todo = conn.assigns.todo
     changeset = Todos.change_todo(todo)
-    render(conn, :edit, todo: todo, changeset: changeset)
+    render(conn, :edit, page_title: "Edit Todo", todo: todo, changeset: changeset)
   end
 
   def update(conn, %{"todo" => todo_params}) do
     todo = conn.assigns.todo
 
     case Todos.update_todo(todo, todo_params) do
-      {:ok, todo} ->
+      {:ok, _todo} ->
         conn
         |> put_flash(:info, "Todo updated successfully.")
-        |> redirect(to: ~p"/todos/#{todo}")
+        |> redirect(to: ~p"/todos")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :edit, todo: todo, changeset: changeset)

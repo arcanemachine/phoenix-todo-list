@@ -1,18 +1,11 @@
-<.header>
-  Listing Todos
-  <:actions>
-    <.link href={~p"/todos/new"}>
-      <.button>New Todo</.button>
-    </.link>
-  </:actions>
-</.header>
-
 <%= if Enum.empty?(@todos) do %>
   <p class="mt-8">You have not created any Todos.</p>
 <% else %>
   <.table id="todos" rows={@todos} row_click={&JS.navigate(~p"/todos/#{&1}")}>
     <:col :let={todo} label="Content"><%= todo.content %></:col>
-    <:col :let={todo} label="Is completed"><%= todo.is_completed %></:col>
+    <:col :let={todo} label="Is Completed?">
+      <%= (todo.is_completed && "Yes") || "No" %>
+    </:col>
     <:action :let={todo}>
       <div class="sr-only">
         <.link navigate={~p"/todos/#{todo}"}>Show</.link>
@@ -26,3 +19,7 @@
     </:action>
   </.table>
 <% end %>
+
+<.action_links items={[
+  %{content: "Create new Todo", href: ~p"/todos/new"}
+]} />

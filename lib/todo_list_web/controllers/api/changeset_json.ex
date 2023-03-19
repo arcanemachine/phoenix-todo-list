@@ -1,4 +1,6 @@
 defmodule TodoListWeb.ChangesetJSON do
+  @moduledoc false
+
   @doc """
   Renders changeset errors.
   """

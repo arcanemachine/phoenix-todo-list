@@ -112,7 +112,7 @@ defmodule TodoListWeb.CoreComponents do
 
         <li class="mt-6">
           <small>
-            &copy; Copyright <%= DateTime.utc_now().year %>.
+            &copy; Copyright <%= DateTime.utc_now().year %>
             <br />This project is licensed under <a href="https://github.com/aws/mit-0">MIT-0</a>.
           </small>
         </li>
@@ -615,7 +615,7 @@ defmodule TodoListWeb.CoreComponents do
         name={@name}
         value="true"
         checked={@checked}
-        class={["checkbox", @class]}
+        class={["ml-2 checkbox", @class]}
         phx-debounce={@debounce}
         {@rest}
       />
@@ -912,7 +912,7 @@ defmodule TodoListWeb.CoreComponents do
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
-              class={["p-0", @row_click && "hover:cursor-pointer"]}
+              class={["px-2", @row_click && "hover:cursor-pointer"]}
             >
               <div :if={i == 0}>
                 <span class="absolute h-full w-4 top-0 -left-4 group-hover:bg-base-50 sm:rounded-l-xl" />
@@ -928,7 +928,7 @@ defmodule TodoListWeb.CoreComponents do
               <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
                 <span
                   :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-base-900 hover:text-base-700"
+                  class="relative ml-4 px-2 font-semibold leading-6 text-base-900 hover:text-base-700"
                 >
                   <%= render_slot(action, row) %>
                 </span>

@@ -1,16 +1,17 @@
-<.header>
-  Show Todo <%= @todo.id %>
-  <:subtitle>This is a todo record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/todos/#{@todo}/edit"}>
-      <.button>Edit todo</.button>
-    </.link>
-  </:actions>
-</.header>
+<section class="prose">
+  <ul class="list-none">
+    <li>
+      <span class="font-bold">Content:</span>
+      <%= @todo.content %>
+    </li>
+    <li>
+      <span class="font-bold">Is Completed?</span>
+      <%= @todo.is_completed && "Yes" || "No" %>
+    </li>
+  </ul>
+</section>
 
-<.list>
-  <:item title="Content"><%= @todo.content %></:item>
-  <:item title="Is completed"><%= @todo.is_completed %></:item>
-</.list>
-
-<.back navigate={~p"/todos"}>Back to todos</.back>
+<.action_links items={[
+  %{content: "Update this Todo", href: ~p"/todos/#{@todo}/edit"},
+  %{content: "View all Todos", href: ~p"/todos"}
+]} />

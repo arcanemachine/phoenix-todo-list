@@ -42,6 +42,7 @@ defmodule TodoList.Accounts.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_email(opts)
+    |> validate_confirmation(:password, message: "The passwords do not match.")
     |> validate_password(opts)
   end
 

@@ -34,6 +34,12 @@ defmodule TodoListWeb.UserRegistrationLive do
         minlength={TodoList.Accounts.User.password_length_min()}
         required
       />
+      <.input
+        field={{f, :password_confirmation}}
+        type="password"
+        minlength={TodoList.Accounts.User.password_length_min()}
+        label="Confirm password"
+      />
 
       <:actions>
         <.form_button_cancel />

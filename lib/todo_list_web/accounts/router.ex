@@ -1,20 +1,8 @@
 defmodule TodoListWeb.Accounts.Router do
-  # api
-  def accounts_api_logout_required do
-    quote do
-      resources "/users", Api.UserSessionController, only: [:create]
-    end
-  end
-
-  def accounts_api_require_user_permissions do
-    quote do
-      resources "/users", Api.UserSessionController, only: [:show, :update, :delete]
-    end
-  end
-
   # browser
   def accounts_allow_any_user do
     quote do
+      get("/users", AccountsController, :root)
       delete("/users/logout", UserSessionController, :delete)
     end
   end
@@ -29,7 +17,7 @@ defmodule TodoListWeb.Accounts.Router do
 
   def accounts_logout_required do
     quote do
-      post "/users/login", UserSessionController, :create
+      post("/users/login", UserSessionController, :create)
     end
   end
 
@@ -44,7 +32,7 @@ defmodule TodoListWeb.Accounts.Router do
 
   def accounts_login_required do
     quote do
-      delete("/users/profile/delete", UserController, :delete)
+      delete("/users/profile/delete", AccountsController, :delete)
       get("/users/profile", UserSessionController, :show)
       get("/users/profile/update", UserSessionController, :update)
     end
@@ -56,6 +44,19 @@ defmodule TodoListWeb.Accounts.Router do
       live("/users/profile/update/email", UserUpdateEmailLive, :edit)
       live("/users/profile/update/password", UserUpdatePasswordLive, :edit)
       live("/users/profile/confirm_email/:token", UserUpdateEmailLive, :confirm_email)
+    end
+  end
+
+  # api
+  def accounts_api_logout_required do
+    quote do
+      resources "/users", Api.UserSessionController, only: [:create]
+    end
+  end
+
+  def accounts_api_require_user_permissions do
+    quote do
+      resources "/users", Api.UserSessionController, only: [:show, :update, :delete]
     end
   end
 

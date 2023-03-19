@@ -1,17 +1,4 @@
 defmodule TodoListWeb.Todos.Router do
-  # api
-  def todos_api_login_required do
-    quote do
-      resources "/todos", Api.TodoController, only: [:index, :create]
-    end
-  end
-
-  def todos_api_require_todo_permissions do
-    quote do
-      resources "/todos", Api.TodoController, except: [:index, :create]
-    end
-  end
-
   # browser
   def todos_login_required do
     quote do
@@ -28,6 +15,19 @@ defmodule TodoListWeb.Todos.Router do
   def todos_require_todo_permissions do
     quote do
       resources("/todos", TodoController, only: [:show, :edit, :update, :delete])
+    end
+  end
+
+  # api
+  def todos_api_login_required do
+    quote do
+      resources "/todos", Api.TodoController, only: [:index, :create]
+    end
+  end
+
+  def todos_api_require_todo_permissions do
+    quote do
+      resources "/todos", Api.TodoController, except: [:index, :create]
     end
   end
 

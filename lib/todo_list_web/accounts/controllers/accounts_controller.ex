@@ -1,8 +1,12 @@
-defmodule TodoListWeb.UserController do
+defmodule TodoListWeb.AccountsController do
   use TodoListWeb, :controller
 
   alias TodoList.Accounts
   alias TodoListWeb.UserAuth
+
+  def root(conn, _params) do
+    conn |> redirect(to: ~p"/users/profile")
+  end
 
   def delete(conn, _params) do
     # get user

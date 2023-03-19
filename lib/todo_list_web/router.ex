@@ -22,40 +22,6 @@ defmodule TodoListWeb.Router do
     plug :fetch_current_user
   end
 
-  # API #
-  # logout required
-  scope "/api", TodoListWeb do
-    pipe_through([:api, :api_forbid_authenticated_user])
-
-    use AccountsRouter, :accounts_api_logout_required
-  end
-
-  # login required
-  scope "/api", TodoListWeb do
-    pipe_through([:api, :api_require_authenticated_user])
-
-    use TodosRouter, :todos_api_login_required
-  end
-
-  # require user permissions
-  scope "/api", TodoListWeb do
-    pipe_through([:api, :api_require_authenticated_user, :api_require_user_permissions])
-
-    use AccountsRouter, :accounts_api_require_user_permissions
-  end
-
-  # require todo permissions
-  scope "/api", TodoListWeb do
-    pipe_through([
-      :api,
-      :api_require_authenticated_user,
-      :fetch_todo,
-      :api_require_todo_permissions
-    ])
-
-    use TodosRouter, :todos_api_require_todo_permissions
-  end
-
   # BROWSER #
   # allow any user
   scope "/", TodoListWeb do
@@ -67,6 +33,8 @@ defmodule TodoListWeb.Router do
 
     live "/", HomeLive
     live "/component-showcase", ComponentShowcaseLive
+
+    use AccountsRouter, :accounts_allow_any_user
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
@@ -112,7 +80,41 @@ defmodule TodoListWeb.Router do
     use TodosRouter, :todos_require_todo_permissions
   end
 
-  # dev routes
+  # API #
+  # logout required
+  scope "/api", TodoListWeb do
+    pipe_through([:api, :api_forbid_authenticated_user])
+
+    use AccountsRouter, :accounts_api_logout_required
+  end
+
+  # login required
+  scope "/api", TodoListWeb do
+    pipe_through([:api, :api_require_authenticated_user])
+
+    use TodosRouter, :todos_api_login_required
+  end
+
+  # require user permissions
+  scope "/api", TodoListWeb do
+    pipe_through([:api, :api_require_authenticated_user, :api_require_user_permissions])
+
+    use AccountsRouter, :accounts_api_require_user_permissions
+  end
+
+  # require todo permissions
+  scope "/api", TodoListWeb do
+    pipe_through([
+      :api,
+      :api_require_authenticated_user,
+      :fetch_todo,
+      :api_require_todo_permissions
+    ])
+
+    use TodosRouter, :todos_api_require_todo_permissions
+  end
+
+  # DEV #
   if Application.compile_env(:todo_list, :dev_routes) do
     import Phoenix.LiveDashboard.Router
 

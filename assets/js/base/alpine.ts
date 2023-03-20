@@ -258,25 +258,6 @@ const animations = {
 };
 
 const components = {
-  showOnInit: () => {
-    return {
-      show: false,
-
-      bindings: {
-        ["x-transition.opacity.duration.500ms"]() {
-          return this.show;
-        },
-      },
-
-      init() {
-        this.$el.setAttribute("x-bind", "bindings");
-
-        setTimeout(() => {
-          this.show = true;
-        });
-      },
-    };
-  },
   body: () => {
     return {
       init() {
@@ -299,6 +280,25 @@ const components = {
           // // store flutter handler
           // globals.flutterHandler = window["flutter_inappwebview"];
         }
+      },
+    };
+  },
+  showOnInit: () => {
+    return {
+      show: false,
+
+      bindings: {
+        ["x-transition.opacity.duration.500ms"]() {
+          return this.show;
+        },
+      },
+
+      init() {
+        this.$el.setAttribute("x-bind", "bindings");
+
+        setTimeout(() => {
+          this.show = true;
+        });
       },
     };
   },
@@ -405,6 +405,43 @@ const components = {
 
       destroy() {
         dataFormModifiedAlertOnExit.destroy.bind(this)();
+      },
+    };
+  },
+  toastContainer: () => {
+    return {
+      bindings: {
+        ["@phx:toast-show.window"]() {
+          return "(evt) => $store.toasts.show(evt.detail)";
+        },
+        ["@phx:toast-show-primary.window"]() {
+          return "(evt) => $store.toasts.showPrimary(evt.detail)";
+        },
+        ["@phx:toast-show-secondary.window"]() {
+          return "(evt) => $store.toasts.showSecondary(evt.detail)";
+        },
+        ["@phx:toast-show-accent.window"]() {
+          return "(evt) => $store.toasts.showAccent(evt.detail)";
+        },
+        ["@phx:toast-show-neutral.window"]() {
+          return "(evt) => $store.toasts.showNeutral(evt.detail)";
+        },
+        ["@phx:toast-show-info.window"]() {
+          return "(evt) => $store.toasts.showInfo(evt.detail)";
+        },
+        ["@phx:toast-show-success.window"]() {
+          return "(evt) => $store.toasts.showSuccess(evt.detail)";
+        },
+        ["@phx:toast-show-warning.window"]() {
+          return "(evt) => $store.toasts.showWarning(evt.detail)";
+        },
+        ["@phx:toast-show-error.window"]() {
+          return "(evt) => $store.toasts.showError(evt.detail)";
+        },
+      },
+
+      init() {
+        this.$el.setAttribute("x-bind", "bindings");
       },
     };
   },

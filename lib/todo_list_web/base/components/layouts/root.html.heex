@@ -21,7 +21,6 @@
     class="flex flex-col h-full bg-base-200 antialiased"
     data-user-is-authenticated={(@conn.assigns[:current_user] && "true") || "false"}
     x-data="$store.components.body"
-    x-title="body"
   >
     <!-- utility -->
     <section>
@@ -65,11 +64,11 @@
       <!-- content -->
       <section>
         <section class="mb-8">
-          <h1 class="mt-6 text-4xl text-center font-bold">
+          <h1 id="page-title" class="mt-6 text-4xl text-center font-bold">
             <%= assigns[:page_title] || "" %>
           </h1>
 
-          <h2 class="mt-2 text-2xl text-center">
+          <h2 id="page-subtitle" class="mt-2 text-2xl text-center">
             <%= assigns[:page_subtitle] || "" %>
           </h2>
         </section>

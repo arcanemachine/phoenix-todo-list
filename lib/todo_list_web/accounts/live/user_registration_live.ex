@@ -4,8 +4,12 @@ defmodule TodoListWeb.UserRegistrationLive do
   alias TodoList.Accounts
   alias TodoList.Accounts.User
 
+  @page_title "Register New Account"
+
   def render(assigns) do
     ~H"""
+    <template x-page-title={@page_title} />
+
     <div :if={@changeset.action == :insert}>
       <.form_error_alert />
     </div>
@@ -61,7 +65,7 @@ defmodule TodoListWeb.UserRegistrationLive do
 
     socket =
       assign(socket,
-        page_title: "Register New Account",
+        page_title: @page_title,
         changeset: changeset,
         trigger_submit: false
       )

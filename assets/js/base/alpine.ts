@@ -142,6 +142,15 @@ export const directives = [
       });
     },
   },
+  {
+    name: "page-title",
+    directive(_elt: HTMLElement, { expression }: any) {
+      /** Workaround: Updates the `#page-title` element. Fixes issue with
+       *  LiveView navigation not updating the title properly.
+       */
+      document.querySelector("#page-title")!.textContent = expression;
+    },
+  },
 ];
 
 /* stores */
@@ -244,12 +253,13 @@ const components = {
     return {
       init() {
         // this.$store.components.body = this;
+        this.$el.setAttribute("x-title", "body");
 
         /* set global values */
-        const globals = this.$store.globals;
+        // const globals = this.$store.globals;
 
         // auth
-        globals.userIsAuthenticated = JSON.parse(
+        this.$store.globals.userIsAuthenticated = JSON.parse(
           this.$el.dataset.userIsAuthenticated
         );
       },
@@ -419,7 +429,7 @@ const components = {
   },
 };
 
-// const globals = {};
+const globals = { userIsAuthenticated: undefined };
 
 // toasts
 type ProjectToastifyOptions = StartToastifyInstance.Options & {
@@ -617,10 +627,10 @@ export const stores: Array<object> = [
     name: "constants",
     store: constants,
   },
-  // {
-  //   name: "globals",
-  //   store: globals,
-  // },
+  {
+    name: "globals",
+    store: globals,
+  },
   {
     name: "helpers",
     store: helpers,

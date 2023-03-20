@@ -29,17 +29,3 @@ defmodule TodoListWeb.Helpers.Template do
     (Enum.member?(conn.req_headers, {"x-platform", "flutter"}) && "flutter") || "web"
   end
 end
-
-# defmodule TodoListWeb.Helpers.Urls do
-#   @moduledoc "Django-style named URL routes."
-#
-#   def path(name, _opts) do
-#     case name do
-#       "project_root" -> "/"
-#     end
-#   end
-#
-#   def path(name) do
-#     path(name, [])
-#   end
-# end

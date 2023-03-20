@@ -1,6 +1,4 @@
 defmodule TodoListWeb.Base.Router do
-  import TodoListWeb.Base.Urls
-
   # BROWSER #
   def base_allow_any_user do
     quote do
@@ -8,7 +6,7 @@ defmodule TodoListWeb.Base.Router do
       get("/privacy-policy", PageController, :privacy_policy)
       get("/terms-of-use", PageController, :terms_of_use)
 
-      live(path("project_root"), HomeLive)
+      live("/", HomeLive)
       live("/component-showcase", ComponentShowcaseLive)
     end
   end

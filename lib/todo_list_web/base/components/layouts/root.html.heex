@@ -19,7 +19,6 @@
   </head>
   <body
     class="flex flex-col h-full bg-base-200 antialiased"
-    data-platform={TemplateHelpers.detect_platform(@conn)}
     data-user-is-authenticated={(@conn.assigns[:current_user] && "true") || "false"}
     x-data="$store.components.body"
     x-title="body"
@@ -39,41 +38,28 @@
       </noscript>
     </section>
 
-    <template x-if="$store.globals.platformIsApp">
-      <section>
-        <!-- add spacer so flash messages don't block the title -->
-        <div class="h-12">&nbsp;</div>
-      </section>
-    </template>
+    <!-- toasts -->
+    <section id="toast-container" x-data="$store.components.toastContainer" />
 
-    <section
-      id="toast-container"
-      x-data="$store.components.toastContainer"
-    >
-      <!-- toasts -->
-    </section>
-
-    <section x-show="!$store.globals.platformIsApp">
-      <.navbar>
-        <:user_action_menu_items>
-          <%= if @current_user do %>
-            <li>
-              <.link href={~p"/users/profile"}>Your profile</.link>
-            </li>
-            <li>
-              <.link href={~p"/users/logout"}>Log out</.link>
-            </li>
-          <% else %>
-            <li>
-              <.link href={~p"/users/register"}>Register</.link>
-            </li>
-            <li>
-              <.link href={~p"/users/login"}>Log in</.link>
-            </li>
-          <% end %>
-        </:user_action_menu_items>
-      </.navbar>
-    </section>
+    <.navbar>
+      <:user_action_menu_items>
+        <%= if @current_user do %>
+          <li>
+            <.link href={~p"/users/profile"}>Your profile</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/logout"}>Log out</.link>
+          </li>
+        <% else %>
+          <li>
+            <.link href={~p"/users/register"}>Register</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/login"}>Log in</.link>
+          </li>
+        <% end %>
+      </:user_action_menu_items>
+    </.navbar>
 
     <section class="grow flex flex-col bg-base-100">
       <!-- content -->
@@ -93,9 +79,7 @@
         <%= @inner_content %>
       </div>
 
-      <section x-show="!$store.globals.platformIsApp">
-        <.footer />
-      </section>
+      <.footer />
     </section>
   </body>
 </html>

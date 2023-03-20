@@ -37,10 +37,6 @@ defmodule TodoListWeb.UserSessionController do
     render(conn, :show, page_title: "Your Profile")
   end
 
-  def settings(conn, _params) do
-    conn |> render(:settings, layout: false, page_title: "Settings")
-  end
-
   def update(conn, _params) do
     conn |> render(:update, page_title: "Manage Your Profile")
   end

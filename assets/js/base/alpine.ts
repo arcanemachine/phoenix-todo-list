@@ -59,11 +59,6 @@ function darkModeSelect() {
 
       // remove saved preference
       localStorage.removeItem("darkModeEnabled");
-
-      // flutter: push theme change to UI
-      if (this.$store.globals.platformIsNative) {
-        this.$store.globals.flutterHandler.callHandler("darkModeSet", "system");
-      }
     },
 
     darkModeEnable(updateSavedPreference: boolean) {
@@ -73,11 +68,6 @@ function darkModeSelect() {
       if (updateSavedPreference) {
         // save data to localStorage
         localStorage.setItem("darkModeEnabled", "1");
-
-        // flutter: push theme change to UI
-        if (this.$store.globals.platformIsNative) {
-          this.$store.globals.flutterHandler.callHandler("darkModeSet", "dark");
-        }
       }
     },
 
@@ -88,14 +78,6 @@ function darkModeSelect() {
       if (updateSavedPreference) {
         // save data to localStorage
         localStorage.setItem("darkModeEnabled", "0");
-
-        // flutter: push theme change to UI
-        if (this.$store.globals.platformIsNative) {
-          this.$store.globals.flutterHandler.callHandler(
-            "darkModeSet",
-            "light"
-          );
-        }
       }
     },
 
@@ -270,16 +252,6 @@ const components = {
         globals.userIsAuthenticated = JSON.parse(
           this.$el.dataset.userIsAuthenticated
         );
-
-        // platform
-        globals.platform = globals.platform || this.$el.dataset.platform;
-        if (globals.platformIsNative) {
-          // preserve platform setting for the duration of the session
-          sessionStorage.setItem("platform", "flutter");
-
-          // // store flutter handler
-          // globals.flutterHandler = window["flutter_inappwebview"];
-        }
       },
     };
   },
@@ -447,18 +419,7 @@ const components = {
   },
 };
 
-const globals = {
-  platform: undefined,
-  get flutterHandler() {
-    return this.platformIsNative ? window["flutter_inappwebview"] : null;
-  },
-  get platformIsNative() {
-    return (
-      sessionStorage.getItem("platform") === "flutter" ||
-      this.platform === "flutter"
-    );
-  },
-};
+// const globals = {};
 
 // toasts
 type ProjectToastifyOptions = StartToastifyInstance.Options & {
@@ -656,10 +617,10 @@ export const stores: Array<object> = [
     name: "constants",
     store: constants,
   },
-  {
-    name: "globals",
-    store: globals,
-  },
+  // {
+  //   name: "globals",
+  //   store: globals,
+  // },
   {
     name: "helpers",
     store: helpers,

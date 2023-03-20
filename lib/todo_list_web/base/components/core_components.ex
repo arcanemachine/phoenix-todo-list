@@ -331,74 +331,24 @@ defmodule TodoListWeb.CoreComponents do
         >
           <h2 class="mb-12 text-3xl font-bold text-center">Settings</h2>
 
-          <.settings_content />
+          <div class="flex justify-between align-center h-12 w-full max-w-xs my-4 ml-1">
+            <div class="my-auto text-lg font-semibold">
+              Dark Mode
+            </div>
+            <div x-data="darkModeSelect">
+              <select class="select select-bordered" x-model="choice" x-on:change="handleChange">
+                <option>Auto</option>
+                <option>Light</option>
+                <option>Dark</option>
+              </select>
+            </div>
+          </div>
 
           <div class="form-control mt-12 w-full max-w-xs">
             <button class="btn btn-secondary" x-on:click="show = false">Close</button>
           </div>
         </div>
       </div>
-    </div>
-    """
-  end
-
-  @doc """
-  Renders the body content of the settings menu.
-
-  This component is separate from the settings modal so that it can be
-  embedded in the Flutter settings page.
-
-  ## Example
-
-      <.settings_content />
-  """
-  def settings_content(assigns) do
-    ~H"""
-    <div class="flex justify-between align-center h-12 w-full max-w-xs my-4 ml-1">
-      <div class="my-auto text-lg font-semibold">
-        Dark Mode
-      </div>
-      <div x-data="darkModeSelect">
-        <select class="select select-bordered" x-model="choice" x-on:change="handleChange">
-          <option>Auto</option>
-          <option>Light</option>
-          <option>Dark</option>
-        </select>
-      </div>
-    </div>
-    """
-  end
-
-  @doc """
-  DEPRECATED - Renders a toggle for light and dark mode.
-
-  This module is deprecated and is being kept for future reference for
-  icon swaps and toggle actions (e.g. color changes).
-
-  ## Example
-
-      <.navbar_dark_mode_toggle />
-  """
-  def navbar_dark_mode_toggle(assigns) do
-    ~H"""
-    <div class="pr-2 flex" x-cloak>
-      <label
-        class="flex-center mr-3 flex grid swap swap-rotate"
-        x-bind:class="lightModeToggled && 'swap-active'"
-      >
-        <Heroicons.sun
-          solid
-          class="h-4 w-4 stroke-current text-warning swap-on"
-          aria-label="Light Mode Icon"
-        />
-        <Heroicons.moon solid class="h-4 w-4 stroke-current swap-off" aria-label="Dark Mode Icon" />
-      </label>
-      <input
-        type="checkbox"
-        class="toggle transition-none"
-        x-bind:class="lightModeToggled && 'toggle-warning'"
-        x-tooltip="Toggle dark mode"
-      />
     </div>
     """
   end

@@ -3,14 +3,6 @@ defmodule TodoListWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <template x-if="$store.globals.platformIsApp">
-      <div x-init="() => {
-        // after logging out, select the 'Items' tab
-        $store.globals.flutterHandler.callHandler('bottomBarSelectedIndexSet', 0);
-      }">
-      </div>
-    </template>
-
     <.simple_form
       :let={f}
       id="login_form"

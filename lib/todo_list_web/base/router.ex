@@ -1,9 +1,5 @@
 defmodule TodoListWeb.Base.Router do
-  # def paths(name, opts \\ []) do
-  #   case name do
-  #     "base_path" -> "/users"
-  #   end
-  # end
+  import TodoListWeb.Base.Urls
 
   # BROWSER #
   def base_allow_any_user do
@@ -12,8 +8,8 @@ defmodule TodoListWeb.Base.Router do
       get("/privacy-policy", PageController, :privacy_policy)
       get("/terms-of-use", PageController, :terms_of_use)
 
-      live "/", HomeLive
-      live "/component-showcase", ComponentShowcaseLive
+      live(path("project_root"), HomeLive)
+      live("/component-showcase", ComponentShowcaseLive)
     end
   end
 

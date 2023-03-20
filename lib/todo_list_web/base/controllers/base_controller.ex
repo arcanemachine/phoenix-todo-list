@@ -1,4 +1,4 @@
-defmodule TodoListWeb.PageController do
+defmodule TodoListWeb.BaseController do
   use TodoListWeb, :controller
 
   def contact_us(conn, _params) do

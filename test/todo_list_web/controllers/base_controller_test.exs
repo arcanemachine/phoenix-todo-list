@@ -1,4 +1,6 @@
-defmodule TodoListWeb.PageControllerTest do
+defmodule TodoListWeb.BaseControllerTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   test "GET /", %{conn: conn} do

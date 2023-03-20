@@ -24,30 +24,30 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
     <section class="text-center">
       <div>
-        <.button class="w-40 btn-primary">
+        <.button class="w-32 btn-primary">
           Primary
         </.button>
-        <.button class="w-40 ml-2 btn-secondary">
+        <.button class="w-32 ml-2 btn-secondary">
           Secondary
         </.button>
-        <.button class="w-40 ml-2 btn-accent">
+        <.button class="w-32 ml-2 btn-accent">
           Accent
         </.button>
-        <.button class="w-40 ml-2 btn-neutral">
+        <.button class="w-32 ml-2 btn-neutral">
           Neutral
         </.button>
       </div>
       <div class="mt-4">
-        <.button class="w-40 btn-info">
+        <.button class="w-32 btn-info">
           Info
         </.button>
-        <.button class="w-40 ml-2 btn-success">
+        <.button class="w-32 ml-2 btn-success">
           Success
         </.button>
-        <.button class="w-40 ml-2 btn-warning">
+        <.button class="w-32 ml-2 btn-warning">
           Warning
         </.button>
-        <.button class="w-40 ml-2 btn-error">
+        <.button class="w-32 ml-2 btn-error">
           Error
         </.button>
       </div>

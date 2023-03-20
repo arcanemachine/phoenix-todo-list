@@ -126,7 +126,6 @@ defmodule TodoListWeb.ComponentShowcaseLive do
             class="checkbox checkbox-primary"
           />
         </.label>
-        <.error>Error message</.error>
       </div>
       <!-- actions -->
       <:actions>

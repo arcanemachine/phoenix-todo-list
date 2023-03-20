@@ -592,13 +592,13 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div class="mb-12" phx-feedback-for={@name}>
       <.label for={@id}><%= @label %></.label>
       <select
         id={@id}
         name={@name}
         class={[
-          "mt-1 mb-12 block w-full py-2 px-3 border border-gray-300 bg-white sm:text-sm",
+          "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white sm:text-sm",
           "rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500"
         ]}
         multiple={@multiple}
@@ -615,14 +615,14 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div class="mb-12" phx-feedback-for={@name}>
       <.label for={@id}><%= @label %></.label>
       <textarea
         id={@id || @name}
         name={@name}
         class={[
           input_border(@errors),
-          "mt-2 mb-12 block min-h-[6rem] w-full rounded-lg border-base-300 py-[7px] px-[11px]",
+          "mt-2 block min-h-[6rem] w-full rounded-lg border-base-300 py-[7px] px-[11px]",
           "text-base-900 focus:border-base-400 focus:outline-none focus:ring-4",
           "focus:ring-zinc-500/5 sm:text-sm sm:leading-6 phx-no-feedback:border-base-300",
           "phx-no-feedback:focus:border-base-400 phx-no-feedback:focus:ring-zinc-500/5"

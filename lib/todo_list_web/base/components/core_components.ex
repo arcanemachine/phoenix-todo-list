@@ -558,7 +558,7 @@ defmodule TodoListWeb.CoreComponents do
     assigns = assign_new(assigns, :checked, fn -> input_equals?(assigns.value, "true") end)
 
     ~H"""
-    <label phx-feedback-for={@name} class="flex items-center gap-4 mb-12 leading-6 text-base-600">
+    <label phx-feedback-for={@name} class="flex items-center gap-4 text-base-600">
       <input type="hidden" name={@name} value="false" />
       <input
         type="checkbox"
@@ -566,12 +566,17 @@ defmodule TodoListWeb.CoreComponents do
         name={@name}
         value="true"
         checked={@checked}
-        class={["ml-2 checkbox", @class]}
+        class={["checkbox", @class]}
         phx-debounce={@debounce}
         {@rest}
       />
       <%= @label %>
     </label>
+    <div class="flex min-h-[2.5rem] show-empty-element">
+      <.error :for={msg <- @errors}>
+        <%= msg %>
+      </.error>
+    </div>
     """
   end
 
@@ -592,7 +597,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div class="mb-12" phx-feedback-for={@name}>
+    <div phx-feedback-for={@name}>
       <.label for={@id}><%= @label %></.label>
       <select
         id={@id}
@@ -608,7 +613,11 @@ defmodule TodoListWeb.CoreComponents do
         <option :if={@prompt} value=""><%= @prompt %></option>
         <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
       </select>
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <div class="flex min-h-[2.5rem] show-empty-element">
+        <.error :for={msg <- @errors}>
+          <%= msg %>
+        </.error>
+      </div>
     </div>
     """
   end
@@ -629,9 +638,12 @@ defmodule TodoListWeb.CoreComponents do
         ]}
         phx-debounce={@debounce}
         {@rest}
-      >
-    <%= @value %></textarea>
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      ><%= @value %></textarea>
+      <div class="flex min-h-[2.5rem] show-empty-element">
+        <.error :for={msg <- @errors}>
+          <%= msg %>
+        </.error>
+      </div>
     </div>
     """
   end

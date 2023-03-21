@@ -1,15 +1,36 @@
 defmodule TodoListWeb.ComponentShowcaseLive do
   use TodoListWeb, :live_view
 
+  @form_data_types %{
+    text: :string,
+    email: :string,
+    password: :string,
+    checkbox: :boolean,
+    select: :string,
+    textarea: :string
+  }
+  defmodule FormData do
+    defstruct text: "",
+              email: "",
+              password: "",
+              checkbox: false,
+              select: "",
+              textarea: ""
+  end
+
   defmodule TableRow do
     defstruct id: 0, col1: "Value 1", col2: "Value 2"
+  end
+
+  def form_data_changeset(%FormData{} = form_data, attrs \\ %{}) do
+    {form_data, @form_data_types} |> Ecto.Changeset.cast(attrs, Map.keys(@form_data_types))
   end
 
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
        page_title: "Component Showcase",
-       # data
+       changeset: form_data_changeset(%FormData{}),
        table_rows: [
          %TableRow{id: 1, col1: "Value 1", col2: "Value 2"},
          %TableRow{id: 2, col1: "Value 3", col2: "Value 4"},
@@ -80,7 +101,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
       Error flash message
     </.flash>
 
-    <section class="text-center">
+    <section class="text-center" phx->
       <.button phx-click={show("#showcase-flash-info")}>
         Show Info Flash
       </.button>
@@ -91,17 +112,16 @@ defmodule TodoListWeb.ComponentShowcaseLive do
 
     <h2 class="mt-16 text-3xl text-center">Simple Form</h2>
 
-    <.simple_form :let={f} class="max-w-lg mx-auto" for={%{}}>
+    <.simple_form :let={f} class="max-w-lg mx-auto" for={@changeset} phx-change="validate">
       <!-- fields -->
       <.input field={{f, :text}} label="Text Input" />
       <.input field={{f, :email}} label="Email Input" />
-      <.input field={{f, :password}} type="password" label="Password Input" required />
+      <.input field={{f, :password}} type="password" label="Password Input" />
 
       <div class="form-control">
         <.input
           type="checkbox"
           field={{f, :checkbox}}
-          checked={true}
           class="checkbox checkbox-primary"
           label="Checkbox Input"
         />
@@ -111,21 +131,26 @@ defmodule TodoListWeb.ComponentShowcaseLive do
         <.input
           field={{f, :select}}
           type="select"
-          options={["First", "Second", "Third"]}
+          options={[
+            [key: "Select an option", value: "", disabled: true],
+            [key: "First", value: "first"],
+            [key: "Second", value: "second"],
+            [key: "Third", value: "third"]
+          ]}
           label="Select Input"
         />
       </div>
 
       <div class="form-control">
-        <.label>
-          Label + Textarea
-          <.input
-            type="textarea"
-            field={{f, :textarea}}
-            checked={true}
-            class="checkbox checkbox-primary"
-          />
+        <.label for="form_data_textarea">
+          Textarea Label
         </.label>
+        <.input
+          type="textarea"
+          field={{f, :textarea}}
+          checked={true}
+          class="checkbox checkbox-primary"
+        />
       </div>
       <!-- actions -->
       <:actions>
@@ -181,5 +206,18 @@ defmodule TodoListWeb.ComponentShowcaseLive do
       <span>&nbsp;</span>
     </p>
     """
+  end
+
+  def handle_event("validate", %{"form_data" => form_data}, socket) do
+    changeset =
+      {%FormData{}, @form_data_types}
+      |> Ecto.Changeset.cast(form_data, Map.keys(@form_data_types))
+      |> Ecto.Changeset.add_error(:checkbox, "Error message")
+      |> Ecto.Changeset.add_error(:select, "Error message")
+      |> Ecto.Changeset.add_error(:textarea, "Error message")
+      # |> Ecto.Changeset.validate_change(:text, fn :text, _value -> [text: "Error message"] end)
+      |> Ecto.Changeset.validate_required(Map.keys(@form_data_types))
+
+    {:noreply, assign(socket, changeset: Map.put(changeset, :action, :validate))}
   end
 end

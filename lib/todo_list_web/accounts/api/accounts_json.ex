@@ -1,4 +1,4 @@
-defmodule TodoListWeb.Api.UserSessionJSON do
+defmodule TodoListWeb.Api.AccountsJSON do
   @moduledoc false
   alias TodoList.Accounts.User
 

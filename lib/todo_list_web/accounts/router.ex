@@ -50,13 +50,13 @@ defmodule TodoListWeb.Accounts.Router do
   # API #
   def accounts_api_logout_required do
     quote do
-      resources("/users", Api.UserSessionController, only: [:create])
+      resources("/users", Api.AccountsController, only: [:create])
     end
   end
 
   def accounts_api_require_user_permissions do
     quote do
-      resources("/users", Api.UserSessionController, only: [:show, :update, :delete])
+      resources("/users", Api.AccountsController, only: [:show, :update, :delete])
     end
   end
 

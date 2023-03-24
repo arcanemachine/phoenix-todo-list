@@ -27,14 +27,14 @@ config :todo_list, TodoListWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-# config :todo_list, TodoList.Mailer, adapter: Swoosh.Adapters.Local
-config :todo_list, TodoList.Mailer,
-  adapter: Swoosh.Adapters.AmazonSES,
-  region: System.get_env("AWS_REGION"),
-  access_key: System.get_env("AWS_ACCESS_KEY"),
-  secret: System.get_env("AWS_SECRET")
-
-config(:swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: TodoList.Finch)
+config :todo_list, TodoList.Mailer, adapter: Swoosh.Adapters.Local
+# config :todo_list, TodoList.Mailer,
+#   adapter: Swoosh.Adapters.AmazonSES,
+#   region: System.get_env("AWS_REGION"),
+#   access_key: System.get_env("AWS_ACCESS_KEY"),
+#   secret: System.get_env("AWS_SECRET")
+#
+# config(:swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: TodoList.Finch)
 
 # Configure esbuild (the version is required)
 config :esbuild,

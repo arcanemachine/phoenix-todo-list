@@ -8,7 +8,7 @@ defmodule TodoList.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"TodoList", "contact@example.com"})
+      |> from({"TodoList", "no-reply@" <> System.get_env("PHX_HOST") || "example.com"})
       |> subject(subject)
       |> text_body(body)
 

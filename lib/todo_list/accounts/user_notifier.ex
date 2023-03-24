@@ -1,4 +1,5 @@
 defmodule TodoList.Accounts.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias TodoList.Mailer
@@ -8,7 +9,7 @@ defmodule TodoList.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"TodoList", "no-reply@" <> System.get_env("PHX_HOST") || "example.com"})
+      |> from({"TodoList", "no-reply@" <> System.get_env("PHX_HOST")})
       |> subject(subject)
       |> text_body(body)
 

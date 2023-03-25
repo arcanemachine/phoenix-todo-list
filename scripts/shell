@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# change to project root directory
+cd $(dirname "$0")/../
+
+# use test environment so `recompile()` works
+MIX_ENV=test iex -S mix

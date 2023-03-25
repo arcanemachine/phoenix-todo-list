@@ -24,16 +24,12 @@ defmodule TodoListWeb.Router do
     plug :fetch_current_user
   end
 
-  # DEV #
-  use BaseRouter, :base_dev
-
   # BROWSER #
   # allow any user
   scope "/", TodoListWeb do
     pipe_through(:browser)
 
     use BaseRouter, :base_allow_any_user
-    use AccountsRouter, :accounts_allow_any_user
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do
@@ -80,11 +76,11 @@ defmodule TodoListWeb.Router do
   end
 
   # API #
-  # allow any user
+  # openapi
   scope "/api" do
     pipe_through([:api])
 
-    use BaseRouter, :base_api_allow_any_user
+    use BaseRouter, :base_api_openapi
   end
 
   # logout required
@@ -119,4 +115,7 @@ defmodule TodoListWeb.Router do
 
     use TodosRouter, :todos_api_require_todo_permissions
   end
+
+  # DEV #
+  use BaseRouter, :base_dev
 end

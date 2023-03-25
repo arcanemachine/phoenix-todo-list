@@ -10,7 +10,7 @@ defmodule TodoListWeb.ApiSpec do
     %OpenApi{
       info: %Info{
         title: "TodoList",
-        version: "0.0.1"
+        version: "0.0.0"
       },
       servers: [Server.from_endpoint(Endpoint)],
       paths: Paths.from_router(Router),

@@ -12,9 +12,10 @@ defmodule TodoListWeb.Base.Router do
   end
 
   # API #
-  def base_api_allow_any_user do
+  def base_api_openapi do
     quote do
-      get "", OpenApiSpex.Plug.RenderSpec, []
+      get("/", OpenApiSpex.Plug.RenderSpec, [])
+      get("/swagger-ui", OpenApiSpex.Plug.SwaggerUI, path: "/api")
     end
   end
 

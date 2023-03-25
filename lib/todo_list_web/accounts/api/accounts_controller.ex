@@ -3,7 +3,7 @@ defmodule TodoListWeb.Api.AccountsController do
   use OpenApiSpex.ControllerSpecs
 
   alias TodoList.Accounts
-  alias TodoListWeb.Schemas.{UserRegisterRequest, UserRegisterResponse}
+  alias TodoListWeb.Schemas.{UserRegisterRequest, UserRegisterResponse200}
   alias TodoListWeb.UserAuth
 
   tags ["users"]
@@ -13,7 +13,10 @@ defmodule TodoListWeb.Api.AccountsController do
     summary: "Create new user",
     parameters: [],
     request_body: {"User Register Request", "application/json", UserRegisterRequest},
-    responses: []
+    responses: %{
+      201 => {"user", "application/json", UserRegisterResponse200}
+      # 400 => {"errors", "application/json", UserRegisterResponse400}
+    }
 
   @doc "Register - Create a new user and return authentication token."
   def create(conn, %{"_action" => "registered", "user" => user_params} = _params) do

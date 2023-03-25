@@ -26,8 +26,7 @@ defmodule TodoListWeb.Schemas do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User",
-      description: "A user of the app.",
+      description: "User registration parameters",
       type: :object,
       properties: %{
         email: %Schema{type: :string, description: "Email address", format: :email},
@@ -46,22 +45,21 @@ defmodule TodoListWeb.Schemas do
     })
   end
 
-  defmodule UserRegisterResponse do
-    @moduledoc "OpenAPI schema definition for the UserResponse object."
+  defmodule UserRegisterResponse200 do
+    @moduledoc false
 
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "UserResponse",
-      description: "Response schema for single User",
+      description: "Registration successful",
       type: :object,
       properties: %{
-        data: UserRegisterRequest
+        user: %Schema{type: :object, description: "User ID and token"}
       },
       example: %{
-        "data" => %{
-          "id" => 123,
-          email: "user@example.com"
+        user: %{
+          id: 123,
+          token: "1234567890abcdefghijklmnopqABCDEFGHIJKLMNOP="
         }
       }
     })

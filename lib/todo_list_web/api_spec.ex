@@ -10,18 +10,22 @@ defmodule TodoListWeb.ApiSpec do
     %OpenApi{
       info: %Info{
         title: "TodoList",
-        version: "0.0.0"
+        version: "0.1.0"
       },
       servers: [Server.from_endpoint(Endpoint)],
       paths: Paths.from_router(Router),
       components: %Components{
         securitySchemes: %{
-          "authorization" => %SecurityScheme{type: "http", scheme: "bearer"}
+          "bearerAuth" => %SecurityScheme{
+            type: "http",
+            scheme: "bearer",
+            name: "Bearer"
+          }
         }
-      },
-      security: [
-        %{"authorization" => []}
-      ]
+      }
+      # security: [
+      #   %{"bearerAuth" => []}
+      # ]
     }
     |> OpenApiSpex.resolve_schema_modules()
   end

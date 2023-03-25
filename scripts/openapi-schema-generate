@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# change to project root directory
+cd $(dirname "$0")/../
+
+# specify format using first positional argument (default: "json")
+if [ "$1" != "" ]; then
+  openapi_spec_format="$1"
+else
+  openapi_spec_format="json"
+fi
+
+echo "Generating ${openapi_spec_format} schema..."
+
+mix openapi.spec.${openapi_spec_format} --spec TodoListWeb.ApiSpec

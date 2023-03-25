@@ -11,6 +11,13 @@ defmodule TodoListWeb.Base.Router do
     end
   end
 
+  # API #
+  def base_api_allow_any_user do
+    quote do
+      get "", OpenApiSpex.Plug.RenderSpec, []
+    end
+  end
+
   # DEV #
   def base_dev do
     quote do

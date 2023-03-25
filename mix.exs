@@ -55,7 +55,8 @@ defmodule TodoList.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:gen_smtp, "~> 1.2"},
-      {:open_api_spex, "~> 3.16"}
+      {:open_api_spex, "~> 3.16"},
+      {:ymlr, "~> 3.0"}
     ]
   end
 

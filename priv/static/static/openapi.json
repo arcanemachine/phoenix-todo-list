@@ -1,0 +1,1 @@
+{"components":{"responses":{},"schemas":{},"securitySchemes":{"authorization":{"scheme":"bearer","type":"http"}}},"info":{"title":"TodoList","version":"0.0.1"},"openapi":"3.0.0","paths":{},"security":[{"authorization":[]}],"servers":[{"url":"https://localhost:4003","variables":{}}],"tags":[]}

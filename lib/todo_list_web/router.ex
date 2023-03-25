@@ -11,6 +11,7 @@ defmodule TodoListWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :api_fetch_current_user
+    plug OpenApiSpex.Plug.PutApiSpec, module: TodoListWeb.ApiSpec
   end
 
   pipeline :browser do
@@ -79,6 +80,13 @@ defmodule TodoListWeb.Router do
   end
 
   # API #
+  # allow any user
+  scope "/api" do
+    pipe_through([:api])
+
+    use BaseRouter, :base_api_allow_any_user
+  end
+
   # logout required
   scope "/api", TodoListWeb do
     pipe_through([:api, :api_forbid_authenticated_user])

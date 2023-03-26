@@ -7,7 +7,6 @@ defmodule TodoListWeb.Api.AccountsController do
   alias TodoListWeb.UserAuth
 
   tags ["users"]
-  # security [%{}, %{"bearerAuth" => []}]
 
   operation :create,
     summary: "Register new user",
@@ -57,13 +56,27 @@ defmodule TodoListWeb.Api.AccountsController do
     end
   end
 
-  @doc """
-  Check token - Ensure that session token is valid.
+  operation :check_token,
+    summary: "Check if user token is valid",
+    security: [%{"bearerAuth" => []}],
+    parameters: [
+      id: [in: :path, description: "User ID", type: :integer, example: 123]
+    ],
+    request_body: {"User check token request", "application/json", Schemas.UserCheckTokenRequest},
+    responses: %{
+      200 => {"OK", "application/json", Schemas.UserCheckTokenResponse200},
+      401 => {"Unauthorized", "application/json", Schemas.UserCheckTokenResponse401}
+    }
 
-  Will always return `true` since unauthenticated users should be rejected
-  further up in the pipeline.
+  security [%{}, %{"bearerAuth" => []}]
+
+  @doc """
+  Ensure that a user is using a valid session token.
+
+  Will always return `true` since unauthorized users should be
+  rejected further up in the pipeline.
   """
-  def show(conn, %{"_action" => "check_token"} = _params) do
+  def check_token(conn, _params) do
     conn |> json(true)
   end
 

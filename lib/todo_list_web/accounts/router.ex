@@ -58,6 +58,7 @@ defmodule TodoListWeb.Accounts.Router do
   def accounts_api_require_user_permissions do
     quote do
       resources("/users", Api.AccountsController, only: [:show, :update, :delete])
+      get("/users/:id/check-token", Api.AccountsController, :check_token)
     end
   end
 

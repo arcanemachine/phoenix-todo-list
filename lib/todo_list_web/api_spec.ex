@@ -19,7 +19,9 @@ defmodule TodoListWeb.ApiSpec do
           "bearerAuth" => %SecurityScheme{
             type: "http",
             scheme: "bearer",
-            name: "Bearer"
+            in: "header",
+            name: "authorization",
+            description: "Bearer authentication with required prefix 'Bearer'"
           }
         }
       }

@@ -20,6 +20,8 @@ defmodule TodoListWeb.Schemas do
   #   })
   # end
 
+  # ACCOUNTS #
+  # register/login
   defmodule UserAuthRequestUser do
     @moduledoc false
 
@@ -146,6 +148,62 @@ defmodule TodoListWeb.Schemas do
       type: :object,
       properties: %{message: %Schema{type: :string}},
       example: %{message: "Invalid email or password"}
+    })
+  end
+
+  # check_token
+  defmodule UserCheckTokenRequest do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    # TO-DO: fix when open_api_spex enables null request body example
+    OpenApiSpex.schema(%{
+      description: "User check token request (REQUEST BODY MUST BE EMPTY)"
+      # description: "User check token request"
+      # type: :null,
+      # allowEmptyValue: true,
+      # nullable: true,
+      # default: "",
+      # example: ""
+    })
+  end
+
+  defmodule UserCheckTokenResponse200 do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :boolean,
+      example: true
+    })
+  end
+
+  defmodule UserCheckTokenResponse401 do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      description: "Unauthorized",
+      type: :object,
+      properties: %{message: %Schema{type: :string}},
+      example: %{message: "This endpoint is only accessible to authenticated users."}
+    })
+  end
+
+  defmodule UserCheckTokenResponse403 do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      description: "Forbidden",
+      type: :object,
+      properties: %{message: %Schema{type: :string}},
+      example: %{message: "Forbidden"}
     })
   end
 end

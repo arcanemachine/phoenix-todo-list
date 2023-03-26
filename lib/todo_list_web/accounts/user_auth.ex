@@ -258,6 +258,7 @@ defmodule TodoListWeb.UserAuth do
       conn
       |> put_status(:bad_request)
       |> json(%{message: "This endpoint is only accessible to unauthenticated users."})
+      |> halt()
     else
       conn
     end
@@ -294,6 +295,7 @@ defmodule TodoListWeb.UserAuth do
       conn
       |> put_status(:unauthorized)
       |> json(%{message: "This endpoint is only accessible to authenticated users."})
+      |> halt()
     end
   end
 

@@ -7,26 +7,26 @@ defmodule TodoListWeb.Api.AccountsController do
   alias TodoListWeb.UserAuth
 
   tags ["users"]
-  # security [%{}, %{"bearerAuth" => ["write:users", "read:users"]}]
+  # security [%{}, %{"bearerAuth" => []}]
 
   operation :create,
-    summary: "Create new user",
-    parameters: [],
-    request_body: {"User registration request", "application/json", Schemas.UserRegisterRequest},
+    summary: "Register new user",
+    request_body:
+      {"User registration/login request", "application/json", Schemas.UserAuthRequest},
     responses: %{
       201 => {"Created", "application/json", Schemas.UserRegisterResponse201},
       400 => {"Bad Request", "application/json", Schemas.UserRegisterResponse400}
     }
 
   @doc "Register - Create a new user and return authentication token."
-  def create(conn, %{"_action" => "registered", "user" => user_params} = _params) do
+  def create(conn, %{"user" => user_params} = _params) do
     # register the user
     case Accounts.register_user(user_params) do
       {:ok, user} ->
         # return status 201 and user token
         conn
         |> put_resp_header("location", ~p"/api/users/#{user.id}")
-        |> create(%{"user" => user_params}, :created)
+        |> login(%{"user" => user_params}, :created)
 
       {:error, changeset} ->
         # return errors
@@ -35,8 +35,17 @@ defmodule TodoListWeb.Api.AccountsController do
     end
   end
 
+  operation :login,
+    summary: "Login user",
+    request_body:
+      {"User registration/login request", "application/json", Schemas.UserAuthRequest},
+    responses: %{
+      200 => {"OK", "application/json", Schemas.UserLoginResponse200},
+      401 => {"Unauthorized", "application/json", Schemas.UserLoginResponse401}
+    }
+
   @doc "Login - Confirm authentication credentials and return a session token."
-  def create(conn, %{"user" => user_params} = _params, status \\ :ok) do
+  def login(conn, %{"user" => user_params} = _params, status \\ :ok) do
     %{"email" => email, "password" => password} = user_params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do

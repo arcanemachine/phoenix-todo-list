@@ -51,6 +51,7 @@ defmodule TodoListWeb.Accounts.Router do
   def accounts_api_logout_required do
     quote do
       resources("/users", Api.AccountsController, only: [:create])
+      post("/users/login", Api.AccountsController, :login)
     end
   end
 

@@ -25,6 +25,8 @@ defmodule TodoListWeb.Plug do
   Ensure that the ID of the requesting user matches the `id` param.
   """
   def api_require_user_permissions(conn, _opts) do
+    IO.inspect("\n*** api_require_user_permissions() ***\n")
+
     case String.to_integer(conn.params["id"]) == conn.assigns.current_user.id do
       true -> conn
       false -> conn |> put_status(:forbidden) |> json(%{message: "Forbidden"})

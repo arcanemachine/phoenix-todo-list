@@ -26,7 +26,7 @@ defmodule TodoListWeb.Schemas do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      description: "User registration parameters",
+      description: "User registration request",
       type: :object,
       properties: %{
         email: %Schema{type: :string, description: "Email address", format: :email},
@@ -39,19 +39,22 @@ defmodule TodoListWeb.Schemas do
       },
       required: [:email, :password],
       example: %{
-        "email" => "user@example.com",
-        "password" => "your_password"
+        "user" => %{
+          "email" => "user@example.com",
+          "password" => "your_password"
+        },
+        "_action" => "registered"
       }
     })
   end
 
-  defmodule UserRegisterResponse200 do
+  defmodule UserRegisterResponse201 do
     @moduledoc false
 
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      description: "Registration successful",
+      # description: "Created",
       type: :object,
       properties: %{
         user: %Schema{type: :object, description: "User ID and token"}
@@ -60,6 +63,26 @@ defmodule TodoListWeb.Schemas do
         user: %{
           id: 123,
           token: "1234567890abcdefghijklmnopqABCDEFGHIJKLMNOP="
+        }
+      }
+    })
+  end
+
+  defmodule UserRegisterResponse400 do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      # description: "Bad Request",
+      type: :object,
+      properties: %{
+        errors: %Schema{type: :object, description: "Errors"}
+      },
+      example: %{
+        errors: %{
+          email: ["has already been taken"],
+          password: ["should be at least 8 character(s)"]
         }
       }
     })

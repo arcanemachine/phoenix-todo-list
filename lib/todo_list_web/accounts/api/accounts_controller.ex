@@ -85,8 +85,8 @@ defmodule TodoListWeb.Api.AccountsController do
   @doc """
   Ensure that a user is using a valid session token.
 
-  Will always return `true` since unauthorized users should be
-  rejected further up in the pipeline.
+  Will always return `true` since unauthorized users should be rejected further up
+  in the pipeline.
   """
   def check_token(conn, _params) do
     conn |> json(true)
@@ -107,11 +107,28 @@ defmodule TodoListWeb.Api.AccountsController do
 
   security [%{}, %{"bearerAuth" => []}]
 
+  @doc "Show user detail"
   def show(conn, _params) do
     render(conn, :show, user: conn.assigns.current_user)
   end
 
-  @doc "Update - Change user password"
+  operation :update,
+    summary: "Change user password",
+    security: [%{"bearerAuth" => []}],
+    parameters: [
+      id: [in: :path, description: "User ID", type: :integer, example: 123]
+    ],
+    request_body: {"Change user password request", "application/json", Schemas.UserUpdateRequest},
+    responses: %{
+      200 => {"OK", "application/json", Schemas.UserUpdateResponse200},
+      400 => {"Bad Request", "application/json", Schemas.UserUpdateResponse400},
+      401 => GenericResponses.response_401_authentication_required(),
+      403 => GenericResponses.response_403()
+    }
+
+  security [%{}, %{"bearerAuth" => []}]
+
+  @doc "Change user password"
   def update(
         conn,
         %{"current_password" => current_password, "password" => password} = _params

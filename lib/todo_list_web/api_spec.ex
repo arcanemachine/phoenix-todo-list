@@ -25,9 +25,6 @@ defmodule TodoListWeb.ApiSpec do
           }
         }
       }
-      # security: [
-      #   %{"bearerAuth" => []}
-      # ]
     }
     |> OpenApiSpex.resolve_schema_modules()
   end

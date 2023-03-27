@@ -142,7 +142,9 @@ defmodule TodoListWeb.Schemas do
       example: %{
         errors: %{
           email: ["This is not a valid email address.", "has already been taken"],
-          password: ["should be at least 8 character(s)"]
+          password: [
+            "should be at least #{TodoList.Accounts.User.password_length_min()} character(s)"
+          ]
         }
       }
     })
@@ -228,6 +230,74 @@ defmodule TodoListWeb.Schemas do
       },
       example: %{
         data: %{email: "user@example.com", id: 123}
+      }
+    })
+  end
+
+  # update
+  defmodule UserUpdateRequest do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    # TO-DO: fix when open_api_spex enables null request body example
+    OpenApiSpex.schema(%{
+      description: "User update request",
+      type: :object,
+      properties: %{
+        current_password: %Schema{
+          type: :string,
+          description: "Current password",
+          format: :password,
+          default: "old_password"
+        },
+        password: %Schema{
+          type: :string,
+          description: "New password",
+          format: :password,
+          default: "new_password",
+          minLength: TodoList.Accounts.User.password_length_min()
+        }
+      },
+      example: nil
+    })
+  end
+
+  defmodule UserUpdateResponse200 do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :object,
+      properties: %{
+        message: %Schema{type: :string}
+      },
+      example: %{
+        message: "Password changed successfully. All sessions for this user have been logged out."
+      }
+    })
+  end
+
+  defmodule UserUpdateResponse400 do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      description: "Bad Request",
+      type: :object,
+      properties: %{
+        errors: %Schema{type: :object, description: "Errors"}
+      },
+      example: %{
+        errors: %{
+          password: [
+            "should be at least #{TodoList.Accounts.User.password_length_min()} character(s)",
+            "This is not your current password."
+          ]
+        }
       }
     })
   end

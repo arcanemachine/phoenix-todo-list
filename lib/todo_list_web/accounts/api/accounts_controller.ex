@@ -65,7 +65,8 @@ defmodule TodoListWeb.Api.AccountsController do
     request_body: {"User check token request", "application/json", Schemas.UserCheckTokenRequest},
     responses: %{
       200 => {"OK", "application/json", Schemas.UserCheckTokenResponse200},
-      401 => {"Unauthorized", "application/json", Schemas.UserCheckTokenResponse401}
+      401 => {"Unauthorized", "application/json", Schemas.Response401AuthenticationRequired},
+      403 => {"Forbidden", "application/json", Schemas.Response403}
     }
 
   security [%{}, %{"bearerAuth" => []}]
@@ -79,6 +80,21 @@ defmodule TodoListWeb.Api.AccountsController do
   def check_token(conn, _params) do
     conn |> json(true)
   end
+
+  operation :show,
+    summary: "Show user detail",
+    security: [%{"bearerAuth" => []}],
+    parameters: [
+      id: [in: :path, description: "User ID", type: :integer, example: 123]
+    ],
+    request_body: {"Show user detail request", "application/json", Schemas.UserShowRequest},
+    responses: %{
+      200 => {"OK", "application/json", Schemas.UserShowResponse200},
+      401 => {"Unauthorized", "application/json", Schemas.Response401AuthenticationRequired},
+      403 => {"Forbidden", "application/json", Schemas.Response403}
+    }
+
+  security [%{}, %{"bearerAuth" => []}]
 
   def show(conn, _params) do
     render(conn, :show, user: conn.assigns.current_user)

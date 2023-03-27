@@ -6,6 +6,16 @@ defmodule TodoListWeb.Api.AccountsController do
   alias TodoListWeb.Schemas
   alias TodoListWeb.UserAuth
 
+  defmodule GenericResponses do
+    def response_401_authentication_required(),
+      do:
+        {"Unauthorized: Authentication required", "application/json",
+         Schemas.Response401AuthenticationRequired}
+
+    def response_403(),
+      do: {"Forbidden", "application/json", Schemas.Response403}
+  end
+
   tags ["users"]
 
   operation :create,
@@ -40,7 +50,8 @@ defmodule TodoListWeb.Api.AccountsController do
       {"User registration/login request", "application/json", Schemas.UserAuthRequest},
     responses: %{
       200 => {"OK", "application/json", Schemas.UserLoginResponse200},
-      401 => {"Unauthorized", "application/json", Schemas.UserLoginResponse401}
+      401 =>
+        {"Unauthorized: Invalid credentials", "application/json", Schemas.UserLoginResponse401}
     }
 
   @doc "Login - Confirm authentication credentials and return a session token."
@@ -65,8 +76,8 @@ defmodule TodoListWeb.Api.AccountsController do
     request_body: {"User check token request", "application/json", Schemas.UserCheckTokenRequest},
     responses: %{
       200 => {"OK", "application/json", Schemas.UserCheckTokenResponse200},
-      401 => {"Unauthorized", "application/json", Schemas.Response401AuthenticationRequired},
-      403 => {"Forbidden", "application/json", Schemas.Response403}
+      401 => GenericResponses.response_401_authentication_required(),
+      403 => GenericResponses.response_403()
     }
 
   security [%{}, %{"bearerAuth" => []}]
@@ -90,8 +101,8 @@ defmodule TodoListWeb.Api.AccountsController do
     request_body: {"Show user detail request", "application/json", Schemas.UserShowRequest},
     responses: %{
       200 => {"OK", "application/json", Schemas.UserShowResponse200},
-      401 => {"Unauthorized", "application/json", Schemas.Response401AuthenticationRequired},
-      403 => {"Forbidden", "application/json", Schemas.Response403}
+      401 => GenericResponses.response_401_authentication_required(),
+      403 => GenericResponses.response_403()
     }
 
   security [%{}, %{"bearerAuth" => []}]

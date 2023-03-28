@@ -173,10 +173,9 @@ defmodule TodoListWeb.Schemas do
     # TO-DO: fix when open_api_spex enables null request body example
     OpenApiSpex.schema(%{
       description: "User check token request",
-      type: nil,
-      properties: nil,
-      example: nil,
-      default: nil
+      # type: nil,
+      # properties: nil,
+      example: nil
     })
   end
 
@@ -197,10 +196,9 @@ defmodule TodoListWeb.Schemas do
     # TO-DO: fix when open_api_spex enables null request body example
     OpenApiSpex.schema(%{
       description: "Show user detail request",
-      type: nil,
-      properties: nil,
-      example: nil,
-      default: nil
+      # type: nil,
+      # properties: nil,
+      example: nil
     })
   end
 
@@ -230,18 +228,20 @@ defmodule TodoListWeb.Schemas do
         current_password: %Schema{
           type: :string,
           description: "Current password",
-          format: :password,
-          default: "old_password"
+          format: :password
+          # default: "old_password"
         },
         password: %Schema{
           type: :string,
           description: "New password",
           format: :password,
-          default: "new_password",
+          # default: "new_password",
           minLength: TodoList.Accounts.User.password_length_min()
         }
       },
-      example: nil
+      example: %{
+        data: %{current_password: "password", password: "new_password"}
+      }
     })
   end
 

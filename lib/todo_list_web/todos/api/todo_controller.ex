@@ -1,21 +1,23 @@
 defmodule TodoListWeb.Api.TodoController do
   use TodoListWeb, :controller
-  # use OpenApiSpex.ControllerSpecs
+  use OpenApiSpex.ControllerSpecs
 
   alias TodoList.Todos
   alias TodoList.Todos.Todo
+  alias TodoListWeb.Schemas
+  alias TodoListWeb.Schemas.GenericResponses
 
   action_fallback TodoListWeb.FallbackController
 
-  # tags ["todos"]
-  # security [%{}, %{"tokenAuth" => []}]
+  tags ["todos"]
 
-  # operation :todos_list,
-  #   summary: "List todos",
-  #   parameters: [],
-  #   responses: [
-  #     ok: {"Todo response", "application/json", TodoResponse}
-  #   ]
+  operation :index,
+    summary: "List todos",
+    security: [%{"bearerAuth" => []}],
+    responses: %{
+      200 => {"OK", "application/json", Schemas.TodoListResponse200},
+      401 => GenericResponses.response_401_authentication_required()
+    }
 
   def index(conn, _params) do
     todos = Todos.list_todos_by_user_id(conn.assigns.current_user.id)

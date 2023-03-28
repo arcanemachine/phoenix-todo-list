@@ -6,22 +6,6 @@ defmodule TodoListWeb.Schemas do
 
   alias TodoListWeb.Schemas
 
-  # defmodule Todo do
-  #   @moduledoc "OpenAPI schema definition for the Todo object."
-
-  #   OpenApiSpex.schema(%{
-  #     title: "Todo",
-  #     description: "A todo list item.",
-  #     type: :object,
-  #     properties: %{
-  #       id: %Schema{type: :integer, description: "Todo ID"},
-  #       content: %Schema{type: :string, description: "Todo content"},
-  #       is_completed: %Schema{type: :boolean, description: "Todo completion status"}
-  #     },
-  #     required: []
-  #   })
-  # end
-
   # MISC #
   # responses
   defmodule GenericResponses do
@@ -96,7 +80,7 @@ defmodule TodoListWeb.Schemas do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "Request body properties for new user registration",
+      description: "New user registration",
       type: :object,
       properties: %{user: %Schema{type: :object, items: UserAuthRequestUser}},
       required: [:user]
@@ -278,6 +262,48 @@ defmodule TodoListWeb.Schemas do
       },
       example: %{
         message: "Logged out successfully"
+      }
+    })
+  end
+
+  # credo:disable-for-next-line
+  # TODOS #
+  defmodule Todo do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      type: :object,
+      properties: %{
+        content: %Schema{type: :string},
+        id: %Schema{type: :integer},
+        is_completed: %Schema{type: :boolean}
+      }
+    })
+  end
+
+  # index
+  defmodule TodoListResponse200 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :object,
+      properties: %{
+        data: %Schema{type: :list, items: Todo}
+      },
+      example: %{
+        data: [
+          %{
+            content: "First todo item",
+            id: 123,
+            is_completed: false
+          },
+          %{
+            content: "Second todo item",
+            id: 456,
+            is_completed: true
+          }
+        ]
       }
     })
   end

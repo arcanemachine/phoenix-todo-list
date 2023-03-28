@@ -25,8 +25,6 @@ defmodule TodoListWeb.Schemas do
   defmodule Response401AuthenticationRequired do
     @moduledoc false
 
-    require OpenApiSpex
-
     OpenApiSpex.schema(%{
       description: "Unauthorized: Authentication required",
       type: :object,
@@ -37,8 +35,6 @@ defmodule TodoListWeb.Schemas do
 
   defmodule Response403 do
     @moduledoc false
-
-    require OpenApiSpex
 
     OpenApiSpex.schema(%{
       description: "Forbidden",
@@ -96,8 +92,6 @@ defmodule TodoListWeb.Schemas do
   defmodule UserAuthRequest do
     @moduledoc false
 
-    require OpenApiSpex
-
     OpenApiSpex.schema(%{
       description: "User registration/login request",
       type: :object,
@@ -115,23 +109,21 @@ defmodule TodoListWeb.Schemas do
   defmodule UserRegisterResponse201 do
     @moduledoc false
 
-    require OpenApiSpex
-
     OpenApiSpex.schema(%{
       description: "Created",
       type: :object,
-      # headers: %{"location" => "/api/users/{id}"},
       properties: %{user: %Schema{type: :object, description: "User ID and token"}},
       example: %{
-        "user" => %{"id" => 123, "token" => "1234567890abcdefghijklmnopqABCDEFGHIJKLMNOP="}
+        "user" => %{
+          "id" => 123,
+          "token" => "1234567890abcdefghijklmnopqABCDEFGHIJKLMNOP="
+        }
       }
     })
   end
 
   defmodule UserRegisterResponse400 do
     @moduledoc false
-
-    require OpenApiSpex
 
     OpenApiSpex.schema(%{
       description: "Bad Request",
@@ -153,25 +145,18 @@ defmodule TodoListWeb.Schemas do
   defmodule UserLoginResponse200 do
     @moduledoc false
 
-    require OpenApiSpex
-
     OpenApiSpex.schema(%{
       description: "OK",
       type: :object,
       properties: %{user: %Schema{type: :object, description: "User ID and token"}},
       example: %{
-        "user" => %{
-          "id" => 123,
-          "token" => "1234567890abcdefghijklmnopqABCDEFGHIJKLMNOP="
-        }
+        "user" => %{"id" => 123, "token" => "1234567890abcdefghijklmnopqABCDEFGHIJKLMNOP="}
       }
     })
   end
 
   defmodule UserLoginResponse401 do
     @moduledoc false
-
-    require OpenApiSpex
 
     OpenApiSpex.schema(%{
       description: "Unauthorized: Invalid credentials",
@@ -185,16 +170,18 @@ defmodule TodoListWeb.Schemas do
   defmodule UserCheckTokenRequest do
     @moduledoc false
 
-    require OpenApiSpex
-
     # TO-DO: fix when open_api_spex enables null request body example
-    OpenApiSpex.schema(%{description: "User check token request"})
+    OpenApiSpex.schema(%{
+      description: "User check token request",
+      type: nil,
+      properties: nil,
+      example: nil,
+      default: nil
+    })
   end
 
   defmodule UserCheckTokenResponse200 do
     @moduledoc false
-
-    require OpenApiSpex
 
     OpenApiSpex.schema(%{
       description: "OK",
@@ -207,20 +194,18 @@ defmodule TodoListWeb.Schemas do
   defmodule UserShowRequest do
     @moduledoc false
 
-    require OpenApiSpex
-
     # TO-DO: fix when open_api_spex enables null request body example
     OpenApiSpex.schema(%{
       description: "Show user detail request",
+      type: nil,
       properties: nil,
-      example: nil
+      example: nil,
+      default: nil
     })
   end
 
   defmodule UserShowResponse200 do
     @moduledoc false
-
-    require OpenApiSpex
 
     OpenApiSpex.schema(%{
       description: "OK",
@@ -238,9 +223,6 @@ defmodule TodoListWeb.Schemas do
   defmodule UserUpdateRequest do
     @moduledoc false
 
-    require OpenApiSpex
-
-    # TO-DO: fix when open_api_spex enables null request body example
     OpenApiSpex.schema(%{
       description: "User update request",
       type: :object,
@@ -266,8 +248,6 @@ defmodule TodoListWeb.Schemas do
   defmodule UserUpdateResponse200 do
     @moduledoc false
 
-    require OpenApiSpex
-
     OpenApiSpex.schema(%{
       description: "OK",
       type: :object,
@@ -282,8 +262,6 @@ defmodule TodoListWeb.Schemas do
 
   defmodule UserUpdateResponse400 do
     @moduledoc false
-
-    require OpenApiSpex
 
     OpenApiSpex.schema(%{
       description: "Bad Request",

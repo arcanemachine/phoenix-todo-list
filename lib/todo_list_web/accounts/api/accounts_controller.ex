@@ -23,7 +23,17 @@ defmodule TodoListWeb.Api.AccountsController do
     request_body:
       {"User registration/login request", "application/json", Schemas.UserAuthRequest},
     responses: %{
-      201 => {"Created", "application/json", Schemas.UserRegisterResponse201},
+      201 =>
+        {"Created", "application/json", Schemas.UserRegisterResponse201,
+         headers: %{
+           "location" => %OpenApiSpex.Header{
+             schema: %{
+               type: :string,
+               description: "The location of the user's profile data.",
+               example: "/users/:id/detail"
+             }
+           }
+         }},
       400 => {"Bad Request", "application/json", Schemas.UserRegisterResponse400}
     }
 

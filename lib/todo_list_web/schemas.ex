@@ -4,6 +4,8 @@ defmodule TodoListWeb.Schemas do
   require OpenApiSpex
   alias OpenApiSpex.Schema
 
+  alias TodoListWeb.Schemas
+
   # defmodule Todo do
   #   @moduledoc "OpenAPI schema definition for the Todo object."
 
@@ -22,6 +24,18 @@ defmodule TodoListWeb.Schemas do
 
   # MISC #
   # responses
+  defmodule GenericResponses do
+    @moduledoc "Miscellaneous responses that are used more than once."
+
+    def response_401_authentication_required(),
+      do:
+        {"Unauthorized: Authentication required", "application/json",
+         Schemas.Response401AuthenticationRequired}
+
+    def response_403(),
+      do: {"Forbidden", "application/json", Schemas.Response403}
+  end
+
   defmodule Response401AuthenticationRequired do
     @moduledoc false
 
@@ -50,7 +64,7 @@ defmodule TodoListWeb.Schemas do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "The parameters required when registering or logging in a User.",
+      description: "The parameters required when registering or logging in a user.",
       type: :object,
       properties: %{
         email: %Schema{type: :string, description: "Email address", format: :email},
@@ -167,18 +181,6 @@ defmodule TodoListWeb.Schemas do
   end
 
   # check_token
-  defmodule UserCheckTokenRequest do
-    @moduledoc false
-
-    # TO-DO: fix when swaggerui enables null request body example
-    OpenApiSpex.schema(%{
-      description: "User check token request",
-      type: nil,
-      properties: nil,
-      example: nil
-    })
-  end
-
   defmodule UserCheckTokenResponse200 do
     @moduledoc false
 
@@ -190,18 +192,6 @@ defmodule TodoListWeb.Schemas do
   end
 
   # show
-  defmodule UserShowRequest do
-    @moduledoc false
-
-    # TO-DO: fix when swaggerui enables null request body example
-    OpenApiSpex.schema(%{
-      description: "Show user detail request"
-      # type: nil,
-      # properties: nil,
-      # example: nil
-    })
-  end
-
   defmodule UserShowResponse200 do
     @moduledoc false
 
@@ -211,9 +201,7 @@ defmodule TodoListWeb.Schemas do
       properties: %{
         data: %Schema{type: :object, description: "User data"}
       },
-      example: %{
-        data: %{email: "user@example.com", id: 123}
-      }
+      example: %{data: %{email: "user@example.com", id: 123}}
     })
   end
 
@@ -229,13 +217,11 @@ defmodule TodoListWeb.Schemas do
           type: :string,
           description: "Current password",
           format: :password
-          # default: "old_password"
         },
         password: %Schema{
           type: :string,
           description: "New password",
           format: :password,
-          # default: "new_password",
           minLength: TodoList.Accounts.User.password_length_min()
         }
       },
@@ -281,19 +267,7 @@ defmodule TodoListWeb.Schemas do
   end
 
   # logout
-  defmodule UserLogoutRequest do
-    @moduledoc false
-
-    # TO-DO: fix when swaggerui enables null request body example
-    OpenApiSpex.schema(%{
-      description: "Logout user request"
-      # type: nil,
-      # properties: nil,
-      # example: nil
-    })
-  end
-
-  defmodule UserShowResponse200 do
+  defmodule UserLogoutResponse200 do
     @moduledoc false
 
     OpenApiSpex.schema(%{

@@ -4,17 +4,8 @@ defmodule TodoListWeb.Api.AccountsController do
 
   alias TodoList.Accounts
   alias TodoListWeb.Schemas
+  alias TodoListWeb.Schemas.GenericResponses
   alias TodoListWeb.UserAuth
-
-  defmodule GenericResponses do
-    def response_401_authentication_required(),
-      do:
-        {"Unauthorized: Authentication required", "application/json",
-         Schemas.Response401AuthenticationRequired}
-
-    def response_403(),
-      do: {"Forbidden", "application/json", Schemas.Response403}
-  end
 
   tags ["users"]
 
@@ -83,7 +74,6 @@ defmodule TodoListWeb.Api.AccountsController do
     parameters: [
       id: [in: :path, description: "User ID", type: :integer, example: 123]
     ],
-    request_body: {"User check token request", "application/json", Schemas.UserCheckTokenRequest},
     responses: %{
       200 => {"OK", "application/json", Schemas.UserCheckTokenResponse200},
       401 => GenericResponses.response_401_authentication_required(),
@@ -108,7 +98,6 @@ defmodule TodoListWeb.Api.AccountsController do
     parameters: [
       id: [in: :path, description: "User ID", type: :integer, example: 123]
     ],
-    request_body: {"Show user detail request", "application/json", Schemas.UserShowRequest},
     responses: %{
       200 => {"OK", "application/json", Schemas.UserShowResponse200},
       401 => GenericResponses.response_401_authentication_required(),
@@ -166,9 +155,8 @@ defmodule TodoListWeb.Api.AccountsController do
     parameters: [
       id: [in: :path, description: "User ID", type: :integer, example: 123]
     ],
-    request_body: {"Show user detail request", "application/json", Schemas.UserShowRequest},
     responses: %{
-      200 => {"OK", "application/json", Schemas.UserShowResponse200},
+      200 => {"OK", "application/json", Schemas.UserLogoutResponse200},
       401 => GenericResponses.response_401_authentication_required(),
       403 => GenericResponses.response_403()
     }

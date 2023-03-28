@@ -80,8 +80,6 @@ defmodule TodoListWeb.Api.AccountsController do
       403 => GenericResponses.response_403()
     }
 
-  # security [%{}, %{"bearerAuth" => []}]
-
   @doc """
   Ensure that a user is using a valid session token.
 
@@ -104,8 +102,6 @@ defmodule TodoListWeb.Api.AccountsController do
       403 => GenericResponses.response_403()
     }
 
-  # security [%{}, %{"bearerAuth" => []}]
-
   @doc "Show user detail"
   def show(conn, _params) do
     render(conn, :show, user: conn.assigns.current_user)
@@ -124,8 +120,6 @@ defmodule TodoListWeb.Api.AccountsController do
       401 => GenericResponses.response_401_authentication_required(),
       403 => GenericResponses.response_403()
     }
-
-  # security [%{}, %{"bearerAuth" => []}]
 
   @doc "Change user password"
   def update(
@@ -160,8 +154,6 @@ defmodule TodoListWeb.Api.AccountsController do
       401 => GenericResponses.response_401_authentication_required(),
       403 => GenericResponses.response_403()
     }
-
-  # security [%{}, %{"bearerAuth" => []}]
 
   @doc "Logout - Delete user session token."
   def delete(conn, _params) do

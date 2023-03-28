@@ -12,7 +12,7 @@ defmodule TodoListWeb.Api.TodoController do
   tags ["todos"]
 
   operation :index,
-    summary: "List todos",
+    summary: "List todo items",
     security: [%{"bearerAuth" => []}],
     responses: %{
       200 => {"OK", "application/json", Schemas.TodoListResponse200},
@@ -23,6 +23,16 @@ defmodule TodoListWeb.Api.TodoController do
     todos = Todos.list_todos_by_user_id(conn.assigns.current_user.id)
     render(conn, :index, todos: todos)
   end
+
+  operation :create,
+    summary: "Create new todo item",
+    security: [%{"bearerAuth" => []}],
+    request_body: {"Todo creation request", "application/json", Schemas.TodoCreateRequest},
+    responses: %{
+      201 => {"Created", "application/json", Schemas.TodoCreateResponse201},
+      400 => GenericResponses.response_400(),
+      401 => GenericResponses.response_401_authentication_required()
+    }
 
   def create(conn, %{"todo" => todo_params}) do
     # set user_id to current user

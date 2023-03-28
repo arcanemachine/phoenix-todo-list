@@ -11,6 +11,9 @@ defmodule TodoListWeb.Schemas do
   defmodule GenericResponses do
     @moduledoc "Miscellaneous responses that are used more than once."
 
+    def response_400(),
+      do: {"Bad Request", "application/json", Schemas.Response400}
+
     def response_401_authentication_required(),
       do:
         {"Unauthorized: Authentication required", "application/json",
@@ -18,6 +21,17 @@ defmodule TodoListWeb.Schemas do
 
     def response_403(),
       do: {"Forbidden", "application/json", Schemas.Response403}
+  end
+
+  defmodule Response400 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "Bad Request",
+      type: :object,
+      properties: %{errors: %Schema{type: :object}},
+      example: %{errors: %{detail: "Bad Request"}}
+    })
   end
 
   defmodule Response401AuthenticationRequired do
@@ -44,7 +58,7 @@ defmodule TodoListWeb.Schemas do
 
   # ACCOUNTS #
   # register/login
-  defmodule UserAuthRequestUser do
+  defmodule UserAuthSchema do
     @moduledoc false
 
     OpenApiSpex.schema(%{
@@ -82,7 +96,7 @@ defmodule TodoListWeb.Schemas do
     OpenApiSpex.schema(%{
       description: "New user registration",
       type: :object,
-      properties: %{user: %Schema{type: :object, items: UserAuthRequestUser}},
+      properties: %{user: %Schema{type: :object, items: UserAuthSchema}},
       required: [:user]
     })
   end
@@ -93,7 +107,7 @@ defmodule TodoListWeb.Schemas do
     OpenApiSpex.schema(%{
       description: "User registration/login request",
       type: :object,
-      properties: %{user: %Schema{type: :object, items: UserAuthRequestUser}},
+      properties: %{user: %Schema{type: :object, items: UserAuthSchema}},
       required: [:user],
       example: %{
         "user" => %{
@@ -268,7 +282,7 @@ defmodule TodoListWeb.Schemas do
 
   # credo:disable-for-next-line
   # TODOS #
-  defmodule Todo do
+  defmodule TodoSchema do
     @moduledoc false
 
     OpenApiSpex.schema(%{
@@ -289,21 +303,61 @@ defmodule TodoListWeb.Schemas do
       description: "OK",
       type: :object,
       properties: %{
-        data: %Schema{type: :list, items: Todo}
+        data: %Schema{type: :list, items: TodoSchema}
       },
       example: %{
         data: [
           %{
             content: "First todo item",
             id: 123,
-            is_completed: false
+            is_completed: true
           },
           %{
             content: "Second todo item",
             id: 456,
-            is_completed: true
+            is_completed: false
           }
         ]
+      }
+    })
+  end
+
+  # create
+  defmodule TodoCreateRequest do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "The parameters required when creating a new todo item.",
+      type: :object,
+      properties: %{
+        todo: %Schema{type: :object, items: TodoSchema}
+      },
+      required: [:content],
+      example: %{
+        todo: %{
+
+        content: "Todo item content",
+        is_completed: false
+      }
+      }
+    })
+  end
+
+  defmodule TodoCreateResponse201 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :object,
+      properties: %{
+        data: %Schema{type: :object, items: TodoSchema}
+      },
+      example: %{
+        data: %{
+          content: "Todo item content",
+          id: 123,
+          is_completed: false
+        }
       }
     })
   end

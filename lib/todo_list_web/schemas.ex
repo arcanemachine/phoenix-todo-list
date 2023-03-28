@@ -170,11 +170,11 @@ defmodule TodoListWeb.Schemas do
   defmodule UserCheckTokenRequest do
     @moduledoc false
 
-    # TO-DO: fix when open_api_spex enables null request body example
+    # TO-DO: fix when swaggerui enables null request body example
     OpenApiSpex.schema(%{
       description: "User check token request",
-      # type: nil,
-      # properties: nil,
+      type: nil,
+      properties: nil,
       example: nil
     })
   end
@@ -193,12 +193,12 @@ defmodule TodoListWeb.Schemas do
   defmodule UserShowRequest do
     @moduledoc false
 
-    # TO-DO: fix when open_api_spex enables null request body example
+    # TO-DO: fix when swaggerui enables null request body example
     OpenApiSpex.schema(%{
-      description: "Show user detail request",
+      description: "Show user detail request"
       # type: nil,
       # properties: nil,
-      example: nil
+      # example: nil
     })
   end
 
@@ -276,6 +276,34 @@ defmodule TodoListWeb.Schemas do
             "This is not your current password."
           ]
         }
+      }
+    })
+  end
+
+  # logout
+  defmodule UserLogoutRequest do
+    @moduledoc false
+
+    # TO-DO: fix when swaggerui enables null request body example
+    OpenApiSpex.schema(%{
+      description: "Logout user request"
+      # type: nil,
+      # properties: nil,
+      # example: nil
+    })
+  end
+
+  defmodule UserShowResponse200 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :object,
+      properties: %{
+        message: %Schema{type: :string}
+      },
+      example: %{
+        message: "Logged out successfully"
       }
     })
   end

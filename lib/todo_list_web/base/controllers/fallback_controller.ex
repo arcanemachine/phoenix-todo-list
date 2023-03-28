@@ -13,4 +13,11 @@ defmodule TodoListWeb.FallbackController do
     |> put_view(html: TodoListWeb.ErrorHTML, json: TodoListWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, {:error, _}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(html: TodoListWeb.ErrorHTML, json: TodoListWeb.ErrorJSON)
+    |> render(:"400")
+  end
 end

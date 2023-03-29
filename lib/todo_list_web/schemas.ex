@@ -58,11 +58,12 @@ defmodule TodoListWeb.Schemas do
 
   # ACCOUNTS #
   # register/login
-  defmodule UserAuthSchema do
+  defmodule UserAuthSchemaUser do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "The parameters required when registering or logging in a user.",
+      description:
+        "A child schema for user authentication. Describes the user used by UserAuthSchema.",
       type: :object,
       properties: %{
         email: %Schema{type: :string, description: "Email address", format: :email},
@@ -77,26 +78,13 @@ defmodule TodoListWeb.Schemas do
     })
   end
 
-  defmodule UserAuthResponseUser do
+  defmodule UserAuthSchema do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "User registration/authentication response",
+      description: "The parameters required when registering or logging in a user.",
       type: :object,
-      properties: %{
-        id: %Schema{type: :integer, description: "User ID"},
-        token: %Schema{type: :string, description: "User auth token"}
-      }
-    })
-  end
-
-  defmodule UserAuth do
-    @moduledoc false
-
-    OpenApiSpex.schema(%{
-      description: "New user registration",
-      type: :object,
-      properties: %{user: %Schema{type: :object, items: UserAuthSchema}},
+      properties: %{user: %Schema{type: :object, items: UserAuthSchemaUser}},
       required: [:user]
     })
   end
@@ -114,6 +102,19 @@ defmodule TodoListWeb.Schemas do
           "email" => "user@example.com",
           "password" => "your_password"
         }
+      }
+    })
+  end
+
+  defmodule UserAuthResponseUser do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "User registration/authentication response",
+      type: :object,
+      properties: %{
+        id: %Schema{type: :integer, description: "User ID"},
+        token: %Schema{type: :string, description: "User auth token"}
       }
     })
   end

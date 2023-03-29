@@ -12,15 +12,15 @@ defmodule TodoListWeb.Schemas do
     @moduledoc "Miscellaneous responses that are used more than once."
 
     def response_400(),
-      do: {"Bad Request", "application/json", Schemas.Response400}
+      do: {"Error: Bad Request", "application/json", Schemas.Response400}
 
     def response_401_authentication_required(),
       do:
-        {"Unauthorized: Authentication required", "application/json",
+        {"Error: Unauthorized (Authentication required)", "application/json",
          Schemas.Response401AuthenticationRequired}
 
     def response_403(),
-      do: {"Forbidden", "application/json", Schemas.Response403}
+      do: {"Error: Forbidden", "application/json", Schemas.Response403}
   end
 
   defmodule Response400 do
@@ -38,7 +38,7 @@ defmodule TodoListWeb.Schemas do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "Unauthorized: Authentication required",
+      description: "Error: Unauthorized (Authentication required)",
       type: :object,
       properties: %{message: %Schema{type: :string}},
       example: %{message: "This endpoint is only accessible to authenticated users."}
@@ -49,7 +49,7 @@ defmodule TodoListWeb.Schemas do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "Forbidden",
+      description: "Error: Forbidden",
       type: :object,
       properties: %{message: %Schema{type: :string}},
       example: %{message: "Forbidden"}
@@ -335,10 +335,9 @@ defmodule TodoListWeb.Schemas do
       required: [:content],
       example: %{
         todo: %{
-
-        content: "Todo item content",
-        is_completed: false
-      }
+          content: "Todo item content",
+          is_completed: false
+        }
       }
     })
   end
@@ -351,6 +350,26 @@ defmodule TodoListWeb.Schemas do
       type: :object,
       properties: %{
         data: %Schema{type: :object, items: TodoSchema}
+      },
+      example: %{
+        data: %{
+          content: "Todo item content",
+          id: 123,
+          is_completed: false
+        }
+      }
+    })
+  end
+
+  # show
+  defmodule TodoShowResponse200 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :object,
+      properties: %{
+        data: %Schema{type: :object, description: "Todo data"}
       },
       example: %{
         data: %{

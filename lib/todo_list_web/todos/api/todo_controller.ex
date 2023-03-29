@@ -46,6 +46,18 @@ defmodule TodoListWeb.Api.TodoController do
     end
   end
 
+  operation :show,
+    summary: "Show todo item detail",
+    security: [%{"bearerAuth" => []}],
+    parameters: [
+      id: [in: :path, description: "Todo ID", type: :integer, example: 123]
+    ],
+    responses: %{
+      200 => {"OK", "application/json", Schemas.TodoShowResponse200},
+      401 => GenericResponses.response_401_authentication_required(),
+      403 => GenericResponses.response_403()
+    }
+
   def show(conn, _params) do
     todo = conn.assigns.todo
 

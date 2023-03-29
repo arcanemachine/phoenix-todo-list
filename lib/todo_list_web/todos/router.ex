@@ -27,7 +27,7 @@ defmodule TodoListWeb.Todos.Router do
 
   def todos_api_require_todo_permissions do
     quote do
-      resources "/todos", Api.TodoController, except: [:index, :create]
+      resources "/todos", Api.TodoController, only: [:show, :update, :delete]
     end
   end
 

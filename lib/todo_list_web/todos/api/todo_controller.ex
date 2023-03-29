@@ -86,6 +86,18 @@ defmodule TodoListWeb.Api.TodoController do
     end
   end
 
+  operation :delete,
+    summary: "Delete todo item",
+    security: [%{"bearerAuth" => []}],
+    parameters: [
+      id: [in: :path, description: "Todo ID", type: :integer, example: 123]
+    ],
+    responses: %{
+      204 => {"No Content", "application/json", Schemas.TodoDeleteResponse204},
+      401 => GenericResponses.response_401_authentication_required(),
+      403 => GenericResponses.response_403()
+    }
+
   def delete(conn, _params) do
     todo = conn.assigns.todo
 

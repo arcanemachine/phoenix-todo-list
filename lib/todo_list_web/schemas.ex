@@ -16,7 +16,7 @@ defmodule TodoListWeb.Schemas do
 
     def response_401_authentication_required(),
       do:
-        {"Error: Unauthorized (Authentication required)", "application/json",
+        {"Error: Unauthorized [Authentication required]", "application/json",
          Schemas.Response401AuthenticationRequired}
 
     def response_403(),
@@ -398,6 +398,15 @@ defmodule TodoListWeb.Schemas do
           is_completed: false
         }
       }
+    })
+  end
+
+  # delete
+  defmodule TodoDeleteResponse204 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "No Content"
     })
   end
 end

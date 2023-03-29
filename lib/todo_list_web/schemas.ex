@@ -295,6 +295,25 @@ defmodule TodoListWeb.Schemas do
     })
   end
 
+  defmodule TodoRequest do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "The parameters required when creating or updating a todo item.",
+      type: :object,
+      properties: %{
+        todo: %Schema{type: :object, items: TodoSchema}
+      },
+      required: [:content],
+      example: %{
+        todo: %{
+          content: "Todo item content",
+          is_completed: false
+        }
+      }
+    })
+  end
+
   # index
   defmodule TodoListResponse200 do
     @moduledoc false
@@ -323,30 +342,11 @@ defmodule TodoListWeb.Schemas do
   end
 
   # create
-  defmodule TodoCreateRequest do
-    @moduledoc false
-
-    OpenApiSpex.schema(%{
-      description: "The parameters required when creating a new todo item.",
-      type: :object,
-      properties: %{
-        todo: %Schema{type: :object, items: TodoSchema}
-      },
-      required: [:content],
-      example: %{
-        todo: %{
-          content: "Todo item content",
-          is_completed: false
-        }
-      }
-    })
-  end
-
   defmodule TodoCreateResponse201 do
     @moduledoc false
 
     OpenApiSpex.schema(%{
-      description: "OK",
+      description: "Created",
       type: :object,
       properties: %{
         data: %Schema{type: :object, items: TodoSchema}
@@ -370,6 +370,26 @@ defmodule TodoListWeb.Schemas do
       type: :object,
       properties: %{
         data: %Schema{type: :object, description: "Todo data"}
+      },
+      example: %{
+        data: %{
+          content: "Todo item content",
+          id: 123,
+          is_completed: false
+        }
+      }
+    })
+  end
+
+  # update
+  defmodule TodoUpdateResponse200 do
+    @moduledoc false
+
+    OpenApiSpex.schema(%{
+      description: "OK",
+      type: :object,
+      properties: %{
+        data: %Schema{type: :object, items: TodoSchema}
       },
       example: %{
         data: %{

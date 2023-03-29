@@ -27,7 +27,7 @@ defmodule TodoListWeb.Api.TodoController do
   operation :create,
     summary: "Create new todo item",
     security: [%{"bearerAuth" => []}],
-    request_body: {"Todo creation request", "application/json", Schemas.TodoCreateRequest},
+    request_body: {"Todo creation request", "application/json", Schemas.TodoRequest},
     responses: %{
       201 => {"Created", "application/json", Schemas.TodoCreateResponse201},
       400 => GenericResponses.response_400(),
@@ -63,6 +63,20 @@ defmodule TodoListWeb.Api.TodoController do
 
     render(conn, :show, todo: todo)
   end
+
+  operation :update,
+    summary: "Update todo item",
+    security: [%{"bearerAuth" => []}],
+    parameters: [
+      id: [in: :path, description: "Todo ID", type: :integer, example: 123]
+    ],
+    request_body: {"Todo update request", "application/json", Schemas.TodoRequest},
+    responses: %{
+      200 => {"OK", "application/json", Schemas.TodoUpdateResponse200},
+      400 => GenericResponses.response_400(),
+      401 => GenericResponses.response_401_authentication_required(),
+      403 => GenericResponses.response_403()
+    }
 
   def update(conn, %{"todo" => todo_params}) do
     todo = conn.assigns.todo

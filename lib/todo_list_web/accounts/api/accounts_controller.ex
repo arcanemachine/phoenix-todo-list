@@ -56,9 +56,11 @@ defmodule TodoListWeb.Api.AccountsController do
     }
 
   @doc "Login - Confirm authentication credentials and return a session token."
-  def login(conn, %{"user" => user_params} = _params, status \\ :ok) do
-    %{"email" => email, "password" => password} = user_params
-
+  def login(
+        conn,
+        %{"user" => %{"email" => email, "password" => password}} = _params,
+        status \\ :ok
+      ) do
     if user = Accounts.get_user_by_email_and_password(email, password) do
       conn |> UserAuth.api_login_user(user, status)
     else

@@ -3,5 +3,56 @@
 # change to project root directory
 cd $(dirname "$0")/../
 
-# run tests (watch mode enabled by default)
+if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+  # show help info and exit
+  echo '
+A helper script for running Elixir tests. Runs tests in "watch mode" so that
+tests will be re-run when a file is changed (requires `entr` to be installed).
+
+## Running Specific Tests
+
+You can run specific tests by line number or tag.
+
+
+### By Line Number
+
+To run a test by its line number, specify the path to the module that contains
+the desired test, and append a colon and the desired line number to the file
+path. For example:
+
+  - `./scripts/test test/your_test.ex:123`
+
+
+### By Tag
+
+To test by tag, the test must first be given a tag. For example:
+
+    @tag your_tag: true  # you can use key-value pair to describe the tag
+    describe "your_test" do
+      ...
+    end
+
+Then, to run the tagged tests, pass the `--include` flag with the matching
+key-value pair when starting the test runner:
+
+    ./scripts/test --only your_tag:true  # no space between the key and value
+
+
+## Excluding Specific Tests
+
+You can exclude specific tests by tag. Follow the instructions above to add a
+tag to the test(s) you want to exclude.
+
+
+### By Tag
+
+To exclude the tagged test(s), pass the `--exclude` flag with the matching
+key-value pair when starting the test runner:
+
+    ./scripts/test --exclude your_tag:true  # no space between the key and value
+'
+  exit 0
+fi
+
+# run tests
 until ag -g "\.(ex|exs|eex|heex|js|ts)$" | entr -d mix test "$@"; do sleep 1; done

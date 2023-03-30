@@ -1,4 +1,6 @@
 defmodule TodoList.AccountsTest do
+  @moduledoc false
+
   use TodoList.DataCase
 
   alias TodoList.Accounts
@@ -62,7 +64,7 @@ defmodule TodoList.AccountsTest do
       {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "invalid"})
 
       assert %{
-               email: ["must have the @ sign and no spaces"],
+               email: ["This is not a valid email address."],
                password: ["should be at least 8 character(s)"]
              } = errors_on(changeset)
     end
@@ -131,14 +133,14 @@ defmodule TodoList.AccountsTest do
 
     test "requires email to change", %{user: user} do
       {:error, changeset} = Accounts.apply_user_email(user, valid_user_password(), %{})
-      assert %{email: ["did not change"]} = errors_on(changeset)
+      assert %{email: ["This is your current email address."]} = errors_on(changeset)
     end
 
     test "validates email", %{user: user} do
       {:error, changeset} =
         Accounts.apply_user_email(user, valid_user_password(), %{email: "not valid"})
 
-      assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
+      assert %{email: ["This is not a valid email address."]} = errors_on(changeset)
     end
 
     test "validates maximum value for email for security", %{user: user} do
@@ -163,7 +165,7 @@ defmodule TodoList.AccountsTest do
       {:error, changeset} =
         Accounts.apply_user_email(user, "invalid", %{email: unique_user_email()})
 
-      assert %{current_password: ["is not valid"]} = errors_on(changeset)
+      assert %{current_password: ["This is not your current password."]} = errors_on(changeset)
     end
 
     test "applies the email without persisting it", %{user: user} do
@@ -268,7 +270,7 @@ defmodule TodoList.AccountsTest do
 
       assert %{
                password: ["should be at least 8 character(s)"],
-               password_confirmation: ["does not match password"]
+               password_confirmation: ["The passwords do not match."]
              } = errors_on(changeset)
     end
 
@@ -285,7 +287,7 @@ defmodule TodoList.AccountsTest do
       {:error, changeset} =
         Accounts.update_user_password(user, "invalid", %{password: valid_user_password()})
 
-      assert %{current_password: ["is not valid"]} = errors_on(changeset)
+      assert %{current_password: ["This is not your current password."]} = errors_on(changeset)
     end
 
     test "updates the password", %{user: user} do
@@ -477,7 +479,7 @@ defmodule TodoList.AccountsTest do
 
       assert %{
                password: ["should be at least 8 character(s)"],
-               password_confirmation: ["does not match password"]
+               password_confirmation: ["The passwords do not match."]
              } = errors_on(changeset)
     end
 

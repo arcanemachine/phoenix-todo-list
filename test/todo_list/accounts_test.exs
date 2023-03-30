@@ -55,13 +55,13 @@ defmodule TodoList.AccountsTest do
       {:error, changeset} = Accounts.register_user(%{})
 
       assert %{
-               password: ["can't be blank"],
-               email: ["can't be blank"]
+               password: ["This field can't be blank."],
+               email: ["This field can't be blank."]
              } = errors_on(changeset)
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "invalid"})
+      {:error, changeset} = Accounts.register_user(%{email: "invalid", password: "invalid"})
 
       assert %{
                email: ["This is not a valid email address."],
@@ -79,11 +79,11 @@ defmodule TodoList.AccountsTest do
     test "validates email uniqueness" do
       %{email: email} = user_fixture()
       {:error, changeset} = Accounts.register_user(%{email: email})
-      assert "has already been taken" in errors_on(changeset).email
+      assert "This email address is already in use." in errors_on(changeset).email
 
       # Now try with the upper cased email too, to check that email case is ignored.
       {:error, changeset} = Accounts.register_user(%{email: String.upcase(email)})
-      assert "has already been taken" in errors_on(changeset).email
+      assert "This email address is already in use." in errors_on(changeset).email
     end
 
     test "registers users with a hashed password" do
@@ -158,7 +158,7 @@ defmodule TodoList.AccountsTest do
 
       {:error, changeset} = Accounts.apply_user_email(user, password, %{email: email})
 
-      assert "has already been taken" in errors_on(changeset).email
+      assert "This email address is already in use." in errors_on(changeset).email
     end
 
     test "validates current password", %{user: user} do

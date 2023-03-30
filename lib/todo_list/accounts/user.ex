@@ -15,6 +15,8 @@ defmodule TodoList.Accounts.User do
 
   def password_length_min, do: 8
 
+  def required_field_opts, do: [message: "This field can't be blank."]
+
   @doc """
   A user changeset for registration.
 
@@ -48,7 +50,7 @@ defmodule TodoList.Accounts.User do
 
   defp validate_email(changeset, opts) do
     changeset
-    |> validate_required([:email])
+    |> validate_required([:email], required_field_opts())
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "This is not a valid email address.")
     |> validate_length(:email, max: 160)
     |> maybe_validate_unique_email(opts)
@@ -56,7 +58,7 @@ defmodule TodoList.Accounts.User do
 
   defp validate_password(changeset, opts) do
     changeset
-    |> validate_required([:password])
+    |> validate_required([:password], required_field_opts())
     |> validate_length(:password, min: password_length_min(), max: 72)
     # |> validate_format(:password, ~r/[a-z]/, message: "Password must have a lowercase character.")
     # |> validate_format(:password, ~r/[A-Z]/, message: "Password must have an uppercase character")
@@ -82,8 +84,10 @@ defmodule TodoList.Accounts.User do
   defp maybe_validate_unique_email(changeset, opts) do
     if Keyword.get(opts, :validate_email, true) do
       changeset
-      |> unsafe_validate_unique(:email, TodoList.Repo)
-      |> unique_constraint(:email)
+      |> unsafe_validate_unique(:email, TodoList.Repo,
+        message: "This email address is already in use."
+      )
+      |> unique_constraint(:email, message: "This email address is already in use.")
     else
       changeset
     end

@@ -10,7 +10,7 @@ defmodule TodoListWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :api_fetch_current_user
+    plug :fetch_current_api_user
     plug OpenApiSpex.Plug.PutApiSpec, module: TodoListWeb.ApiSpec
   end
 
@@ -85,21 +85,21 @@ defmodule TodoListWeb.Router do
 
   # logout required
   scope "/api", TodoListWeb do
-    pipe_through([:api, :api_forbid_authenticated_user])
+    pipe_through([:api, :forbid_authenticated_api_user])
 
     use AccountsRouter, :accounts_api_logout_required
   end
 
   # login required
   scope "/api", TodoListWeb do
-    pipe_through([:api, :api_require_authenticated_user])
+    pipe_through([:api, :require_authenticated_api_user])
 
     use TodosRouter, :todos_api_login_required
   end
 
   # require user permissions
   scope "/api", TodoListWeb do
-    pipe_through([:api, :api_require_authenticated_user, :api_require_user_permissions])
+    pipe_through([:api, :require_authenticated_api_user, :api_require_user_permissions])
 
     use AccountsRouter, :accounts_api_require_user_permissions
   end
@@ -108,7 +108,7 @@ defmodule TodoListWeb.Router do
   scope "/api", TodoListWeb do
     pipe_through([
       :api,
-      :api_require_authenticated_user,
+      :require_authenticated_api_user,
       :fetch_todo,
       :api_require_todo_permissions
     ])

@@ -38,7 +38,7 @@ defmodule TodoListWeb.UserAuth do
   end
 
   @doc "Create a session token and return it to the user."
-  def api_login_user(conn, user, status \\ :ok) do
+  def login_api_user(conn, user, status \\ :ok) do
     token = Accounts.generate_user_session_token(user)
 
     conn |> put_status(status) |> json(%{user: %{id: user.id, token: Base.url_encode64(token)}})
@@ -93,8 +93,8 @@ defmodule TodoListWeb.UserAuth do
   end
 
   @doc "Log the user out by clearing the session token from the database."
-  def api_logout_user(conn) do
-    {user_token, _conn} = api_ensure_user_token(conn)
+  def logout_api_user(conn) do
+    {user_token, _conn} = ensure_api_user_token(conn)
     user_token && Accounts.delete_user_session_token(user_token)
 
     conn |> json(%{message: "Logged out successfully"})
@@ -124,6 +124,13 @@ defmodule TodoListWeb.UserAuth do
     assign(conn, :current_user, user)
   end
 
+  @doc "Authenticates the user by parsing the 'authorization' header."
+  def fetch_current_api_user(conn, _opts) do
+    {user_token, conn} = ensure_api_user_token(conn)
+    user = user_token && Accounts.get_user_by_session_token(user_token)
+    assign(conn, :current_user, user)
+  end
+
   defp ensure_user_token(conn) do
     if token = get_session(conn, :user_token) do
       {token, conn}
@@ -138,14 +145,7 @@ defmodule TodoListWeb.UserAuth do
     end
   end
 
-  @doc "Authenticates the user by parsing the 'authorization' header."
-  def api_fetch_current_user(conn, _opts) do
-    {user_token, conn} = api_ensure_user_token(conn)
-    user = user_token && Accounts.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
-  end
-
-  defp api_ensure_user_token(conn) do
+  defp ensure_api_user_token(conn) do
     auth_header = conn |> get_req_header("authorization") |> Enum.at(0)
 
     try do
@@ -253,7 +253,7 @@ defmodule TodoListWeb.UserAuth do
   @doc """
   Used for API routes that require the user to not be authenticated.
   """
-  def api_forbid_authenticated_user(conn, _opts) do
+  def forbid_authenticated_api_user(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
       |> put_status(:bad_request)
@@ -288,7 +288,7 @@ defmodule TodoListWeb.UserAuth do
   If you want to enforce the user email is confirmed before
   they use the application at all, here would be a good place.
   """
-  def api_require_authenticated_user(conn, _opts) do
+  def require_authenticated_api_user(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
     else

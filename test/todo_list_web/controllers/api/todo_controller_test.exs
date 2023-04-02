@@ -1,8 +1,8 @@
 defmodule TodoListWeb.Api.TodoControllerTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
-
   import TodoList.TodosFixtures
-
   alias TodoList.Todos.Todo
 
   @create_attrs %{
@@ -16,10 +16,22 @@ defmodule TodoListWeb.Api.TodoControllerTest do
   @invalid_attrs %{content: nil, is_completed: nil}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    {:ok, user: nil, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  defp create_todo(_) do
+    todo = todo_fixture()
+    %{todo: todo}
+  end
+
+  defp authenticate_user(context) do
+    TodoListWeb.ConnCase.setup_authenticate_api_user(context)
+  end
+
+  @tag fixme: true
   describe "index" do
+    setup [:authenticate_user]
+
     test "lists all todos", %{conn: conn} do
       conn = get(conn, ~p"/api/todos")
       assert json_response(conn, 200)["data"] == []
@@ -79,10 +91,5 @@ defmodule TodoListWeb.Api.TodoControllerTest do
         get(conn, ~p"/api/todos/#{todo}")
       end
     end
-  end
-
-  defp create_todo(_) do
-    todo = todo_fixture()
-    %{todo: todo}
   end
 end

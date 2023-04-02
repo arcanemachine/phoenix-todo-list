@@ -50,6 +50,19 @@ defmodule TodoListWeb.ConnCase do
   end
 
   @doc """
+  Simulate a logged-in user by adding the expected request headers.
+
+      setup :register_and_login_user
+
+  It stores an updated connection and a registered user in the
+  test context.
+  """
+  def register_and_login_api_user(%{conn: conn}) do
+    user = TodoList.AccountsFixtures.user_fixture()
+    %{conn: login_api_user(conn, user), user: user}
+  end
+
+  @doc """
   Logs the given `user` into the `conn`.
 
   It returns an updated `conn`.
@@ -60,5 +73,21 @@ defmodule TodoListWeb.ConnCase do
     conn
     |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
+  end
+
+  @doc """
+  Simulate a logged-in user by adding the expected request headers.
+
+  It returns an updated `conn`.
+  """
+  def login_api_user(conn, user) do
+    token = TodoList.Accounts.generate_user_session_token(user) |> Base.url_encode64()
+    conn |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+  end
+
+  def setup_authenticate_api_user(context) do
+    conn = context.conn
+    conn = register_and_login_api_user(%{conn: conn}) |> Map.get(:conn)
+    %{conn: conn}
   end
 end

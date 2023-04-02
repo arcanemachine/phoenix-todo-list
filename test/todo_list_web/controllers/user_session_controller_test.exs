@@ -1,4 +1,6 @@
 defmodule TodoListWeb.UserSessionControllerTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase, async: true
 
   import TodoList.AccountsFixtures

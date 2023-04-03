@@ -76,13 +76,22 @@ defmodule TodoListWeb.ConnCase do
   end
 
   @doc """
-  Simulate a logged-in user by adding the expected request headers.
+  Simulate a logged-in user by adding a valid 'authorization' header.
 
   It returns an updated `conn`.
   """
   def login_api_user(conn, user) do
     token = TodoList.Accounts.generate_user_session_token(user) |> Base.url_encode64()
     conn |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+  end
+
+  @doc """
+  Simulate a logged-in user by removing the 'authorization' header.
+
+  It returns an updated `conn`.
+  """
+  def logout_api_user(conn) do
+    conn |> Plug.Conn.delete_req_header("authorization")
   end
 
   def setup_authenticate_api_user(context) do

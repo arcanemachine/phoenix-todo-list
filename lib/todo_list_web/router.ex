@@ -108,7 +108,6 @@ defmodule TodoListWeb.Router do
   scope "/api", TodoListWeb do
     pipe_through([
       :api,
-      :require_authenticated_api_user,
       :fetch_todo,
       :api_require_todo_permissions
     ])

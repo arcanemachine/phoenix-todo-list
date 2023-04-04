@@ -1,11 +1,13 @@
 defmodule TodoListWeb.Helpers.Controller do
   @moduledoc "Generic controller helper functions."
 
+  import Plug.Conn
+
   def http_response_403(conn) do
     conn
-    |> Plug.Conn.put_status(403)
+    |> put_status(403)
     |> Phoenix.Controller.text("403 Forbidden")
-    |> Plug.Conn.halt()
+    |> halt()
   end
 end
 

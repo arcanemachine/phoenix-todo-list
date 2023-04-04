@@ -146,6 +146,7 @@ defmodule TodoListWeb.UserAuth do
   end
 
   defp ensure_api_user_token(conn) do
+    # retrieve user token from 'authorization' header and check for a matching user
     auth_header = conn |> get_req_header("authorization") |> Enum.at(0)
 
     try do
@@ -282,12 +283,7 @@ defmodule TodoListWeb.UserAuth do
     end
   end
 
-  @doc """
-  Used for routes that require the user to be authenticated.
-
-  If you want to enforce the user email is confirmed before
-  they use the application at all, here would be a good place.
-  """
+  @doc "Used for API routes that require the user to be authenticated."
   def require_authenticated_api_user(conn, _opts) do
     if conn.assigns[:current_user] do
       conn

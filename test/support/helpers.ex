@@ -17,6 +17,7 @@ defmodule TodoListWeb.Test.GenericTests do
             "post" -> post(conn, url)
             "put" -> put(conn, url)
             "patch" -> patch(conn, url)
+            "delete" -> delete(conn, url)
           end
 
         # response has expected status code and body

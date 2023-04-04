@@ -18,23 +18,30 @@ defmodule TodoListWeb.Api.TodoControllerTest do
 
   # setup functions
   setup %{conn: conn} do
-    {:ok, user: nil, conn: put_req_header(conn, "accept", "application/json")}
-    # {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    # add basic headers for API requests
+    conn = put_req_header(conn, "accept", "application/json")
+
+    # authenticate user
+    conn = TodoListWeb.ConnCase.register_and_login_api_user(%{conn: conn}) |> Map.get(:conn)
+
+    {:ok, conn: conn}
   end
 
-  defp authenticate_user(context) do
-    context |> TodoListWeb.ConnCase.setup_authenticate_api_user()
-  end
+  defp create_todo(context) do
+    conn = context.conn
 
-  defp create_todo(_context) do
-    todo = todo_fixture()
+    # if conn has authenticated user, use them to create todo fixture
+    todo =
+      case conn.assigns.current_user do
+        nil -> todo_fixture()
+        _ -> todo_fixture(%{user_id: conn.assigns.current_user.id})
+      end
+
     %{todo: todo}
   end
 
   # tests
   describe "index todos" do
-    setup [:authenticate_user]
-
     # generic tests
     requires_authenticated_api_user(todo_index_url())
 
@@ -48,8 +55,6 @@ defmodule TodoListWeb.Api.TodoControllerTest do
   end
 
   describe "create todo" do
-    setup [:authenticate_user]
-
     # generic tests
     requires_authenticated_api_user(todo_index_url(), "post")
 
@@ -79,20 +84,17 @@ defmodule TodoListWeb.Api.TodoControllerTest do
   end
 
   describe "update todo" do
-    # setup [:authenticate_user, :create_todo]
     setup [:create_todo]
 
     # generic tests
-    # requires_authenticated_api_user(todo_object_url(123), "put")
-    # requires_authenticated_api_user(todo_object_url(123), "patch")
+    requires_authenticated_api_user(todo_object_url(123), "put")
+    requires_authenticated_api_user(todo_object_url(123), "patch")
 
-    @tag fixme: true
     test "renders todo when data is valid", %{conn: conn, todo: %Todo{id: id} = todo} do
-      dbg()
-      conn = put(conn, ~p"/api/todos/#{todo}", todo: @update_attrs)
+      conn = put(conn, todo_object_url(todo.id), todo: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, ~p"/api/todos/#{id}")
+      conn = get(conn, todo_object_url(todo.id))
 
       assert %{
                "id" => ^id,
@@ -101,26 +103,25 @@ defmodule TodoListWeb.Api.TodoControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
+    @tag fixme: true
     test "renders errors when data is invalid", %{conn: conn, todo: todo} do
-      conn = put(conn, ~p"/api/todos/#{todo}", todo: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
+      conn = put(conn, todo_object_url(todo.id), todo: @invalid_attrs)
+      assert json_response(conn, 400)["errors"] != %{}
     end
   end
 
   describe "delete todo" do
     setup [:create_todo]
 
-    # def test_url, do: todo_object_url(todo)
-
-    # # generic tests
-    # test_requires_authenticated_api_user(test_url)
+    # generic tests
+    requires_authenticated_api_user(todo_object_url(123), "delete")
 
     test "deletes chosen todo", %{conn: conn, todo: todo} do
-      conn = delete(conn, ~p"/api/todos/#{todo}")
+      conn = delete(conn, todo_object_url(todo.id))
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, ~p"/api/todos/#{todo}")
+        get(conn, todo_object_url(todo.id))
       end
     end
   end

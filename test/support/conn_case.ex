@@ -81,22 +81,33 @@ defmodule TodoListWeb.ConnCase do
   It returns an updated `conn`.
   """
   def login_api_user(conn, user) do
+    # login user and set them as current_user
+    conn = login_user(conn, user) |> Plug.Conn.assign(:current_user, user)
+
+    # add auth header to request
     token = TodoList.Accounts.generate_user_session_token(user) |> Base.url_encode64()
-    conn |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+    conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer #{token}")
+
+    conn
   end
 
   @doc """
-  Simulate a logged-in user by removing the 'authorization' header.
+  Simulate a logged-in user by adding the 'authorization' header.
 
-  It returns an updated `conn`.
+  It returns an updated conn.
   """
   def logout_api_user(conn) do
+    # remove current_user from conn.assigns
+    conn = update_in(conn.assigns, &Map.drop(&1, [:current_user]))
+
+    # remove auth header
     conn |> Plug.Conn.delete_req_header("authorization")
   end
 
+  @doc "Create new user and add auth header."
   def setup_authenticate_api_user(context) do
-    conn = context.conn
-    conn = register_and_login_api_user(%{conn: conn}) |> Map.get(:conn)
+    conn = register_and_login_api_user(%{conn: context.conn}) |> Map.get(:conn)
+
     %{conn: conn}
   end
 end

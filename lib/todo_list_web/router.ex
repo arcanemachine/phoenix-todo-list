@@ -99,20 +99,21 @@ defmodule TodoListWeb.Router do
 
   # require user permissions
   scope "/api", TodoListWeb do
-    pipe_through([:api, :require_authenticated_api_user, :api_require_user_permissions])
+    pipe_through([:api, :require_authenticated_api_user, :require_api_user_permissions])
 
-    use AccountsRouter, :accounts_api_require_user_permissions
+    use AccountsRouter, :accounts_require_api_user_permissions
   end
 
   # require todo permissions
   scope "/api", TodoListWeb do
     pipe_through([
       :api,
+      :require_authenticated_api_user,
       :fetch_todo,
-      :api_require_todo_permissions
+      :require_api_todo_permissions
     ])
 
-    use TodosRouter, :todos_api_require_todo_permissions
+    use TodosRouter, :todos_require_api_todo_permissions
   end
 
   # DEV #

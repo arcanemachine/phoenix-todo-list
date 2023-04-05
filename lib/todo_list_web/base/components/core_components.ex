@@ -324,7 +324,7 @@ defmodule TodoListWeb.CoreComponents do
       </button>
       <div class="modal" x-bind:class="show && 'modal-open'">
         <div
-          class="relative max-w-xs modal-box border-2"
+          class="relative max-w-xs modal-box border-2 overflow-hidden"
           x-show="show"
           x-trap.inert.noscroll="show"
           x-on:click.outside="show = false"

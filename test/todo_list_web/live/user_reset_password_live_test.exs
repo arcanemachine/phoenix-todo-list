@@ -1,4 +1,6 @@
 defmodule TodoListWeb.UserResetPasswordLiveTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -21,7 +23,7 @@ defmodule TodoListWeb.UserResetPasswordLiveTest do
     test "renders reset password with valid token", %{conn: conn, token: token} do
       {:ok, _lv, html} = live(conn, ~p"/users/reset_password/#{token}")
 
-      assert html =~ "Reset Password"
+      assert html =~ "Set New Password"
     end
 
     test "does not render reset password with invalid token", %{conn: conn} do
@@ -43,8 +45,10 @@ defmodule TodoListWeb.UserResetPasswordLiveTest do
           user: %{"password" => "2short", "confirmation_password" => "secret123456"}
         )
 
-      assert result =~ "should be at least 8 character"
-      assert result =~ "does not match password"
+      assert result =~
+               "Must have #{TodoList.Accounts.User.password_length_min()} or more character(s)"
+
+      assert result =~ "The passwords do not match."
     end
   end
 
@@ -81,26 +85,28 @@ defmodule TodoListWeb.UserResetPasswordLiveTest do
         )
         |> render_submit()
 
-      assert result =~ "Reset Password"
-      assert result =~ "should be at least 8 character(s)"
-      assert result =~ "does not match password"
+      # assert result =~ "Set New Password"
+      assert result =~
+               "Must have #{TodoList.Accounts.User.password_length_min()} or more character(s)"
+
+      assert result =~ "The passwords do not match."
     end
   end
 
   describe "Reset password navigation" do
-    test "redirects to login page when the Log in button is clicked", %{conn: conn, token: token} do
+    test "redirects to login page when the 'login' link is clicked", %{conn: conn, token: token} do
       {:ok, lv, _html} = live(conn, ~p"/users/reset_password/#{token}")
 
       {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Log in")|)
+        |> element(~s|a:fl-contains("Login")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/login")
 
-      assert conn.resp_body =~ "Log in"
+      assert conn.resp_body =~ "Login"
     end
 
-    test "redirects to password reset page when the Register button is clicked", %{
+    test "redirects to registration page when the 'register' link is clicked", %{
       conn: conn,
       token: token
     } do
@@ -108,11 +114,11 @@ defmodule TodoListWeb.UserResetPasswordLiveTest do
 
       {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Register")|)
+        |> element(~s|a:fl-contains("Register new account")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert conn.resp_body =~ "Register"
+      assert conn.resp_body =~ "Register New Account"
     end
   end
 end

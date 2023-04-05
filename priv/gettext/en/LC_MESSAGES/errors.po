@@ -20,7 +20,7 @@ msgstr "This value is already in use."
 
 ## From Ecto.Changeset.put_change/3
 msgid "is invalid"
-msgstr "Value is invalid"
+msgstr "This value is invalid"
 
 ## From Ecto.Changeset.validate_acceptance/3
 msgid "must be accepted"

@@ -1,4 +1,6 @@
 defmodule TodoListWeb.UserForgotPasswordLiveTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -11,7 +13,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
     test "renders email page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/reset_password")
 
-      assert html =~ "Forgot your password?"
+      assert html =~ "Forgot Your Password?"
       assert html =~ "Register</a>"
       assert html =~ "Log in</a>"
     end
@@ -21,7 +23,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
         conn
         |> login_user(user_fixture())
         |> live(~p"/users/reset_password")
-        |> follow_redirect(conn, ~p"/")
+        |> follow_redirect(conn, ~p"/todos/live")
 
       assert {:ok, _conn} = result
     end

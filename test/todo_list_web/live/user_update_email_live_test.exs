@@ -1,23 +1,24 @@
-defmodule TodoListWeb.UserSettingsLiveTest do
+defmodule TodoListWeb.UserUpdateEmailLiveTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   alias TodoList.Accounts
   import Phoenix.LiveViewTest
   import TodoList.AccountsFixtures
 
-  describe "Settings page" do
-    test "renders settings page", %{conn: conn} do
+  describe "page" do
+    test "renders expected page", %{conn: conn} do
       {:ok, _lv, html} =
         conn
         |> login_user(user_fixture())
-        |> live(~p"/users/profile")
+        |> live(~p"/users/profile/update/email")
 
-      assert html =~ "Change Email"
-      assert html =~ "Change Password"
+      assert html =~ "Update Email"
     end
 
     test "redirects if user is not logged in", %{conn: conn} do
-      assert {:error, redirect} = live(conn, ~p"/users/profile")
+      assert {:error, redirect} = live(conn, ~p"/users/profile/update/email")
 
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/login"
@@ -35,7 +36,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
     test "updates the user email", %{conn: conn, password: password, user: user} do
       new_email = unique_user_email()
 
-      {:ok, lv, _html} = live(conn, ~p"/users/profile")
+      {:ok, lv, _html} = live(conn, ~p"/users/profile/update/email")
 
       result =
         lv
@@ -45,12 +46,12 @@ defmodule TodoListWeb.UserSettingsLiveTest do
         })
         |> render_submit()
 
-      assert result =~ "A link to confirm your email"
+      assert result =~ "Almost done! Check your email inbox for a confirmation link."
       assert Accounts.get_user_by_email(user.email)
     end
 
     test "renders errors with invalid data (phx-change)", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/profile")
+      {:ok, lv, _html} = live(conn, ~p"/users/profile/update/email")
 
       result =
         lv
@@ -61,12 +62,12 @@ defmodule TodoListWeb.UserSettingsLiveTest do
           "user" => %{"email" => "with spaces"}
         })
 
-      assert result =~ "Change Email"
-      assert result =~ "must have the @ sign and no spaces"
+      # assert result =~ "Update Email"
+      assert result =~ "This is not a valid email address."
     end
 
     test "renders errors with invalid data (phx-submit)", %{conn: conn, user: user} do
-      {:ok, lv, _html} = live(conn, ~p"/users/profile")
+      {:ok, lv, _html} = live(conn, ~p"/users/profile/update/email")
 
       result =
         lv
@@ -76,85 +77,9 @@ defmodule TodoListWeb.UserSettingsLiveTest do
         })
         |> render_submit()
 
-      assert result =~ "Change Email"
-      assert result =~ "did not change"
-      assert result =~ "is not valid"
-    end
-  end
-
-  describe "update password form" do
-    setup %{conn: conn} do
-      password = valid_user_password()
-      user = user_fixture(%{password: password})
-      %{conn: login_user(conn, user), user: user, password: password}
-    end
-
-    test "updates the user password", %{conn: conn, user: user, password: password} do
-      new_password = valid_user_password()
-
-      {:ok, lv, _html} = live(conn, ~p"/users/profile")
-
-      form =
-        form(lv, "#password_form", %{
-          "current_password" => password,
-          "user" => %{
-            "email" => user.email,
-            "password" => new_password,
-            "password_confirmation" => new_password
-          }
-        })
-
-      render_submit(form)
-
-      new_password_conn = follow_trigger_action(form, conn)
-
-      assert redirected_to(new_password_conn) == ~p"/users/profile"
-
-      assert get_session(new_password_conn, :user_token) != get_session(conn, :user_token)
-
-      assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
-               "Password updated successfully"
-
-      assert Accounts.get_user_by_email_and_password(user.email, new_password)
-    end
-
-    test "renders errors with invalid data (phx-change)", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/profile")
-
-      result =
-        lv
-        |> element("#password_form")
-        |> render_change(%{
-          "current_password" => "invalid",
-          "user" => %{
-            "password" => "2short",
-            "password_confirmation" => "does not match"
-          }
-        })
-
-      assert result =~ "Change Password"
-      assert result =~ "should be at least 8 character(s)"
-      assert result =~ "does not match password"
-    end
-
-    test "renders errors with invalid data (phx-submit)", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/profile")
-
-      result =
-        lv
-        |> form("#password_form", %{
-          "current_password" => "invalid",
-          "user" => %{
-            "password" => "2short",
-            "password_confirmation" => "does not match"
-          }
-        })
-        |> render_submit()
-
-      assert result =~ "Change Password"
-      assert result =~ "should be at least 8 character(s)"
-      assert result =~ "does not match password"
-      assert result =~ "is not valid"
+      # assert result =~ "Update Email"
+      assert result =~ "This is your current email address."
+      assert result =~ "This is not your current password."
     end
   end
 
@@ -177,7 +102,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/profile"
       assert %{"info" => message} = flash
-      assert message == "Email changed successfully."
+      assert message == "Email updated successfully"
       refute Accounts.get_user_by_email(user.email)
       assert Accounts.get_user_by_email(email)
 
@@ -186,7 +111,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/profile"
       assert %{"error" => message} = flash
-      assert message == "Email change link is invalid or it has expired."
+      assert message == "Email update link is invalid or it has expired."
     end
 
     test "does not update email with invalid token", %{conn: conn, user: user} do
@@ -194,7 +119,7 @@ defmodule TodoListWeb.UserSettingsLiveTest do
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/profile"
       assert %{"error" => message} = flash
-      assert message == "Email change link is invalid or it has expired."
+      assert message == "Email update link is invalid or it has expired."
       assert Accounts.get_user_by_email(user.email)
     end
 

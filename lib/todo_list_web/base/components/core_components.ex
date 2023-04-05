@@ -38,6 +38,7 @@ defmodule TodoListWeb.CoreComponents do
           <.link
             href={Map.get(item, :href, false)}
             navigate={Map.get(item, :navigate, false)}
+            patch={Map.get(item, :patch, false)}
             method={Map.get(item, :method, "get")}
           >
             <%= item.content %>

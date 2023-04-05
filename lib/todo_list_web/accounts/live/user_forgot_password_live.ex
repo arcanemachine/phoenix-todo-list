@@ -20,15 +20,15 @@ defmodule TodoListWeb.UserForgotPasswordLive do
     <.action_links
       class="mt-16"
       items={[
-        %{content: "Register new account", navigate: ~p"/users/register"},
-        %{content: "Login", navigate: ~p"/users/login"}
+        %{content: "Register new account", href: ~p"/users/register"},
+        %{content: "Login", href: ~p"/users/login"}
       ]}
     />
     """
   end
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, page_title: "Forget Your Password")}
+    {:ok, assign(socket, page_title: "Forgot Your Password?")}
   end
 
   def handle_event("send_email", %{"user" => %{"email" => email}}, socket) do

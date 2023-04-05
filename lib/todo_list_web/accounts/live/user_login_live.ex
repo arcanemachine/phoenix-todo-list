@@ -39,8 +39,8 @@ defmodule TodoListWeb.UserLoginLive do
     <.action_links
       class="mt-16"
       items={[
-        %{content: "Register new account", navigate: ~p"/users/register"},
-        %{content: "Forgot your password?", navigate: ~p"/users/reset_password"}
+        %{content: "Register new account", href: ~p"/users/register"},
+        %{content: "Forgot your password?", href: ~p"/users/reset_password"}
       ]}
     />
     """

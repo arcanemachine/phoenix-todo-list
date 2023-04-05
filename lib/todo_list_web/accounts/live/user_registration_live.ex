@@ -43,6 +43,7 @@ defmodule TodoListWeb.UserRegistrationLive do
         type="password"
         minlength={TodoList.Accounts.User.password_length_min()}
         label="Confirm password"
+        required
       />
 
       <:actions>
@@ -54,7 +55,8 @@ defmodule TodoListWeb.UserRegistrationLive do
     <.action_links
       class="mt-16"
       items={[
-        %{content: "Login to an existing account", navigate: ~p"/users/login"}
+        %{content: "Login to an existing account", href: ~p"/users/login"},
+        %{content: "Forgot your password?", href: ~p"/users/reset_password"}
       ]}
     />
     """

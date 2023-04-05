@@ -1,4 +1,6 @@
 defmodule TodoListWeb.UserRegistrationLiveTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -17,7 +19,7 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
         conn
         |> login_user(user_fixture())
         |> live(~p"/users/register")
-        |> follow_redirect(conn, "/")
+        |> follow_redirect(conn, "/todos/live")
 
       assert {:ok, _conn} = result
     end
@@ -28,11 +30,19 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
       result =
         lv
         |> element("#registration_form")
-        |> render_change(user: %{"email" => "with spaces", "password" => "2short"})
+        |> render_change(
+          user: %{
+            "email" => "with spaces",
+            "password" => "2short",
+            "password_confirmation" => "2short"
+          }
+        )
 
       assert result =~ "Register"
-      assert result =~ "must have the @ sign and no spaces"
-      assert result =~ "should be at least 8 character"
+      assert result =~ "This is not a valid email address."
+
+      assert result =~
+               "Must have #{TodoList.Accounts.User.password_length_min()} or more character(s)"
     end
   end
 
@@ -41,11 +51,20 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
       email = unique_user_email()
-      form = form(lv, "#registration_form", user: valid_user_attributes(email: email))
+
+      form =
+        form(lv, "#registration_form",
+          user:
+            valid_user_attributes(
+              email: email,
+              password_confirmation: valid_user_password()
+            )
+        )
+
       render_submit(form)
       conn = follow_trigger_action(form, conn)
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/todos/live"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
@@ -62,25 +81,29 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
       result =
         lv
         |> form("#registration_form",
-          user: %{"email" => user.email, "password" => "valid_password"}
+          user: %{
+            "email" => user.email,
+            "password" => "valid_password",
+            "password_confirmation" => "valid_password"
+          }
         )
         |> render_submit()
 
-      assert result =~ "has already been taken"
+      assert result =~ "This email address is already in use."
     end
   end
 
   describe "registration navigation" do
-    test "redirects to login page when the Log in button is clicked", %{conn: conn} do
+    test "redirects to login page when the 'login' link is clicked", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
-      {:ok, _login_live, login_html} =
+      {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Sign in")|)
+        |> element(~s|a:fl-contains("Login to an existing account")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/login")
 
-      assert login_html =~ "Log in"
+      assert conn.resp_body =~ "Login"
     end
   end
 end

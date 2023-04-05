@@ -40,10 +40,6 @@ defmodule TodoListWeb.UserUpdateEmailLive do
       phx-submit="update_email"
       phx-change="validate_email"
     >
-      <.error :if={@email_changeset.action == :insert}>
-        This form contains an error. Fix the error to continue.
-      </.error>
-
       <.input field={{f, :email}} type="email" label="Email" required />
 
       <.input
@@ -56,13 +52,8 @@ defmodule TodoListWeb.UserUpdateEmailLive do
         required
       />
       <:actions>
-        <.button class="btn-lg btn-primary form-button" phx-disable-with="Changing...">
-          Confirm
-        </.button>
-
-        <button type="button" class="btn btn-lg btn-secondary form-button" onclick="history.back()">
-          Cancel
-        </button>
+        <.form_button_cancel phx-disable-with={false} url={~p"/users/profile"} />
+        <.form_button_submit />
       </:actions>
     </.simple_form>
     """

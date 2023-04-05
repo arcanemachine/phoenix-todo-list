@@ -30,6 +30,7 @@ defmodule TodoListWeb.Router do
     pipe_through(:browser)
 
     use BaseRouter, :base_allow_any_user
+    use AccountsRouter, :accounts_allow_any_user
 
     live_session :current_user,
       on_mount: [{TodoListWeb.UserAuth, :mount_current_user}] do

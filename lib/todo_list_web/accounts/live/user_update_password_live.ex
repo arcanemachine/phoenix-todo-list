@@ -30,7 +30,6 @@ defmodule TodoListWeb.UserUpdatePasswordLive do
       phx-trigger-action={@trigger_submit}
     >
       <.input field={{f, :email}} type="hidden" value={@email} />
-
       <.input
         field={{f, :current_password}}
         name="current_password"

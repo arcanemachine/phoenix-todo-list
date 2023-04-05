@@ -17,7 +17,7 @@ defmodule TodoListWeb.UserSessionControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/todos/live"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, ~p"/")
@@ -37,7 +37,7 @@ defmodule TodoListWeb.UserSessionControllerTest do
         })
 
       assert conn.resp_cookies["_todo_list_web_user_remember_me"]
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/todos/live"
     end
 
     test "logs the user in with return to", %{conn: conn, user: user} do
@@ -52,7 +52,7 @@ defmodule TodoListWeb.UserSessionControllerTest do
         })
 
       assert redirected_to(conn) == "/foo/bar"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Welcome back!"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged in successfully"
     end
 
     test "login following registration", %{conn: conn, user: user} do
@@ -66,7 +66,7 @@ defmodule TodoListWeb.UserSessionControllerTest do
           }
         })
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/todos/live"
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Account created successfully"
     end
 

@@ -1,4 +1,6 @@
 defmodule TodoListWeb.UserLoginLiveTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -18,7 +20,7 @@ defmodule TodoListWeb.UserLoginLiveTest do
         conn
         |> login_user(user_fixture())
         |> live(~p"/users/login")
-        |> follow_redirect(conn, "/")
+        |> follow_redirect(conn, "/todos/live")
 
       assert {:ok, _conn} = result
     end
@@ -36,7 +38,7 @@ defmodule TodoListWeb.UserLoginLiveTest do
 
       conn = submit_form(form, conn)
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/todos/live"
     end
 
     test "redirects to login page with a flash error if there are no valid credentials", %{
@@ -59,15 +61,18 @@ defmodule TodoListWeb.UserLoginLiveTest do
 
   describe "login navigation" do
     test "redirects to registration page when the Register button is clicked", %{conn: conn} do
+      # load live view
       {:ok, lv, _html} = live(conn, ~p"/users/login")
 
-      {:ok, _login_live, login_html} =
+      # click on selected link
+      {:ok, conn} =
         lv
-        |> element(~s|a:fl-contains("Sign up")|)
+        |> element(~s|a:fl-contains("Register new account")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert login_html =~ "Register"
+      # response contains expected text
+      assert conn.resp_body =~ "Register New Account"
     end
 
     test "redirects to forgot password page when the Forgot Password button is clicked", %{
@@ -81,7 +86,7 @@ defmodule TodoListWeb.UserLoginLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/users/reset_password")
 
-      assert conn.resp_body =~ "Forgot your password?"
+      assert conn.resp_body =~ "Forgot Your Password?"
     end
   end
 end

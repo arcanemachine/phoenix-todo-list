@@ -11,7 +11,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
 
   describe "Forgot password page" do
     test "renders email page", %{conn: conn} do
-      {:ok, _lv, html} = live(conn, ~p"/users/reset_password")
+      {:ok, _lv, html} = live(conn, ~p"/users/reset-password")
 
       assert html =~ "Forgot Your Password?"
       assert html =~ "Register</a>"
@@ -22,7 +22,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
       result =
         conn
         |> login_user(user_fixture())
-        |> live(~p"/users/reset_password")
+        |> live(~p"/users/reset-password")
         |> follow_redirect(conn, ~p"/todos/live")
 
       assert {:ok, _conn} = result
@@ -35,7 +35,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
     end
 
     test "sends a new reset password token", %{conn: conn, user: user} do
-      {:ok, lv, _html} = live(conn, ~p"/users/reset_password")
+      {:ok, lv, _html} = live(conn, ~p"/users/reset-password")
 
       {:ok, conn} =
         lv
@@ -50,7 +50,7 @@ defmodule TodoListWeb.UserForgotPasswordLiveTest do
     end
 
     test "does not send reset password token if email is invalid", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/reset_password")
+      {:ok, lv, _html} = live(conn, ~p"/users/reset-password")
 
       {:ok, conn} =
         lv

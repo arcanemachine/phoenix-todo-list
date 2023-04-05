@@ -97,7 +97,7 @@ defmodule TodoListWeb.UserUpdateEmailLiveTest do
     end
 
     test "updates the user email once", %{conn: conn, user: user, token: token, email: email} do
-      {:error, redirect} = live(conn, ~p"/users/profile/confirm_email/#{token}")
+      {:error, redirect} = live(conn, ~p"/users/profile/confirm-email/#{token}")
 
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/profile"
@@ -107,7 +107,7 @@ defmodule TodoListWeb.UserUpdateEmailLiveTest do
       assert Accounts.get_user_by_email(email)
 
       # use confirm token again
-      {:error, redirect} = live(conn, ~p"/users/profile/confirm_email/#{token}")
+      {:error, redirect} = live(conn, ~p"/users/profile/confirm-email/#{token}")
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/profile"
       assert %{"error" => message} = flash
@@ -115,7 +115,7 @@ defmodule TodoListWeb.UserUpdateEmailLiveTest do
     end
 
     test "does not update email with invalid token", %{conn: conn, user: user} do
-      {:error, redirect} = live(conn, ~p"/users/profile/confirm_email/oops")
+      {:error, redirect} = live(conn, ~p"/users/profile/confirm-email/oops")
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/profile"
       assert %{"error" => message} = flash
@@ -125,7 +125,7 @@ defmodule TodoListWeb.UserUpdateEmailLiveTest do
 
     test "redirects if user is not logged in", %{token: token} do
       conn = build_conn()
-      {:error, redirect} = live(conn, ~p"/users/profile/confirm_email/#{token}")
+      {:error, redirect} = live(conn, ~p"/users/profile/confirm-email/#{token}")
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/login"
       assert %{"error" => message} = flash

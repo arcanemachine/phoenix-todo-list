@@ -25,8 +25,8 @@ defmodule TodoListWeb.Accounts.Router do
     quote do
       live("/users/register", UserRegistrationLive, :new)
       live("/users/login", UserLoginLive, :new)
-      live("/users/reset_password", UserForgotPasswordLive, :new)
-      live("/users/reset_password/:token", UserResetPasswordLive, :edit)
+      live("/users/reset-password", UserForgotPasswordLive, :new)
+      live("/users/reset-password/:token", UserResetPasswordLive, :edit)
     end
   end
 
@@ -43,7 +43,7 @@ defmodule TodoListWeb.Accounts.Router do
       live("/users/profile/delete", UserDeleteLive)
       live("/users/profile/update/email", UserUpdateEmailLive, :edit)
       live("/users/profile/update/password", UserUpdatePasswordLive, :edit)
-      live("/users/profile/confirm_email/:token", UserUpdateEmailLive, :confirm_email)
+      live("/users/profile/confirm-email/:token", UserUpdateEmailLive, :confirm_email)
     end
   end
 

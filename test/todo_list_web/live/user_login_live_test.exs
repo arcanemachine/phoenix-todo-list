@@ -84,7 +84,7 @@ defmodule TodoListWeb.UserLoginLiveTest do
         lv
         |> element(~s{a:fl-contains('Forgot your password?')})
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/reset_password")
+        |> follow_redirect(conn, ~p"/users/reset-password")
 
       assert conn.resp_body =~ "Forgot Your Password?"
     end

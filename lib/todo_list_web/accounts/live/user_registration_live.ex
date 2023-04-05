@@ -56,7 +56,7 @@ defmodule TodoListWeb.UserRegistrationLive do
       class="mt-16"
       items={[
         %{content: "Login to an existing account", href: ~p"/users/login"},
-        %{content: "Forgot your password?", href: ~p"/users/reset_password"}
+        %{content: "Forgot your password?", href: ~p"/users/reset-password"}
       ]}
     />
     """

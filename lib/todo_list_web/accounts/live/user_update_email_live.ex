@@ -81,7 +81,7 @@ defmodule TodoListWeb.UserUpdateEmailLive do
         Accounts.deliver_user_update_email_instructions(
           applied_user,
           user.email,
-          &url(~p"/users/profile/confirm_email/#{&1}")
+          &url(~p"/users/profile/confirm-email/#{&1}")
         )
 
         info = "Almost done! Check your email inbox for a confirmation link."

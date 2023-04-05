@@ -3,7 +3,7 @@
 </div>
 
 <.simple_form :let={f} for={@changeset} action={~p"/todos"}>
-  <.input field={{f, :content}} type="text" label="Content" />
+  <.input field={{f, :content}} type="text" label="Content" required />
   <.input field={{f, :is_completed}} type="checkbox" label="Is completed?" />
   <:actions>
     <.form_button_cancel />

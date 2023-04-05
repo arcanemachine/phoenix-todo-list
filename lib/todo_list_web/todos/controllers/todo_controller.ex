@@ -25,12 +25,13 @@ defmodule TodoListWeb.TodoController do
         |> redirect(to: ~p"/todos/#{todo}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        render(conn, :new, page_title: "Create Todo", changeset: changeset)
     end
   end
 
   def show(conn, _params) do
-    conn |> render(:show, page_title: "Todo Info", todo: conn.assigns.todo)
+    conn
+    |> render(:show, page_title: "Todo Info (##{conn.assigns.todo.id})", todo: conn.assigns.todo)
   end
 
   def edit(conn, _params) do
@@ -49,7 +50,7 @@ defmodule TodoListWeb.TodoController do
         |> redirect(to: ~p"/todos")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, todo: todo, changeset: changeset)
+        render(conn, :edit, page_title: "Edit Todo", todo: todo, changeset: changeset)
     end
   end
 

@@ -87,14 +87,14 @@ defmodule TodoListWeb.TodoControllerTest do
   describe "index" do
     test "lists all todos", %{conn: conn, user: user} do
       conn = conn |> login_user(user) |> get(~p"/todos")
-      assert html_response(conn, 200) =~ "Listing Todos"
+      assert html_response(conn, 200) =~ "Todo List"
     end
   end
 
   describe "new todo" do
     test "renders form", %{conn: conn, user: user} do
       conn = conn |> login_user(user) |> get(~p"/todos/new")
-      assert html_response(conn, 200) =~ "New Todo"
+      assert html_response(conn, 200) =~ "Create Todo"
     end
   end
 
@@ -106,12 +106,12 @@ defmodule TodoListWeb.TodoControllerTest do
       assert redirected_to(conn) == ~p"/todos/#{id}"
 
       conn = get(conn, ~p"/todos/#{id}")
-      assert html_response(conn, 200) =~ "Todo #{id}"
+      assert html_response(conn, 200) =~ "Todo Info (##{id})"
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn = conn |> login_user(user) |> post(~p"/todos", todo: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Todo"
+      assert html_response(conn, 200) =~ "Create Todo"
     end
   end
 
@@ -120,7 +120,7 @@ defmodule TodoListWeb.TodoControllerTest do
 
     test "allows user to view their todo", %{conn: conn, user: user, todo: todo} do
       conn = conn |> login_user(user) |> get(~p"/todos/#{todo}")
-      assert html_response(conn, 200) =~ "Show Todo"
+      assert html_response(conn, 200) =~ "Todo Info (##{todo.id})"
     end
   end
 
@@ -138,9 +138,9 @@ defmodule TodoListWeb.TodoControllerTest do
 
     test "redirects when data is valid", %{conn: conn, user: user, todo: todo} do
       conn = conn |> login_user(user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
-      assert redirected_to(conn) == ~p"/todos/#{todo}"
+      assert redirected_to(conn) == ~p"/todos"
 
-      conn = conn |> get(~p"/todos/#{todo}")
+      conn = conn |> get(~p"/todos")
       assert html_response(conn, 200) =~ "some updated content"
     end
 

@@ -5,6 +5,6 @@ defmodule TodoListWeb.BaseControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Yet Another Todo List"
+    assert html_response(conn, 200) =~ "Todo List"
   end
 end

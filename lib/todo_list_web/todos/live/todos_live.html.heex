@@ -25,13 +25,16 @@
   phx-hook="TodosLive"
 >
   <%= if Mix.env() == :test do %>
-    <!-- create separate forms for testing todo_create and todo_update events -->
-    <.form for={%{}} id="todo-create-form" phx-submit="todo_create">
+    <!-- create dummy forms for testing events -->
+    <.form for={%{}} id="todo-create-test-form" phx-submit="todo_create">
       <input type="text" name="content" required />
     </.form>
-    <.form for={%{}} id="todo-update-form" phx-submit="todo_update_content">
+    <.form for={%{}} id="todo-update-test-form" phx-submit="todo_update_content">
       <input type="number" name="id" required />
       <input type="text" name="content" required />
+    </.form>
+    <.form for={%{}} id="todo-delete-test-form" phx-submit="todo_delete">
+      <input type="number" name="id" required />
     </.form>
   <% end %>
 
@@ -116,6 +119,7 @@
                 ["text-xl btn btn-square btn-ghost btn-outline outline-2"],
                 ["todo-item-is-completed-toggle"]
               ]}
+              id={"is-completed-checkbox-#{todo.id}"}
               x-show="todoIdSelected !== todo.id"
               x-tooltip="Toggle completion status"
               phx-click={
@@ -143,6 +147,7 @@
       <% end %>
     <% end %>
   </ul>
+
   <!-- delete modal -->
   <div class="modal" x-bind:class="todoDeleteModalActive && 'modal-open'">
     <div

@@ -9,6 +9,7 @@ defmodule TodoListWeb.TodosLiveTest do
   import TodoList.AccountsFixtures
 
   alias TodoList.Repo
+  alias TodoList.Todos
   alias TodoList.Todos.Todo
 
   def test_url, do: ~p"/todos/live"
@@ -57,9 +58,9 @@ defmodule TodoListWeb.TodosLiveTest do
       {:ok, lv, _html} = live(conn, test_url())
 
       # build and submit form
-      result = form(lv, "#todo-create-form", %{"content" => todo_content}) |> render_submit()
+      result = form(lv, "#todo-create-test-form", %{"content" => todo_content}) |> render_submit()
 
-      # object count increased by 1
+      # object count has increased by 1
       final_object_count = TodoList.Repo.Helpers.count(Todo)
       assert final_object_count == initial_object_count + 1
 
@@ -70,7 +71,6 @@ defmodule TodoListWeb.TodosLiveTest do
       assert result =~ new_todo.content
     end
 
-    @tag fixme: true
     test "updates an existing todo", %{conn: conn, user: user} do
       todo = todo_fixture(%{user_id: user.id})
       updated_todo_content = "updated todo content"
@@ -82,8 +82,11 @@ defmodule TodoListWeb.TodosLiveTest do
       {:ok, lv, _html} = live(conn, test_url())
 
       # build and submit form
-      result =
-        form(lv, "#todo-update-form", %{"id" => "#{todo.id}", "content" => updated_todo_content})
+      html =
+        form(lv, "#todo-update-test-form", %{
+          "id" => "#{todo.id}",
+          "content" => updated_todo_content
+        })
         |> render_submit()
 
       # object count has not changed
@@ -95,39 +98,107 @@ defmodule TodoListWeb.TodosLiveTest do
       assert updated_todo.content == updated_todo_content
 
       # page renders expected object content
-      assert result =~ updated_todo_content
+      assert html =~ updated_todo_content
     end
   end
 
-  # describe "Todo list" do
-  #   test "shows all todos" do
-  #   end
+  describe "Todo list" do
+    setup %{user: user} do
+      # create todos for user
+      {:ok, incomplete_todo} =
+        Todos.create_todo(%{user_id: user.id, content: "Incomplete Todo", is_completed: false})
 
-  #   test "marks an incomplete todo as completed", %{conn: conn} do
-  #   end
+      {:ok, completed_todo} =
+        Todos.create_todo(%{user_id: user.id, content: "Completed Todo", is_completed: true})
 
-  #   test "marks a completed todo as incomplete", %{conn: conn} do
-  #   end
+      %{todos: [incomplete_todo, completed_todo]}
+    end
 
-  #   test "deletes a todo", %{conn: conn} do
-  #   end
-  # end
+    test "shows all todos belonging to the user", %{conn: conn, todos: todos} do
+      # load liveview
+      {:ok, _lv, html} = live(conn, test_url())
 
-  # describe "Presence" do
-  #   test "correctly shows when a single window is displaying the list", %{conn: conn} do
-  #   end
+      # page contains content of all todos
+      Enum.map(todos, fn todo -> assert html =~ todo.content end)
+    end
 
-  #   test "correctly shows when two windows are displaying the list", %{conn: conn} do
-  #   end
-  # end
+    test "does not show todos belonging to another user", %{conn: conn} do
+      # create other user
+      other_user = user_fixture()
 
-  # describe "PubSub" do
-  #   test "shows the correct message when the current window creates a todo", %{conn: conn} do
-  #   end
+      # create todo for other user
+      {:ok, other_todo} = Todos.create_todo(%{content: "Other Todo", user_id: other_user.id})
 
-  #   test "shows the correct message when a different window creates a todo", %{conn: conn} do
-  #   end
+      # load liveview
+      {:ok, _lv, html} = live(conn, test_url())
 
-  #   # repeat for update, toggle completion, delete...
-  # end
+      # page does not contain content belonging to other user
+      refute html =~ other_todo.content
+    end
+
+    test "marks an incomplete todo as completed", %{conn: conn, todos: todos} do
+      # get incomplete todo
+      incomplete_todo =
+        Enum.filter(todos, fn todo -> todo.is_completed == false end) |> Enum.at(0)
+
+      # load liveview
+      {:ok, lv, _html} = live(conn, test_url())
+
+      # select and click the checkbox for the incomplete todo
+      lv |> element("#is-completed-checkbox-#{incomplete_todo.id}") |> render_click()
+
+      # re-fetch todo from the database
+      now_completed_todo = Todos.get_todo!(incomplete_todo.id)
+
+      # the todo is now completed
+      assert now_completed_todo.is_completed
+    end
+
+    test "marks a completed todo as incomplete", %{conn: conn, todos: todos} do
+      # get incomplete todo
+      completed_todo = Enum.filter(todos, fn todo -> todo.is_completed == true end) |> Enum.at(0)
+
+      # load liveview
+      {:ok, lv, _html} = live(conn, test_url())
+
+      # select and click the checkbox for the completed todo
+      lv |> element("#is-completed-checkbox-#{completed_todo.id}") |> render_click()
+
+      # re-fetch todo from the database
+      now_incomplete_todo = Todos.get_todo!(completed_todo.id)
+
+      # the todo is now completed
+      refute now_incomplete_todo.is_completed
+    end
+
+    test "deletes a todo", %{conn: conn, todos: todos} do
+      # randomly select one of the todos to delete
+      random_index = (:rand.uniform() > 0.5 && 1) || 0
+      todo_to_delete = todos |> Enum.at(random_index)
+
+      # get initial object count
+      initial_object_count = TodoList.Repo.Helpers.count(Todo)
+
+      # load liveview
+      {:ok, lv, html} = live(conn, test_url())
+
+      # html contains expected content
+      assert html =~ todo_to_delete.content
+
+      # trigger the expected event
+      html = form(lv, "#todo-delete-test-form", %{"id" => todo_to_delete.id}) |> render_submit()
+
+      # html no longer contains deleted content
+      refute html =~ todo_to_delete.content
+
+      # object count has decreased by 1
+      final_object_count = TodoList.Repo.Helpers.count(Todo)
+      assert final_object_count == initial_object_count - 1
+
+      # object no longer exists in the database
+      assert_raise Ecto.NoResultsError, fn ->
+        Todos.get_todo!(todo_to_delete.id)
+      end
+    end
+  end
 end

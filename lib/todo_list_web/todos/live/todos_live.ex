@@ -160,7 +160,6 @@ defmodule TodoListWeb.TodosLive do
     try do
       # cast inputs
       {todo_id, _remainder} = Integer.parse(todo_id)
-      IO.puts("*** HELLO ***")
 
       # get todo
       todos = socket.assigns.todos

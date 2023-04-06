@@ -90,10 +90,10 @@ defmodule TodoListWeb.TodosLive do
   end
 
   # events
-  def handle_event("todo_create", %{"todo_content" => todo_content} = _data, socket) do
+  def handle_event("todo_create", %{"content" => content} = _data, socket) do
     try do
       attrs = %{
-        content: todo_content,
+        content: content,
         is_completed: false,
         user_id: socket.assigns.current_user.id
       }
@@ -120,7 +120,7 @@ defmodule TodoListWeb.TodosLive do
 
   def handle_event(
         "todo_toggle_is_completed",
-        %{"todo_id" => todo_id} = _data,
+        %{"id" => todo_id} = _data,
         socket
       ) do
     try do
@@ -153,13 +153,14 @@ defmodule TodoListWeb.TodosLive do
 
   def handle_event(
         "todo_update_content",
-        %{"todo_id" => todo_id, "todo_content" => todo_content} = data,
+        %{"id" => todo_id, "content" => todo_content} = data,
         socket
       ) do
     # get todo from list
     try do
       # cast inputs
       {todo_id, _remainder} = Integer.parse(todo_id)
+      IO.puts("*** HELLO ***")
 
       # get todo
       todos = socket.assigns.todos
@@ -188,7 +189,7 @@ defmodule TodoListWeb.TodosLive do
     end
   end
 
-  def handle_event("todo_delete", %{"todo_id" => todo_id} = _data, socket) do
+  def handle_event("todo_delete", %{"id" => todo_id} = _data, socket) do
     try do
       # cast inputs
       {todo_id, _remainder} = Integer.parse(todo_id)

@@ -92,12 +92,23 @@ defmodule TodoListWeb.ConnCase do
   end
 
   @doc """
-  Simulate a logged-in user by adding the 'authorization' header.
+  Logs the user out.
+
+  It returns an updated conn.
+  """
+  def logout_user(conn) do
+    conn |> TodoListWeb.UserAuth.logout_user() |> Phoenix.ConnTest.recycle()
+  end
+
+  @doc """
+  Simulate a logged-out user by:
+    - Removing the 'authorization' header
+    - Dropping the `current_user` key from `conn.assigns`
 
   It returns an updated conn.
   """
   def logout_api_user(conn) do
-    # remove current_user from conn.assigns
+    # remove :current_user from conn.assigns
     conn = update_in(conn.assigns, &Map.drop(&1, [:current_user]))
 
     # remove auth header

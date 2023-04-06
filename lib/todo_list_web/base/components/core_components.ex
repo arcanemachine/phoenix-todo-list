@@ -270,7 +270,7 @@ defmodule TodoListWeb.CoreComponents do
       <div class="flex-1">
         <!-- navbar title -->
         <.link href="/" aria-label="Todo List" class="flex-0 btn-ghost btn px-2">
-          <div class="font-title inline-flex text-2xl normal-case text-primary">
+          <div class="font-title inline-flex text-2xl normal-case text-accent">
             Todo List
           </div>
         </.link>

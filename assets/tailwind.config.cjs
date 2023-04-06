@@ -20,9 +20,9 @@ module.exports = {
     themes: [
       {
         default: {
-          primary: "#116FFD",
+          primary: "#5012FD",
           secondary: "#5E656C",
-          accent: "#0A6BFD",
+          accent: "#116FFD",
           neutral: "#3B68AB",
           "base-100": "#EEF5FF",
           info: "#97C0FE",
@@ -31,9 +31,9 @@ module.exports = {
           error: "#DC3545",
         },
         dark: {
-          primary: "#116FFD",
+          primary: "#5012FD",
           secondary: "#5E656C",
-          accent: "#0A6BFD",
+          accent: "#116FFD",
           neutral: "#3B68AB",
           "base-100": "#001026",
           info: "#97C0FE",

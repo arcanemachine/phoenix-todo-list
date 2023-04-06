@@ -121,7 +121,7 @@ function todosLive() {
       this.$store.toasts.showSuccess("Item updated successfully"); // success message
 
       // highlight updated element
-      const todoItemElt = this.todoItemEltGet(evt.detail.todo_id);
+      const todoItemElt = this.todoItemEltGet(evt.detail.id);
 
       this.$store.animations.highlight(
         todoItemElt.querySelector(".todo-item-content-container"),
@@ -154,7 +154,7 @@ function todosLive() {
           delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
-          this.hook.pushEvent("todo_delete", { todo_id: todoIdSelected });
+          this.hook.pushEvent("todo_delete", { id: todoIdSelected });
         });
     },
 
@@ -168,7 +168,7 @@ function todosLive() {
       Promise.resolve()
         .then(() => {
           /* unhide the todo item and re-enable pointer events */
-          const todoItemElt = this.todoItemEltGet(evt.detail.todo_id);
+          const todoItemElt = this.todoItemEltGet(evt.detail.id);
 
           todoItemElt.style.pointerEvents = "";
           todoItemElt.dispatchEvent(new CustomEvent("show"));

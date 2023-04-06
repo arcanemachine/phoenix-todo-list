@@ -24,20 +24,30 @@
   x-on:phx:todo-delete-error.window="todoDeleteError"
   phx-hook="TodosLive"
 >
+  <%= if Mix.env() == :test do %>
+    <!-- create separate forms for testing todo_create and todo_update events -->
+    <.form for={%{}} id="todo-create-form" phx-submit="todo_create">
+      <input type="text" name="content" required />
+    </.form>
+    <.form for={%{}} id="todo-update-form" phx-submit="todo_update_content">
+      <input type="number" name="id" required />
+      <input type="text" name="content" required />
+    </.form>
+  <% end %>
+
   <!-- todo form -->
   <.form
     for={%{}}
-    as={:form}
     class="mx-0 w-full"
     id="todo-form"
     x-on:submit="formValidate"
     x-bind:phx-submit="todoIdSelected === 0 ? 'todo_create' : 'todo_update_content'"
   >
-    <input type="hidden" name="todo_id" x-bind:value="todoIdSelected" />
+    <input type="hidden" name="id" x-bind:value="todoIdSelected" />
     <div class="input-group">
       <input
         type="text"
-        name="todo_content"
+        name="content"
         class="input-bordered input focus:outline-0 w-full"
         autocomplete="off"
         placeholder="To Do..."
@@ -50,6 +60,8 @@
       </.button>
     </div>
   </.form>
+
+
   <!-- todo list -->
   <ul id="todo-list" class="w-100 mt-8 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
@@ -109,7 +121,7 @@
               phx-click={
                 JS.push(
                   "todo_toggle_is_completed",
-                  value: %{todo_id: todo.id, todo_is_completed: todo.is_completed}
+                  value: %{id: todo.id, is_completed: todo.is_completed}
                 )
               }
               phx-disable-with

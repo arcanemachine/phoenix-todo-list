@@ -6,6 +6,17 @@ defmodule TodoList.TodosFixtures do
 
   import TodoList.AccountsFixtures
 
+  # def valid_todo_content, do: "some todo content"
+  def valid_todo_content, do: TodoList.Helpers.generate_random_string()
+
+  def valid_todo_attributes(attrs \\ %{}) do
+    Enum.into(attrs, %{
+      content: valid_todo_content(),
+      # generate a random boolean
+      is_completed: :rand.uniform() > 0.5
+    })
+  end
+
   @doc """
   Generate a todo.
   """
@@ -16,7 +27,7 @@ defmodule TodoList.TodosFixtures do
     {:ok, todo} =
       attrs
       |> Enum.into(%{
-        content: "some content",
+        content: valid_todo_content(),
         is_completed: true,
         user_id: user_id
       })

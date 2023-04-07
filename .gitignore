@@ -7,6 +7,11 @@
 # environment stuff
 .env*.override
 
+# testing
+test/test-results/
+test/playwright-report/
+test/playwright/.cache/
+
 # vim session files
 Session*.vim
 
@@ -47,4 +52,4 @@ todo_list-*.tar
 
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log
-/assets/node_modules/
+node_modules/

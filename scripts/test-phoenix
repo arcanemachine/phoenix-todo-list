@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# change to project root directory
+cd $(dirname "$0")/../
+
+mix test

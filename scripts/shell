@@ -3,5 +3,22 @@
 # change to project root directory
 cd $(dirname "$0")/../
 
+# set MIX_ENV
+if [ "$1" != "" ]; then
+  MIX_ENV="$1"
+elif [ "$MIX_ENV" = "" ]; then
+  MIX_ENV="test"
+fi
+
+echo "Spawning iex shell in the '$MIX_ENV' environment..."
+
+if [ "$MIX_ENV" = "test" ]; then
+  echo "Note: Because you are using the 'test' environment, the 'recompile()' function should work as expected.
+"
+else
+  echo "Note: For the 'recompile()' function to work, you may need to use the 'test' environment (because of credo).
+"
+fi
+
 # use test environment so `recompile()` works
-MIX_ENV=test iex -S mix
+iex -S mix

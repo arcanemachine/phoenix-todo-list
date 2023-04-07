@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "e2e": "playwright test",
+    "unit": "vitest run unit/",
+    "unit-watch": "vitest watch unit/",
+    "coverage": "vitest run --coverage"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.32.2",
-    "@types/node": "^18.15.11"
+    "@types/node": "^18.15.11",
+    "vitest": "^0.29.8"
   }
 }

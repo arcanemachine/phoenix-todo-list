@@ -10,7 +10,7 @@ elif [ "$MIX_ENV" = "" ]; then
   MIX_ENV="test"
 fi
 
-echo "Spawning iex shell in the '$MIX_ENV' environment..."
+echo "Spawning iex shell using the '$MIX_ENV' environment..."
 
 if [ "$MIX_ENV" = "test" ]; then
   echo "Note: Because you are using the 'test' environment, the 'recompile()' function should work as expected.

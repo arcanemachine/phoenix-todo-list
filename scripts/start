@@ -10,7 +10,7 @@ elif [ "$MIX_ENV" = "" ]; then
   MIX_ENV="dev"
 fi
 
-echo "Starting Phoenix server in the '$MIX_ENV' environment...
+echo "Starting Phoenix server using the '$MIX_ENV' environment...
 "
 
 iex -S mix phx.server

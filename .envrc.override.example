@@ -1,2 +1,3 @@
 export PORT="4000"
-export SECRET_KEY_BASE="your_secret_key_base"
+export SERVER_URL_HTTP="https://localhost:${PORT}"
+export SERVER_URL_HTTPS="https://tower.test:$(($PORT + 1))"

@@ -8,20 +8,20 @@ defmodule TodoListWeb.UserLogoutLive do
   def render(assigns) do
     ~H"""
     <%= if !assigns[:current_user] do %>
-      <script>
+      <!--script>
         // if user is not authenticated, redirect them to homepage
         window.location.replace('/');
-      </script>
+      </script-->
     <% end %>
 
     <.header class="my-8 text-center">
       Are you sure you want to log out?
     </.header>
 
-    <.simple_form for={%{}}>
+    <.simple_form for={%{}} id="logout-form">
       <:actions>
         <.form_button_cancel />
-        <.link href={~p"/users/logout"} method="delete">
+        <.link href={~p"/users/logout"} id="logout-form-button-submit" method="delete">
           <.form_button class="btn-primary" content="Yes" />
         </.link>
       </:actions>

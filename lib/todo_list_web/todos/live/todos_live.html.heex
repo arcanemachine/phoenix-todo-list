@@ -37,7 +37,6 @@
       <input type="number" name="id" required />
     </.form>
   <% end %>
-
   <!-- todo form -->
   <.form
     for={%{}}
@@ -63,8 +62,6 @@
       </.button>
     </div>
   </.form>
-
-
   <!-- todo list -->
   <ul id="todo-list" class="w-100 mt-8 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
@@ -147,7 +144,6 @@
       <% end %>
     <% end %>
   </ul>
-
   <!-- delete modal -->
   <div class="modal" x-bind:class="todoDeleteModalActive && 'modal-open'">
     <div

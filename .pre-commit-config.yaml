@@ -1,0 +1,16 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      # misc
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      # yaml
+      - id: check-yaml
+  - repo: https://gitlab.com/jvenom/elixir-pre-commit-hooks
+    rev: v1.2.0
+    hooks:
+      - id: mix-format
+      - id: mix-test
+# todo: run playwright tests

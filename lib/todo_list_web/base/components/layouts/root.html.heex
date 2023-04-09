@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html class="h-full" lang="en">
   <head>
-    <!-- meta -->
+    <% # meta %>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <!-- title -->
+    <% # title %>
     <.live_title suffix=" - Todo List">
       <%= assigns[:page_title] || "Todo List" %>
     </.live_title>
-    <!-- css -->
+    <% # css %>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <!-- js -->
+    <% # js %>
     <script phx-track-static type="text/javascript" src={~p"/assets/init.js"}>
     </script>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
@@ -22,10 +22,10 @@
     data-user-is-authenticated={(@conn.assigns[:current_user] && "true") || "false"}
     x-data="$store.components.body"
   >
-    <!-- utility -->
+    <% # utility %>
     <section>
       <div class="hidden">
-        A todo list made with Phoenix LiveView.  <!-- search engine text (bing) -->
+        A todo list made with Phoenix LiveView.  <% # search engine text (bing) %>
       </div>
 
       <noscript>
@@ -34,7 +34,8 @@
         </h1>
       </noscript>
     </section>
-    <!-- toasts -->
+
+    <% # toasts # %>
     <section id="toast-container" x-data="$store.components.toastContainer" />
 
     <.navbar>
@@ -58,7 +59,7 @@
     </.navbar>
 
     <section class="grow flex flex-col bg-base-100">
-      <!-- content -->
+      <% # page content # %>
       <section>
         <section class="mb-12">
           <h1 id="page-title" class="mt-6 text-4xl text-center font-bold">

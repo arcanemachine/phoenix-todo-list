@@ -113,7 +113,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
     <h2 class="mt-16 text-3xl text-center">Simple Form</h2>
 
     <.simple_form :let={f} class="max-w-lg mx-auto" for={@changeset} phx-change="validate">
-      <!-- fields -->
+      <% # fields %>
       <.input field={{f, :text}} label="Text Input" />
       <.input field={{f, :email}} label="Email Input" />
       <.input field={{f, :password}} type="password" label="Password Input" />
@@ -152,7 +152,8 @@ defmodule TodoListWeb.ComponentShowcaseLive do
           class="checkbox checkbox-primary"
         />
       </div>
-      <!-- actions -->
+
+      <% # actions %>
       <:actions>
         <.form_button_cancel />
         <.form_button>Form Button</.form_button>
@@ -201,7 +202,7 @@ defmodule TodoListWeb.ComponentShowcaseLive do
     <.button phx-click={hide("#showcase-show-hide")}>Hide</.button>
 
     <p>
-      <!-- prevent page jumping when element visibility toggled -->
+      <% # prevent page jumping when element visibility toggled %>
       <span id="showcase-show-hide">Now you see me...</span>
       <span>&nbsp;</span>
     </p>

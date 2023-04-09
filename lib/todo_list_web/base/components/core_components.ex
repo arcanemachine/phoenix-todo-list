@@ -187,7 +187,7 @@ defmodule TodoListWeb.CoreComponents do
                 "shadow-lg shadow-base-700/10 ring-1 ring-zinc-300/10 transition"
               ]}
             >
-              <!-- close button -->
+              <% # close button %>
               <div class="absolute top-5 right-4">
                 <button
                   phx-click={hide_modal(@on_cancel, @id)}
@@ -205,7 +205,7 @@ defmodule TodoListWeb.CoreComponents do
                     id={"#{@id}-title"}
                     class="text-2xl font-semibold leading-8 text-base-800 text-center"
                   >
-                    <!-- title -->
+                    <% # title %>
                     <%= render_slot(@title) %>
                   </h1>
                   <p
@@ -213,7 +213,7 @@ defmodule TodoListWeb.CoreComponents do
                     id={"#{@id}-description"}
                     class="mt-2 text-lg leading-6 text-base-600 text-center"
                   >
-                    <!-- subtitle -->
+                    <% # subtitle %>
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>
@@ -266,18 +266,18 @@ defmodule TodoListWeb.CoreComponents do
   def navbar(assigns) do
     ~H"""
     <nav class="navbar py-0 border-bottom-2 transition-colors duration-300">
-      <!-- navbar start items -->
+      <% # navbar start items %>
       <div class="flex-1">
-        <!-- navbar title -->
+        <% # navbar title %>
         <.link href="/" aria-label="Todo List" class="flex-0 btn-ghost btn px-2">
           <div class="font-title inline-flex text-2xl normal-case text-accent">
             Todo List
           </div>
         </.link>
       </div>
-      <!-- navbar end items -->
+      <% # navbar end items %>
       <div class="mr-1 flex-none">
-        <!-- user actions -->
+        <% # user actions %>
         <div
           class="dropdown-end dropdown"
           id="navbar-dropdown-user-actions"
@@ -301,7 +301,7 @@ defmodule TodoListWeb.CoreComponents do
             <%= render_slot(@user_action_menu_items) %>
           </ul>
         </div>
-        <!-- settings -->
+        <% # settings %>
         <.navbar_settings_menu />
       </div>
     </nav>
@@ -389,11 +389,11 @@ defmodule TodoListWeb.CoreComponents do
       {@rest}
     >
       <p :if={@title} class="mt-[1px] px-4 text-sm font-semibold text-center">
-        <!--
+        <%!--
           <Heroicons.information_circle :if={@kind == :info} mini class="inline h-4 w-4" />
           <Heroicons.exclamation_circle :if={@kind == :error} mini class="inline h-4 w-4" />
           <span><%= @title %></span>
-        -->
+        --%>
         <%= msg %>
       </p>
       <button

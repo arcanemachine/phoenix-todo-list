@@ -5,7 +5,6 @@ defmodule TodoListWeb.UserConfirmationInstructionsLive do
 
   def render(assigns) do
     ~H"""
-    <!-- .header>Resend confirmation instructions</.header -->
     <.simple_form
       :let={f}
       for={%{}}

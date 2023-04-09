@@ -14,9 +14,9 @@ repos:
     hooks:
       - id: mix-format
       - id: mix-test
-#   - repo: "local"
-#     hooks:
-#       - id: "run-e2e-tests"
-#         name: "Run E2E tests"
-#         entry: "./scripts/test-e2e"
-#         language: "system"
+  - repo: "local"
+    hooks:
+      - id: "custom-scripts"
+        name: "Run custom scripts"
+        entry: "./scripts/pre-commit"
+        language: "system"

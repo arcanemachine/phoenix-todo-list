@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# change to project root directory
+cd $(dirname "$0")/../
+
+# # phoenix tests
+# echo "Running Phoenix tests..."
+# mix test
+# if [ "$?" != 0 ]; then
+#   echo "One or more Phoenix tests failed. Aborting the commit..."
+#   exit 1
+# else
+#   echo "Phoenix tests completed successfully."
+# fi
+
+# e2e tests
+echo "Running E2E tests with Playwright..."
+./scripts/test-e2e --max-failures 1 --quiet
+if [ "$?" != 0 ]; then
+  echo "One or more E2E tests failed. Aborting the commit..."
+  exit 1
+else
+  echo "E2E tests completed successfully."
+fi

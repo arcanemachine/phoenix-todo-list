@@ -4,6 +4,7 @@ repos:
     rev: v2.3.0
     hooks:
       # misc
+      - id: detect-private-key
       - id: end-of-file-fixer
       - id: trailing-whitespace
       # yaml
@@ -13,4 +14,9 @@ repos:
     hooks:
       - id: mix-format
       - id: mix-test
-# todo: run playwright tests
+#   - repo: "local"
+#     hooks:
+#       - id: "run-e2e-tests"
+#         name: "Run E2E tests"
+#         entry: "./scripts/test-e2e"
+#         language: "system"

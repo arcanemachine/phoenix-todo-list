@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 cd $(dirname "$0")/../test
 
-if [ "$MIX_ENV" == "" ]; then
+if [ "$MIX_ENV" = "" ]; then
   MIX_ENV=dev
 fi
 

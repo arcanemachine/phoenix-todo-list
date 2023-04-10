@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import { test } from "@playwright/test";
 
-import { phoenix, urls } from "../constants";
-import config from "../playwright.config";
-import { userLogin } from "./helpers";
+import { phoenix, urls } from "test/constants";
+import config from "test/playwright.config";
+import { userLogin } from "e2e/support/helpers";
 
 // import * as dotenv from 'dotenv';
 
@@ -11,7 +11,7 @@ const baseURL = config.use!.baseURL;
 const testUserEmail = "e2e_test_user@example.com";
 const storageState = config.use!.storageState as string;
 
-import { validPassword } from "../constants";
+import { validPassword } from "../../../constants";
 
 // // we don't want to store credentials in the repository
 // dotenv.config({

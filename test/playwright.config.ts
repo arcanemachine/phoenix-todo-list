@@ -10,8 +10,10 @@ const config: PlaywrightTestConfig = {
     timeout: 5 * 1000, // timeout for a single `expect()` condition
   },
   fullyParallel: true, // run tests in parallel
-  forbidOnly: !!process.env.CI, // CI builds fail if `test.only` in source code
-  retries: process.env.CI ? 2 : 0, // retry on CI only
+  // fail if `.only()` in tests during CI run or during git `pre-commit` hook
+  forbidOnly: !!process.env.CI || !!process.env.PRE_COMMIT,
+  // retries: process.env.CI ? 2 : 0, // retry on CI only
+  retries: 3,
   reporter: "line",
   timeout: 60 * 1000, // wait time for a single test to finish
   use: {
@@ -23,9 +25,13 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined, // opt out of parallel tests on CI
 
   projects: [
+    // {
+    //   name: "hello-world",
+    //   testMatch: "e2e/support/setup/hello-world.ts",
+    // },
     {
-      name: "setup",
-      testMatch: "e2e/auth-setup.ts",
+      name: "use-authenticated-user",
+      testMatch: "e2e/setup/use-authenticated-user.ts",
     },
     {
       name: "chromium",
@@ -40,6 +46,9 @@ const config: PlaywrightTestConfig = {
       name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
+        contextOptions: {
+          ignoreHTTPSErrors: true,
+        },
         // storageState,
       },
       // dependencies: ["setup"],

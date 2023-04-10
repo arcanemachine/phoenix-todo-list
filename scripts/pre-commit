@@ -1,17 +1,11 @@
 #!/bin/sh
 
+# add PRE_COMMIT environment variables so our scripts can detect when they are
+# being run as part of a pre-commit workflow
+export PRE_COMMIT=1
+
 # change to project root directory
 cd $(dirname "$0")/../
-
-# # phoenix tests
-# echo "Running Phoenix tests..."
-# mix test
-# if [ "$?" != 0 ]; then
-#   echo "One or more Phoenix tests failed. Aborting the commit..."
-#   exit 1
-# else
-#   echo "Phoenix tests completed successfully."
-# fi
 
 # e2e tests
 echo "Running E2E tests with Playwright..."

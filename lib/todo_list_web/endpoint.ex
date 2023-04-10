@@ -13,6 +13,14 @@ defmodule TodoListWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
+  # enable SQL sandbox for concurrent E2E tests
+  if Application.compile_env(:your_app, :sql_sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox,
+      at: "/sandbox",
+      repo: TodoList.Repo,
+      timeout: 60_000
+  end
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest

@@ -16,12 +16,21 @@ config :todo_list, TodoList.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
+port = String.to_integer(System.get_env("PORT") || "4000")
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :todo_list, TodoListWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
+  http: [ip: {0, 0, 0, 0}, port: port + 2],
+  https: [
+    port: port + 3,
+    cipher_suite: :strong,
+    keyfile: "priv/cert/key.pem",
+    certfile: "priv/cert/cert.pem",
+    protocol_options: [idle_timeout: 300_000]
+  ],
   secret_key_base: "Ygp6edO5FTklaUFXjkSnuF7y8alcXyb/cU/J1BZH34cvOANEO/U+37Q7hpGR+3ff",
-  server: false
+  server: true
 
 # In test we don't send emails.
 config :todo_list, TodoList.Mailer, adapter: Swoosh.Adapters.Test
@@ -34,3 +43,6 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# enable sandbox for concurrent E2E tests
+config :todo_list, sql_sandbox: true

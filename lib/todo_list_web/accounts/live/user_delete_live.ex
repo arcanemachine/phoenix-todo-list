@@ -33,6 +33,13 @@ defmodule TodoListWeb.UserDeleteLive do
         </.link>
       </:actions>
     </.simple_form>
+
+    <.action_links
+      class="mt-16"
+      items={[
+        %{content: "Return to your profile", href: ~p"/users/profile", class: "list-back"}
+      ]}
+    />
     """
   end
 end

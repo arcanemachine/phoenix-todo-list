@@ -1,40 +1,30 @@
-// import { chromium, test, expect, Cookie } from "@playwright/test";
 import { chromium, test, expect } from "@playwright/test";
 
 import {
   generateRandomEmail,
   userLogin,
+  userLogout,
   userRegister,
 } from "e2e/support/helpers";
 import { urls, validPassword } from "test/constants";
 import config from "test/playwright.config";
 
 const baseURL = config.use!.baseURL;
-const randomEmail = generateRandomEmail(); // generate a new user on every run
-// let cookies: Array<Cookie>;
+const testUserEmail = generateRandomEmail(); // generate a new user on every run
 
 test.describe(urls.users.register, () => {
-  // let cookies: any;
-
-  // test.beforeEach(async ({ page, context }) => {
   test.beforeEach(async ({ page }) => {
-    //   // temporarily clear session data
-    //   cookies = await context.cookies();
-    //   await context.clearCookies();
-
     await page.goto(baseURL + urls.users.register); // navigate to test URL
   });
 
-  // test.afterEach(async ({ context }) => {
-  //   await context.addCookies(cookies); // restore session data
-  // });
-
-  test("registers a new user", async ({ baseURL, page }) => {
-    // register new user
-    await userRegister(page, randomEmail, validPassword);
+  test("registers a new user", async ({ page }) => {
+    await userRegister(page, testUserEmail, validPassword);
 
     // redirects to expected page
-    await expect(page).toHaveURL(baseURL + "/todos/live");
+    expect(page).toHaveURL(baseURL + "/todos/live");
+
+    // page contains expected success message
+    await expect(page.getByText("Account created successfully")).toBeVisible();
   });
 
   // test("shows error if email is invalid", async ({ baseURL, page }) => {});
@@ -44,31 +34,27 @@ test.describe(urls.users.register, () => {
 });
 
 test.describe(urls.users.login, () => {
-  // test.beforeAll(async ({ browserName }) => {
   test.beforeAll(async () => {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    /* register the user used in this test suite */
-    await page.goto(baseURL + urls.users.register); // navigate to test URL
-    await userRegister(page, randomEmail, validPassword);
+    // ensure that a user is registered for this test suite
+    await userRegister(page, testUserEmail, validPassword, {
+      navigateToUrl: true,
+      login: false,
+    });
   });
 
-  // test.beforeEach(async ({ page, context }) => {
   test.beforeEach(async ({ page }) => {
-    //   // temporarily clear session data
-    //   cookies = await context.cookies();
-    //   await context.clearCookies();
-
-    await page.goto(baseURL + urls.users.login); // navigate to test URL
+    // ensure that the user is logged out
+    await page.goto(baseURL + urls.users.logout); // navigate to test URL
   });
 
-  // test.afterEach(async ({ context }) => {
-  //   await context.addCookies(cookies); // restore session data
-  // });
+  test("logs in a user", async ({ baseURL, page }) => {
+    await userLogin(page, testUserEmail, validPassword);
 
-  test("logs a user in", async ({ baseURL, page }) => {
-    await userLogin(page, randomEmail, validPassword);
+    // page contains expected success message
+    await expect(page.getByText("Logged in successfully")).toBeVisible();
 
     // redirects to expected page
     await expect(page).toHaveURL(baseURL + "/todos/live");
@@ -78,26 +64,38 @@ test.describe(urls.users.login, () => {
   // test("shows error if auth credentials are invalid", async ({ baseURL, page }) => {});
 });
 
-// test.describe(urls.users.logout, () => {
-//   test.beforeEach(async ({ baseURL, page }) => {
-//     // navigate to test URL
-//     await page.goto(baseURL + urls.users.logout);
-//   });
-//
-//   test("logs a user out", async ({ baseURL, page }) => {
-//     // user initially has session cookie
-//     await expect(page).toHaveURL(baseURL + "/todos/live");
-//
-//     // click the 'confirm' button
-//     await page.locator("#logout-form-button-submit").click();
-//
-//     // redirects to expected page
-//     await expect(page).toHaveURL(baseURL + "/todos/live");
-//
-//     // user no longer has session cookie
-//     await expect(page).toHaveURL(baseURL + "/todos/live");
-//   });
-//
-//   // test("shows error if email is invalid", async ({ baseURL, page }) => {});
-//   // test("shows error if auth credentials are invalid", async ({ baseURL, page }) => {});
-// });
+test.describe(urls.users.logout, () => {
+  test.beforeAll(async () => {
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+
+    // ensure that a user is registered in for this test suite
+    await userRegister(page, testUserEmail, validPassword, {
+      navigateToUrl: true,
+    });
+  });
+
+  test.beforeEach(async ({ baseURL, page }) => {
+    // ensure that user is logged in
+    await userLogin(page, testUserEmail, validPassword, {
+      navigateToUrl: true,
+    });
+
+    // navigate to test URL
+    await page.goto(baseURL + urls.users.logout);
+  });
+
+  test("logs out an authenticated user", async ({ page }) => {
+    // log the user out
+    await userLogout(page, { navigateToUrl: false });
+
+    // page contains expected success message
+    await expect(page.getByText("Logged out successfully")).toBeVisible();
+
+    // redirects to expected page
+    await expect(page).toHaveURL(baseURL + "/");
+  });
+
+  // test("shows error if email is invalid", async ({ baseURL, page }) => {});
+  // test("shows error if auth credentials are invalid", async ({ baseURL, page }) => {});
+});

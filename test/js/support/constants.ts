@@ -1,13 +1,19 @@
 export const urls = {
-  users: {
-    register: "/users/register",
+  base: {
+    index: "/",
+  },
+  accounts: {
+    delete: "/users/profile/delete",
     login: "/users/login",
     logout: "/users/logout",
+    register: "/users/register",
     profile: "/users/profile",
     update: "/users/profile/update",
     updateEmail: "/users/profile/update/email",
     updatePassword: "/users/profile/update/password",
-    delete: "/users/profile/delete",
+  },
+  todos: {
+    todosLive: "/todos/live",
   },
 };
 

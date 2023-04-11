@@ -2,4 +2,4 @@
 
 cd $(dirname "$0")/../test/js/
 
-npm run unit-watch
+npx playwright test "$@" --ui

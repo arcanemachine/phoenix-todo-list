@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cd $(dirname "$0")/../test
+cd $(dirname "$0")/../test/js/
 
 npm run unit

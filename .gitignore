@@ -8,9 +8,9 @@
 .env*.override
 
 # testing
-test/test-results/
-test/playwright-report/
-test/playwright/.cache/
+test/js/test-results/
+test/js/playwright-report/
+test/js/playwright/.cache/
 
 # vim session files
 Session*.vim

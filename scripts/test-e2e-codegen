@@ -1,9 +1,5 @@
 #!/bin/sh
 
-cd $(dirname "$0")/../test
-
-if [ "$MIX_ENV" = "" ]; then
-  MIX_ENV=dev
-fi
+cd $(dirname "$0")/../test/js/
 
 npx playwright test codegen "$@"

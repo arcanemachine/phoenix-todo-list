@@ -1,40 +1,41 @@
-import type { PlaywrightTestConfig } from "@playwright/test";
+import { defineConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
-// const storageState = "e2e/.auth/storageState.json";
+const storageState = "e2e/.auth/storageState.json";
 
-const config: PlaywrightTestConfig = {
-  testDir: "./e2e",
-
+export default defineConfig({
   expect: {
     timeout: 1000 * 5, // timeout for a single `expect()` condition
   },
   fullyParallel: true, // run tests in parallel
   // fail if `.only()` in tests during CI run or during git `pre-commit` hook
   forbidOnly: !!process.env.CI || !!process.env.PRE_COMMIT,
+  globalSetup: "e2e/support/global-setup.ts",
+  // globalTeardown: "e2e/support/global-teardown.ts",
   retries: process.env.CI ? 2 : 0, // retry on CI only
   reporter: "line",
-  timeout: 1000 * 60, // wait time for a single test to finish
+  testDir: "./e2e",
+  timeout: 1000 * 60, // timeout for a single test
   use: {
     actionTimeout: 0, // timeout for each action (0 for infinite timeout)
     baseURL: process.env.SERVER_URL_HTTPS_TEST,
-    // storageState,
+    storageState,
     trace: "on-first-retry", // collect trace when retrying the failed test
   },
   workers: process.env.CI ? 1 : undefined, // opt out of parallel tests on CI
 
   projects: [
-    {
-      name: "setup",
-      testMatch: "e2e/support/setup/setup.ts",
-    },
+    // {
+    //   name: "setup-hello",
+    //   testMatch: "e2e/support/setup-hello.ts",
+    // },
     {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        // storageState,
+        storageState,
       },
-      dependencies: ["setup"],
+      // dependencies: ["setup-hello"],
     },
     {
       name: "firefox",
@@ -43,19 +44,16 @@ const config: PlaywrightTestConfig = {
         contextOptions: {
           ignoreHTTPSErrors: true,
         },
-        //
-        // storageState,
+        storageState,
       },
-      dependencies: ["setup"],
     },
 
     {
       name: "webkit",
       use: {
         ...devices["Desktop Safari"],
-        // storageState,
+        storageState,
       },
-      dependencies: ["setup"],
     },
 
     /* Test against mobile viewports. */
@@ -98,8 +96,6 @@ const config: PlaywrightTestConfig = {
       MIX_ENV: "test",
     },
     url: process.env.SERVER_URL_HTTPS_TEST,
-    cwd: "../",
+    cwd: "../../",
   },
-};
-
-export default config;
+});

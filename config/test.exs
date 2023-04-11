@@ -16,6 +16,7 @@ config :todo_list, TodoList.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
+host = System.get_env("PHX_HOST") || "example.com"
 port = String.to_integer(System.get_env("PORT") || "4000")
 
 # We don't run a server during test. If one is required,
@@ -29,6 +30,7 @@ config :todo_list, TodoListWeb.Endpoint,
     certfile: "priv/cert/cert.pem",
     protocol_options: [idle_timeout: 300_000]
   ],
+  check_origin: ["https://#{host}:#{port + 2}", "https://#{host}:#{port + 3}"],
   secret_key_base: "Ygp6edO5FTklaUFXjkSnuF7y8alcXyb/cU/J1BZH34cvOANEO/U+37Q7hpGR+3ff",
   server: true
 

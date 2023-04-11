@@ -77,7 +77,7 @@ defmodule TodoListWeb.Router do
   end
 
   # API #
-  # openapi
+  # allow any user
   scope "/api" do
     pipe_through([:api])
 

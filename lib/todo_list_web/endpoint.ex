@@ -14,7 +14,7 @@ defmodule TodoListWeb.Endpoint do
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   # enable SQL sandbox for concurrent E2E tests
-  if Application.compile_env(:your_app, :sql_sandbox) do
+  if Application.compile_env(:todo_list, :sql_sandbox) do
     plug Phoenix.Ecto.SQL.Sandbox,
       at: "/sandbox",
       repo: TodoList.Repo,

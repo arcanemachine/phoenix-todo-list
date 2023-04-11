@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# add PRE_COMMIT environment variables so our scripts can detect when they are
+# add PRE_COMMIT environment variable so our scripts can detect when they are
 # being run as part of a pre-commit workflow
 export PRE_COMMIT=1
 

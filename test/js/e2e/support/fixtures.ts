@@ -17,10 +17,10 @@ export const authenticatedTest = test.extend<
   workerStorageState: [
     async ({ browser }, use) => {
       // use parallelIndex as a unique identifier for each worker.
-      const id = test.info().parallelIndex;
+      const workerId = test.info().parallelIndex;
       const fileName = path.resolve(
         test.info().project.outputDir,
-        `e2e/.auth/${id}.json`
+        `e2e/.auth/${workerId}.json`
       );
 
       if (fs.existsSync(fileName)) {
@@ -37,7 +37,10 @@ export const authenticatedTest = test.extend<
       });
       const accountsRegisterPage = new AccountsRegisterPage(page);
       await accountsRegisterPage.goto();
-      await accountsRegisterPage.register(emailGenerateRandom(), validPassword);
+      await accountsRegisterPage.register(
+        emailGenerateForTestUser(workerId),
+        passwordValid
+      );
       await page.waitForURL(accountsRegisterPage.urlSuccess);
 
       await page.context().storageState({ path: fileName });

@@ -9,7 +9,8 @@ test.describe("Account register page", () => {
   let testUserEmail: string;
 
   test.beforeAll(async () => {
-    testUserEmail = emailGenerateRandom(); // generate a new user on every run
+    // generate a new user on every test run
+    testUserEmail = emailGenerateRandom();
   });
 
   test.beforeEach(async ({ page }) => {
@@ -18,7 +19,7 @@ test.describe("Account register page", () => {
   });
 
   test("registers a new user", async ({ page }) => {
-    // register new user
+    // perform action
     await accountsRegisterPage.register(testUserEmail, passwordValid);
 
     // redirects to expected page

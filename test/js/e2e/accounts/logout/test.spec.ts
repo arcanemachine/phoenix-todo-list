@@ -35,7 +35,7 @@ authenticatedTest.describe("[Authenticated] Account logout page", () => {
   });
 
   authenticatedTest("logs out an authenticated user", async ({ page }) => {
-    // log the user out
+    // perform action
     await accountsLogoutPage.logout();
 
     // page contains expected success message

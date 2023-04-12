@@ -12,7 +12,7 @@ test.describe("Account login page", () => {
   });
 
   test("logs in a user", async ({ page }) => {
-    // log the user in
+    // perform action
     await accountsLoginPage.login(testUserEmail, passwordValid);
 
     // page contains expected success message

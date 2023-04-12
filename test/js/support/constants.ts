@@ -22,5 +22,19 @@ export const phoenix = {
 };
 
 export const emailInvalid = "emailInvalid";
+
+export const errors = {
+  email: {
+    isTaken: "This email address is already in use.",
+    isInvalid: "This is not a valid email address.",
+  },
+  password: {
+    isTooShort: "Must have 8 or more character(s)",
+  },
+  passwordConfirmation: {
+    doesNotMatch: "The passwords do not match.",
+  },
+};
+
 export const testUserEmail = "test_user@example.com";
 export const passwordValid = "passwordValid";

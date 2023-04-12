@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { testUserEmail, validPassword } from "test/support/constants";
+import { testUserEmail, passwordValid } from "test/support/constants";
 import { AccountsLoginPage } from "./page";
 
 test.describe("Account login page", () => {
@@ -13,7 +13,7 @@ test.describe("Account login page", () => {
 
   test("logs in a user", async ({ page }) => {
     // log the user in
-    await accountsLoginPage.login(testUserEmail, validPassword);
+    await accountsLoginPage.login(testUserEmail, passwordValid);
 
     // page contains expected success message
     await expect(page.getByText("Logged in successfully")).toBeVisible();

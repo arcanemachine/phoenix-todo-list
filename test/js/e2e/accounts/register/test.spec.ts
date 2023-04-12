@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { validPassword } from "test/support/constants";
+import { passwordValid } from "test/support/constants";
 import { emailGenerateRandom } from "e2e/support/helpers";
 import { AccountsRegisterPage } from "./page";
 
@@ -19,7 +19,7 @@ test.describe("Account register page", () => {
 
   test("registers a new user", async ({ page }) => {
     // register new user
-    await accountsRegisterPage.register(testUserEmail, validPassword);
+    await accountsRegisterPage.register(testUserEmail, passwordValid);
 
     // redirects to expected page
     expect(page).toHaveURL(accountsRegisterPage.urlSuccess);

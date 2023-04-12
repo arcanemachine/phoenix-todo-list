@@ -22,4 +22,4 @@ export const phoenix = {
 };
 
 export const testUserEmail = "test_user@example.com";
-export const validPassword = "valid_password";
+export const passwordValid = "passwordValid";

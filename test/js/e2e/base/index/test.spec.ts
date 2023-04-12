@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+
 import { BaseIndexPage } from "./page";
 
 test.describe("Base index page", () => {

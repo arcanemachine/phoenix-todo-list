@@ -1,13 +1,15 @@
-// playwright/fixtures.ts
-import { test as baseTest } from "@playwright/test";
+import { test } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 import { validPassword } from "test/support/constants";
-import { AccountsRegisterPage } from "./accounts/register/page";
-import { emailGenerateRandom } from "./support/helpers";
+import { AccountsRegisterPage } from "e2e/accounts/register/page";
+import { emailGenerateRandom } from "e2e/support/helpers";
 
 export * from "@playwright/test";
-export const test = baseTest.extend<{}, { workerStorageState: string }>({
+export const authenticatedTest = test.extend<
+  {},
+  { workerStorageState: string }
+>({
   /** Use the same storage state for all tests in this worker. */
   storageState: ({ workerStorageState }, use) => use(workerStorageState),
 

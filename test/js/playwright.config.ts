@@ -1,7 +1,7 @@
 import { defineConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
-const storageState = "e2e/.auth/storageState.json";
+import { storageState } from "e2e/support/constants";
 
 export default defineConfig({
   expect: {
@@ -10,8 +10,8 @@ export default defineConfig({
   fullyParallel: true, // run tests in parallel
   // fail if `.only()` in tests during CI run or during git `pre-commit` hook
   forbidOnly: !!process.env.CI || !!process.env.PRE_COMMIT,
-  globalSetup: "e2e/support/global-setup.ts",
-  // globalTeardown: "e2e/support/global-teardown.ts",
+  globalSetup: "e2e/support/setup/global.ts",
+  // globalTeardown: "e2e/support/teardown.ts",
   retries: process.env.CI ? 2 : 0, // retry on CI only
   reporter: "line",
   testDir: "./e2e",
@@ -27,7 +27,7 @@ export default defineConfig({
   projects: [
     // {
     //   name: "setup-hello",
-    //   testMatch: "e2e/support/setup-hello.ts",
+    //   testMatch: "e2e/support/setup/hello.ts",
     // },
     {
       name: "chromium",

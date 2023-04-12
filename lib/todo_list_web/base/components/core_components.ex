@@ -559,7 +559,11 @@ defmodule TodoListWeb.CoreComponents do
     assigns = assign_new(assigns, :checked, fn -> input_equals?(assigns.value, "true") end)
 
     ~H"""
-    <label phx-feedback-for={@name} class="flex items-center gap-4 text-base-600">
+    <label
+      phx-feedback-for={@name}
+      class="flex items-center gap-4 text-base-600"
+      data-component="input"
+    >
       <input type="hidden" name={@name} value="false" />
       <input
         type="checkbox"
@@ -583,7 +587,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(%{type: "hidden"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} data-component="input">
       <input
         type="hidden"
         name={@name}
@@ -598,7 +602,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} data-component="input">
       <.label for={@id}><%= @label %></.label>
       <select
         id={@id}
@@ -625,7 +629,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div class="mb-12" phx-feedback-for={@name}>
+    <div class="mb-12" phx-feedback-for={@name} data-component="input">
       <.label for={@id}><%= @label %></.label>
       <textarea
         id={@id || @name}
@@ -651,7 +655,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def input(assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} data-component="input">
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -703,7 +707,10 @@ defmodule TodoListWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <div class="phx-no-feedback:hidden flex mt-1 gap-2 font-bold leading-6 text-xs text-rose-500">
+    <div
+      class="phx-no-feedback:hidden flex mt-1 gap-2 font-bold leading-6 text-xs text-rose-500"
+      data-component="error"
+    >
       <Heroicons.exclamation_circle mini class="mt-0.5 h-5 w-5 flex-none fill-rose-500" />
       <%= render_slot(@inner_block) %>
     </div>

@@ -21,5 +21,6 @@ export const phoenix = {
   sessionValidityDuration: 1000 * 60 * 60 * 24 * 60, // 60 days
 };
 
+export const emailInvalid = "emailInvalid";
 export const testUserEmail = "test_user@example.com";
 export const passwordValid = "passwordValid";

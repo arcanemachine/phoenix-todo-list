@@ -1,9 +1,9 @@
 import { test } from "@playwright/test";
 import fs from "fs";
 import path from "path";
-import { validPassword } from "test/support/constants";
+import { passwordValid } from "test/support/constants";
 import { AccountsRegisterPage } from "e2e/accounts/register/page";
-import { emailGenerateRandom } from "e2e/support/helpers";
+import { emailGenerateForTestUser } from "e2e/support/helpers";
 
 export * from "@playwright/test";
 export const authenticatedTest = test.extend<

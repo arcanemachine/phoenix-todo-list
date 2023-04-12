@@ -1,7 +1,7 @@
 import fs from "fs";
 import { chromium, FullConfig } from "@playwright/test";
 
-import { testUserEmail, validPassword } from "test/support/constants";
+import { testUserEmail, passwordValid } from "test/support/constants";
 import { ConsoleColors, textColorize } from "test/support/helpers";
 import { AccountsRegisterPage } from "e2e/accounts/register/page";
 import { storageState } from "e2e/support/constants";
@@ -30,7 +30,7 @@ async function globalSetup(config: FullConfig) {
   await accountsRegisterPage.goto();
 
   // register the user
-  await accountsRegisterPage.register(testUserEmail, validPassword);
+  await accountsRegisterPage.register(testUserEmail, passwordValid);
 
   // // TODO: show different message in console based on whether or not
   // // registration was successful

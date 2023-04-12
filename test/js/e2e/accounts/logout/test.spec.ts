@@ -11,6 +11,7 @@ test.describe("[Unauthenticated] Account logout page", () => {
   let accountsLogoutPage: AccountsLogoutPage;
 
   test.beforeEach(async ({ page }) => {
+    // navigate to test page
     accountsLogoutPage = new AccountsLogoutPage(page);
     await accountsLogoutPage.goto();
   });

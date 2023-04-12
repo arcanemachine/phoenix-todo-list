@@ -7,6 +7,7 @@ test.describe("Account login page", () => {
   let accountsLoginPage: AccountsLoginPage;
 
   test.beforeEach(async ({ page }) => {
+    // navigate to test page
     accountsLoginPage = new AccountsLoginPage(page);
     await accountsLoginPage.goto();
   });

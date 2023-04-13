@@ -14,9 +14,9 @@ repos:
     hooks:
       - id: mix-format
       - id: mix-test
-#   - repo: "local"
-#     hooks:
-#       - id: "custom-scripts"
-#         name: "Run custom scripts"
-#         entry: "./scripts/pre-commit"
-#         language: "system"
+  - repo: "local"
+    hooks:
+      - id: "custom-scripts"
+        name: "Run custom scripts"
+        entry: "./scripts/pre-commit"
+        language: "system"

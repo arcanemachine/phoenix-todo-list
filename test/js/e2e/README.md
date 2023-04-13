@@ -61,6 +61,7 @@ Each page directory contains two files: `page` code and `test` code:
   - `Actions` - An actions consist of one or more events performed on a locator (e.g. `formButtonSubmit.click()`) to accomplish a desired result.
     - e.g. `userRegister()` - Fill out and submit a user registration form.
 
+- Test code (e.g. `test.spec.ts`) contains the tests.
 
 ### Other Code
 

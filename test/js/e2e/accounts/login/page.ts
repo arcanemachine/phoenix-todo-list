@@ -9,7 +9,7 @@ export class AccountsLoginPage {
   readonly url: URL;
   readonly urlSuccess: URL;
 
-  // form elements
+  // page elements
   readonly inputEmail: Locator;
   readonly inputErrorEmail: Locator;
 

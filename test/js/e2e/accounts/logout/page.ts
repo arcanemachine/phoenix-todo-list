@@ -9,7 +9,7 @@ export class AccountsLogoutPage {
   readonly url: URL;
   readonly urlSuccess: URL;
 
-  // form elements
+  // page elements
   readonly formButtonCancel: Locator;
   readonly formButtonSubmit: Locator;
   readonly formButtonHome: Locator;
@@ -30,6 +30,7 @@ export class AccountsLogoutPage {
     this.formButtonLogin = logoutForm.locator("button", { hasText: "Login" });
   }
 
+  // actions
   async goto() {
     await this.page.goto(this.url.toString());
   }

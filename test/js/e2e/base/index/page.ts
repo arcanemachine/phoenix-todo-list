@@ -11,6 +11,7 @@ export class BaseIndexPage {
     this.title = page.locator("#page-title"); // page elements
   }
 
+  // actions
   async goto() {
     await this.page.goto(urls.base.index.toString());
   }

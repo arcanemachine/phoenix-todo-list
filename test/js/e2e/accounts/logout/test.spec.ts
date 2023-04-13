@@ -1,4 +1,4 @@
-import test from "@playwright/test";
+import unauthenticatedTest from "@playwright/test";
 
 import { expect, authenticatedTest } from "e2e/support/fixtures";
 import { AccountsLogoutPage } from "./page";
@@ -7,16 +7,16 @@ import { AccountsLogoutPage } from "./page";
 // // form buttons without being logged out by the previous tests
 // test.describe.configure({ mode: "serial" });
 
-test.describe("[Unauthenticated] Account logout page", () => {
+unauthenticatedTest.describe("[Unauthenticated] Account logout page", () => {
   let accountsLogoutPage: AccountsLogoutPage;
 
-  test.beforeEach(async ({ page }) => {
+  unauthenticatedTest.beforeEach(async ({ page }) => {
     // navigate to test page
     accountsLogoutPage = new AccountsLogoutPage(page);
     await accountsLogoutPage.goto();
   });
 
-  test("shows expected form buttons", async () => {
+  unauthenticatedTest("shows expected form buttons", async () => {
     await expect(accountsLogoutPage.formButtonHome).toBeVisible();
     await expect(accountsLogoutPage.formButtonLogin).toBeVisible();
   });
@@ -26,6 +26,7 @@ authenticatedTest.describe("[Authenticated] Account logout page", () => {
   let accountsLogoutPage: AccountsLogoutPage;
 
   authenticatedTest.beforeEach(async ({ page }) => {
+    // navigate to test page
     accountsLogoutPage = new AccountsLogoutPage(page);
     await accountsLogoutPage.goto();
   });

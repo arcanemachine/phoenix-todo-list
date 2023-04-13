@@ -13,8 +13,6 @@ test.describe("Account register page", () => {
   let accountsRegisterPage: AccountsRegisterPage;
   let randomEmail: string;
 
-  test.beforeAll(async () => {});
-
   test.beforeEach(async ({ page }) => {
     randomEmail = emailGenerateRandom(); // generate a random email for each test
 

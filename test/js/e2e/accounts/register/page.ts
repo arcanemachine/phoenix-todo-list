@@ -9,7 +9,7 @@ export class AccountsRegisterPage {
   readonly url: URL;
   readonly urlSuccess: URL;
 
-  // form elements
+  // page elements
   readonly inputEmail: Locator;
   readonly inputErrorEmail: Locator;
 
@@ -51,11 +51,11 @@ export class AccountsRegisterPage {
       .locator("button[type='submit']");
   }
 
+  // actions
   async goto() {
     await this.page.goto(this.url.toString());
   }
 
-  // actions
   async register(
     email: string,
     password: string,

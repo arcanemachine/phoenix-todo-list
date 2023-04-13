@@ -52,13 +52,10 @@ defmodule TodoListWeb.UserRegistrationLive do
       </:actions>
     </.simple_form>
 
-    <.action_links
-      class="mt-16"
-      items={[
-        %{content: "Login to an existing account", href: ~p"/users/login"},
-        %{content: "Forgot your password?", href: ~p"/users/reset-password"}
-      ]}
-    />
+    <.action_links items={[
+      %{content: "Login to an existing account", href: ~p"/users/login"},
+      %{content: "Forgot your password?", href: ~p"/users/reset-password"}
+    ]} />
     """
   end
 

@@ -17,13 +17,10 @@ defmodule TodoListWeb.UserForgotPasswordLive do
       </:actions>
     </.simple_form>
 
-    <.action_links
-      class="mt-16"
-      items={[
-        %{content: "Register new account", href: ~p"/users/register"},
-        %{content: "Login", href: ~p"/users/login"}
-      ]}
-    />
+    <.action_links items={[
+      %{content: "Register new account", href: ~p"/users/register"},
+      %{content: "Login", href: ~p"/users/login"}
+    ]} />
     """
   end
 

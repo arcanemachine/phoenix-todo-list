@@ -3,9 +3,9 @@ import test from "@playwright/test";
 import { expect, authenticatedTest } from "e2e/support/fixtures";
 import { AccountsLogoutPage } from "./page";
 
-// disable parallel tests so that the authenticated test will show the expected
-// form buttons without being logged out by the previous tests
-test.describe.configure({ mode: "serial" });
+// // disable parallel tests so that the authenticated test will show the expected
+// // form buttons without being logged out by the previous tests
+// test.describe.configure({ mode: "serial" });
 
 test.describe("[Unauthenticated] Account logout page", () => {
   let accountsLogoutPage: AccountsLogoutPage;

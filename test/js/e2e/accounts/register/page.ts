@@ -12,13 +12,13 @@ export class AccountsRegisterPage {
 
   // form elements
   readonly inputEmail: Locator;
-  readonly errorEmail: Locator;
+  readonly inputErrorEmail: Locator;
 
   readonly inputPassword: Locator;
-  readonly errorPassword: Locator;
+  readonly inputErrorPassword: Locator;
 
   readonly inputPasswordConfirmation: Locator;
-  readonly errorPasswordConfirmation: Locator;
+  readonly inputErrorPasswordConfirmation: Locator;
 
   readonly formButtonSubmit: Locator;
 
@@ -29,28 +29,24 @@ export class AccountsRegisterPage {
     this.url = urlBuild(urls.accounts.register);
     this.urlSuccess = urlBuild(urls.todos.todosLive);
 
-    /* form elements */
-    // email
+    // form elements
     this.inputEmail = page.locator("input[name='user[email]']");
-    this.errorEmail = page.locator(
+    this.inputErrorEmail = page.locator(
       "[phx-feedback-for='user[email]'] [data-component='error']"
     );
 
-    // password
     this.inputPassword = page.locator("input[name='user[password]']");
-    this.errorPassword = page.locator(
+    this.inputErrorPassword = page.locator(
       "[phx-feedback-for='user[password]'] [data-component='error']"
     );
 
-    // password confirmation
     this.inputPasswordConfirmation = page.locator(
       "input[name='user[password_confirmation]']"
     );
-    this.errorPasswordConfirmation = page.locator(
+    this.inputErrorPasswordConfirmation = page.locator(
       "[phx-feedback-for='user[password_confirmation]'] [data-component='error']"
     );
 
-    // submit button
     this.formButtonSubmit = page
       .locator("#registration_form")
       .locator("button[type='submit']");
@@ -80,7 +76,8 @@ export class AccountsRegisterPage {
       ...options,
     };
 
-    const passwordConfirmation = options.passwordConfirmation || password;
+    // if no password confirmation value specified, copy the value from the password
+    const passwordConfirmation = options.passwordConfirmation ?? password;
 
     // fill out the form
     await this.inputEmail.click();

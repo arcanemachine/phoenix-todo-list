@@ -41,8 +41,8 @@ test.describe("Account register page", () => {
     });
 
     // form contains expected error
-    await expect(accountsRegisterPage.errorEmail).toBeVisible();
-    await expect(accountsRegisterPage.errorEmail).toHaveText(
+    await expect(accountsRegisterPage.inputErrorEmail).toBeVisible();
+    await expect(accountsRegisterPage.inputErrorEmail).toHaveText(
       errors.email.isInvalid
     );
   });
@@ -54,8 +54,8 @@ test.describe("Account register page", () => {
     await accountsRegisterPage.register(takenEmail, passwordValid);
 
     // form contains expected error
-    await expect(accountsRegisterPage.errorEmail).toBeVisible();
-    await expect(accountsRegisterPage.errorEmail).toHaveText(
+    await expect(accountsRegisterPage.inputErrorEmail).toBeVisible();
+    await expect(accountsRegisterPage.inputErrorEmail).toHaveText(
       errors.email.isTaken
     );
   });
@@ -70,9 +70,11 @@ test.describe("Account register page", () => {
     });
 
     // form contains expected error
-    await expect(accountsRegisterPage.errorPasswordConfirmation).toBeVisible();
-    await expect(accountsRegisterPage.errorPasswordConfirmation).toHaveText(
-      errors.passwordConfirmation.doesNotMatch
-    );
+    await expect(
+      accountsRegisterPage.inputErrorPasswordConfirmation
+    ).toBeVisible();
+    await expect(
+      accountsRegisterPage.inputErrorPasswordConfirmation
+    ).toHaveText(errors.passwordConfirmation.doesNotMatch);
   });
 });

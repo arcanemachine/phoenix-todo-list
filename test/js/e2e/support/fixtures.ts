@@ -1,9 +1,9 @@
 import { test } from "@playwright/test";
-import fs from "fs";
+// import fs from "fs";
 import path from "path";
 import { passwordValid } from "test/support/constants";
 import { AccountsRegisterPage } from "e2e/accounts/register/page";
-import { emailGenerateForTestUser } from "e2e/support/helpers";
+import { emailGenerateRandom } from "e2e/support/helpers";
 
 export * from "@playwright/test";
 export const authenticatedTest = test.extend<
@@ -23,11 +23,12 @@ export const authenticatedTest = test.extend<
         `e2e/.auth/${workerId}.json`
       );
 
-      if (fs.existsSync(fileName)) {
-        // if authentication state already exists for this worker, then reuse it
-        await use(fileName);
-        return;
-      }
+      // TODO: reuse valid authentication states when possible (currently breaks jogout tests)
+      // if (fs.existsSync(fileName)) {
+      //   // if authentication state already exists for this worker, then reuse it
+      //   await use(fileName);
+      //   return;
+      // }
 
       // using a new session, register an account for this worker. the user will
       // be automatically logged in after registration
@@ -37,10 +38,9 @@ export const authenticatedTest = test.extend<
       });
       const accountsRegisterPage = new AccountsRegisterPage(page);
       await accountsRegisterPage.goto();
-      await accountsRegisterPage.register(
-        emailGenerateForTestUser(workerId),
-        passwordValid
-      );
+      await accountsRegisterPage.register(emailGenerateRandom(), passwordValid);
+
+      // wait for success URL to load so that we know the cookies have been saved
       await page.waitForURL(accountsRegisterPage.urlSuccess);
 
       await page.context().storageState({ path: fileName });

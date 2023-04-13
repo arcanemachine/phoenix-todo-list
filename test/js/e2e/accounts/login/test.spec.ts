@@ -1,6 +1,10 @@
 import { test, expect } from "@playwright/test";
 
-import { testUserEmail, passwordValid } from "test/support/constants";
+import {
+  passwordInvalid,
+  passwordValid,
+  testUserEmail,
+} from "test/support/constants";
 import { AccountsLoginPage } from "./page";
 
 test.describe("Account login page", () => {
@@ -23,6 +27,11 @@ test.describe("Account login page", () => {
     await expect(page).toHaveURL(accountsLoginPage.urlSuccess);
   });
 
-  // test("shows error if email is invalid", async ({ baseURL, page }) => {});
-  // test("shows error if auth credentials are invalid", async ({ baseURL, page }) => {});
+  test("shows error if auth credentials are invalid", async ({ page }) => {
+    // perform action
+    await accountsLoginPage.login(testUserEmail, passwordInvalid);
+
+    // page contains expected error message
+    await expect(page.getByText("Invalid email or password")).toBeVisible();
+  });
 });

@@ -37,4 +37,5 @@ export const errors = {
 };
 
 export const testUserEmail = "test_user@example.com";
+export const passwordInvalid = "passwordInvalid";
 export const passwordValid = "passwordValid";

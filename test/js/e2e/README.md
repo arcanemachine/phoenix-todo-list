@@ -46,7 +46,7 @@ flowchart TD
     B --> C[Page/Test Code:\ne.g. 'page.ts', 'test.spec.ts']
 ```
 
-Each page directory contains two files: `page` code and `test` code:
+Each page directory contains two types of files: `page` code and `test` code:
 
 - Page code (e.g. `page.ts`) uses the [Page Object Model](https://playwright.dev/docs/pom) to abstract out pages into manageable components, including:
   - `URLs` - URLs associated with a given page and its workflow:

@@ -1,7 +1,3 @@
-import process from "process";
-
-const baseUrl = process.env.SERVER_URL_HTTPS_TEST;
-
 export enum ConsoleColors {
   // colors
   Default = "default",
@@ -70,8 +66,4 @@ export function textColorize(
   content = `${colorCode}${content}${colorResetCode}`;
 
   return content;
-}
-
-export function urlBuild(url: string) {
-  return baseUrl + url;
 }

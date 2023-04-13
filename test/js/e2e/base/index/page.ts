@@ -1,7 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 
 import { urls } from "test/support/constants";
-import { urlBuild } from "test/support/helpers";
 
 export class BaseIndexPage {
   readonly page: Page;
@@ -13,6 +12,6 @@ export class BaseIndexPage {
   }
 
   async goto() {
-    await this.page.goto(urlBuild(urls.base.index));
+    await this.page.goto(urls.base.index.toString());
   }
 }

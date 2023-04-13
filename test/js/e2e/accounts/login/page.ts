@@ -1,14 +1,13 @@
 import { Locator, Page } from "@playwright/test";
 
 import { urls } from "test/support/constants";
-import { urlBuild } from "test/support/helpers";
 
 export class AccountsLoginPage {
   readonly page: Page;
 
   // URLs
-  readonly url: string;
-  readonly urlSuccess: string;
+  readonly url: URL;
+  readonly urlSuccess: URL;
 
   // form elements
   readonly inputEmail: Locator;
@@ -23,8 +22,8 @@ export class AccountsLoginPage {
     this.page = page;
 
     // URLs
-    this.url = urlBuild(urls.accounts.login);
-    this.urlSuccess = urlBuild(urls.todos.todosLive);
+    this.url = new URL(urls.accounts.login);
+    this.urlSuccess = new URL(urls.todos.todosLive);
 
     // form elements
     this.inputEmail = page.locator("input[name='user[email]']");
@@ -43,7 +42,7 @@ export class AccountsLoginPage {
   }
 
   async goto() {
-    await this.page.goto(this.url);
+    await this.page.goto(this.url.toString());
   }
 
   async login(email: string, password: string, options = { submit: true }) {

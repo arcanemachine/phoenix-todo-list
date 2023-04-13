@@ -43,6 +43,6 @@ authenticatedTest.describe("[Authenticated] Account logout page", () => {
     await expect(page.getByText("Logged out successfully")).toBeVisible();
 
     // redirects to expected page
-    await expect(page).toHaveURL(accountsLogoutPage.urlSuccess);
+    await expect(page).toHaveURL(accountsLogoutPage.urlSuccess.toString());
   });
 });

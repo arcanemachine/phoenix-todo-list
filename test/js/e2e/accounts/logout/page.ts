@@ -1,14 +1,13 @@
 import { Locator, Page } from "@playwright/test";
 
 import { urls } from "test/support/constants";
-import { urlBuild } from "test/support/helpers";
 
 export class AccountsLogoutPage {
   readonly page: Page;
 
   // URLs
-  readonly url: string;
-  readonly urlSuccess: string;
+  readonly url: URL;
+  readonly urlSuccess: URL;
 
   // form elements
   readonly formButtonCancel: Locator;
@@ -20,8 +19,8 @@ export class AccountsLogoutPage {
     this.page = page;
 
     // URLs
-    this.url = urlBuild(urls.accounts.logout);
-    this.urlSuccess = urlBuild(urls.base.index);
+    this.url = new URL(urls.accounts.logout);
+    this.urlSuccess = new URL(urls.base.index);
 
     // form elements
     const logoutForm = page.locator("#logout-form");
@@ -32,7 +31,7 @@ export class AccountsLogoutPage {
   }
 
   async goto() {
-    await this.page.goto(this.url);
+    await this.page.goto(this.url.toString());
   }
 
   async logout() {

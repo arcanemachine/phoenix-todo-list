@@ -1,19 +1,23 @@
+import process from "process";
+
+const baseUrl = process.env.SERVER_URL_HTTPS_TEST;
+
 export const urls = {
   base: {
-    index: "/",
+    index: new URL(baseUrl + "/"),
   },
   accounts: {
-    delete: "/users/profile/delete",
-    login: "/users/login",
-    logout: "/users/logout",
-    register: "/users/register",
-    profile: "/users/profile",
-    update: "/users/profile/update",
-    updateEmail: "/users/profile/update/email",
-    updatePassword: "/users/profile/update/password",
+    delete: new URL(baseUrl + "/users/profile/delete"),
+    login: new URL(baseUrl + "/users/login"),
+    logout: new URL(baseUrl + "/users/logout"),
+    register: new URL(baseUrl + "/users/register"),
+    profile: new URL(baseUrl + "/users/profile"),
+    update: new URL(baseUrl + "/users/profile/update"),
+    updateEmail: new URL(baseUrl + "/users/profile/update/email"),
+    updatePassword: new URL(baseUrl + "/users/profile/update/password"),
   },
   todos: {
-    todosLive: "/todos/live",
+    todosLive: new URL(baseUrl + "/todos/live"),
   },
 };
 

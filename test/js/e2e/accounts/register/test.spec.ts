@@ -28,7 +28,7 @@ test.describe("Account register page", () => {
     await accountsRegisterPage.register(randomEmail, passwordValid);
 
     // redirects to expected page
-    await expect(page).toHaveURL(accountsRegisterPage.urlSuccess);
+    await expect(page).toHaveURL(accountsRegisterPage.urlSuccess.toString());
 
     // page contains expected success message
     await expect(page.getByText("Account created successfully")).toBeVisible();

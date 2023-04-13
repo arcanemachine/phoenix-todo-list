@@ -41,7 +41,7 @@ export const authenticatedTest = test.extend<
       await accountsRegisterPage.register(emailGenerateRandom(), passwordValid);
 
       // wait for success URL to load so that we know the cookies have been saved
-      await page.waitForURL(accountsRegisterPage.urlSuccess);
+      await page.waitForURL(accountsRegisterPage.urlSuccess.toString());
 
       await page.context().storageState({ path: fileName });
       await page.close();

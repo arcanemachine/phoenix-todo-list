@@ -20,11 +20,11 @@ test.describe("Account login page", () => {
     // perform action
     await accountsLoginPage.login(testUserEmail, passwordValid);
 
-    // page contains expected success message
-    await expect(page.getByText("Logged in successfully")).toBeVisible();
-
     // page redirects to expected URL
     await expect(page).toHaveURL(accountsLoginPage.urlSuccess.toString());
+
+    // page contains expected success message
+    await expect(page.getByText("Logged in successfully")).toBeVisible();
   });
 
   test("shows error if auth credentials are invalid", async ({ page }) => {

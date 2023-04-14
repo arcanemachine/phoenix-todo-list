@@ -37,10 +37,10 @@ authenticatedTest.describe("[Authenticated] Account logout page", () => {
     // perform action
     await accountsLogoutPage.logout();
 
+    // page redirected to expected URL
+    await expect(page).toHaveURL(accountsLogoutPage.urlSuccess.toString());
+
     // page contains expected success message
     await expect(page.getByText("Logged out successfully")).toBeVisible();
-
-    // page redirects to expected URL
-    await expect(page).toHaveURL(accountsLogoutPage.urlSuccess.toString());
   });
 });

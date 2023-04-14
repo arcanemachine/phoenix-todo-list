@@ -76,7 +76,7 @@
             "form-control hover:opacity-75 cursor-pointer",
             "rounded-md rounded-75 rounded"
           ]}
-          id={"todo-item-#{todo.id}"}
+          id={"todo-#{todo.id}"}
           data-todo-id={todo.id}
           data-todo-is-completed={"#{todo.is_completed}"}
           data-todo-content={todo.content}
@@ -91,19 +91,22 @@
           x-init="setTimeout(() => { show = true; })"
           x-collapse.500ms
           x-show="show"
-          x-on:keyup="todoItemHandleKeyup"
+          x-on:keyup="todoHandleKeyup"
           x-on:show="show = true"
           x-on:hide="show = false"
           }
         >
           <div class="grow" x-tooltip="{ content: 'Modify this item', placement: 'auto-start', }">
             <button
-              class="block btn btn-accent w-full text-left normal-case no-underline todo-item-content-container"
+              class={[
+                "block btn btn-accent w-full text-left normal-case no-underline",
+                "todo-button-content"
+              ]}
               x-bind:class="todo.id === todoIdSelected ? 'btn-accent' : 'btn-ghost'"
-              x-on:click="todoItemHandleClick(todo.id, todo.content)"
+              x-on:click="todoHandleClick(todo.id, todo.content)"
             >
               <span class={[
-                ["todo-item-content"],
+                ["todo-content"],
                 [todo.is_completed && "line-through"]
               ]}>
                 <%= todo.content %>
@@ -112,14 +115,13 @@
           </div>
 
           <div class="flex flex-center w-8 mx-4 py-2">
-
             <% # checkbox: is_completed %>
             <.button
               class={[
                 ["text-xl btn btn-square btn-ghost btn-outline outline-2"],
-                ["todo-item-is-completed-toggle"]
+                ["todo-is-completed-checkbox"]
               ]}
-              id={"is-completed-checkbox-#{todo.id}"}
+              id={"todo-is-completed-checkbox-#{todo.id}"}
               x-show="todoIdSelected !== todo.id"
               x-tooltip="Toggle completion status"
               phx-click={
@@ -135,7 +137,7 @@
 
             <% # icon: delete item %>
             <.button
-              class="text-xl btn btn-square btn-error btn-outline"
+              class={["text-xl btn btn-square btn-error btn-outline", "todo-button-delete"]}
               aria-label="Delete todo"
               x-show="todoIdSelected === todo.id"
               x-tooltip="Delete item"
@@ -150,7 +152,7 @@
   </ul>
 
   <% # delete modal %>
-  <div class="modal" x-bind:class="todoDeleteModalActive && 'modal-open'">
+  <div class="modal" id="todo-delete-modal" x-bind:class="todoDeleteModalActive && 'modal-open'">
     <div
       class="modal-box relative max-w-xs"
       x-show="todoDeleteModalActive"

@@ -29,7 +29,7 @@ function todosLive() {
         /* when updating an item, do not submit the form if the value has not changed */
         try {
           const todoContent = this.$root.querySelector(
-            `#todo-item-${this.todoIdSelected}`
+            `#todo-${this.todoIdSelected}`
           ).dataset.todoContent;
 
           if (todoContent === this.$refs.formInput.value) {
@@ -40,7 +40,7 @@ function todosLive() {
               content: "You have not made any changes to this item.",
               theme: "warning",
             });
-            this.todoItemSelectedReset();
+            this.todoSelectedReset();
           }
         } catch (err) {
           evt.stopPropagation();
@@ -58,7 +58,7 @@ function todosLive() {
     handleKeyupEscape() {
       /** Hide the item-delete modal and reset the currently-selected todo item. */
       this.todoDeleteModalHide();
-      this.todoItemSelectedReset();
+      this.todoSelectedReset();
     },
 
     // todo delete modal
@@ -71,33 +71,33 @@ function todosLive() {
     },
 
     // todo items (UI)
-    todoItemEltGet(todoId: number) {
+    todoEltGet(todoId: number) {
       /** Return the component that matches a given todo ID. */
-      const todoItemElt = this.$root.querySelector(`#todo-item-${todoId}`);
+      const todoElt = this.$root.querySelector(`#todo-${todoId}`);
 
-      if (!todoItemElt)
+      if (!todoElt)
         this.$store.toasts.showError("The item you requested does not exist.");
 
-      return todoItemElt;
+      return todoElt;
     },
 
-    todoItemHandleClick(todoId: number, todoContent: string) {
+    todoHandleClick(todoId: number, todoContent: string) {
       /** Toggle a todo's 'currently-selected' status. */
       if (this.todoIdSelected !== todoId) {
         this.todoIdSelected = todoId; // set current todo as 'selected'
         this.todoFormInputText = todoContent; // assign todo content to the form's input field
       } else {
-        this.todoItemSelectedReset();
+        this.todoSelectedReset();
       }
     },
 
-    todoItemHandleKeyup(evt: KeyboardEvent) {
+    todoHandleKeyup(evt: KeyboardEvent) {
       /** When 'delete' key pressed while todo item is active, show the delete item modal. */
       if (this.todoIdSelected === 0) return;
       else if (evt.key === "Delete") this.todoDeleteModalShow();
     },
 
-    todoItemSelectedReset() {
+    todoSelectedReset() {
       /** Reset selected todo and clear the form. */
       this.todoIdSelected = 0;
       this.todoFormInputText = "";
@@ -106,7 +106,7 @@ function todosLive() {
     // todos (CRUD)
     todoCreateSuccess() {
       /** Reset the form and show success message. */
-      this.todoItemSelectedReset();
+      this.todoSelectedReset();
       this.$store.toasts.showSuccess("Item created successfully");
     },
 
@@ -117,14 +117,14 @@ function todosLive() {
 
     todoUpdateContentSuccess(evt: CustomEvent) {
       /** Reset the form, show success message, and highlight the updated element. */
-      this.todoItemSelectedReset(); // reset the form
+      this.todoSelectedReset(); // reset the form
       this.$store.toasts.showSuccess("Item updated successfully"); // success message
 
       // highlight updated element
-      const todoItemElt = this.todoItemEltGet(evt.detail.id);
+      const todoElt = this.todoEltGet(evt.detail.id);
 
       this.$store.animations.highlight(
-        todoItemElt.querySelector(".todo-item-content-container"),
+        todoElt.querySelector(".todo-button-content"),
         "success",
         750
       );
@@ -138,17 +138,17 @@ function todosLive() {
         .then(() => {
           // hide item delete modal and reset selected todo
           this.todoDeleteModalHide();
-          this.todoItemSelectedReset();
+          this.todoSelectedReset();
         })
         .then(() =>
           delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
           /* disable pointer events and hide todo item element */
-          const todoItemElt = this.todoItemEltGet(todoIdSelected);
+          const todoElt = this.todoEltGet(todoIdSelected);
 
-          todoItemElt.style.pointerEvents = "none";
-          todoItemElt.dispatchEvent(new CustomEvent("hide"));
+          todoElt.style.pointerEvents = "none";
+          todoElt.dispatchEvent(new CustomEvent("hide"));
         })
         .then(() =>
           delayFor(this.$store.constants.transitionDurationDefault / 2)
@@ -168,10 +168,10 @@ function todosLive() {
       Promise.resolve()
         .then(() => {
           /* unhide the todo item and re-enable pointer events */
-          const todoItemElt = this.todoItemEltGet(evt.detail.id);
+          const todoElt = this.todoEltGet(evt.detail.id);
 
-          todoItemElt.style.pointerEvents = "";
-          todoItemElt.dispatchEvent(new CustomEvent("show"));
+          todoElt.style.pointerEvents = "";
+          todoElt.dispatchEvent(new CustomEvent("show"));
         })
         .then(() => delayFor(this.$store.constants.transitionDurationDefault))
         .then(() => {

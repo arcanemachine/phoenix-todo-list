@@ -12,6 +12,7 @@ genericTests.redirectsUnauthenticatedUserToLoginPage(
 // custom tests
 authenticatedTest.describe.only("[Authenticated] Todos live page", async () => {
   let todosLivePage: TodosLivePage;
+  // let todoId: number;
 
   authenticatedTest.beforeEach(async ({ page }) => {
     // navigate to test page
@@ -22,4 +23,11 @@ authenticatedTest.describe.only("[Authenticated] Todos live page", async () => {
   authenticatedTest("contains expected title", async () => {
     await expect(todosLivePage.title).toHaveText("Live Todo List");
   });
+
+  // can create a todo
+  // can update a todo's content
+  // can update a todo's completion status
+  // can delete a todo
+  // renders expected content when no todo is selected
+  // renders expected content when a todo is selected
 });

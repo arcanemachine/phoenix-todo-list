@@ -30,8 +30,8 @@ export const authenticatedTest = base.extend<
       //   return;
       // }
 
-      // using a new session, register an account for this worker. the user will
-      // be automatically logged in after registration
+      // using a new session, create and log into an account for this worker.
+      // the user will be automatically logged in after registration
       const page = await browser.newPage({
         storageState: undefined,
         ignoreHTTPSErrors: true,

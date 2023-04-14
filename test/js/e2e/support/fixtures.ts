@@ -5,6 +5,9 @@ import { passwordValid } from "test/support/constants";
 import { AccountsRegisterPage } from "e2e/accounts/register/page";
 import { emailGenerateRandom } from "e2e/support/helpers";
 
+import unauthenticatedTest, { Page, expect } from "@playwright/test";
+import { urls } from "test/support/constants";
+
 export * from "@playwright/test";
 export const authenticatedTest = test.extend<
   {},
@@ -50,3 +53,30 @@ export const authenticatedTest = test.extend<
     { scope: "worker" },
   ],
 });
+
+function redirectsUnauthenticatedUserToLoginPage(
+  pageName: string,
+  PageClass: any
+) {
+  return test.describe(`[Unauthenticated] ${pageName}`, () => {
+    let testPage: Page;
+
+    unauthenticatedTest.beforeEach(async ({ page }) => {
+      // navigate to test page
+      testPage = new PageClass(page);
+      await testPage.goto(testPage.url.toString());
+    });
+
+    unauthenticatedTest("redirects to login page", async ({ page }) => {
+      // page redirected to expected URL
+      await expect(page).toHaveURL(urls.accounts.login.toString());
+
+      // redirects to expected URL
+      await expect(page).toHaveURL(urls.accounts.login.toString());
+    });
+  });
+}
+
+export const genericTests = {
+  redirectsUnauthenticatedUserToLoginPage,
+};

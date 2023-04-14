@@ -23,7 +23,7 @@ test.describe("Account login page", () => {
     // page contains expected success message
     await expect(page.getByText("Logged in successfully")).toBeVisible();
 
-    // redirects to expected page
+    // page redirects to expected URL
     await expect(page).toHaveURL(accountsLoginPage.urlSuccess.toString());
   });
 

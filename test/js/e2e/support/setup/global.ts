@@ -1,10 +1,10 @@
 import fs from "fs";
 import { chromium, FullConfig } from "@playwright/test";
 
-import { testUserEmail, passwordValid } from "test/support/constants";
-import { textColorize } from "test/support/helpers";
 import { AccountsRegisterPage } from "e2e/accounts/register/page";
 import { storageState } from "e2e/support/constants";
+import { testUserEmail, passwordValid } from "test/support/constants";
+import { textColorize } from "test/support/helpers";
 
 async function globalSetup(config: FullConfig) {
   config; // this line is only here so the linter will be quiet

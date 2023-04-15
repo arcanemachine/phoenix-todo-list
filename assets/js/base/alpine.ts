@@ -480,7 +480,8 @@ const toasts = {
     options = this.coerceInputs(options) as ProjectToastifyOptions;
 
     // themes
-    switch (options.theme) {
+    const theme = options.theme || "primary";
+    switch (theme) {
       case "primary":
         options.style = {
           background: "hsl(var(--p))",
@@ -559,6 +560,7 @@ const toasts = {
     toast = Toastify({
       // text: options.content,
       node: textElement,
+      className: `toast-${theme}`,
       close: true,
       duration: 5000,
       gravity: "bottom",

@@ -1,5 +1,15 @@
 #!/bin/sh
 
+show_help () {
+  printf "This script runs tasks as part of a git pre-commit workflow.
+
+A flag must be passed as the that describes the action to be performed.
+
+Flags:
+  --help - Show this help text and exit.
+  --test-e2e - Run end-to-end tests.\n"
+}
+
 # add PRE_COMMIT environment variable so we can detect when code is being run
 # as part of a pre-commit workflow
 export PRE_COMMIT=1
@@ -7,13 +17,20 @@ export PRE_COMMIT=1
 # change to current directory
 cd $(dirname "$0")/
 
-# e2e tests
-echo "Running E2E tests with Playwright..."
-./test-e2e --quiet
-if [ "$?" != 0 ]; then
-  echo "One or more E2E tests failed. Aborting the commit..."
+if [ "$1" = "" ]; then
+  echo "A flag must be specified when running this script. Use the '--help' flag for more info."
   exit 1
-else
-  echo "E2E tests completed successfully."
+elif [ "$1" = "--help" ]; then
+  show_help
   exit 0
+elif [ "$1" = "--test-e2e" ]; then
+  echo "Running E2E tests..."
+  ./test-e2e --quiet
+  if [ "$?" != 0 ]; then
+    echo "One or more E2E tests failed. Aborting the commit..."
+    exit 1
+  else
+    echo "E2E tests completed successfully."
+    exit 0
+  fi
 fi

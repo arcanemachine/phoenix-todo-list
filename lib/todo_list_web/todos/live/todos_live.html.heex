@@ -25,17 +25,19 @@
   phx-hook="TodosLive"
 >
   <%= if Mix.env() == :test do %>
-    <% # create dummy forms for testing events %>
-    <.form for={%{}} id="todo-create-test-form" phx-submit="todo_create">
-      <input type="text" name="content" required />
-    </.form>
-    <.form for={%{}} id="todo-update-test-form" phx-submit="todo_update_content">
-      <input type="number" name="id" required />
-      <input type="text" name="content" required />
-    </.form>
-    <.form for={%{}} id="todo-delete-test-form" phx-submit="todo_delete">
-      <input type="number" name="id" required />
-    </.form>
+    <section class="hidden">
+      <% # create dummy forms for testing events %>
+      <.form for={%{}} id="todo-create-test-form" phx-submit="todo_create">
+        <input type="text" name="content" required />
+      </.form>
+      <.form for={%{}} id="todo-update-test-form" phx-submit="todo_update_content">
+        <input type="number" name="id" required />
+        <input type="text" name="content" required />
+      </.form>
+      <.form for={%{}} id="todo-delete-test-form" phx-submit="todo_delete">
+        <input type="number" name="id" required />
+      </.form>
+    </section>
   <% end %>
 
   <% # todo form %>
@@ -74,7 +76,7 @@
           class={[
             "flex flex-row justify-center items-center",
             "form-control hover:opacity-75 cursor-pointer",
-            "rounded-md rounded-75 rounded"
+            "rounded-md rounded-75 rounded",
           ]}
           id={"todo-#{todo.id}"}
           data-todo-id={todo.id}

@@ -1,10 +1,16 @@
 import { Locator, Page } from "@playwright/test";
+
+import { BasePage } from "test/e2e/base/page";
 import { urls } from "test/support/constants";
 
-export class TodosLivePage {
+export class TodosLivePage extends BasePage {
   readonly page: Page;
 
-  readonly url: URL; // URLs
+  // URLs
+  readonly url: URL;
+
+  // strings
+  readonly stringTodoCreateSuccess: string;
 
   /* page elements */
   readonly title: Locator;
@@ -16,20 +22,23 @@ export class TodosLivePage {
 
   // todos
   readonly todoList: Locator;
-  async todoGet(id: number): Promise<Locator> {
+
+  async todoGetById(id: number): Promise<Locator> {
     /** Return the Locator that contains a given todo item's elements. */
     return this.todoList.locator(`li#todo-item-${id}`);
   }
-  async todoButtonContentGet(id: number): Promise<Locator> {
-    const todo = await this.todoGet(id);
+  async todoGetByContent(content: string): Promise<Locator> {
+    /** Return the Locator that contains a given todo item's elements. */
+    return this.todoList.locator(`[data-todo-id]`, { hasText: content });
+  }
+
+  async todoButtonContent(todo: Locator): Promise<Locator> {
     return todo.locator("button.todo-button-content");
   }
-  async todoCheckboxIsCompletedGet(id: number): Promise<Locator> {
-    const todo = await this.todoGet(id);
+  async todoCheckboxIsCompletedGet(todo: Locator): Promise<Locator> {
     return todo.locator(`button.todo-is-completed-checkbox`);
   }
-  async todoButtonDeleteGet(id: number): Promise<Locator> {
-    const todo = await this.todoGet(id);
+  async todoButtonDeleteGet(todo: Locator): Promise<Locator> {
     return todo.locator("button.todo-button-delete");
   }
 
@@ -39,7 +48,11 @@ export class TodosLivePage {
   readonly todoDeleteModalButtonCancel: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
+
+    // strings
+    this.stringTodoCreateSuccess = "Item created successfully";
 
     this.url = new URL(urls.todos.todosLive); // URLs
 
@@ -49,7 +62,7 @@ export class TodosLivePage {
     // todo form
     this.todoForm = page.locator("#todo-form");
     this.todoFormInputText = this.todoForm.locator("input[type='text']");
-    this.todoFormButtonSubmit = this.todoForm.locator("button[type='text']");
+    this.todoFormButtonSubmit = this.todoForm.locator("button");
 
     // todos
     this.todoList = page.locator("#todo-list");
@@ -67,5 +80,11 @@ export class TodosLivePage {
   // actions
   async goto() {
     await this.page.goto(this.url.toString());
+  }
+
+  async todoCreate(content: string) {
+    await this.todoFormInputText.click();
+    await this.todoFormInputText.type(content);
+    await this.todoFormButtonSubmit.click();
   }
 }

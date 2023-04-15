@@ -420,6 +420,7 @@ const components = {
         ["@phx:toast-show-error.window"]() {
           return "(evt) => $store.toasts.showError(evt.detail)";
         },
+        "@clear": "$store.toasts.clear",
       },
 
       init() {
@@ -446,6 +447,12 @@ type ProjectToastifyOptions = StartToastifyInstance.Options & {
 };
 
 const toasts = {
+  clear() {
+    /** Remove all existing toast messages. */
+    document.querySelectorAll(".toastify.on").forEach((toastElt) => {
+      toastElt.dispatchEvent(new MouseEvent("click"));
+    });
+  },
   coerceInputs(
     options: string | ProjectToastifyOptions = {}
   ): ProjectToastifyOptions {

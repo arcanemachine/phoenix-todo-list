@@ -1,8 +1,8 @@
 import { Page, expect, test, test as base } from "@playwright/test";
 import path from "path";
 
-import { AccountsRegisterPage } from "e2e/accounts/register/page";
-import { emailGenerateRandom } from "e2e/support/helpers";
+import { AccountsRegisterPage } from "test/e2e/accounts/register/page";
+import { emailGenerateRandom } from "test/e2e/support/helpers";
 import { passwordValid, urls } from "test/support/constants";
 
 export * from "@playwright/test";

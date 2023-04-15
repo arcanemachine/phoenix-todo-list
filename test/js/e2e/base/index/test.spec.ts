@@ -3,15 +3,15 @@ import { test, expect } from "@playwright/test";
 import { BaseIndexPage } from "./page";
 
 test.describe("Base index page", () => {
-  let baseIndexPage: BaseIndexPage;
+  let testPage: BaseIndexPage;
 
   test.beforeEach(async ({ page }) => {
     // navigate to test page
-    baseIndexPage = new BaseIndexPage(page);
-    await baseIndexPage.goto();
+    testPage = new BaseIndexPage(page);
+    await testPage.goto();
   });
 
   test("contains expected title", async () => {
-    await expect(baseIndexPage.title).toHaveText("Home");
+    await expect(testPage.title).toHaveText("Home");
   });
 });

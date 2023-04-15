@@ -8,8 +8,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
-      "test/*": ["./*"],
-      "e2e/*": ["./e2e/*"]
+      "test/*": ["./*"]
+      // "e2e/*": ["./e2e/*"]
     }
   },
   "$schema": "https://json.schemastore.org/tsconfig",

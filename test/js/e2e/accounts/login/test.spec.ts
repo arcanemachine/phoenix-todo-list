@@ -8,20 +8,20 @@ import {
 import { AccountsLoginPage } from "./page";
 
 test.describe("Account login page", () => {
-  let accountsLoginPage: AccountsLoginPage;
+  let testPage: AccountsLoginPage;
 
   test.beforeEach(async ({ page }) => {
     // navigate to test page
-    accountsLoginPage = new AccountsLoginPage(page);
-    await accountsLoginPage.goto();
+    testPage = new AccountsLoginPage(page);
+    await testPage.goto();
   });
 
   test("logs in a user", async ({ page }) => {
     // perform action
-    await accountsLoginPage.login(testUserEmail, passwordValid);
+    await testPage.login(testUserEmail, passwordValid);
 
     // page redirects to expected URL
-    await expect(page).toHaveURL(accountsLoginPage.urlSuccess.toString());
+    await expect(page).toHaveURL(testPage.urlSuccess.toString());
 
     // page contains expected success message
     await expect(page.getByText("Logged in successfully")).toBeVisible();
@@ -29,7 +29,7 @@ test.describe("Account login page", () => {
 
   test("shows error if auth credentials are invalid", async ({ page }) => {
     // perform action
-    await accountsLoginPage.login(testUserEmail, passwordInvalid);
+    await testPage.login(testUserEmail, passwordInvalid);
 
     // page contains expected error message
     await expect(page.getByText("Invalid email or password")).toBeVisible();

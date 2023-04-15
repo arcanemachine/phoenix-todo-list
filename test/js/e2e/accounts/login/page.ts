@@ -1,8 +1,9 @@
 import { Locator, Page } from "@playwright/test";
 
+import { BasePage } from "test/e2e/base/page";
 import { urls } from "test/support/constants";
 
-export class AccountsLoginPage {
+export class AccountsLoginPage extends BasePage {
   readonly page: Page;
 
   // URLs
@@ -19,6 +20,7 @@ export class AccountsLoginPage {
   readonly formButtonSubmit: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
 
     // URLs

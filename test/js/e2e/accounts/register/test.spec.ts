@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { emailGenerateRandom } from "e2e/support/helpers";
+import { emailGenerateRandom } from "test/e2e/support/helpers";
 import {
   emailInvalid,
   errors,
@@ -10,23 +10,23 @@ import {
 import { AccountsRegisterPage } from "./page";
 
 test.describe("Account register page", () => {
-  let accountsRegisterPage: AccountsRegisterPage;
+  let testPage: AccountsRegisterPage;
   let randomEmail: string;
 
   test.beforeEach(async ({ page }) => {
     randomEmail = emailGenerateRandom(); // generate a random email for each test
 
     // navigate to test page
-    accountsRegisterPage = new AccountsRegisterPage(page);
-    await accountsRegisterPage.goto();
+    testPage = new AccountsRegisterPage(page);
+    await testPage.goto();
   });
 
   test("registers a new user", async ({ page }) => {
     // perform action
-    await accountsRegisterPage.register(randomEmail, passwordValid);
+    await testPage.register(randomEmail, passwordValid);
 
     // page redirects to expected URL
-    await expect(page).toHaveURL(accountsRegisterPage.urlSuccess.toString());
+    await expect(page).toHaveURL(testPage.urlSuccess.toString());
 
     // page contains expected success message
     await expect(page.getByText("Account created successfully")).toBeVisible();
@@ -34,45 +34,39 @@ test.describe("Account register page", () => {
 
   test("shows expected error if email is invalid", async () => {
     // perform action
-    await accountsRegisterPage.register(emailInvalid, passwordValid, {
+    await testPage.register(emailInvalid, passwordValid, {
       submit: false,
     });
 
     // form contains expected error
-    await expect(accountsRegisterPage.inputErrorEmail).toBeVisible();
-    await expect(accountsRegisterPage.inputErrorEmail).toHaveText(
-      errors.email.isInvalid
-    );
+    await expect(testPage.inputErrorEmail).toBeVisible();
+    await expect(testPage.inputErrorEmail).toHaveText(errors.email.isInvalid);
   });
 
   test("shows expected error if email is taken", async () => {
     const takenEmail = testUserEmail;
 
     // perform action
-    await accountsRegisterPage.register(takenEmail, passwordValid);
+    await testPage.register(takenEmail, passwordValid);
 
     // form contains expected error
-    await expect(accountsRegisterPage.inputErrorEmail).toBeVisible();
-    await expect(accountsRegisterPage.inputErrorEmail).toHaveText(
-      errors.email.isTaken
-    );
+    await expect(testPage.inputErrorEmail).toBeVisible();
+    await expect(testPage.inputErrorEmail).toHaveText(errors.email.isTaken);
   });
 
   test("shows expected error if passwords do not match", async () => {
     const nonMatchingPassword = passwordValid + "a";
 
     // perform action
-    await accountsRegisterPage.register(randomEmail, passwordValid, {
+    await testPage.register(randomEmail, passwordValid, {
       passwordConfirmation: nonMatchingPassword,
       submit: false,
     });
 
     // form contains expected error
-    await expect(
-      accountsRegisterPage.inputErrorPasswordConfirmation
-    ).toBeVisible();
-    await expect(
-      accountsRegisterPage.inputErrorPasswordConfirmation
-    ).toHaveText(errors.passwordConfirmation.doesNotMatch);
+    await expect(testPage.inputErrorPasswordConfirmation).toBeVisible();
+    await expect(testPage.inputErrorPasswordConfirmation).toHaveText(
+      errors.passwordConfirmation.doesNotMatch
+    );
   });
 });

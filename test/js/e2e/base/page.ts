@@ -4,8 +4,9 @@ interface ToastContainer extends Locator {
   hasToast: Function;
 }
 
-export class BasePage {
+export abstract class BasePage {
   readonly page: Page;
+  abstract url: URL;
 
   // // page elements
   // readonly flashInfo: Locator;
@@ -24,6 +25,11 @@ export class BasePage {
 
     // this.navbar = page.locator("[data-component='navbar']");
     this.toastContainer = page.locator("#toast-container") as ToastContainer;
+  }
+
+  // actions
+  async goto() {
+    await this.page.goto(this.url.toString());
   }
 
   // async toastClear() {

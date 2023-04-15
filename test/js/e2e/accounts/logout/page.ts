@@ -1,8 +1,9 @@
 import { Locator, Page } from "@playwright/test";
+import { BasePage } from "test/e2e/base/page";
 
 import { urls } from "test/support/constants";
 
-export class AccountsLogoutPage {
+export class AccountsLogoutPage extends BasePage {
   readonly page: Page;
 
   // URLs
@@ -16,6 +17,7 @@ export class AccountsLogoutPage {
   readonly formButtonLogin: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
 
     // URLs
@@ -31,10 +33,6 @@ export class AccountsLogoutPage {
   }
 
   // actions
-  async goto() {
-    await this.page.goto(this.url.toString());
-  }
-
   async logout() {
     await this.formButtonSubmit.click(); // submit the form
   }

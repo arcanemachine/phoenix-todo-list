@@ -43,10 +43,6 @@ export class AccountsLoginPage extends BasePage {
       .locator("button[type='submit']");
   }
 
-  async goto() {
-    await this.page.goto(this.url.toString());
-  }
-
   async login(email: string, password: string, options = { submit: true }) {
     // fill out the form
     await this.inputEmail.click();

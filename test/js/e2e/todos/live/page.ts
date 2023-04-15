@@ -54,7 +54,8 @@ export class TodosLivePage extends BasePage {
     // strings
     this.stringTodoCreateSuccess = "Item created successfully";
 
-    this.url = new URL(urls.todos.todosLive); // URLs
+    // URLs
+    this.url = new URL(urls.todos.todosLive);
 
     /* page elements */
     this.title = page.locator("#page-title");
@@ -78,10 +79,6 @@ export class TodosLivePage extends BasePage {
   }
 
   // actions
-  async goto() {
-    await this.page.goto(this.url.toString());
-  }
-
   async todoCreate(content: string) {
     await this.todoFormInputText.click();
     await this.todoFormInputText.type(content);

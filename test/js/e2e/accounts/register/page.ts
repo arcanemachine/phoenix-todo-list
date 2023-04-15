@@ -54,10 +54,6 @@ export class AccountsRegisterPage extends BasePage {
   }
 
   // actions
-  async goto() {
-    await this.page.goto(this.url.toString());
-  }
-
   async register(
     email: string,
     password: string,

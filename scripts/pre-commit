@@ -1,18 +1,19 @@
 #!/bin/sh
 
-# add PRE_COMMIT environment variable so our scripts can detect when they are
-# being run as part of a pre-commit workflow
+# add PRE_COMMIT environment variable so we can detect when code is being run
+# as part of a pre-commit workflow
 export PRE_COMMIT=1
 
-# change to project root directory
-cd $(dirname "$0")/../
+# change to current directory
+cd $(dirname "$0")/
 
 # e2e tests
 echo "Running E2E tests with Playwright..."
-./scripts/test-e2e --max-failures 1 --quiet
+./test-e2e --quiet
 if [ "$?" != 0 ]; then
   echo "One or more E2E tests failed. Aborting the commit..."
   exit 1
 else
   echo "E2E tests completed successfully."
+  exit 0
 fi

@@ -9,14 +9,25 @@ repos:
       - id: trailing-whitespace
       # yaml
       - id: check-yaml
-  - repo: https://gitlab.com/jvenom/elixir-pre-commit-hooks
-    rev: v1.2.0
-    hooks:
-      - id: mix-format
-      - id: mix-test
   - repo: "local"
     hooks:
-      - id: "custom-scripts"
-        name: "Run custom scripts"
-        entry: "./scripts/pre-commit"
+      - id: "mix-format"
+        name: "Format Elixir files"
+        description: "Formats Elixir files with mix format"
         language: "system"
+        entry: "mix format"
+        files: "\\.(?:exs|ex|heex|eex)" # all elixir files
+      - id: "mix-test"
+        name: "Test Elixir files"
+        description: "Runs Elixir tests with mix test"
+        language: "system"
+        entry: "mix test"
+        # files in the '/test/' directory that end with '_text.exs'
+        files: "^test\\/.*_test\\.exs$"
+      - id: "test-e2e"
+        name: "Run E2E tests"
+        description: "Runs end-to-end tests with Playwright"
+        language: "system"
+        entry: "./scripts/pre-commit"
+        files: "test\/js\/e2e\/.*\\.ts" # typescript files in the E2E test directory
+        args: ["--test-e2e"]

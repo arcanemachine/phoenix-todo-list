@@ -265,25 +265,25 @@ const components = {
       },
     };
   },
-  showOnInit: () => {
-    return {
-      show: false,
+  // showOnInit: () => {
+  //   return {
+  //     show: false,
 
-      bindings: {
-        ["x-transition.opacity.duration.500ms"]() {
-          return this.show;
-        },
-      },
+  //     bindings: {
+  //       ["x-transition.opacity.duration.500ms"]() {
+  //         return this.show;
+  //       },
+  //     },
 
-      init() {
-        this.$el.setAttribute("x-bind", "bindings");
+  //     init() {
+  //       this.$el.setAttribute("x-bind", "bindings");
 
-        setTimeout(() => {
-          this.show = true;
-        });
-      },
-    };
-  },
+  //       setTimeout(() => {
+  //         this.show = true;
+  //       });
+  //     },
+  //   };
+  // },
   simpleForm: () => {
     const dataConfirmationRequired = {
       /** If a form requires confirmation, show a checkbox element at the

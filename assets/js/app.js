@@ -111,6 +111,6 @@ window.liveSocket = liveSocket;
   try {
     return import("./gitignore.js");
   } catch (err) {
-    alert("Couldn't import gitignore.js");
+    // alert("Couldn't import gitignore.js");
   }
 })();

@@ -1,8 +1,8 @@
 <section>
-  <.flash kind={:error} title="Error!" flash={@flash} />
-  <.flash kind={:info} title="Info" flash={@flash} />
+  <.flash id="flash-info" kind={:info} title="Info" flash={@flash} />
+  <.flash id="flash-error" kind={:error} title="Error!" flash={@flash} />
   <.flash
-    id="disconnected"
+    id="flash-disconnected"
     kind={:error}
     title="Lost connection to server"
     close={false}

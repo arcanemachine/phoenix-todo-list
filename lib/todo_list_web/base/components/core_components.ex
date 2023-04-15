@@ -265,7 +265,10 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="navbar py-0 border-bottom-2 transition-colors duration-300">
+    <nav
+      data-component="page-navbar"
+      class="navbar py-0 border-bottom-2 transition-colors duration-300"
+    >
       <% # navbar start items %>
       <div class="flex-1">
         <% # navbar title %>

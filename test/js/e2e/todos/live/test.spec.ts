@@ -29,8 +29,8 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await expect(testPage.title).toHaveText("Live Todo List");
   });
 
-  authenticatedTest.only("creates a todo", async () => {
     const todoContent = uniqueTodoContent;
+  authenticatedTest("creates a todo", async () => {
     await testPage.todoCreate(todoContent);
 
     // page contains expected toast message

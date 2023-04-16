@@ -12,6 +12,6 @@ test.describe("Base index page", () => {
   });
 
   test("contains expected title", async () => {
-    await expect(testPage.title).toHaveText("Home");
+    await expect(testPage.pageTitle).toHaveText("Home");
   });
 });

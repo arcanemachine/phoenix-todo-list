@@ -154,7 +154,7 @@ function todosLive() {
           delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
-          this.hook.pushEvent("todo_delete", { id: todoIdSelected });
+          this.hook.pushEvent("todo_delete", { id: String(todoIdSelected) });
         });
     },
 

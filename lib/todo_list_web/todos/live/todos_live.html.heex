@@ -85,7 +85,7 @@
           x-data="{
             show: performance.now() < 1000, // do not animate on initial render
             todo: {
-              get id() { return $el.dataset.todoId; },
+              get id() { return Number($el.dataset.todoId); },
               get content() { return $el.dataset.todoContent; },
               get isCompleted() { return JSON.parse($el.dataset.todoIsCompleted); },
             }

@@ -1,5 +1,6 @@
 import fs from "fs";
-import { chromium, FullConfig } from "@playwright/test";
+// import { chromium, FullConfig } from "@playwright/test";
+import { chromium } from "@playwright/test";
 
 import { AccountsRegisterPage } from "test/e2e/accounts/register/page";
 import { storageState } from "test/e2e/support/constants";

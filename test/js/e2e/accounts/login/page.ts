@@ -46,10 +46,10 @@ export class AccountsLoginPage extends BasePage {
   async login(email: string, password: string, options = { submit: true }) {
     // fill out the form
     await this.inputEmail.click();
-    await this.inputEmail.type(email);
+    await this.inputEmail.fill(email);
 
     await this.inputPassword.click();
-    await this.inputPassword.type(password);
+    await this.inputPassword.fill(password);
 
     if (options.submit) {
       // submit the form

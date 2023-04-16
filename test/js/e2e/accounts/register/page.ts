@@ -78,13 +78,13 @@ export class AccountsRegisterPage extends BasePage {
 
     // fill out the form
     await this.inputEmail.click();
-    await this.inputEmail.type(email);
+    await this.inputEmail.fill(email);
 
     await this.inputPassword.click();
-    await this.inputPassword.type(password);
+    await this.inputPassword.fill(password);
 
     await this.inputPasswordConfirmation.click();
-    await this.inputPasswordConfirmation.type(passwordConfirmation);
+    await this.inputPasswordConfirmation.fill(passwordConfirmation);
 
     if (options.submit) {
       // submit the form

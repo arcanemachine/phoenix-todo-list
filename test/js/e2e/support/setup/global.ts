@@ -6,9 +6,8 @@ import { storageState } from "test/e2e/support/constants";
 import { testUserEmail, passwordValid } from "test/support/constants";
 import { textColorize } from "test/support/helpers";
 
-async function globalSetup(config: FullConfig) {
-  config; // this line is only here so the linter will be quiet
-
+// async function globalSetup(config: FullConfig) {
+async function globalSetup() {
   // create storageState.json if it doesn't already exist
   if (!fs.existsSync(storageState)) {
     console.log(

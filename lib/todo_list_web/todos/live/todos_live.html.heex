@@ -16,6 +16,7 @@
   id="todos-live"
   x-data="todosLive"
   x-cloak
+  x-bind:data-todo-id-selected="todoIdSelected"
   x-on:keyup.escape="handleKeyupEscape"
   x-on:phx:todo-create-success.window="todoCreateSuccess"
   x-on:phx:todo-toggle-is-completed-success.window="todoToggleIsCompletedSuccess"

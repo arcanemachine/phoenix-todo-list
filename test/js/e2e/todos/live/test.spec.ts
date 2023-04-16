@@ -51,33 +51,30 @@ authenticatedTest.describe.only("[Authenticated] Todos live page", async () => {
 
     // setup
     await testPage.todoCreate(originalTodoContent);
+    await testPage.toastClear(); // clear toast messages
 
     // get the todo that will be updated
-    const todo = await testPage.todoGetByContent(originalTodoContent);
+    const todo = testPage.todoGetByContent(originalTodoContent);
 
     // update the todo
     await testPage.todoUpdateContent(todo, updatedTodoContent);
+    await testPage.page.pause();
 
     // page contains expected toast message
-    const successToast = testPage.toastContainer.locator(".toast-success", {
-      hasText: testPage.stringTodoUpdateSuccess,
-    });
-    await expect(successToast).toBeVisible();
+    await expect(testPage.toastContainer).toContainText(
+      testPage.stringTodoUpdateSuccess
+    );
 
     // page contains expected content
     await expect(testPage.todoList).toHaveText(updatedTodoContent);
 
-    // // page contains expected toast message
-    // const successToast = testPage.toastContainer.locator(".toast-success");
-    // await expect(successToast).toContainText(testPage.stringTodoCreateSuccess);
-
-    // // todo contains expected content
-    // await expect(testPage.todoList).toHaveText(todoContent);
-
     // page no longer contains original todo content
+    await expect(testPage.todoList).not.toHaveText(originalTodoContent);
   });
 
   // authenticatedTest("marks an incomplete todo as completed by clicking the checkbox", async () => {});
-  // authenticatedTest("marks a completed todo as incomplete by clicking the checkbox again", async () => {});
+  // authenticatedTest("marks a completed todo as incomplete by clicking the checkbox againtjkljkl", async () => {});
   // authenticatedTest("deletes a todo", async () => {});
+
+  // authenticatedTest("shows correct user count when single user is present", async () => {});
 });

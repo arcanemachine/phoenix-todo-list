@@ -23,15 +23,15 @@ export const authenticatedTest = base.extend<
         `e2e/.auth/${workerId}.json`
       );
 
-      // TODO: reuse valid authentication states when possible (currently breaks jogout tests)
+      // TODO: reuse valid authentication states when possible (currently breaks logout tests)
       // if (fs.existsSync(fileName)) {
       //   // if authentication state already exists for this worker, then reuse it
       //   await use(fileName);
       //   return;
       // }
 
-      // using a new session, create and log into an account for this worker.
-      // the user will be automatically logged in after registration
+      // using a new session, create and log into an account for this worker
+      // (the user will be automatically logged in after registration)
       const page = await browser.newPage({
         storageState: undefined,
         ignoreHTTPSErrors: true,

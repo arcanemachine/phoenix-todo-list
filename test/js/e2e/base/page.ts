@@ -1,9 +1,5 @@
 import { Locator, Page } from "@playwright/test";
 
-interface ToastContainer extends Locator {
-  hasToast: Function;
-}
-
 export abstract class BasePage {
   readonly page: Page;
   abstract url: URL;
@@ -14,7 +10,7 @@ export abstract class BasePage {
   // readonly flashDisconnected: Locator;
 
   // readonly navbar: Locator;
-  readonly toastContainer: ToastContainer;
+  readonly toastContainer: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -24,7 +20,7 @@ export abstract class BasePage {
     // this.flashInfo = page.locator("#flash-info");
 
     // this.navbar = page.locator("[data-component='navbar']");
-    this.toastContainer = page.locator("#toast-container") as ToastContainer;
+    this.toastContainer = page.locator("#toast-container");
   }
 
   // actions
@@ -32,11 +28,11 @@ export abstract class BasePage {
     await this.page.goto(this.url.toString());
   }
 
-  // async toastClear() {
-  //   /** Clear all toast messages. */
-  //   await this.page.evaluate(() => {
-  //     const toastContainerElt = document.querySelector("#toast-container");
-  //     toastContainerElt!.dispatchEvent(new CustomEvent("clear"));
-  //   });
-  // }
+  async toastClear() {
+    /** Clear all toast messages. */
+    await this.page.evaluate(() => {
+      const toastContainerElt = document.querySelector("#toast-container");
+      toastContainerElt!.dispatchEvent(new CustomEvent("clear"));
+    });
+  }
 }

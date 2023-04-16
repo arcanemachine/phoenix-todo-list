@@ -61,6 +61,10 @@
     <section class="grow flex flex-col bg-base-100">
       <% # page content # %>
       <section>
+
+        <% # HACK: workaround live title issues by setting title manually via JS %>
+        <template x-page-title={@page_title || ""} />
+
         <section class="mb-12">
           <h1 id="page-title" class="mt-6 text-4xl text-center font-bold">
             <%= assigns[:page_title] || "" %>

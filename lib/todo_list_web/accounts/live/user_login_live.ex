@@ -5,8 +5,6 @@ defmodule TodoListWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <template x-page-title={@page_title} />
-
     <.simple_form
       :let={f}
       id="login_form"

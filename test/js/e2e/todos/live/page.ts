@@ -29,18 +29,18 @@ export class TodosLivePage extends BasePage {
   //   /** Return the Locator that contains a given todo item's elements. */
   //   return this.todoList.locator(`li#todo-item-${id}`);
   // }
-  async todoGetByContent(content: string): Promise<Locator> {
+  todoGetByContent(content: string): Locator {
     /** Return the Locator that contains a given todo item's elements. */
-    return this.todoList.locator(`[data-todo-id]`, { hasText: content });
+    return this.todoList.locator("[data-todo-id]", { hasText: content });
   }
 
-  async todoButtonContent(todo: Locator): Promise<Locator> {
+  todoButtonContent(todo: Locator): Locator {
     return todo.locator("button.todo-button-content");
   }
-  async todoCheckboxIsCompletedGet(todo: Locator): Promise<Locator> {
+  todoCheckboxIsCompletedGet(todo: Locator): Locator {
     return todo.locator(`button.todo-is-completed-checkbox`);
   }
-  async todoButtonDeleteGet(todo: Locator): Promise<Locator> {
+  todoButtonDeleteGet(todo: Locator): Locator {
     return todo.locator("button.todo-button-delete");
   }
 
@@ -121,7 +121,7 @@ export class TodosLivePage extends BasePage {
      *       function will not do anything.
      */
     // click the todo to select it
-    const todoButtonContent = await this.todoButtonContent(todo);
+    const todoButtonContent = this.todoButtonContent(todo);
     await todoButtonContent.click();
   }
 }

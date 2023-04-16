@@ -8,8 +8,6 @@ defmodule TodoListWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <template x-page-title={@page_title} />
-
     <div :if={@changeset.action == :insert}>
       <.form_error_alert />
     </div>

@@ -11,9 +11,11 @@ export class TodosLivePage extends BasePage {
 
   // strings
   readonly stringTodoCreateSuccess: string;
+  readonly stringTodoUpdateSuccess: string;
 
   /* page elements */
-  readonly title: Locator;
+  readonly pageTitle: Locator;
+  // readonly alpineComponent: Locator;
 
   // todo form
   readonly todoForm: Locator;
@@ -23,10 +25,10 @@ export class TodosLivePage extends BasePage {
   // todos
   readonly todoList: Locator;
 
-  async todoGetById(id: number): Promise<Locator> {
-    /** Return the Locator that contains a given todo item's elements. */
-    return this.todoList.locator(`li#todo-item-${id}`);
-  }
+  // async todoGetById(id: number): Promise<Locator> {
+  //   /** Return the Locator that contains a given todo item's elements. */
+  //   return this.todoList.locator(`li#todo-item-${id}`);
+  // }
   async todoGetByContent(content: string): Promise<Locator> {
     /** Return the Locator that contains a given todo item's elements. */
     return this.todoList.locator(`[data-todo-id]`, { hasText: content });
@@ -51,14 +53,16 @@ export class TodosLivePage extends BasePage {
     super(page);
     this.page = page;
 
-    // strings
-    this.stringTodoCreateSuccess = "Item created successfully";
-
     // URLs
     this.url = new URL(urls.todos.todosLive);
 
+    // strings
+    this.stringTodoCreateSuccess = "Item created successfully";
+    this.stringTodoUpdateSuccess = "Item updated successfully";
+
     /* page elements */
-    this.title = page.locator("#page-title");
+    this.pageTitle = page.locator("#page-title");
+    // this.alpineComponent = page.locator("#todos-live");
 
     // todo form
     this.todoForm = page.locator("#todo-form");
@@ -78,10 +82,46 @@ export class TodosLivePage extends BasePage {
     });
   }
 
-  // actions
+  /* actions */
+  // CRUD
   async todoCreate(content: string) {
+    // fill out the form
     await this.todoFormInputText.click();
-    await this.todoFormInputText.type(content);
+    await this.todoFormInputText.fill(content);
+
+    // submit the form
     await this.todoFormButtonSubmit.click();
+  }
+
+  async todoUpdateContent(todo: Locator, content: string) {
+    // select the todo item
+    await this.todoSelect(todo);
+
+    // fill out the form
+    await this.todoFormInputText.click();
+    await this.todoFormInputText.fill(content);
+
+    // submit the form
+    await this.todoFormButtonSubmit.click();
+  }
+
+  // misc
+  // async todoIdSelectedGet(): Promise<Number> {
+  //   /**
+  //    * Return the ID of the currently-selected Todo item.
+  //    * If no Todo item is currently selected, this function will return 0;
+  //    */
+  //   return Number(this.alpineComponent.getAttribute("data-todo-id-selected"));
+  // }
+  async todoSelect(todo: Locator) {
+    /**
+     * Ensure that a given Todo is selected by clicking it.
+     * TODO: If another todo is selected, it will un-select that Todo and select
+     *       the desired one. If the desired Todo is already selected, this
+     *       function will not do anything.
+     */
+    // click the todo to select it
+    const todoButtonContent = await this.todoButtonContent(todo);
+    await todoButtonContent.click();
   }
 }

@@ -11,39 +11,73 @@ genericTests.redirectsUnauthenticatedUserToLoginPage(
 );
 
 // custom tests
-authenticatedTest.describe("[Authenticated] Todos live page", async () => {
+authenticatedTest.describe.only("[Authenticated] Todos live page", async () => {
   let testPage: TodosLivePage;
-  let uniqueTodoContent: string;
   // let persistentTodoContent: string;
+
+  const generateUniqueTodoContent = () => randomUUID();
 
   // tests
   authenticatedTest.beforeEach(async ({ page }) => {
-    uniqueTodoContent = randomUUID(); // generate random todo content on each test
-
     // navigate to test page
     testPage = new TodosLivePage(page);
     await testPage.goto();
   });
 
   authenticatedTest("contains expected title", async () => {
-    await expect(testPage.title).toHaveText("Live Todo List");
+    await expect(testPage.pageTitle).toHaveText("Live Todo List");
   });
 
-    const todoContent = uniqueTodoContent;
   authenticatedTest("creates a todo", async () => {
+    const todoContent = generateUniqueTodoContent();
     await testPage.todoCreate(todoContent);
 
     // page contains expected toast message
-    const successToast = testPage.toastContainer.locator(".toast-success");
-    await expect(successToast).toContainText(testPage.stringTodoCreateSuccess);
+    const successToast = testPage.toastContainer.locator(".toast-success", {
+      hasText: testPage.stringTodoCreateSuccess,
+    });
+    await expect(successToast).toBeVisible();
 
     // page contains expected content
     await expect(testPage.todoList).toHaveText(todoContent);
   });
 
-  // can update a todo's content
-  // can update a todo's completion status
-  // can delete a todo
-  // renders expected content when no todo is selected
-  // renders expected content when a todo is selected
+  // authenticatedTest("selects a todo by clicking it", async () => {});
+  // authenticatedTest("un-selects a todo by clicking it again", async () => {});
+
+  authenticatedTest("updates a todo's content", async () => {
+    const originalTodoContent = generateUniqueTodoContent();
+    const updatedTodoContent = generateUniqueTodoContent();
+
+    // setup
+    await testPage.todoCreate(originalTodoContent);
+
+    // get the todo that will be updated
+    const todo = await testPage.todoGetByContent(originalTodoContent);
+
+    // update the todo
+    await testPage.todoUpdateContent(todo, updatedTodoContent);
+
+    // page contains expected toast message
+    const successToast = testPage.toastContainer.locator(".toast-success", {
+      hasText: testPage.stringTodoUpdateSuccess,
+    });
+    await expect(successToast).toBeVisible();
+
+    // page contains expected content
+    await expect(testPage.todoList).toHaveText(updatedTodoContent);
+
+    // // page contains expected toast message
+    // const successToast = testPage.toastContainer.locator(".toast-success");
+    // await expect(successToast).toContainText(testPage.stringTodoCreateSuccess);
+
+    // // todo contains expected content
+    // await expect(testPage.todoList).toHaveText(todoContent);
+
+    // page no longer contains original todo content
+  });
+
+  // authenticatedTest("marks an incomplete todo as completed by clicking the checkbox", async () => {});
+  // authenticatedTest("marks a completed todo as incomplete by clicking the checkbox again", async () => {});
+  // authenticatedTest("deletes a todo", async () => {});
 });

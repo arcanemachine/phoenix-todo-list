@@ -11,7 +11,7 @@ export default defineConfig({
   // fail if `.only()` in tests during CI run or during git `pre-commit` hook
   forbidOnly: !!process.env.CI || !!process.env.PRE_COMMIT,
   globalSetup: "e2e/support/setup/global.ts",
-  globalTeardown: "e2e/support/teardown.ts",
+  // globalTeardown: "e2e/support/teardown.ts",
   retries: process.env.CI ? 2 : 0, // retry on CI only
   reporter: "line",
   testDir: "./e2e",

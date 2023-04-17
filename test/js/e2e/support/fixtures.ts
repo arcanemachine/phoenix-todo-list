@@ -1,12 +1,14 @@
-import { Page, expect, test, test as base } from "@playwright/test";
+import { Page, expect, test } from "@playwright/test";
 import path from "path";
 
 import { AccountsRegisterPage } from "test/e2e/accounts/register/page";
 import { emailGenerateRandom } from "test/e2e/support/helpers";
 import { passwordValid, urls } from "test/support/constants";
 
+const baseTest = test.extend({}); // shared logic common to all tests
+
 export * from "@playwright/test";
-export const authenticatedTest = base.extend<
+export const authenticatedTest = baseTest.extend<
   {},
   { workerStorageState: string }
 >({
@@ -51,14 +53,14 @@ export const authenticatedTest = base.extend<
   ],
 });
 
-export const unauthenticatedTest = base;
+export const unauthenticatedTest = baseTest;
 
 // generic/reusable tests
 function redirectsUnauthenticatedUserToLoginPage(
   pageName: string,
   PageClass: any
 ) {
-  return test.describe(`[Unauthenticated] ${pageName}`, () => {
+  return baseTest.describe(`[Unauthenticated] ${pageName}`, () => {
     let testPage: Page;
 
     test.beforeEach(async ({ page }) => {

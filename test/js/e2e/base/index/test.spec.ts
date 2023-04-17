@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 import { BaseIndexPage } from "./page";
 
-test.describe.only("Base index page", () => {
+test.describe("Base index page", () => {
   let testPage: BaseIndexPage;
 
   test.beforeEach(async ({ page }) => {

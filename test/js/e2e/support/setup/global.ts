@@ -6,8 +6,12 @@ import { storageState } from "test/e2e/support/constants";
 import { testUserEmail, passwordValid } from "test/support/constants";
 import { textColorize } from "test/support/helpers";
 
+// expose shared state so that setup data can be accessed in teardown logic
+export const state: { baseUrl?: string; sqlSandboxUserAgent?: string } = {};
+
 async function globalSetup(config: FullConfig) {
-  // async function globalSetup() {
+  state.baseUrl = config.projects[0].use.baseURL;
+
   // create storageState.json if it doesn't already exist
   if (!fs.existsSync(storageState)) {
     console.log(
@@ -17,37 +21,39 @@ async function globalSetup(config: FullConfig) {
     fs.writeFileSync(storageState, "{}"); // create empty JSON file
   }
 
-  // create new browser session
+  // create new browser session (use shared state so teardown can access browser context)
   const browser = await chromium.launch();
-  // const page = await browser.newPage({ storageState: undefined });
+  const page = await browser.newPage({ storageState: undefined });
 
-  /* setup SQL sandbox */
-  console.log(textColorize("Setup (global): Setting up SQL sandbox..."));
-
-  // get custom user agent from sandbox setup endpoint
-  const userAgent = await fetch(`${config.projects[0].use.baseURL}/sandbox`, {
-    method: "POST",
-  })
-    .then(
-      (res) => res.text() // SQL sandbox setup successful. pass in user agent
-    )
-    .catch(async () => {
-      // SQL sandbox setup unsuccessful. use default user agent
-      console.log(
-        textColorize(
-          "Setup (global): Could not set up SQL sandbox. " +
-            "The database will need to be cleared manually.",
-          "warning"
-        )
-      );
-      return undefined;
-    });
-
-  // create page object
-  const page = await browser.newPage({
-    storageState: undefined,
-    userAgent,
-  });
+  // FIXME: this logic needs to be moved into the context of a fixture (I think...)
+  // /* setup SQL sandbox */
+  // console.log(textColorize("Setup (global): Setting up SQL sandbox..."));
+  //
+  // // get custom user agent from sandbox setup endpoint
+  // state.sqlSandboxUserAgent = await fetch(`${state.baseUrl}/sandbox`, {
+  //   method: "POST",
+  // })
+  //   .then(
+  //     (res) => res.text() // SQL sandbox setup successful. use custom user agent
+  //   )
+  //   .catch(() => {
+  //     // SQL sandbox setup unsuccessful. use default user agent
+  //     console.log(
+  //       textColorize(
+  //         "Setup (global): Could not set up SQL sandbox. " +
+  //           "The test database will need to be cleared manually.",
+  //         "warning"
+  //       )
+  //     );
+  //     return undefined;
+  //   });
+  //
+  // const context = state.sqlSandboxUserAgent
+  //   ? await browser.newContext({ userAgent: state.sqlSandboxUserAgent })
+  //   : await browser.newContext();
+  //
+  // // create page object
+  // const page = await context.newPage();
 
   // register generic test user
   console.log(textColorize("Setup (global): Registering generic test user..."));

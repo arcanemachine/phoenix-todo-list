@@ -9,11 +9,6 @@ repos:
       - id: trailing-whitespace
       # yaml
       - id: check-yaml
-  # - repo: https://gitlab.com/jvenom/elixir-pre-commit-hooks
-  #   rev: v1.2.0
-  #   hooks:
-  #     - id: mix-format
-  #     - id: mix-test
   - repo: "local"
     hooks:
       - id: "mix-format"

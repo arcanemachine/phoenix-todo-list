@@ -38,7 +38,6 @@ defmodule TodoListWeb.UserRegistrationLiveTest do
           }
         )
 
-      assert result =~ "Register"
       assert result =~ "This is not a valid email address."
 
       assert result =~

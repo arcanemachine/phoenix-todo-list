@@ -20,7 +20,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
 
   // functions
   async function todoCreate() {
-    /** Create a Todo and ensure that it has been created. */
+    /** Create a todo and ensure that it has been created. */
     await testPage.todoCreate(createdTodoContent);
 
     // sanity check: the form is 'create' mode
@@ -129,9 +129,57 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await expect(testPage.todoList).not.toContainText(initialTodoContent);
   });
 
-  // authenticatedTest("marks an incomplete todo as completed by clicking the checkbox", async () => {});
-  // authenticatedTest("marks a completed todo as incomplete by clicking the checkbox againtjkljkl", async () => {});
+  authenticatedTest(
+    "marks an incomplete todo as completed by clicking the checkbox",
+    async () => {}
+  );
+  authenticatedTest(
+    "marks a completed todo as incomplete by clicking the checkbox again",
+    async () => {}
+  );
+
   // authenticatedTest("deletes a todo", async () => {});
 
-  // authenticatedTest("shows correct user count when single user is present", async () => {});
+  // authenticatedTest(
+  //   "shows correct user count when single window is viewing the page",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct user count when multiple windows are viewing the page",
+  //   async () => {}
+  // );
+
+  // authenticatedTest(
+  //   "shows correct message when current window creates a todo",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct message when other window creates a todo",
+  //   async () => {}
+  // );
+
+  // authenticatedTest(
+  //   "shows correct message when current window updates a todo's content",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct message when other window updates a todo's content",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct message when current window updates a todo's completion status",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct message when other window updates a todo's completion status",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct message when current window deletes a todo",
+  //   async () => {}
+  // );
+  // authenticatedTest(
+  //   "shows correct message when other window updates a todo's completion status",
+  //   async () => {}
+  // );
 });

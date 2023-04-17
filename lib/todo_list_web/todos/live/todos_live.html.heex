@@ -61,7 +61,10 @@
         x-model="todoFormInputText"
         x-ref="formInput"
       />
-      <.button class="btn w-28" x-bind:class="todoIdSelected === 0 ? 'btn-success' : 'btn-primary'">
+      <.button
+        class="btn w-28"
+        x-bind:class="todoIdSelected === 0 ? 'btn-success' : 'btn-primary'"
+      >
         <span x-text="todoIdSelected === 0 && 'Create' || 'Update'" />
       </.button>
     </div>

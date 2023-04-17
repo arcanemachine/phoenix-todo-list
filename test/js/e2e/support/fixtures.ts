@@ -1,5 +1,6 @@
-import { Page, expect, test } from "@playwright/test";
+import fs from "fs";
 import path from "path";
+import { Page, expect, test } from "@playwright/test";
 
 import { AccountsRegisterPage } from "test/e2e/accounts/register/page";
 import { emailGenerateRandom } from "test/e2e/support/helpers";
@@ -25,12 +26,12 @@ export const authenticatedTest = baseTest.extend<
         `e2e/.auth/${workerId}.json`
       );
 
-      // TODO: reuse valid authentication states when possible (currently breaks logout tests)
-      // if (fs.existsSync(fileName)) {
-      //   // if authentication state already exists for this worker, then reuse it
-      //   await use(fileName);
-      //   return;
-      // }
+      // reuse valid authentication states when possible
+      if (fs.existsSync(fileName)) {
+        // if authentication state already exists for this worker, then reuse it
+        await use(fileName);
+        return;
+      }
 
       // using a new session, create and log into an account for this worker
       // (the user will be automatically logged in after registration)

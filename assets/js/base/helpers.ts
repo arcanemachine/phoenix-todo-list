@@ -1,3 +1,5 @@
+import Alpine from "alpinejs";
+
 const helpers = (() => {
   return {
     alpineExpressionIsObject(expression: string): boolean {
@@ -100,6 +102,11 @@ const helpers = (() => {
     pluralize(val: number, nonPluralResult: "", pluralResult = "s"): string {
       return val === 1 ? pluralResult : nonPluralResult;
     },
+
+    pushEventHandleFailed() {
+      // show error toast message
+      Alpine.store("toasts").showError("Error: Could not contact the server");
+    },
   };
 })();
 
@@ -110,5 +117,6 @@ export const darkModeSavedPreferenceExists =
 export const debug = helpers.debug;
 export const delayFor = helpers.delayFor;
 export const pluralize = helpers.pluralize;
+export const pushEventHandleFailed = helpers.pushEventHandleFailed;
 
 export default helpers;

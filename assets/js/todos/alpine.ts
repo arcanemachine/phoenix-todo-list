@@ -141,20 +141,37 @@ function todosLive() {
           this.todoSelectedReset();
         })
         .then(() =>
+          // wait for modal to fade out
           delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
-          /* disable pointer events and hide todo item element */
           const todoElt = this.todoEltGet(todoIdSelected);
 
+          // disable pointer events and hide todo item element
           todoElt.style.pointerEvents = "none";
           todoElt.dispatchEvent(new CustomEvent("hide"));
         })
         .then(() =>
+          // wait for item collapse effect
           delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
-          this.hook.pushEvent("todo_delete", { id: String(todoIdSelected) });
+          // push delete event to server
+          const pushEventResult = this.hook.pushEvent("todo_delete", {
+            id: String(todoIdSelected),
+          });
+
+          if (pushEventResult === false) {
+            /* server push event failed */
+            const todoElt = this.todoEltGet(todoIdSelected);
+
+            // re-enable pointer events and show todo item element
+            todoElt.style.pointerEvents = "";
+            todoElt.dispatchEvent(new CustomEvent("show"));
+
+            // run generic pushEvent failure logic
+            this.$store.helpers.base.pushEventHandleFailed();
+          }
         });
     },
 

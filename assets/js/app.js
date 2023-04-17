@@ -99,18 +99,12 @@ window.addEventListener("phx:page-loading-stop", () => topbar.hide());
 liveSocket.connect();
 
 // expose liveSocket on window for web console debug logs and latency simulation:
-// liveSocket.enableDebug()
-// liveSocket.enableLatencySim(1500); // enabled for duration of browser session
-// liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
 // any logic that shouldn't be committed to source control should be placed in
-// '/assets/js/gitignore.ts' e.g. debugging logic, livesocket latency
-// configuration, etc.
+// '/assets/js/gitignore.ts' e.g. debugging logic, livesocket configuration, etc.
 (() => {
   try {
     return import("./gitignore.js");
-  } catch (err) {
-    // alert("Couldn't import gitignore.js");
-  }
+  } catch (err) {}
 })();

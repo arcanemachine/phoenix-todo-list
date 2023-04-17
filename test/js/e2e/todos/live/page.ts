@@ -15,7 +15,7 @@ export class TodosLivePage extends BasePage {
 
   /* page elements */
   readonly pageTitle: Locator;
-  // readonly alpineComponent: Locator;
+  readonly alpineComponent: Locator;
 
   // todo form
   readonly todoForm: Locator;
@@ -62,7 +62,7 @@ export class TodosLivePage extends BasePage {
 
     /* page elements */
     this.pageTitle = page.locator("#page-title");
-    // this.alpineComponent = page.locator("#todos-live");
+    this.alpineComponent = page.locator("#todos-live");
 
     // todo form
     this.todoForm = page.locator("#todo-form");
@@ -106,17 +106,25 @@ export class TodosLivePage extends BasePage {
   }
 
   // misc
-  // async todoIdSelectedGet(): Promise<Number> {
-  //   /**
-  //    * Return the ID of the currently-selected Todo item.
-  //    * If no Todo item is currently selected, this function will return 0;
-  //    */
-  //   return Number(this.alpineComponent.getAttribute("data-todo-id-selected"));
-  // }
+  async todoIdGet(todo: Locator): Promise<Number> {
+    /** Return the ID of a given Todo item. */
+    return Number(await todo.getAttribute("data-todo-id"));
+  }
+
+  async todoIdSelectedGet(): Promise<Number> {
+    /**
+     * Return the ID of the currently-selected Todo item.
+     * If no Todo item is currently selected, this function will return 0;
+     */
+    return Number(
+      await this.alpineComponent.getAttribute("data-todo-id-selected")
+    );
+  }
+
   async todoSelect(todo: Locator) {
     /**
      * Ensure that a given Todo is selected by clicking it.
-     * TODO: If another todo is selected, it will un-select that Todo and select
+     * TODO: If another todo is selected, un-select that Todo and select
      *       the desired one. If the desired Todo is already selected, this
      *       function will not do anything.
      */

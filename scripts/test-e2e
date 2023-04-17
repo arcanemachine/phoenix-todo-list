@@ -11,5 +11,9 @@ npx playwright test "$@"
 
 # reset the database after E2E tests
 cd $project_root
-echo "E2E tests complete. Resetting the database..."
+echo "E2E tests complete. Resetting the test database..."
 MIX_ENV=test mix ecto.reset > /dev/null
+
+if [ "$?" = 0 ]; then
+  echo "The test database has been reset."
+fi

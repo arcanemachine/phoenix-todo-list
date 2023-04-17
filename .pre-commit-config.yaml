@@ -22,12 +22,14 @@ repos:
         language: "system"
         entry: "mix format"
         files: "\\.(?:exs|ex|heex)?$"
+        require_serial: true
       - id: "mix-test"
         name: "Test Elixir files"
         description: "Runs Elixir tests with mix test"
         language: "system"
-        entry: "mix test"
+        entry: "./scripts/test-phoenix"
         files: "test\/.*\\_test.exs$"
+        require_serial: true
       - id: "test-e2e"
         name: "Run E2E tests"
         description: "Runs end-to-end tests with Playwright"
@@ -35,3 +37,4 @@ repos:
         entry: "./scripts/pre-commit"
         files: "test\/.*\\."
         args: ["--test-e2e"]
+        require_serial: true

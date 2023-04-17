@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# change to project root directory
+# navigate to project root directory
 cd $(dirname "$0")/../
 
+# run the tests
 mix test

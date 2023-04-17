@@ -24,12 +24,14 @@ repos:
         language: "system"
         entry: "./scripts/test-phoenix"
         files: "test\/.*\\_test.exs$"
+        always_run: true
         require_serial: true
       - id: "test-e2e"
         name: "Run E2E tests"
         description: "Runs end-to-end tests with Playwright"
         language: "system"
         entry: "./scripts/pre-commit"
-        files: "test\/.*\\."
         args: ["--test-e2e"]
+        files: "test\/.*\\."
+        always_run: true
         require_serial: true

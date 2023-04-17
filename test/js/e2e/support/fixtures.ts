@@ -51,6 +51,8 @@ export const authenticatedTest = base.extend<
   ],
 });
 
+export const unauthenticatedTest = base;
+
 // generic/reusable tests
 function redirectsUnauthenticatedUserToLoginPage(
   pageName: string,

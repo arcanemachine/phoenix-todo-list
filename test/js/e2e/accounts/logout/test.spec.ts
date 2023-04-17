@@ -1,34 +1,35 @@
 /**
- * These tests use the generic Playwright `test()` method to avoid issues
- * caused by logging out of the session used by authenticated workers.
+ * All tests in this module use the `unauthenticatedTest` method. This prevents
+ * loss of session data caused by logging out any users used in authenticated
+ * test fixtures.
  */
-import test from "@playwright/test";
 import { expect } from "@playwright/test";
 import { AccountsLoginPage } from "test/e2e/accounts/login/page";
 import { passwordValid, testUserEmail } from "test/support/constants";
 
+import { unauthenticatedTest } from "test/e2e/support/fixtures";
 import { AccountsLogoutPage } from "./page";
 
-test.describe("[Unauthenticated] Account logout page", () => {
+unauthenticatedTest.describe("[Unauthenticated] Account logout page", () => {
   let testPage: AccountsLogoutPage;
 
-  test.beforeEach(async ({ page }) => {
+  unauthenticatedTest.beforeEach(async ({ page }) => {
     // navigate to test page
     testPage = new AccountsLogoutPage(page);
     await testPage.goto();
   });
 
-  test("shows expected form buttons", async () => {
+  unauthenticatedTest("shows expected form buttons", async () => {
     await expect(testPage.formButtonHome).toBeVisible();
     await expect(testPage.formButtonLogin).toBeVisible();
   });
 });
 
-test.describe("[Authenticated] Account logout page", () => {
+unauthenticatedTest.describe("[Authenticated] Account logout page", () => {
   let testPage: AccountsLogoutPage;
   let accountsLoginPage: AccountsLoginPage;
 
-  test.beforeEach(async ({ page }) => {
+  unauthenticatedTest.beforeEach(async ({ page }) => {
     // login as generic test user
     accountsLoginPage = new AccountsLoginPage(page);
     await accountsLoginPage.goto();
@@ -39,12 +40,12 @@ test.describe("[Authenticated] Account logout page", () => {
     await testPage.goto();
   });
 
-  test("shows expected form buttons", async () => {
+  unauthenticatedTest("shows expected form buttons", async () => {
     await expect(testPage.formButtonCancel).toBeVisible();
     await expect(testPage.formButtonSubmit).toBeVisible();
   });
 
-  test("logs out an authenticated user", async ({ page }) => {
+  unauthenticatedTest("logs out an authenticated user", async ({ page }) => {
     // perform action
     await testPage.logout();
 

@@ -21,7 +21,7 @@ repos:
         description: "Formats Elixir files with mix format"
         language: "system"
         entry: "mix format"
-        files: "\\.exs?$" # elixir filetypes: ex, exs, heex
+        files: "\\.(?:exs|ex|heex)?$"
       - id: "mix-test"
         name: "Test Elixir files"
         description: "Runs Elixir tests with mix test"

@@ -28,7 +28,7 @@ export abstract class BasePage {
     await this.page.goto(this.url.toString());
   }
 
-  async toastClear() {
+  async toastClearAll() {
     /** Clear all toast messages. */
     await this.page.evaluate(() => {
       const toastContainerElt = document.querySelector("#toast-container");

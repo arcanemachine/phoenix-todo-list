@@ -13,18 +13,17 @@ genericTests.redirectsUnauthenticatedUserToLoginPage(
 // custom tests
 authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   let testPage: TodosLivePage;
-  let createdTodoContent: string;
-  let updatedTodoContent: string;
+  let todoContent: string;
 
   const generateUniqueTodoContent = () => randomUUID();
 
   // functions
   async function todoCreate() {
     /** Create a todo and ensure that it has been created. */
-    await testPage.todoCreate(createdTodoContent);
+    await testPage.todoCreate(todoContent);
 
     // sanity check: the form is 'create' mode
-    await expect(testPage.todoFormButtonSubmit).toContainText("Create");
+    await expect.soft(testPage.todoFormButtonSubmit).toContainText("Create");
 
     // page contains expected toast message
     const successToast = testPage.toastContainer.locator(".toast-success", {
@@ -33,7 +32,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await expect(successToast).toBeVisible();
 
     // page contains expected content
-    const createdTodo = testPage.todoGetByContent(createdTodoContent);
+    const createdTodo = testPage.todoGetByContent(todoContent);
     await expect(createdTodo).toBeVisible();
   }
 
@@ -56,8 +55,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
 
   // tests
   authenticatedTest.beforeEach(async ({ page }) => {
-    createdTodoContent = generateUniqueTodoContent();
-    updatedTodoContent = generateUniqueTodoContent();
+    todoContent = generateUniqueTodoContent();
 
     // navigate to test page
     testPage = new TodosLivePage(page);
@@ -74,10 +72,8 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     // create a todo
     await todoCreate();
 
-    // get the todo
-    const todo = testPage.todoGetByContent(createdTodoContent);
-
     // select the todo
+    const todo = testPage.todoGetByContent(todoContent);
     await todoSelect(todo);
   });
 
@@ -86,17 +82,17 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await todoCreate();
 
     // get the todo
-    const todo = testPage.todoGetByContent(createdTodoContent);
-    const todoId = await testPage.todoIdGet(todo);
+    const todo = testPage.todoGetByContent(todoContent);
 
     // select the todo
     await todoSelect(todo);
 
     // click the todo again to un-select it
-    const todoButtonContent = testPage.todoButtonContent(todo);
-    await todoButtonContent.click();
+    const todoContentButton = testPage.todoButtonContent(todo);
+    await todoContentButton.click();
 
     // the todo is no longer selected
+    const todoId = await testPage.todoIdGet(todo);
     expect(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
 
     // the form is now in 'create' mode
@@ -104,7 +100,8 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   });
 
   authenticatedTest("updates a todo's content", async () => {
-    const initialTodoContent = createdTodoContent;
+    const initialTodoContent = todoContent;
+    const updatedTodoContent = generateUniqueTodoContent();
 
     // create a todo
     await todoCreate();
@@ -116,9 +113,9 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await testPage.todoUpdateContent(todo, updatedTodoContent);
 
     // page contains expected toast message
-    await expect
-      .soft(testPage.toastContainer)
-      .toContainText(testPage.stringTodoUpdateSuccess);
+    await expect(testPage.toastContainer).toContainText(
+      testPage.stringTodoUpdateSuccess
+    );
 
     // page contains expected content
     await expect(
@@ -130,12 +127,43 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   });
 
   authenticatedTest(
-    "marks an incomplete todo as completed by clicking the checkbox",
-    async () => {}
-  );
-  authenticatedTest(
-    "marks a completed todo as incomplete by clicking the checkbox again",
-    async () => {}
+    "toggles a todo's completion status by clicking the checkbox",
+    async ({ page }) => {
+      // create a todo
+      await todoCreate();
+
+      // get the todo
+      const todo = page.getByRole("listitem").filter({ hasText: todoContent });
+
+      // sanity check: the todo is incomplete
+      expect
+        .soft(await todo.getByTestId("is-completed").isVisible())
+        .toBe(false);
+
+      // click the checkbox
+      const todoCheckboxIsCompleted = testPage.todoCheckboxIsCompletedGet(todo);
+      await todoCheckboxIsCompleted.click();
+
+      // page contains expected toast message
+      await expect(testPage.toastContainer).toContainText(
+        testPage.stringTodoUpdateSuccess
+      );
+      await testPage.toastClearAll(); // clear toasts
+
+      // the todo is now completed
+      expect(await todo.getByTestId("is-completed").isVisible()).toBe(true);
+
+      // click the checkbox again
+      await todoCheckboxIsCompleted.click();
+
+      // page contains expected toast message
+      await expect(testPage.toastContainer).toContainText(
+        testPage.stringTodoUpdateSuccess
+      );
+
+      // the todo is now incomplete
+      expect(await todo.getByTestId("is-completed").isVisible()).toBe(true);
+    }
   );
 
   // authenticatedTest("deletes a todo", async () => {});

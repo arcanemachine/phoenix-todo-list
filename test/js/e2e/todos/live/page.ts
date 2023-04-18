@@ -29,20 +29,28 @@ export class TodosLivePage extends BasePage {
   //   /** Return the Locator that contains a given todo item's elements. */
   //   return this.todoList.locator(`li#todo-item-${id}`);
   // }
+
+  // todoGetByContent(content: string): Locator {
+  //   /** Return the Locator that contains a given todo item's elements. */
+  //   return this.todoList.locator("[data-todo-id]", { hasText: content });
+  // }
   todoGetByContent(content: string): Locator {
     /** Return the Locator that contains a given todo item's elements. */
-    return this.todoList.locator("[data-todo-id]", { hasText: content });
+    return this.todoList.getByRole("listitem").filter({ hasText: content });
   }
-
+  //
   todoButtonContent(todo: Locator): Locator {
     return todo.locator("button.todo-button-content");
   }
+  // todoCheckboxIsCompletedGet(todo: Locator): Locator {
+  //   return todo.locator(`button.todo-checkbox-is-completed`);
+  // }
   todoCheckboxIsCompletedGet(todo: Locator): Locator {
-    return todo.locator(`button.todo-is-completed-checkbox`);
+    return todo.locator(`button.todo-checkbox-is-completed`);
   }
-  todoButtonDeleteGet(todo: Locator): Locator {
-    return todo.locator("button.todo-button-delete");
-  }
+  // todoDeleteButtonGet(todo: Locator): Locator {
+  //   return todo.locator("button.todo-delete-button");
+  // }
 
   // todo delete modal
   readonly todoDeleteModal: Locator;
@@ -107,14 +115,14 @@ export class TodosLivePage extends BasePage {
 
   // misc
   async todoIdGet(todo: Locator): Promise<Number> {
-    /** Return the ID of a given Todo item. */
+    /** Return the ID of a given todo item. */
     return Number(await todo.getAttribute("data-todo-id"));
   }
 
   async todoIdSelectedGet(): Promise<Number> {
     /**
-     * Return the ID of the currently-selected Todo item.
-     * If no Todo item is currently selected, this function will return 0;
+     * Return the ID of the currently-selected todo item.
+     * If no todo item is currently selected, this function will return 0;
      */
     return Number(
       await this.alpineComponent.getAttribute("data-todo-id-selected")
@@ -123,8 +131,8 @@ export class TodosLivePage extends BasePage {
 
   async todoSelect(todo: Locator) {
     /**
-     * Ensure that a given Todo is selected by clicking it.
-     * TODO: If another todo is selected, un-select that Todo and select
+     * Ensure that a given todo is selected by clicking it.
+     * TODO: If another todo is selected, un-select that todo and select
      *       the desired one. If the desired Todo is already selected, this
      *       function will not do anything.
      */

@@ -12,7 +12,7 @@ There are a few ways to run this project's E2E tests:
   - To run the tests once, run `/scripts/test-e2e`
   - To run the tests in watch mode, run `/scripts/test-e2e-watch`
 
-### Coordinating [With](With) the Web Server
+### Coordinating With the Web Server
 
 When running the E2E tests, a web server is automatically started using the parameters in `../playwright.config.ts`, in the `webServer` key of the configuration object.
 

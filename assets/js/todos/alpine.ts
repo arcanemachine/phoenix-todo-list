@@ -1,3 +1,4 @@
+import type { AlpineComponent } from "../alpine";
 import { delayFor } from "../base/helpers";
 
 // data
@@ -195,7 +196,7 @@ function todosLive() {
           this.$store.toasts.showError("Item could not be deleted"); // error message
         });
     },
-  };
+  } as AlpineComponent;
 }
 
 // exports

@@ -43,19 +43,17 @@ The E2E tests for this project are structured by feature. The file hierarchy goe
 ```mermaid
 flowchart TD
     Root[E2E Test Root Directory]
-        feature[feature\ne.g. 'Accounts']
-            pageA[page\ne.g. 'Register']
-                codeA[page/test code\ne.g. 'page.ts', 'test.spec.ts']
-            pageB[page\ne.g. 'Login']
-                codeB[page/test code\ne.g. 'page.ts', 'test.spec.ts']
+        feature[feature\n\ne.g. 'Accounts']
+            pageA[page\n\ne.g. 'Register']
+                codeA[page/test code\n\ne.g. 'page.ts', 'test.spec.ts']
+            pageB[page\n\ne.g. 'Login']
+                codeB[page/test code\n\ne.g. 'page.ts', 'test.spec.ts']
         support[support]
-            constants[constants\nReusable static values]
-            fixtures[fixtures\nTests with extended functionality\ne.g. Authenticated user tests]
-            helpers[helpers\nReusable functions]
-            setup[setup\nCode that is executed\nbefore any tests are run]
-            teardown[teardown\nCode that is executed\nafter all tests have run]
-
-
+            constants[constants\n\nReusable static values]
+            fixtures[fixtures\n\nTests with extended functionality\ne.g. Authenticated user tests]
+            helpers[helpers\n\nReusable functions]
+            setup[setup\n\nCode that is executed\nbefore any tests are run]
+            teardown[teardown\n\nCode that is executed\nafter all tests have run]
 
     Root --> feature
         feature --> pageA --> codeA

@@ -15,9 +15,13 @@ export class TodosLivePage extends BasePage {
   readonly stringTodoCreateSuccess: string;
   readonly stringTodoUpdateSuccess: string;
   readonly stringTodoDeleteSuccess: string;
+  readonly stringOtherWindowTodoCreateSuccess: string;
+  readonly stringOtherWindowTodoUpdateSuccess: string;
+  readonly stringOtherWindowTodoDeleteSuccess: string;
 
   /* page elements */
   readonly alpineComponent: Locator;
+  readonly userCounter: Locator;
 
   // todo form
   readonly todoForm: Locator;
@@ -59,9 +63,13 @@ export class TodosLivePage extends BasePage {
     this.stringTodoCreateSuccess = "Item created successfully";
     this.stringTodoUpdateSuccess = "Item updated successfully";
     this.stringTodoDeleteSuccess = "Item deleted successfully";
+    this.stringOtherWindowTodoCreateSuccess = "Item created in another window";
+    this.stringOtherWindowTodoUpdateSuccess = "Item updated in another window";
+    this.stringOtherWindowTodoDeleteSuccess = "Item deleted in another window";
 
     /* page elements */
     this.alpineComponent = page.locator("#todos-live");
+    this.userCounter = page.getByTestId("user-counter");
 
     // todo form
     this.todoForm = page.locator("#todo-form");

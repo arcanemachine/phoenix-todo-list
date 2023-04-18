@@ -1,7 +1,7 @@
 <%= if assigns[:user_count] && @user_count > 0 do %>
   <% # presence: user count %>
   <div
-    id="presence-user-count"
+    data-testid="user-counter"
     class={[
       ["fixed bottom-[-0.33rem] left-[-0.33rem] px-4 py-2 btn btn-info font-bold normal-case"],
       ["rounded-none rounded-tr-lg pointer-events-none"]

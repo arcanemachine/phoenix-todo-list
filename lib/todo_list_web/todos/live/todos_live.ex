@@ -57,7 +57,7 @@ defmodule TodoListWeb.TodosLive do
     socket =
       if msg.payload.socket_id === socket.id,
         do: socket |> push_event("todo-create-success", %{}),
-        else: socket |> toast_success("A new item has been created in another window.")
+        else: socket |> toast_success("Item created in another window")
 
     {:noreply, assign(socket, todos: msg.payload.todos)}
   end
@@ -66,7 +66,7 @@ defmodule TodoListWeb.TodosLive do
     socket =
       if msg.payload.socket_id === socket.id,
         do: socket |> push_event("todo-toggle-is-completed-success", %{}),
-        else: socket |> toast_success("An item has been updated in another window.")
+        else: socket |> toast_success("Item updated in another window")
 
     {:noreply, assign(socket, todos: msg.payload.todos)}
   end
@@ -75,7 +75,7 @@ defmodule TodoListWeb.TodosLive do
     socket =
       if msg.payload.socket_id === socket.id,
         do: socket |> push_event("todo-update-content", %{}),
-        else: socket |> toast_success("An item has been updated in another window.")
+        else: socket |> toast_success("Item updated in another window")
 
     {:noreply, assign(socket, todos: msg.payload.todos)}
   end
@@ -84,7 +84,7 @@ defmodule TodoListWeb.TodosLive do
     socket =
       if msg.payload.socket_id === socket.id,
         do: socket |> push_event("todo-delete-success", %{}),
-        else: socket |> toast_success("An item has been deleted in another window.")
+        else: socket |> toast_success("Item deleted in another window")
 
     {:noreply, assign(socket, todos: msg.payload.todos)}
   end

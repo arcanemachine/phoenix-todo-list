@@ -127,9 +127,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
       const todo = page.getByRole("listitem").filter({ hasText: todoContent });
 
       // sanity check: the todo is incomplete
-      expect
-        .soft(await todo.getByTestId("is-completed").isVisible())
-        .toBe(false);
+      await expect.soft(todo.getByTestId("is-completed")).not.toBeVisible();
 
       // click the checkbox
       const todoCheckboxIsCompleted = testPage.todoCheckboxIsCompletedGet(todo);
@@ -142,7 +140,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
       await testPage.toastClearAll(); // clear toasts
 
       // the todo is now completed
-      expect(await todo.getByTestId("is-completed").isVisible()).toBe(true);
+      await expect(todo.getByTestId("is-completed")).toBeVisible();
 
       // click the checkbox again
       await todoCheckboxIsCompleted.click();
@@ -153,14 +151,14 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
       );
 
       // the todo is now incomplete
-      expect(await todo.getByTestId("is-completed").isVisible()).toBe(true);
+      await expect(todo.getByTestId("is-completed")).toBeVisible();
     }
   );
 
   authenticatedTest("deletes a todo", async () => {
     // sanity check: the delete modal is not visible
     const todoDeleteModal = testPage.todoDeleteModal;
-    expect.soft(await todoDeleteModal.isVisible()).toBe(false);
+    await expect.soft(todoDeleteModal).not.toBeVisible();
 
     // create a todo
     await todoCreate();

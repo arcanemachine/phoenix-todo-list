@@ -30,7 +30,7 @@ export class TodosLivePage extends BasePage {
   todoGetByContent(content: string): Locator {
     return this.todoList.getByRole("listitem").filter({ hasText: content });
   }
-  //
+
   todoButtonContent(todo: Locator): Locator {
     return todo.locator("button.todo-button-content");
   }

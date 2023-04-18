@@ -145,7 +145,7 @@ defmodule TodoListWeb.TodosLiveTest do
       {:ok, lv, _html} = live(conn, test_url())
 
       # select and click the checkbox for the incomplete todo
-      lv |> element("#todo-is-completed-checkbox-#{incomplete_todo.id}") |> render_click()
+      lv |> element("#todo-checkbox-is-completed-#{incomplete_todo.id}") |> render_click()
 
       # re-fetch todo from the database
       now_completed_todo = Todos.get_todo!(incomplete_todo.id)
@@ -162,7 +162,7 @@ defmodule TodoListWeb.TodosLiveTest do
       {:ok, lv, _html} = live(conn, test_url())
 
       # select and click the checkbox for the completed todo
-      lv |> element("#todo-is-completed-checkbox-#{completed_todo.id}") |> render_click()
+      lv |> element("#todo-checkbox-is-completed-#{completed_todo.id}") |> render_click()
 
       # re-fetch todo from the database
       now_incomplete_todo = Todos.get_todo!(completed_todo.id)

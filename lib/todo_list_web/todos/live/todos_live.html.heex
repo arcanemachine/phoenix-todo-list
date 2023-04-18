@@ -125,9 +125,9 @@
             <.button
               class={[
                 ["text-xl btn btn-square btn-ghost btn-outline outline-2"],
-                ["todo-is-completed-checkbox"]
+                ["todo-checkbox-is-completed"]
               ]}
-              id={"todo-is-completed-checkbox-#{todo.id}"}
+              id={"todo-checkbox-is-completed-#{todo.id}"}
               x-show="todoIdSelected !== todo.id"
               x-tooltip="Toggle completion status"
               phx-click={
@@ -138,7 +138,12 @@
               }
               phx-disable-with
             >
-              <Heroicons.check :if={todo.is_completed} solid class="h-8 w-8" />
+              <Heroicons.check
+                :if={todo.is_completed}
+                solid
+                class="h-8 w-8"
+                data-testid="is-completed"
+              />
             </.button>
 
             <% # icon: delete item %>

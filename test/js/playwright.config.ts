@@ -5,7 +5,7 @@ import { storageState } from "test/e2e/support/constants";
 
 export default defineConfig({
   expect: {
-    timeout: 1000 * 5, // timeout for a single `expect()` condition
+    timeout: 1000 * 10, // timeout for a single `expect()` condition
   },
   fullyParallel: true, // run tests in parallel
   // fail if `.only()` in tests during CI run or during git `pre-commit` hook

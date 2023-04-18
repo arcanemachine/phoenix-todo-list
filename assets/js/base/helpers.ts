@@ -1,52 +1,51 @@
 import Alpine from "alpinejs";
 
-const helpers = (() => {
-  return {
-    alpineExpressionIsObject(expression: string): boolean {
-      /** If expression can be evaluated as an object, return true. */
-      // expression begins and ends with curly braces
-      return expression.substring(0, 1) === "{" && expression.slice(-1) === "}";
+const helpers = {
+  alpineExpressionIsObject(expression: string): boolean {
+    /** If expression can be evaluated as an object, return true. */
+    // expression begins and ends with curly braces
+    return expression.substring(0, 1) === "{" && expression.slice(-1) === "}";
+  },
+
+  get darkModeEnabled(): boolean {
+    if (this.darkModeSavedPreferenceExists) {
+      // use saved preference
+      const savedDarkModePreference = JSON.parse(
+        localStorage.getItem("darkModeEnabled") || "0"
+      );
+      return Boolean(savedDarkModePreference);
+    } else {
+      // use browser preference
+      const browserDarkModePreference = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+
+      return browserDarkModePreference.matches;
+    }
+  },
+
+  get darkModeSavedPreferenceExists(): boolean {
+    return localStorage.getItem("darkModeEnabled") !== null;
+  },
+
+  debug: {
+    consoleStatementsWriteToDocument() {
+      /** Write console statements directly to the page. Helps debug on mobile. */
+      return (function () {
+        const prependToBody = (s: string) => {
+          const outputEl = document.createElement("div");
+          outputEl.textContent = s + "\n";
+          document.body.prepend(outputEl);
+        };
+        console.log = (s) => prependToBody(s);
+        console.warn = (s) => prependToBody(s);
+        console.error = (s) => prependToBody(s);
+      })();
     },
-
-    get darkModeEnabled(): boolean {
-      if (this.darkModeSavedPreferenceExists) {
-        // use saved preference
-        const savedDarkModePreference = JSON.parse(
-          localStorage.getItem("darkModeEnabled") || "0"
-        );
-        return Boolean(savedDarkModePreference);
-      } else {
-        // use browser preference
-        const browserDarkModePreference = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        );
-
-        return browserDarkModePreference.matches;
-      }
-    },
-
-    get darkModeSavedPreferenceExists(): boolean {
-      return localStorage.getItem("darkModeEnabled") !== null;
-    },
-
-    debug: {
-      consoleStatementsWriteToDocument() {
-        /** Write console statements directly to the page. Helps debug on mobile. */
-        return (function () {
-          const prependToBody = (s: string) => {
-            const outputEl = document.createElement("div");
-            outputEl.textContent = s + "\n";
-            document.body.prepend(outputEl);
-          };
-          console.log = (s) => prependToBody(s);
-          console.warn = (s) => prependToBody(s);
-          console.error = (s) => prependToBody(s);
-        })();
-      },
-      jsEvaluatorPopupCreate() {
-        /** Create a floating element to evaluate arbitrary Javascript. */
-        const jsEvaluatorContainer = document.createElement("div");
-        jsEvaluatorContainer.innerHTML = `
+    jsEvaluatorPopupCreate() {
+      /** Create a floating element to evaluate arbitrary Javascript. */
+      const jsEvaluatorContainer = document.createElement("div");
+      jsEvaluatorContainer.innerHTML = `
           <div
             style="position: fixed;
                    height: 2rem; width: 100%;
@@ -88,27 +87,26 @@ const helpers = (() => {
             </div>
           </div>
         `;
-        document.body.appendChild(jsEvaluatorContainer);
-      },
+      document.body.appendChild(jsEvaluatorContainer);
     },
+  },
 
-    delayFor(timeInMilliseconds: number) {
-      /** Create a delay for a specific amount of time. */
-      return new Promise(function (resolve) {
-        setTimeout(resolve, timeInMilliseconds);
-      });
-    },
+  delayFor(timeInMilliseconds: number) {
+    /** Create a delay for a specific amount of time. */
+    return new Promise(function (resolve) {
+      setTimeout(resolve, timeInMilliseconds);
+    });
+  },
 
-    pluralize(val: number, nonPluralResult: "", pluralResult = "s"): string {
-      return val === 1 ? pluralResult : nonPluralResult;
-    },
+  pluralize(val: number, nonPluralResult: "", pluralResult = "s"): string {
+    return val === 1 ? pluralResult : nonPluralResult;
+  },
 
-    pushEventHandleFailed() {
-      // show error toast message
-      Alpine.store("toasts").showError("Error: Could not contact the server");
-    },
-  };
-})();
+  pushEventHandleFailed() {
+    // show error toast message
+    Alpine.store("toasts").showError("Error: Could not contact the server");
+  },
+};
 
 export const alpineExpressionIsObject = helpers.alpineExpressionIsObject;
 export const darkModeEnabled = helpers.darkModeEnabled;

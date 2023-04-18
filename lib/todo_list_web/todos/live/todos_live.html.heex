@@ -128,6 +128,7 @@
                 ["todo-checkbox-is-completed"]
               ]}
               id={"todo-checkbox-is-completed-#{todo.id}"}
+              x-bind:aria-label="$el.getAttribute('x-tooltip')"
               x-show="todoIdSelected !== todo.id"
               x-tooltip="Toggle completion status"
               phx-click={

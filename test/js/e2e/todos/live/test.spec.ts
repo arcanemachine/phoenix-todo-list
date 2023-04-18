@@ -1,4 +1,4 @@
-import { expect, Locator } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { randomUUID } from "crypto";
 
 import { authenticatedTest, genericTests } from "test/e2e/support/fixtures";
@@ -36,23 +36,6 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await expect(createdTodo).toBeVisible();
   }
 
-  async function todoSelect(todo: Locator) {
-    /** Ensure that a Todo has been selected. */
-    const todoId = await testPage.todoIdGet(todo);
-
-    // sanity check: the todo is not currently selected
-    expect(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
-
-    // select the todo
-    await testPage.todoSelect(todo);
-
-    // the todo is now selected
-    expect(await testPage.todoIdSelectedGet()).toEqual(todoId);
-
-    // the form is now in 'update' mode
-    await expect(testPage.todoFormButtonSubmit).toContainText("Update");
-  }
-
   // tests
   authenticatedTest.beforeEach(async ({ page }) => {
     todoContent = generateUniqueTodoContent();
@@ -68,36 +51,37 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
 
   authenticatedTest("creates a todo", todoCreate);
 
-  authenticatedTest("selects a todo by clicking it", async () => {
-    // create a todo
-    await todoCreate();
+  authenticatedTest(
+    "selects and un-selects a todo by clicking it",
+    async () => {
+      // create a todo
+      await todoCreate();
+      const todo = testPage.todoGetByContent(todoContent);
+      const todoId = await testPage.todoIdGet(todo);
 
-    // select the todo
-    const todo = testPage.todoGetByContent(todoContent);
-    await todoSelect(todo);
-  });
+      // sanity check: the todo is not currently selected
+      expect(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
 
-  authenticatedTest("un-selects a todo by clicking it again", async () => {
-    // create a todo
-    await todoCreate();
+      // select the todo
+      const todoContentButton = testPage.todoButtonContent(todo);
+      await todoContentButton.click();
 
-    // get the todo
-    const todo = testPage.todoGetByContent(todoContent);
+      // the todo is now selected
+      expect(await testPage.todoIdSelectedGet()).toEqual(todoId);
 
-    // select the todo
-    await todoSelect(todo);
+      // the form is now in 'update' mode
+      await expect(testPage.todoFormButtonSubmit).toContainText("Update");
 
-    // click the todo again to un-select it
-    const todoContentButton = testPage.todoButtonContent(todo);
-    await todoContentButton.click();
+      // click the todo again to un-select it
+      await todoContentButton.click();
 
-    // the todo is no longer selected
-    const todoId = await testPage.todoIdGet(todo);
-    expect(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
+      // the todo is no longer selected
+      expect(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
 
-    // the form is now in 'create' mode
-    await expect(testPage.todoFormButtonSubmit).toContainText("Create");
-  });
+      // the form is now in 'create' mode
+      await expect(testPage.todoFormButtonSubmit).toContainText("Create");
+    }
+  );
 
   authenticatedTest("updates a todo's content", async () => {
     const initialTodoContent = todoContent;

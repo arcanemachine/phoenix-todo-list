@@ -12,6 +12,7 @@ export class TodosLivePage extends BasePage {
   // strings
   readonly stringTodoCreateSuccess: string;
   readonly stringTodoUpdateSuccess: string;
+  readonly stringTodoCheckboxIsCompletedLabel: string;
 
   /* page elements */
   readonly pageTitle: Locator;
@@ -46,7 +47,7 @@ export class TodosLivePage extends BasePage {
   //   return todo.locator(`button.todo-checkbox-is-completed`);
   // }
   todoCheckboxIsCompletedGet(todo: Locator): Locator {
-    return todo.locator(`button.todo-checkbox-is-completed`);
+    return todo.getByLabel(this.stringTodoCheckboxIsCompletedLabel);
   }
   // todoDeleteButtonGet(todo: Locator): Locator {
   //   return todo.locator("button.todo-delete-button");
@@ -67,6 +68,7 @@ export class TodosLivePage extends BasePage {
     // strings
     this.stringTodoCreateSuccess = "Item created successfully";
     this.stringTodoUpdateSuccess = "Item updated successfully";
+    this.stringTodoCheckboxIsCompletedLabel = "Toggle completion status";
 
     /* page elements */
     this.pageTitle = page.locator("#page-title");

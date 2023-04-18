@@ -36,10 +36,6 @@ This project's Phoenix web server has the [Ecto SQL Sandbox](https://hexdocs.pm/
 
 This test suite can be broadly divided into two sections: test code, and support code.
 
-### Test Code
-
-The E2E tests for this project are structured by feature. The file hierarchy goes `feature` -> `page` -> `code`.
-
 ```mermaid
 flowchart TD
     Root[E2E Test Root Directory]
@@ -55,16 +51,20 @@ flowchart TD
             setup[setup\n\nCode that is executed\nbefore any tests are run]
             teardown[teardown\n\nCode that is executed\nafter all tests have run]
 
-    Root --> feature
+    Root --> |Test code| feature
         feature --> pageA --> codeA
         feature --> pageB --> codeB
-    Root --> support
+    Root --> |Support code| support
         support --> constants
         support --> fixtures
         support --> helpers
         support --> setup
         support --> teardown
 ```
+
+### Test Code
+
+The E2E tests for this project are structured by feature. The file hierarchy goes `feature` -> `page` -> `code`.
 
 Each page directory contains two types of files: `page` code and `test` code:
 

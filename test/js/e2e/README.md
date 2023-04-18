@@ -34,14 +34,38 @@ This project's Phoenix web server has the [Ecto SQL Sandbox](https://hexdocs.pm/
 
 ## Project Structure
 
+This test suite can be broadly divided into two sections: test code, and support code.
+
 ### Test Code
 
-The E2E tests for this project are structured by feature. The file hierarchy goes `feature` -> `page` -> `code`. For example:
+The E2E tests for this project are structured by feature. The file hierarchy goes `feature` -> `page` -> `code`.
 
 ```mermaid
 flowchart TD
-    A[Feature:\ne.g. 'Accounts'] --> B[Page:\ne.g. 'Login', 'Register']
-    B --> C[Page/Test Code:\ne.g. 'page.ts', 'test.spec.ts']
+    Root[E2E Test Root Directory]
+        feature[feature\ne.g. 'Accounts']
+            pageA[page\ne.g. 'Register']
+                codeA[page/test code\ne.g. 'page.ts', 'test.spec.ts']
+            pageB[page\ne.g. 'Login']
+                codeB[page/test code\ne.g. 'page.ts', 'test.spec.ts']
+        support[support]
+            constants[constants\nReusable static values]
+            fixtures[fixtures\nTests with extended functionality\ne.g. Authenticated user tests]
+            helpers[helpers\nReusable functions]
+            setup[setup\nCode that is executed\nbefore any tests are run]
+            teardown[teardown\nCode that is executed\nafter all tests have run]
+
+
+
+    Root --> feature
+        feature --> pageA --> codeA
+        feature --> pageB --> codeB
+    Root --> support
+        support --> constants
+        support --> fixtures
+        support --> helpers
+        support --> setup
+        support --> teardown
 ```
 
 Each page directory contains two types of files: `page` code and `test` code:
@@ -61,7 +85,7 @@ Each page directory contains two types of files: `page` code and `test` code:
 
 - Test code (e.g. `test.spec.ts`) contains the tests.
 
-### Other Code
+### Support Code
 
 Non-test code can be found in the `./support` directory. This includes:
 

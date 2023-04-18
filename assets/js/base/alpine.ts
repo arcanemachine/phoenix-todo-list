@@ -1,12 +1,10 @@
-import type { AlpineComponent as AlpineComponentNS } from "alpinejs";
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
+import type { AlpineComponent } from "../alpine";
 import constants from "../constants";
 import helpers from "../helpers";
 import { data as todosData } from "../todos/alpine";
-
-type AlpineComponent = typeof AlpineComponentNS; // convert namespace to type
 
 /* data */
 function darkModeSelect() {

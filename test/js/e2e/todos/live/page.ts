@@ -10,12 +10,13 @@ export class TodosLivePage extends BasePage {
   readonly url: URL;
 
   // strings
+  readonly stringTodoButtonDeleteLabel: string;
+  readonly stringTodoCheckboxIsCompletedLabel: string;
   readonly stringTodoCreateSuccess: string;
   readonly stringTodoUpdateSuccess: string;
-  readonly stringTodoCheckboxIsCompletedLabel: string;
+  readonly stringTodoDeleteSuccess: string;
 
   /* page elements */
-  readonly pageTitle: Locator;
   readonly alpineComponent: Locator;
 
   // todo form
@@ -26,32 +27,19 @@ export class TodosLivePage extends BasePage {
   // todos
   readonly todoList: Locator;
 
-  // async todoGetById(id: number): Promise<Locator> {
-  //   /** Return the Locator that contains a given todo item's elements. */
-  //   return this.todoList.locator(`li#todo-item-${id}`);
-  // }
-
-  // todoGetByContent(content: string): Locator {
-  //   /** Return the Locator that contains a given todo item's elements. */
-  //   return this.todoList.locator("[data-todo-id]", { hasText: content });
-  // }
   todoGetByContent(content: string): Locator {
-    /** Return the Locator that contains a given todo item's elements. */
     return this.todoList.getByRole("listitem").filter({ hasText: content });
   }
   //
   todoButtonContent(todo: Locator): Locator {
     return todo.locator("button.todo-button-content");
   }
-  // todoCheckboxIsCompletedGet(todo: Locator): Locator {
-  //   return todo.locator(`button.todo-checkbox-is-completed`);
-  // }
   todoCheckboxIsCompletedGet(todo: Locator): Locator {
     return todo.getByLabel(this.stringTodoCheckboxIsCompletedLabel);
   }
-  // todoDeleteButtonGet(todo: Locator): Locator {
-  //   return todo.locator("button.todo-delete-button");
-  // }
+  todoButtonDeleteGet(todo: Locator): Locator {
+    return todo.getByLabel(this.stringTodoButtonDeleteLabel);
+  }
 
   // todo delete modal
   readonly todoDeleteModal: Locator;
@@ -66,12 +54,13 @@ export class TodosLivePage extends BasePage {
     this.url = new URL(urls.todos.todosLive);
 
     // strings
+    this.stringTodoButtonDeleteLabel = "Delete item";
+    this.stringTodoCheckboxIsCompletedLabel = "Toggle completion status";
     this.stringTodoCreateSuccess = "Item created successfully";
     this.stringTodoUpdateSuccess = "Item updated successfully";
-    this.stringTodoCheckboxIsCompletedLabel = "Toggle completion status";
+    this.stringTodoDeleteSuccess = "Item deleted successfully";
 
     /* page elements */
-    this.pageTitle = page.locator("#page-title");
     this.alpineComponent = page.locator("#todos-live");
 
     // todo form
@@ -103,10 +92,7 @@ export class TodosLivePage extends BasePage {
     await this.todoFormButtonSubmit.click();
   }
 
-  async todoUpdateContent(todo: Locator, content: string) {
-    // select the todo item
-    await this.todoSelect(todo);
-
+  async todoUpdateContent(content: string) {
     // fill out the form
     await this.todoFormInputText.click();
     await this.todoFormInputText.fill(content);
@@ -129,17 +115,5 @@ export class TodosLivePage extends BasePage {
     return Number(
       await this.alpineComponent.getAttribute("data-todo-id-selected")
     );
-  }
-
-  async todoSelect(todo: Locator) {
-    /**
-     * Ensure that a given todo is selected by clicking it.
-     * TODO: If another todo is selected, un-select that todo and select
-     *       the desired one. If the desired Todo is already selected, this
-     *       function will not do anything.
-     */
-    // click the todo to select it
-    const todoButtonContent = this.todoButtonContent(todo);
-    await todoButtonContent.click();
   }
 }

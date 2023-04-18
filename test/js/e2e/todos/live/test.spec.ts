@@ -60,7 +60,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
       const todoId = await testPage.todoIdGet(todo);
 
       // sanity check: the todo is not currently selected
-      expect(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
+      expect.soft(await testPage.todoIdSelectedGet()).not.toEqual(todoId);
 
       // select the todo
       const todoContentButton = testPage.todoButtonContent(todo);
@@ -93,8 +93,12 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     // get the todo
     const todo = testPage.todoGetByContent(initialTodoContent);
 
+    // select the todo
+    const todoContentButton = testPage.todoButtonContent(todo);
+    await todoContentButton.click();
+
     // update the todo
-    await testPage.todoUpdateContent(todo, updatedTodoContent);
+    await testPage.todoUpdateContent(updatedTodoContent);
 
     // page contains expected toast message
     await expect(testPage.toastContainer).toContainText(
@@ -108,6 +112,9 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
 
     // page no longer contains initial todo content
     await expect(testPage.todoList).not.toContainText(initialTodoContent);
+
+    // sanity check: the form is now in 'create' mode
+    await expect.soft(testPage.todoFormButtonSubmit).toContainText("Create");
   });
 
   authenticatedTest(
@@ -150,7 +157,40 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     }
   );
 
-  // authenticatedTest("deletes a todo", async () => {});
+  authenticatedTest("deletes a todo", async () => {
+    // sanity check: the delete modal is not visible
+    const todoDeleteModal = testPage.todoDeleteModal;
+    expect.soft(await todoDeleteModal.isVisible()).toBe(false);
+
+    // create a todo
+    await todoCreate();
+
+    // get the todo
+    const todo = testPage.todoGetByContent(todoContent);
+
+    // select the todo
+    const todoButtonContent = testPage.todoButtonContent(todo);
+    await todoButtonContent.click();
+
+    // click the 'delete' button
+    const todoButtonDelete = testPage.todoButtonDeleteGet(todo);
+    await todoButtonDelete.click();
+
+    // the delete modal is now visible
+    await expect(todoDeleteModal).toBeVisible();
+
+    // click the confirmation button
+    const todoDeleteModalButtonConfirm = testPage.todoDeleteModalButtonConfirm;
+    await todoDeleteModalButtonConfirm.click();
+
+    // page contains expected toast message
+    await expect(testPage.toastContainer).toContainText(
+      testPage.stringTodoDeleteSuccess
+    );
+
+    // page no longer contains todo
+    await expect(testPage.todoList).not.toContainText(todoContent);
+  });
 
   // authenticatedTest(
   //   "shows correct user count when single window is viewing the page",

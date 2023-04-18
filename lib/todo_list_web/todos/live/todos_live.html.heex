@@ -149,8 +149,8 @@
 
             <% # icon: delete item %>
             <.button
-              class={["text-xl btn btn-square btn-error btn-outline", "todo-button-delete"]}
-              aria-label="Delete todo"
+              class={["text-xl btn btn-square btn-error btn-outline"]}
+              x-bind:aria-label="$el.getAttribute('x-tooltip')"
               x-show="todoIdSelected === todo.id"
               x-tooltip="Delete item"
               x-on:click="() => todoDeleteModalShow(todoIdSelected)"

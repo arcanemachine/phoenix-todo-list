@@ -12,7 +12,7 @@ There are a few ways to run this project's E2E tests:
   - To run the tests once, run `/scripts/test-e2e`
   - To run the tests in watch mode, run `/scripts/test-e2e-watch`
 
-### Coordinating With the Web Server
+### Coordinating [With](With) the Web Server
 
 When running the E2E tests, a web server is automatically started using the parameters in `../playwright.config.ts`, in the `webServer` key of the configuration object.
 
@@ -76,3 +76,17 @@ Non-test code can be found in the `./support` directory. This includes:
   - e.g. `setup/enable-dark-mode.ts` - Enable dark mode before running the tests.
     - NOTE: Custom setup scripts must be listed as a [dependency](https://playwright.dev/docs/test-projects#dependencies) for a given project.
 - `teardown` - Code that is executed after all tests have finished.
+
+
+## Writing Tests
+
+It is a good idea to follow Playwright's [Best Practices](https://playwright.dev/docs/best-practices) guide when writing new tests. The following recommendations are written to my future self (or whoever!) in response to issues encountered when I was learning the ins and outs of Playwright:
+
+- It is best to base new locators on "user-visible behavior" in order to prevent coupling test behavior to properties which could change during the course of development.
+  - Instead of binding new locators to CSS/XPath classes, prefer binding them by role, test IDs, etc.
+  - For more info, see the [Locators](https://playwright.dev/docs/locators) section of the Playwright docs.
+- Use await-friendly assertions when writing your tests.
+  - Examples from the Best Practices guide:
+    - Do this: `await expect(page.getByText('welcome')).toBeVisible();`
+    - Not this `expect(await page.getByText('welcome').isVisible()).toBe(true);`
+  - The first test is better because it will wait for the value to become available, while the second one will get the value instantly (which may not be what you want).

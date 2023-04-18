@@ -3,5 +3,8 @@
 # navigate to project root directory
 cd $(dirname "$0")/../
 
+# reset the database (to prevent issues with e.g. aborted E2E tests)
+MIX_ENV=test mix ecto.reset
+
 # run the tests
 mix test

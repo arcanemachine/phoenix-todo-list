@@ -1,16 +1,18 @@
+import type { AlpineComponent as AlpineComponentNS } from "alpinejs";
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
 import constants from "../constants";
 import helpers from "../helpers";
 import { data as todosData } from "../todos/alpine";
-import StartToastifyInstance from "toastify-js";
+
+type AlpineComponent = typeof AlpineComponentNS; // convert namespace to type
 
 /* data */
 function darkModeSelect() {
   return {
     // data
-    choice: () => {
+    choice: (): string => {
       /** Get initial choice. */
       if (helpers.base.darkModeSavedPreferenceExists) {
         return localStorage.getItem("darkModeEnabled") === "1"
@@ -82,11 +84,14 @@ function darkModeSelect() {
     },
 
     handleChange() {
-      if (this.choice === "Auto") {
+      // FIXME: this is a harmless workaround to a tsserver warning
+      const choice = this.choice as unknown as string;
+
+      if (choice === "Auto") {
         this.darkModeClearPreference();
-      } else if (this.choice === "Light") {
+      } else if (choice === "Light") {
         this.darkModeDisable(true);
-      } else if (this.choice === "Dark") {
+      } else if (choice === "Dark") {
         this.darkModeEnable(true);
       }
     },
@@ -177,9 +182,10 @@ const animations = {
     const repeat = finalOptions.repeat;
 
     // remember initial styles
-    let initialStyles = {};
-    for (const key of Object.keys(temporaryStyles)) {
-      initialStyles[key] = elt.style[key];
+    let initialStyles: Record<string, string> = {}; // use record to keep ts linter quiet
+    const style = Object(elt.style); // convert to object to keep ts linter quiet
+    for (let key of Object.keys(temporaryStyles)) {
+      initialStyles[key] = style[key];
     }
 
     const initialTransitionValue = elt.style.transition;
@@ -263,7 +269,7 @@ const components = {
           this.$el.dataset.userIsAuthenticated
         );
       },
-    };
+    } as AlpineComponent;
   },
   // showOnInit: () => {
   //   return {
@@ -297,7 +303,7 @@ const components = {
       init() {
         this.confirmationRequired = this.$el.dataset.confirmationRequired;
       },
-    };
+    } as AlpineComponent;
 
     const dataFormModifiedAlertOnExit = {
       /** If a form has been modified, show a warning when exiting the page
@@ -305,15 +311,15 @@ const components = {
        */
 
       defaultValue: "defaultValue",
-      modifiedInputs: undefined,
+      modifiedInputs: new Set(),
 
       init() {
-        // initialize modified input fields
-        this.modifiedInputs = new Set();
+        // // initialize modified input fields
+        // this.modifiedInputs = new Set();
 
         // add event listeners
         addEventListener("beforeinput", this.handleBeforeInput.bind(this));
-        addEventListener("input", this.handleInput.bind(this));
+        addEventListener("input", this.handleInput.bind(this) as any);
         addEventListener("submit", this.handleSubmit.bind(this));
         addEventListener("beforeunload", this.handleBeforeUnload.bind(this));
       },
@@ -324,7 +330,7 @@ const components = {
 
         // remove event listeners
         removeEventListener("beforeinput", this.handleBeforeInput);
-        removeEventListener("input", this.handleInput);
+        removeEventListener("input", this.handleInput as any);
         removeEventListener("submit", this.handleSubmit);
         removeEventListener("beforeunload", this.handleBeforeUnload);
       },
@@ -374,7 +380,7 @@ const components = {
           evt.returnValue = true;
         }
       },
-    };
+    } as AlpineComponent;
 
     return {
       ...dataConfirmationRequired,
@@ -388,7 +394,7 @@ const components = {
       destroy() {
         dataFormModifiedAlertOnExit.destroy.bind(this)();
       },
-    };
+    } as AlpineComponent;
   },
   toastContainer: () => {
     return {
@@ -416,14 +422,14 @@ const components = {
       init() {
         this.$el.setAttribute("x-bind", "bindings");
       },
-    };
+    } as AlpineComponent;
   },
 };
 
 const globals = { userIsAuthenticated: undefined };
 
 // toasts
-type ProjectToastifyOptions = StartToastifyInstance.Options & {
+type ProjectToastifyOptions = Toastify.Options & {
   content?: string; // use 'content' instead of 'text' for consistency
   theme?:
     | "primary"

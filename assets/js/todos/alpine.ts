@@ -1,5 +1,5 @@
-import type { AlpineComponent } from "../alpine";
-import { delayFor } from "../base/helpers";
+import type { AlpineComponent } from "js/alpine";
+import { delayFor } from "js/base/helpers";
 
 // data
 function todosLive() {

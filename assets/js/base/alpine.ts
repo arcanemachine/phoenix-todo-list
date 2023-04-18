@@ -1,10 +1,10 @@
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
-import type { AlpineComponent } from "../alpine";
-import constants from "../constants";
-import helpers from "../helpers";
-import { data as todosData } from "../todos/alpine";
+import type { AlpineComponent } from "js/alpine";
+import constants from "js/constants";
+import helpers from "js/helpers";
+import { data as todosData } from "js/todos/alpine";
 
 /* data */
 function darkModeSelect() {

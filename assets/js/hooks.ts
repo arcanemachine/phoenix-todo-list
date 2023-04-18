@@ -1,5 +1,5 @@
-import BaseHooks from "./base/hooks";
-import TodosHooks from "./todos/hooks";
+import BaseHooks from "js/base/hooks";
+import TodosHooks from "js/todos/hooks";
 
 const Hooks = {
   ...BaseHooks,

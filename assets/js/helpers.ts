@@ -1,5 +1,5 @@
-import baseHelpers from "./base/helpers";
-// import todosHelpers from "./todos/helpers";
+import baseHelpers from "js/base/helpers";
+// import todosHelpers from "js/todos/helpers";
 
 const helpers = {
   base: baseHelpers,

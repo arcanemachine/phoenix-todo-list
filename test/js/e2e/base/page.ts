@@ -10,6 +10,7 @@ export abstract class BasePage {
   // readonly flashDisconnected: Locator;
 
   // readonly navbar: Locator;
+  readonly pageTitle: Locator;
   readonly toastContainer: Locator;
 
   constructor(page: Page) {
@@ -20,6 +21,7 @@ export abstract class BasePage {
     // this.flashInfo = page.locator("#flash-info");
 
     // this.navbar = page.locator("[data-component='navbar']");
+    this.pageTitle = page.locator("#page-title"); // page elements
     this.toastContainer = page.locator("#toast-container");
   }
 

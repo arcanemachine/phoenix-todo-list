@@ -1,6 +1,10 @@
 #!/bin/sh
 
-cd $(dirname "$0")/../
+# navigate to project root directory
+cd $(dirname "$0")/../../
 
-# find all '*.spec.ts' and '*.spec.js' files that aren't in exempted directories, and run the tests when any change is detected in the files
-while sleep 1; do find $app_dir -name '*.spec.ts' -o -name '*.spec.js' -not -path '*/node_modules/*' | entr ./scripts/test-e2e "$@"; done
+# find all JS test files that aren't in exempted directories, and run the tests
+# when any change is detected in the files
+while sleep 1; do
+  find $app_dir -name '*.spec.ts' -o -name '*.spec.js' -not -path '*/node_modules/*' | entr ./scripts/test-e2e "$@"
+done

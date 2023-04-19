@@ -1,16 +1,15 @@
 #!/bin/sh
 
-# change to project root directory
-cd $(dirname "$0")/../
+# navigate to project root directory
+cd $(dirname "$0")/../../
 
-# set MIX_ENV
-if [ "$1" != "" ]; then
-  MIX_ENV="$1"
-elif [ "$MIX_ENV" = "" ]; then
-  MIX_ENV="dev"
-fi
+# # set MIX_ENV (default: 'dev')
+# if [ "$1" != "" ]; then
+#   MIX_ENV="$1"
+# elif [ "$MIX_ENV" = "" ]; then
+#   MIX_ENV="dev"
+# fi
 
-echo "Starting Phoenix server using the '$MIX_ENV' environment...
-"
-
+# start the server
+echo -e "Starting Phoenix server using the '$MIX_ENV' environment...\n"
 MIX_ENV=$MIX_ENV iex -S mix phx.server

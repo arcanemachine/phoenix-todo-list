@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 # navigate to project root directory
-cd $(dirname "$0")/../
+cd $(dirname "$0")/../../
 
-# reset the database (to prevent issues with e.g. aborted E2E tests)
+# reset the database (to prevent issues with non-empty test database, e.g. from
+# aborted E2E tests)
 MIX_ENV=test mix ecto.reset
 
 # run the tests

@@ -1,5 +1,7 @@
 #!/bin/sh
 
-cd $(dirname "$0")/../test/js/
+# navigate to JS test root directory
+cd $(dirname "$0")/../../test/js/
 
+# run the tests
 npm run unit

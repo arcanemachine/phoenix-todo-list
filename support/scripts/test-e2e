@@ -1,15 +1,18 @@
 #!/bin/sh
 
-# get project root directory
-cd $(dirname "$0")/../
+# navigate to project root directory
+cd $(dirname "$0")/../../
+
+# get reference to project root directory
 project_root=$(pwd)
-# navigate to JS test root
+
+# navigate to JS test root directory
 cd ./test/js/
 
 # run the tests
 npx playwright test "$@"
 
-# use test results for return code
+# remember return code from test results
 test_return_code="$?"
 
 # reset the database after E2E tests
@@ -17,8 +20,10 @@ cd $project_root
 echo "\033[96m" "E2E tests complete. Resetting the test database..." "\033[39m"
 MIX_ENV=test mix ecto.reset > /dev/null
 
+# show success message after resetting the test database
 if [ "$?" = 0 ]; then
   echo "\033[96m" "Test database reset successfully." "\033[39m"
 fi
 
+# pass the return code to the shell (or any parent scripts)
 exit $test_return_code

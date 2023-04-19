@@ -15,18 +15,18 @@ jobs:
         otp: ["25.3"]
     steps:
       - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.9.0
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout Github repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Sets up an Erlang/OTP environment
         uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
       - name: Retrieve cached dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: mix-cache
         with:
           path: |
@@ -53,18 +53,18 @@ jobs:
   #       otp: ["25.3"]
   #   steps:
   #     - name: Cancel previous runs
-  #       uses: styfle/cancel-workflow-action@0.9.0
+  #       uses: styfle/cancel-workflow-action@0.11.0
   #       with:
   #         access_token: ${{ github.token }}
   #     - name: Checkout Github repo
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v3
   #     - name: Sets up an Erlang/OTP environment
   #       uses: erlef/setup-beam@v1
   #       with:
   #         elixir-version: ${{ matrix.elixir }}
   #         otp-version: ${{ matrix.otp }}
   #     - name: Retrieve cached dependencies
-  #       uses: actions/cache@v2
+  #       uses: actions/cache@v3
   #       id: mix-cache
   #       with:
   #         path: |
@@ -94,18 +94,18 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.9.0
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout Github repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Sets up an Erlang/OTP environment
         uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
       - name: Retrieve cached dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: mix-cache
         with:
           path: |

@@ -11,5 +11,5 @@ cd $(dirname "$0")/../../
 # fi
 
 # start the server
-echo -e "Starting Phoenix server using the '$MIX_ENV' environment...\n"
+# printf "Starting Phoenix server using the '$MIX_ENV' environment...\n"
 MIX_ENV=$MIX_ENV iex -S mix phx.server

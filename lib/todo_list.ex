@@ -1,6 +1,6 @@
 defmodule TodoList do
   @moduledoc """
-  TodoList keeps the contexts that define your domain
+  This module keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

@@ -31,5 +31,5 @@ repos:
         language: "system"
         entry: "./scripts/pre-commit"
         args: ["--test-e2e"]
-        files: "\\.(?:exs|ex|heex|js|ts)$"
+        files: "test/.*\\.(?:js|ts)$"
         require_serial: true

@@ -25,7 +25,7 @@
   x-on:phx:todo-delete-error.window="todoDeleteError"
   phx-hook="TodosLive"
 >
-  <%= if Mix.env() == :test do %>
+  <%= if Application.get_env(:todo_list, :hack_test_lv_dummy_forms_enabled) do %>
     <section class="hidden">
       <% # create dummy forms for testing events %>
       <.form for={%{}} id="todo-create-test-form" phx-submit="todo_create">

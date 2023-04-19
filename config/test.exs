@@ -48,3 +48,6 @@ config :phoenix, :plug_init_mode, :runtime
 
 # enable sandbox for concurrent E2E tests
 config :todo_list, sql_sandbox: true
+
+# HACK: enable dummy forms for testing live views
+config :todo_list, hack_test_lv_dummy_forms_enabled: true

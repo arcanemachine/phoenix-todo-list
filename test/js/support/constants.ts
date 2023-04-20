@@ -1,6 +1,9 @@
 import process from "process";
 
-export const baseUrl = process.env.SERVER_URL_HTTP_TEST;
+// base URL
+const phxHost = process.env.PHX_HOST;
+const port = Number(process.env.PORT) + 2;
+export const baseUrl = `http://${phxHost}:${port}`;
 
 export const urls = {
   base: {

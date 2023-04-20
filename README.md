@@ -1,18 +1,29 @@
-# TodoList
+# phoenix-todo-list
 
-To start your Phoenix server:
+Yet another todo list. Made using the Phoenix web framework.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Features:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+- Basic CRUD
+- LiveView CRUD
+- REST API
+- OpenAPI spec
+- E2E tests (Playwright)
+- GitHub Actions CI
+- Releases (via Docker + fly.io)
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+# Releases
 
-## Learn more
+Run the following commands from the project root directory:
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+- Set required environment variables:
+
+  - `export SECRET_KEY_BASE="$(mix phx.gen.secret)"`
+  - `export DATABASE_URL="ecto://postgres:postgres@localhost/todo_list"`
+
+- Create a release using the helper script:
+  - `./support/scripts/release`
+- Build a Docker image:
+  - `docker build -t arcanemachine/phoenix-todo-list .`
+- Run the Docker image:
+  - `docker run -p $PORT:$PORT -e SECRET_KEY_BASE=$SECRET_KEY_BASE -e DATABASE_URL=$DATABASE_URL arcanemachine/phoenix-todo-list`

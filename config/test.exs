@@ -23,16 +23,16 @@ port = String.to_integer(System.get_env("PORT") || "4000")
 # you can enable the server option below.
 config :todo_list, TodoListWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: port + 2],
-  # disable HTTPS during CI
-  https:
-    (System.get_env("CI") == nil &&
-       [
-         port: port + 3,
-         cipher_suite: :strong,
-         keyfile: "priv/cert/key.pem",
-         certfile: "priv/cert/cert.pem",
-         protocol_options: [idle_timeout: 300_000]
-       ]) || nil,
+  # # disable HTTPS during CI
+  # https:
+  #   (System.get_env("CI") == nil &&
+  #      [
+  #        port: port + 3,
+  #        cipher_suite: :strong,
+  #        keyfile: "priv/cert/key.pem",
+  #        certfile: "priv/cert/cert.pem",
+  #        protocol_options: [idle_timeout: 300_000]
+  #      ]) || nil,
   check_origin: ["http://#{host}:#{port + 2}", "https://#{host}:#{port + 3}"],
   secret_key_base: "Ygp6edO5FTklaUFXjkSnuF7y8alcXyb/cU/J1BZH34cvOANEO/U+37Q7hpGR+3ff",
   server: true

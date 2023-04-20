@@ -22,13 +22,13 @@ config :todo_list, TodoListWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {0, 0, 0, 0}, port: port, protocol_options: [idle_timeout: 300_000]],
-  https: [
-    port: port + 1,
-    cipher_suite: :strong,
-    keyfile: "priv/cert/key.pem",
-    certfile: "priv/cert/cert.pem",
-    protocol_options: [idle_timeout: 300_000]
-  ],
+  # https: [
+  #   port: port + 1,
+  #   cipher_suite: :strong,
+  #   keyfile: "priv/cert/key.pem",
+  #   certfile: "priv/cert/cert.pem",
+  #   protocol_options: [idle_timeout: 300_000]
+  # ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

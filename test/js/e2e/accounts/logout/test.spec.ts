@@ -17,6 +17,9 @@ unauthenticatedTest.describe("[Unauthenticated] Account logout page", () => {
     // navigate to test page
     testPage = new AccountsLogoutPage(page);
     await testPage.goto();
+
+    // ensure that the live socket connection has been established
+    await expect(testPage.phxConnected).toBeVisible();
   });
 
   unauthenticatedTest("shows expected form buttons", async () => {

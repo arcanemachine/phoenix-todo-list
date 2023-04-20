@@ -19,6 +19,9 @@ test.describe("Account register page", () => {
     // navigate to test page
     testPage = new AccountsRegisterPage(page);
     await testPage.goto();
+
+    // ensure that the live socket connection has been established
+    await expect(testPage.phxConnected).toBeVisible();
   });
 
   test("registers a new user", async ({ page }) => {

@@ -5,6 +5,7 @@ import { urls } from "test/support/constants";
 
 export class AccountsLoginPage extends BasePage {
   readonly page: Page;
+  readonly phxConnected: Locator;
 
   // URLs
   readonly url: URL;
@@ -22,6 +23,7 @@ export class AccountsLoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.page = page;
+    this.phxConnected = this.page.locator("[data-phx-main].phx-connected");
 
     // URLs
     this.url = new URL(urls.accounts.login);

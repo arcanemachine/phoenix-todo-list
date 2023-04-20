@@ -10,9 +10,9 @@ Flags:
   --test-e2e - Run end-to-end tests.\n"
 }
 
-# add PRE_COMMIT environment variable so we can detect when code is being run
-# as part of a pre-commit workflow
-export PRE_COMMIT=1
+# # add PRE_COMMIT environment variable so we can detect when code is being run
+# # as part of a pre-commit workflow
+# export PRE_COMMIT=1
 
 # navigate to project root directory
 cd $(dirname "$0")/../../
@@ -26,7 +26,7 @@ elif [ "$1" = "--help" ]; then
 elif [ "$1" = "--test-e2e" ]; then
   echo "Running E2E tests..."
 
-  ./support/scripts/test-e2e --quiet
+  ./support/scripts/test-e2e --quiet --forbid-only --retries 3
   if [ "$?" != 0 ]; then
     echo "\033[91m" "One or more E2E tests failed. Aborting the commit..." "\033[39m"
     exit 1

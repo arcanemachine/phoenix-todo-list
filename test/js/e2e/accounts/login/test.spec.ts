@@ -14,6 +14,9 @@ test.describe("Account login page", () => {
     // navigate to test page
     testPage = new AccountsLoginPage(page);
     await testPage.goto();
+
+    // ensure that the live socket connection has been established
+    await expect(testPage.phxConnected).toBeVisible();
   });
 
   test("logs in a user", async ({ page }) => {

@@ -5,6 +5,7 @@ import { urls } from "test/support/constants";
 
 export class TodosLivePage extends BasePage {
   readonly page: Page;
+  readonly phxConnected: Locator;
 
   // URLs
   readonly url: URL;
@@ -70,6 +71,9 @@ export class TodosLivePage extends BasePage {
     /* page elements */
     this.alpineComponent = page.locator("#todos-live");
     this.userCounter = page.getByTestId("user-counter");
+
+    // selectors
+    this.phxConnected = this.page.locator("[data-phx-main].phx-connected");
 
     // todo form
     this.todoForm = page.locator("#todo-form");

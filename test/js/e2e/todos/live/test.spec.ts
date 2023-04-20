@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { BrowserContext, expect } from "@playwright/test";
 import { randomUUID } from "crypto";
 
 import { authenticatedTest, genericTests } from "test/e2e/support/fixtures";
@@ -18,6 +18,18 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   const generateUniqueTodoContent = () => randomUUID();
 
   // functions
+  async function openNewWindow(context: BrowserContext) {
+    const page = await context.newPage();
+    const testPage = new TodosLivePage(page);
+
+    await testPage.goto(); // navigate to test URL
+
+    // ensure that the live socket connection has been established
+    await expect(testPage.phxConnected).toBeVisible();
+
+    return { page, testPage };
+  }
+
   async function todoCreate() {
     /** Create a todo and ensure that it has been created. */
     await testPage.todoCreate(todoContent);
@@ -42,6 +54,9 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     // navigate to test page
     testPage = new TodosLivePage(page);
     await testPage.goto();
+
+    // ensure that the live socket connection has been established
+    await expect(testPage.phxConnected).toBeVisible();
   });
 
   authenticatedTest("contains expected title", async () => {
@@ -190,7 +205,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   });
 
   authenticatedTest(
-    "shows correct user count when the page is open in a single window",
+    "shows correct user count when the page is open in a single window @presence",
     async () => {
       // page contains expected content
       await expect(testPage.userCounter).toContainText(
@@ -200,7 +215,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   );
 
   authenticatedTest(
-    "shows correct user count when multiple windows are viewing the page",
+    "shows correct user count when multiple windows are viewing the page @presence",
     async ({ context }) => {
       // initialize page 2
       const page2 = await context.newPage();
@@ -219,35 +234,34 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     }
   );
 
-  authenticatedTest("creates a todo in another window", async ({ context }) => {
-    // initialize page 2
-    const page2 = await context.newPage();
-    const testPage2 = new TodosLivePage(page2);
-    await testPage2.goto(); // navigate to test URL
+  authenticatedTest(
+    "creates a todo in another window @pubsub",
+    async ({ context }) => {
+      // open page 2
+      const { testPage: testPage2 } = await openNewWindow(context);
 
-    // create a todo on page 1
-    await todoCreate();
+      // create a todo on page 1
+      await todoCreate();
 
-    // page 2 contains expected toast message
-    await expect(testPage2.toastContainer).toContainText(
-      testPage.stringOtherWindowTodoCreateSuccess
-    );
+      // page 2 contains expected toast message
+      await expect(testPage2.toastContainer).toContainText(
+        testPage.stringOtherWindowTodoCreateSuccess
+      );
 
-    // page 2 contains expected content
-    const createdTodo = testPage2.todoGetByContent(todoContent);
-    await expect(createdTodo).toBeVisible();
-  });
+      // page 2 contains expected content
+      const createdTodo = testPage2.todoGetByContent(todoContent);
+      await expect(createdTodo).toBeVisible();
+    }
+  );
 
   authenticatedTest(
-    "update's a todo's content in another window",
+    "update's a todo's content in another window @pubsub",
     async ({ context }) => {
       const initialTodoContent = todoContent;
       const updatedTodoContent = generateUniqueTodoContent();
 
-      // initialize page 2
-      const page2 = await context.newPage();
-      const testPage2 = new TodosLivePage(page2);
-      await testPage2.goto(); // navigate to test URL
+      // open page 2
+      const { testPage: testPage2 } = await openNewWindow(context);
 
       // create a todo on page 1
       await todoCreate();
@@ -278,12 +292,10 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   );
 
   authenticatedTest(
-    "updates a todo's completion status in another window",
+    "updates a todo's completion status in another window @pubsub",
     async ({ page, context }) => {
-      // initialize page 2
-      const page2 = await context.newPage();
-      const testPage2 = new TodosLivePage(page2);
-      await testPage2.goto(); // navigate to test URL
+      // open page 2
+      const { page: page2, testPage: testPage2 } = await openNewWindow(context);
 
       // create a todo on page 1
       await todoCreate();
@@ -323,36 +335,38 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     }
   );
 
-  authenticatedTest("deletes a todo in another window", async ({ context }) => {
-    // initialize page 2
-    const page2 = await context.newPage();
-    const testPage2 = new TodosLivePage(page2);
-    await testPage2.goto(); // navigate to test URL
+  authenticatedTest(
+    "deletes a todo in another window @pubsub",
+    async ({ context }) => {
+      // open page 2
+      const { testPage: testPage2 } = await openNewWindow(context);
 
-    // create a todo on page 1
-    await todoCreate();
+      // create a todo on page 1
+      await todoCreate();
 
-    // get the todo on page 1
-    const todo = testPage.todoGetByContent(todoContent);
+      // get the todo on page 1
+      const todo = testPage.todoGetByContent(todoContent);
 
-    // select the todo on page 1
-    const todoButtonContent = testPage.todoButtonContent(todo);
-    await todoButtonContent.click();
+      // select the todo on page 1
+      const todoButtonContent = testPage.todoButtonContent(todo);
+      await todoButtonContent.click();
 
-    // click the 'delete' button on page 1
-    const todoButtonDelete = testPage.todoButtonDeleteGet(todo);
-    await todoButtonDelete.click();
+      // click the 'delete' button on page 1
+      const todoButtonDelete = testPage.todoButtonDeleteGet(todo);
+      await todoButtonDelete.click();
 
-    // click the confirmation button on page 1
-    const todoDeleteModalButtonConfirm = testPage.todoDeleteModalButtonConfirm;
-    await todoDeleteModalButtonConfirm.click();
+      // click the confirmation button on page 1
+      const todoDeleteModalButtonConfirm =
+        testPage.todoDeleteModalButtonConfirm;
+      await todoDeleteModalButtonConfirm.click();
 
-    // page 2 contains expected toast message
-    await expect(testPage2.toastContainer).toContainText(
-      testPage.stringOtherWindowTodoDeleteSuccess
-    );
+      // page 2 contains expected toast message
+      await expect(testPage2.toastContainer).toContainText(
+        testPage.stringOtherWindowTodoDeleteSuccess
+      );
 
-    // page 2 no longer contains deleted todo
-    await expect(testPage2.todoList).not.toContainText(todoContent);
-  });
+      // page 2 no longer contains deleted todo
+      await expect(testPage2.todoList).not.toContainText(todoContent);
+    }
+  );
 });

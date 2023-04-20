@@ -12,7 +12,9 @@ Features:
 - GitHub Actions CI
 - Releases (via Docker + fly.io)
 
-# Releases
+## Releases
+
+### Docker
 
 Run the following commands **from the project root directory**:
 

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# navigate to project root directory
+cd $(dirname "$0")/../../
+
+# environment variables
+if [ "$SECRET_KEY_BASE" = "" ]; then
+  echo "SECRET_KEY_BASE environment variable not set. Aborting..."
+  exit 1
+elif [ "$DATABASE_URL" = "" ]; then
+  echo "DATABASE_URL environment variable not set. Aborting..."
+  exit 1
+fi
+
+export SECRET_KEY_BASE="$(mix phx.gen.secret)"
+export DATABASE_URL="ecto://postgres:postgres@localhost/${PROJECT_NAME_ELIXIR}"
+
+# fetch and compile dependencies
+echo "Fetching and compiling dependencies..."
+mix deps.get --only prod
+MIX_ENV=prod mix compile
+
+# compile assets
+echo "Compiling assets..."
+MIX_ENV=PROD mix assets.deploy
+
+# create release
+echo "Creating release..."
+mix phx.gen.release "$@"
+
+echo "done"

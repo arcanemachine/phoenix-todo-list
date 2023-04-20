@@ -1,6 +1,6 @@
 import process from "process";
 
-const baseUrl = process.env.SERVER_URL_HTTPS_TEST;
+export const baseUrl = process.env.SERVER_URL_HTTP_TEST;
 
 export const urls = {
   base: {

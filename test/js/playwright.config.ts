@@ -1,6 +1,7 @@
 import { defineConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
+import { baseUrl } from "test/support/constants";
 import { storageState } from "test/e2e/support/constants";
 
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
   timeout: 1000 * 60, // timeout for a single test
   use: {
     actionTimeout: 0, // timeout for each action (0 for infinite timeout)
-    baseURL: process.env.SERVER_URL_HTTP_TEST,
+    baseURL: baseUrl,
     storageState,
     trace: "on-first-retry", // collect trace when retrying the failed test
   },
@@ -95,7 +96,7 @@ export default defineConfig({
     env: {
       MIX_ENV: "test",
     },
-    url: process.env.SERVER_URL_HTTPS_TEST,
+    url: baseUrl,
     cwd: "../../",
   },
 });

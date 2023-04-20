@@ -22,7 +22,7 @@ port = String.to_integer(System.get_env("PORT") || "4000")
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :todo_list, TodoListWeb.Endpoint,
-  http: [ip: {0, 0, 0, 0}, port: port + 2],
+  http: [ip: {0, 0, 0, 0}, port: port + 4],
   # # disable HTTPS during CI
   # https:
   #   (System.get_env("CI") == nil &&

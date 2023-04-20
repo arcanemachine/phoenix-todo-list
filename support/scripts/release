@@ -27,5 +27,6 @@ MIX_ENV=PROD mix assets.deploy
 # create release
 echo "Creating release..."
 mix phx.gen.release "$@"
+mix release
 
 echo "done"

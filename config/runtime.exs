@@ -28,7 +28,6 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  # maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   config :todo_list, TodoList.Repo,
@@ -59,7 +58,7 @@ if config_env() == :prod do
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
       # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
       # for details about using IPv6 vs IPv4 and loopback vs public addresses.
-      # ip: {0, 0, 0, 0, 0, 0, 0, 0},
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
       ip: {0, 0, 0, 0},
       port: port
     ],

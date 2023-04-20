@@ -14,7 +14,7 @@ Features:
 
 # Releases
 
-Run the following commands from the project root directory:
+Run the following commands **from the project root directory**:
 
 - Set required environment variables:
 
@@ -25,5 +25,8 @@ Run the following commands from the project root directory:
   - `./support/scripts/release`
 - Build a Docker image:
   - `docker build -t arcanemachine/phoenix-todo-list .`
+- Configure your environment:
+  - Set environment variables in `.env.override`
+  - Use the example template in `support/.env.override.example` and fill in your desired values
 - Run the Docker image:
-  - `docker run -p $PORT:$PORT -e SECRET_KEY_BASE=$SECRET_KEY_BASE -e DATABASE_URL=$DATABASE_URL arcanemachine/phoenix-todo-list`
+  - `docker run --name phoenix-todo-list --network='host' --env-file=.env.override -e SECRET_KEY_BASE=$SECRET_KEY_BASE -e DATABASE_URL=$DATABASE_URL arcanemachine/phoenix-todo-list`

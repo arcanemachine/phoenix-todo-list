@@ -1,4 +1,0 @@
-export SERVER_URL_HTTP_DEV="https://${PHX_HOST}:${PORT + 3}"
-export SERVER_URL_HTTPS_DEV="https://${PHX_HOST}:$(($PORT + 4))"
-export SERVER_URL_HTTP_TEST="https://${PHX_HOST}:$(($PORT + 5))"
-export SERVER_URL_HTTPS_TEST="https://${PHX_HOST}:$(($PORT + 6))"

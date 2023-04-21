@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script runs Playwright end-to-end tests in watch mode."
+  echo "Run Playwright end-to-end tests in watch mode."
   exit 0
 fi
 

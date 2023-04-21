@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script starts a production Phoenix server environment."
+  echo "Start a production Phoenix server environment."
   exit 0
 fi
 

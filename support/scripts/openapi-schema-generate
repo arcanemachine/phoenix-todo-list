@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script generates an OpenAPI schema."
+  echo "Generate an OpenAPI schema."
   exit 0
 fi
 

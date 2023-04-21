@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script creates a new Phoenix release."
+  echo "Create a new Phoenix release."
   exit 0
 fi
 

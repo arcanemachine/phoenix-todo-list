@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script spawns an iEX shell."
+  echo "Spawn an iEX shell."
   exit 0
 fi
 

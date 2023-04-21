@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script prunes digested assets. For more info, see: https://hexdocs.pm/phoenix/deployment.html"
+  echo "Prune digested assets. For more info, see: https://hexdocs.pm/phoenix/deployment.html"
   exit 0
 fi
 

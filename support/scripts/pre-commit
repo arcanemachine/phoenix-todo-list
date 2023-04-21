@@ -1,7 +1,7 @@
 #!/bin/sh
 
 show_help () {
-  printf "This script runs tasks as part of a git pre-commit workflow.
+  printf "Run tasks as part of a git pre-commit workflow.
 
 A flag must be passed as the that describes the action to be performed.
 

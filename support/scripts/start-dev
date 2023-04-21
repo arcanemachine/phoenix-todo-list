@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script starts a Phoenix server in the 'dev' environment with an iEX shell."
+  echo "Start a Phoenix server in the 'dev' environment with an iEX shell."
   exit 0
 fi
 

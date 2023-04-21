@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script runs this project's Elixir tests using 'mix test'."
+  echo "Run this project's Elixir tests using 'mix test'."
   exit 0
 fi
 

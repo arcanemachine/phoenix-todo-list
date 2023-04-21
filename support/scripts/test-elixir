@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script runs this project's Elixir tests using 'mix test'."
+  exit 0
+fi
+
 color_warning="\033[93m"
 color_reset="\033[39m"
 

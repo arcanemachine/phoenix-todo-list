@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script runs this project's Javascript unit tests (Powered by Vitest)."
+  exit 0
+fi
+
 # navigate to JS test root directory
 cd $(dirname "$0")/../../test/js/
 

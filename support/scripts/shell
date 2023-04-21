@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script spawns an iEX shell."
+  exit 0
+fi
+
 # navigate to project root directory
 cd $(dirname "$0")/../../
 

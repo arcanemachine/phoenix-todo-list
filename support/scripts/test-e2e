@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script runs a batch of end-to-end tests (powered by Playwright)."
+  exit 0
+fi
+
 # navigate to project root directory
 cd $(dirname "$0")/../../
 

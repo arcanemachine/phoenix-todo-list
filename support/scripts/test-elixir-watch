@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script runs this project's Elixir tests in watch mode."
+  exit 0
+fi
+
 # navigate to project root directory
 cd $(dirname "$0")/../../
 

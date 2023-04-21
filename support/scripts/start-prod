@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+  echo "This script starts a production Phoenix server environment."
+  exit 0
+fi
+
+# navigate to project root directory
+cd $(dirname "$0")/../../
+
+# start the server
+PHX_SERVER=true _build/prod/rel/todo_list/bin/todo_list start

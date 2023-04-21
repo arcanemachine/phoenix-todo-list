@@ -1,0 +1,21 @@
+---
+version: "3.8"
+
+services:
+  db:
+    image: "postgres"
+    restart: "always"
+    environment:
+      POSTGRES_DB: "todo_list"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    network_mode: "host"
+    volumes:
+      - "./docker/volumes/postgres:/var/lib/postgresql/data"
+  phoenix:
+    image: "arcanemachine/phoenix-todo-list"
+    env_file:
+      - .env.override
+    network_mode: "host"
+    depends_on:
+      - db

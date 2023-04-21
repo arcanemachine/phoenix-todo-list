@@ -1,3 +1,10 @@
 #!/bin/sh
+
+# navigate to current directory
 cd -P -- "$(dirname -- "$0")"
+
+# run migrations
+./migrate
+
+# start the server
 PHX_SERVER=true exec ./todo_list start

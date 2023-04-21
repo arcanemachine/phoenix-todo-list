@@ -28,7 +28,7 @@ Run the following commands **from the project root directory**:
 - Build a Docker image:
   - `docker build -t arcanemachine/phoenix-todo-list .`
 - Configure your environment:
-  - Set environment variables in `.env.override`
+  - Set dynamic or secret environment variables in `.env.override` so that they will not be accidentally committed to source control
   - Use the example template in `support/.env.override.example` and fill in your desired values
 - Run the Docker image:
-  - `docker run --name phoenix-todo-list --network='host' --env-file=.env.override -e SECRET_KEY_BASE=$SECRET_KEY_BASE -e DATABASE_URL=$DATABASE_URL arcanemachine/phoenix-todo-list`
+  - `docker-compose up`

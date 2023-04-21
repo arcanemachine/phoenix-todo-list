@@ -113,4 +113,6 @@ jobs:
             _build
             priv/plts
           key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
-      - run: mix test --trace --slowest 10
+      - env:
+          PHX_HOST: localhost
+        run: mix test --trace --slowest 10

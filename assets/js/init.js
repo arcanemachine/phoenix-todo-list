@@ -1,4 +1,6 @@
 (() => {
+  console.log("*** HELLO ***");
+
   const darkModeEnabled = (() => {
     const darkModeSavedPreferenceExists =
       localStorage.getItem("darkModeEnabled") !== null;

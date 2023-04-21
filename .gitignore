@@ -4,6 +4,9 @@
 # elixir stuff
 /.elixir_ls/
 
+# database files
+/priv/db*.sqlite3*
+
 # environment stuff
 .env*.override
 

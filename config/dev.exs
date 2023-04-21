@@ -2,13 +2,10 @@ import Config
 
 # Configure your database
 config :todo_list, TodoList.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "todo_list_dev",
+  database: Path.expand("../priv/db_dev.sqlite3", Path.dirname(__ENV__.file)),
+  pool_size: 5,
   stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  show_sensitive_data_on_connection_error: true
 
 port = String.to_integer(System.get_env("PORT") || "4000")
 

@@ -9,12 +9,9 @@ config :bcrypt_elixir, :log_rounds, 1
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :todo_list, TodoList.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "todo_list_test#{System.get_env("MIX_TEST_PARTITION")}",
-  pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+  database: Path.expand("../priv/db_test.sqlite3", Path.dirname(__ENV__.file)),
+  pool_size: 1,
+  pool: Ecto.Adapters.SQL.Sandbox
 
 host = System.get_env("PHX_HOST") || "localhost"
 port = String.to_integer(System.get_env("PORT") || "4000") + 2

@@ -8,9 +8,67 @@ Features:
 - LiveView CRUD
 - REST API
 - OpenAPI spec
-- E2E tests (Playwright)
+- Javascript-based unit tests (Vitest)
+- Javascript-based E2E tests (Playwright)
 - GitHub Actions CI
 - Releases (via Docker + fly.io)
+
+## Working in a `dev` Environment
+
+Before you work in a `dev` environment, ensure that your environment variables are set correctly. Use `direnv` to easily load your environment when navigating within this project's directories.
+
+- You can set custom/private environment variables in `./.env.override` so that they will not be accidentally committed to source control
+  - Copy the example template in `support/.env.override.example` to `./.env.override` and fill in your desired values.
+- Run `mix deps.get` to fetch the dependencies
+- Ensure that a Postgres server is up and running. You can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
+- Once the Postgres server is running, create a database for the `dev` environment:
+  - `mix ecto.setup`
+- Use any of these commands to start the server:
+  - `mix phx.server` - The regular method of starting the server
+  - `iex -S mix phx.server` - Starts the server in an `iEX` session. Useful for debugging.
+  - `./support/scripts/start` - A convenience script for starting the server in an `iEX` shell.
+
+## Testing
+
+Before running any tests, use the instructions above to ensure that:
+
+- The required environment variables have been set.
+- A Postgres server is up and running.
+- You have navigated to the project root directory.
+
+### Elixir-Based Tests (`mix test`)
+
+Run the Elixir-based tests using any of these commands:
+
+- `mix test` - The regular method of running the tests.
+- `./support/scripts/test-elixir` - A convenience script for running the Elixir tests.
+  - This script clears the test database before running the tests. This prevents any issues that may be caused when the test database is not cleared, e.g. during failed E2E test run.
+- `./support/scripts/test-elixir-watch` - A convenience script for running the Elixir-based tests in watch mode.
+
+### Javascript-Based Tests
+
+Before running any Javascript-based tests:
+
+- Ensure that `npm` is installed and working on your system.
+- Navigate to the `./test/js/` directory and run `npm install`
+
+Then, navigate back to the project root directory for instructions on how to run the Javascript-based tests.
+
+#### JS Unit Tests (Vitest)
+
+Run the Javascript-based unit tests using any of these commands:
+
+- `./support/scripts/test-unit` - A convenience script for running the Vitest unit tests.
+- `./support/scripts/test-unit-watch` - A convenience script for running the Vitest unit tests in watch mode.
+- `cd test/js/ && npx playwright test` - Navigate to the JS test root directory and run the JS E2E tests directly.
+
+#### JS End-To-End Tests (Playwright)
+
+Run the Javascript-based end-to-end (E2E) Playwright tests using any of these commands:
+
+- `./support/scripts/test-e2e` - A convenience script for running the Playwright E2E tests.
+- `./support/scripts/test-e2e-watch` - A convenience script for running the Playwright E2E tests in watch mode.
+- `cd test/js/ && npm run unit` - Navigate to the JS test root directory and run the JS unit tests directly.
 
 ## Releases
 

@@ -15,7 +15,7 @@ services:
   phoenix:
     image: "arcanemachine/phoenix-todo-list"
     env_file:
-      - .env.override
+      - ".env.override"
     network_mode: "host"
     depends_on:
-      - db
+      - "db"

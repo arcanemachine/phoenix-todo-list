@@ -1,20 +1,12 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script starts a Phoenix server with an iEX shell."
+  echo "This script starts a Phoenix server in the 'dev' environment with an iEX shell."
   exit 0
 fi
 
 # navigate to project root directory
 cd $(dirname "$0")/../../
 
-# # set MIX_ENV (default: 'dev')
-# if [ "$1" != "" ]; then
-#   MIX_ENV="$1"
-# elif [ "$MIX_ENV" = "" ]; then
-#   MIX_ENV="dev"
-# fi
-
 # start the server
-# printf "Starting Phoenix server using the '$MIX_ENV' environment...\n"
 MIX_ENV=$MIX_ENV iex -S mix phx.server

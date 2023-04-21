@@ -24,11 +24,11 @@ MIX_ENV=prod mix compile
 
 # compile assets
 echo "Compiling assets..."
-MIX_ENV=PROD mix assets.deploy
+MIX_ENV=prod mix assets.deploy
 
 # create release
 echo "Creating release..."
 mix phx.gen.release "$@"
-mix release
+MIX_ENV=prod mix release
 
 echo "done"

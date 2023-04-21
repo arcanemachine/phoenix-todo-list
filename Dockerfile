@@ -90,4 +90,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/todo_list ./
 
 USER nobody
 
-CMD ["/app/bin/server"]
+CMD ["sh", "-c", "/app/bin/todo_list eval TodoList.Release.migrate && /app/bin/server"]

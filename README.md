@@ -121,6 +121,5 @@ Run the following commands from the project root directory:
   - `./support/scripts/release-create`
 - Build a Docker image:
   - `docker build -t arcanemachine/phoenix-todo-list .`
-- Run the Docker image with Docker Compose or just plain Docker:
-  - `docker-compose up`, or
-  - `docker run --name phoenix-todo-list --network='host' --env-file=.env.override -e SECRET_KEY_BASE=$SECRET_KEY_BASE -e DATABASE_URL=$DATABASE_URL arcanemachine/phoenix-todo-list`
+- Run the Docker image with Docker Compose:
+  - `docker-compose up`

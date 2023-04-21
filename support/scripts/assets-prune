@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+  echo "This script prunes digested assets. For more info, see: https://hexdocs.pm/phoenix/deployment.html"
+  exit 0
+fi
+
+# navigate to project root directory
+cd $(dirname "$0")/../../
+
+echo "Pruning digested assets..."
+mix phx.digest.clean --all

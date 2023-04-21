@@ -44,37 +44,37 @@ jobs:
           mix deps.compile
           mix dialyzer --plt
 
-  # static-code-analysis:
-  #   needs: dependencies
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       elixir: ["1.14.3"]
-  #       otp: ["25.3"]
-  #   steps:
-  #     - name: Cancel previous runs
-  #       uses: styfle/cancel-workflow-action@0.11.0
-  #       with:
-  #         access_token: ${{ github.token }}
-  #     - name: Checkout Github repo
-  #       uses: actions/checkout@v3
-  #     - name: Sets up an Erlang/OTP environment
-  #       uses: erlef/setup-beam@v1
-  #       with:
-  #         elixir-version: ${{ matrix.elixir }}
-  #         otp-version: ${{ matrix.otp }}
-  #     - name: Retrieve cached dependencies
-  #       uses: actions/cache@v3
-  #       id: mix-cache
-  #       with:
-  #         path: |
-  #           deps
-  #           _build
-  #           priv/plts
-  #         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
-  #     - run: mix format --check-formatted
-  #     - run: mix credo
-  #     - run: mix dialyzer --no-check --ignore-exit-status
+  static-code-analysis:
+    needs: dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        elixir: ["1.14.3"]
+        otp: ["25.3"]
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Checkout Github repo
+        uses: actions/checkout@v3
+      - name: Sets up an Erlang/OTP environment
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - name: Retrieve cached dependencies
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
+      - run: mix format --check-formatted
+      - run: mix credo
+      - run: mix dialyzer --no-check --ignore-exit-status
 
   test-elixir:
     runs-on: ubuntu-latest

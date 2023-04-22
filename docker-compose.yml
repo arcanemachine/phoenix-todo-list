@@ -15,8 +15,8 @@ services:
   phoenix:
     image: arcanemachine/phoenix-todo-list
     restart: always
+    env_file:
+      - .env
     depends_on:
       - db
-    env_file:
-      - .env.override
     network_mode: host

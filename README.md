@@ -19,10 +19,12 @@ Features:
 
 ## Working in a `dev` Environment
 
-Before you work in a `dev` environment, ensure that your environment variables are set correctly. Use `direnv` to easily load your environment when navigating within this project's directories.
+Before you work in a `dev` environment, ensure that your environment variables are set correctly.
 
-- You can set custom/private environment variables in `./.env.override` so that they will not be accidentally committed to source control
-  - Copy the example template in `support/.env.override.example` to `./.env.override` and fill in your desired values.
+It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
+
+- You can set custom/private environment variables in `./.env` so that they will not be accidentally committed to source control
+  - Copy the example template in `support/.env.example` to `./.env` and fill in your desired values.
 - Run `mix deps.get` to fetch the dependencies
 - Ensure that a Postgres server is up and running. You can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
 - Once the Postgres server is running, create a database for the `dev` environment:

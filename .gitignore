@@ -4,9 +4,8 @@
 # elixir stuff
 /.elixir_ls/
 
-# environment stuff
+# dotenv
 .env
-.env*.override
 
 # testing
 test/js/test-results/
@@ -17,9 +16,9 @@ test/js/playwright/.cache/
 Session*.vim
 
 # misc stuff to ignore
-gitignore.*
+*.local
 *.tmp
-
+gitignore.*
 
 # The directory Mix will write compiled artifacts to.
 /_build/

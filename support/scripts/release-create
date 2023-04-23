@@ -8,15 +8,6 @@ fi
 # navigate to project root directory
 cd $(dirname "$0")/../../
 
-# environment variables
-if [ "$SECRET_KEY_BASE" = "" ]; then
-  echo "SECRET_KEY_BASE environment variable not set. Aborting..."
-  exit 1
-elif [ "$DATABASE_URL" = "" ]; then
-  echo "DATABASE_URL environment variable not set. Aborting..."
-  exit 1
-fi
-
 # fetch and compile dependencies
 echo "Fetching and compiling dependencies..."
 mix deps.get --only prod

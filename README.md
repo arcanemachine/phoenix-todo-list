@@ -1,5 +1,7 @@
 # phoenix-todo-list
 
+[View Live Demo](https://arcanemachine-phoenix-todo.fly.dev/)
+
 Yet another todo list. Made using the Phoenix web framework.
 
 Features:

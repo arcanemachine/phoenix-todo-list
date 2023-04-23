@@ -25,8 +25,8 @@ Before you work in a `dev` environment, ensure that your environment variables a
   - `mix ecto.setup`
 - Use any of these commands to start the server:
   - `mix phx.server` - The regular method of starting the server
-  - `iex -S mix phx.server` - Starts the server in an `iEX` session. Useful for debugging.
-  - `./support/scripts/start` - A convenience script for starting the server in an `iEX` shell.
+  - `iex -S mix phx.server` - Starts the server in an `IEx` session. Useful for debugging.
+  - `./support/scripts/start` - A convenience script for starting the server in an `IEx` shell.
 
 ## Testing
 

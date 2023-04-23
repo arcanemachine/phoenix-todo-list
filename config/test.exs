@@ -16,7 +16,6 @@ config :todo_list, TodoList.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
-host = System.get_env("PHX_HOST") || "localhost"
 port = String.to_integer(System.get_env("PORT") || "4000") + 2
 
 # We don't run a server during test. If one is required,

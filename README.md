@@ -11,7 +11,9 @@ Features:
 - Javascript-based unit tests (Vitest)
 - Javascript-based E2E tests (Playwright)
 - GitHub Actions CI
-- Releases (via Docker + fly.io)
+- Releases (vanilla/Docker/fly.io)
+- Enforces sane commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
+- Uses [`just`](https://github.com/casey/just) task runner
 
 ## Working in a `dev` Environment
 

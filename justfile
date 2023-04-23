@@ -53,25 +53,10 @@ color_reset := "\\033[39m"
   echo "Starting a dev server..."
   iex -S mix phx.server
 
-# # start a dev server in the background
-# @server-dev-start-background port="$(($PORT + 1))":
-#   echo "Starting a backgrounded dev server on port {{ port }}..."
-#   elixir --erl "-detached" -S mix phx.server
-
 # start the prod server
 @server-prod-start:
   echo "Starting prod server..."
   ./_build/prod/rel/todo_list/bin/server
-
-# stop the prod server
-@server-prod-stop:
-  echo "Stopping prod server..."
-  ./_build/prod/rel/todo_list/bin/todo_list stop
-
-# # stop a phoenix server based on its port number (default: dev)
-# @server-stop port="$(($PORT + 1))":
-#   echo "Stopping the server process on port {{ port }}..."
-#   fuser -TERM -k {{ port }}/tcp > /dev/null 2>&1
 
 # spawn an IEx shell
 @shell:

@@ -9,6 +9,12 @@ repos:
       - id: trailing-whitespace
       # yaml
       - id: check-yaml
+
+  - repo: https://github.com/qoomon/git-conventional-commits
+    rev: v2.6.3
+    hooks:
+      - id: conventional-commits
+
   - repo: "local"
     hooks:
       - id: "mix-format"

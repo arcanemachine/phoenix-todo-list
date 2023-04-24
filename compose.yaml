@@ -1,1 +1,8 @@
-support/containers/compose.phoenix-postgres.yaml
+---
+services:
+  phoenix:
+    image: docker.io/arcanemachine/phoenix-todo-list
+    restart: always
+    env_file:
+      - .env
+    network_mode: host

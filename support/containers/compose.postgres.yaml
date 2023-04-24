@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
     network_mode: host
     volumes:
-      - "./support/docker/volumes/postgres:/var/lib/postgresql/data"
+      - "./support/containers/volumes/postgres:/var/lib/postgresql/data"
   phoenix:
     depends_on:
       - db

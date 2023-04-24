@@ -88,9 +88,8 @@ Before you create a release, ensure that your environment variables are set corr
 
 Navigate to the project root directory and set up your environment variables:
 
-- You can set custom/private environment variables in `./.env.override` so that they will not be accidentally committed to source control
-  - Copy the example template in `support/.env.override.example` to `./.env.override` and fill in your desired values.
-  - If you do not want to leave plaintext secrets on the filesystem, the example template is still useful as a reference as to which environment variables you will need to start and run the server.
+- You can set custom/private environment variables in `./.env` so that they will not be accidentally committed to source control
+  - Use the environment generator script (`just env-generate` or `./support/scripts/env-generate`) to generate an example `.env` file in the project root directory. You can modify this `.env` file as needed.
 
 #### Vanilla/Bare Metal Deployment
 

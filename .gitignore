@@ -1,5 +1,5 @@
 # container stuff
-/volumes/
+/support/containers/volumes/*
 
 # elixir stuff
 /.elixir_ls/

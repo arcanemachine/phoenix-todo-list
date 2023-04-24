@@ -35,5 +35,9 @@ output_string="$($env_template_path)"
 if [ "$DRY_RUN" = 1 ]; then
   echo "$output_string"
 else
+  # create the .env file
   echo "$output_string" > $env_path
+
+  # set permissions on the newly-created .env file
+  chmod 600 $env_path
 fi

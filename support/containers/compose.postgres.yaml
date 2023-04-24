@@ -11,10 +11,5 @@ services:
     volumes:
       - "./support/docker/volumes/postgres:/var/lib/postgresql/data"
   phoenix:
-    image: docker.io/arcanemachine/phoenix-todo-list
-    restart: always
-    env_file:
-      - .env
     depends_on:
       - db
-    network_mode: host

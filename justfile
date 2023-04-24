@@ -33,6 +33,14 @@ color_reset := "\\033[39m"
 @db-reset:
   mix ecto.drop
 
+# generate a .env file
+@env-generate args='':
+  ./support/scripts/env-generate {{ args }}
+
+# view the output of the .env file generator
+@env-generate-template:
+  ./support/scripts/env-generate-template
+
 # generate an OpenAPI schema (format: 'json' | 'yaml')
 @openapi-schema-generate format='json':
   echo "Generating '{{ format }}' schema..."

@@ -1,9 +1,15 @@
-# fly.toml file generated for arcanemachine-phoenix-todo on 2023-02-05T20:04:28-07:00
+# fly.toml app configuration file generated for arcanemachine-phoenix-todo on 2023-04-23T19:02:12-06:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = "arcanemachine-phoenix-todo"
 kill_signal = "SIGTERM"
 kill_timeout = 5
+primary_region = "ord"
 processes = []
+
+[build]
 
 [deploy]
   release_command = "/app/bin/migrate"

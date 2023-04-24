@@ -129,3 +129,19 @@ Run the following commands from the project root directory:
   - `docker build -t arcanemachine/phoenix-todo-list .`
 - Run the Docker image with Docker Compose:
   - `docker-compose up`
+
+## Deployment
+
+All commands in this section must be performed from the project root directory.
+
+### Fly.io
+
+Before continuing, ensure that [`flyctl`] is installed(https://fly.io/docs/hands-on/install-flyctl/).
+
+To deploy via fly.io, you must use the Dockerfile in the `./support/` directory. The Dockerfile in the project root directory is just a symlink, so you can safely delete it and symlink the Fly Dockerfile there instead:
+
+- `rm ./Dockerfile && ln -s support/Dockerfile.fly Dockerfile`
+
+This project has a `fly.toml` file. To create a new one, run `fly launch` and follow the prompt.
+
+To deploy the project, run `flyctl deploy`.

@@ -1,0 +1,13 @@
+---
+services:
+  postgres:
+    hostname: "postgres"
+    networks:
+      - "phoenix-todo-list"
+    ports:
+      - "5432"
+
+networks:
+  traefik-global-proxy:
+    external: true
+  phoenix-todo-list:

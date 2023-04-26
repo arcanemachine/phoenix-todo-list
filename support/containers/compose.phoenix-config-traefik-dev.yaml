@@ -1,0 +1,7 @@
+---
+services:
+  phoenix:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phoenix-todo-list.rule=Host(`${PHX_HOST:?}`)"
+      - "traefik.http.routers.phoenix-todo-list.entrypoints=web"

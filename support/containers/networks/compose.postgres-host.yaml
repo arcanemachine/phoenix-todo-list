@@ -1,0 +1,4 @@
+---
+services:
+  postgres:
+    network_mode: "host"

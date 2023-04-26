@@ -1,5 +1,8 @@
 set dotenv-load
 
+# aliases
+@start: server-dev-start
+
 # colors
 color_info := "\\033[96m"
 color_reset := "\\033[39m"

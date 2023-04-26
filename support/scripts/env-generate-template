@@ -1,9 +1,7 @@
 #!/bin/bash
 
-echo "# shellcheck disable=SC2034
-
-# phoenix
-PHX_HOST=\"${PHX_HOST:-localhost}\"
+echo "# phoenix
+PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
 PORT=\"${PORT:-4000}\"
 SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
@@ -12,6 +10,9 @@ DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
 POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
 POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
+
+# traefik
+TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\"
 
 # # email
 # AWS_REGION=\"${AWS_REGION:-us-east-1}\"

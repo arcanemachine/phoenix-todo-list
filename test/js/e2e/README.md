@@ -2,7 +2,6 @@
 
 This project uses [`Playwright`](https://playwright.dev/) to manage its E2E (end-to-end) tests.
 
-
 ## Running the Tests
 
 There are a few ways to run this project's E2E tests:
@@ -21,16 +20,17 @@ When running the E2E tests, a web server is automatically started using the para
 This project's Phoenix web server has the [Ecto SQL Sandbox](https://hexdocs.pm/phoenix_ecto/Phoenix.Ecto.SQL.Sandbox.html) feature enabled. This allows you to run a set of tests that are isolated from any others. This sandbox can be created and destroyed as needed to maintain idempotency during tests.
 
 - Create a temporary SQL sandbox:
+
   - Issue an empty POST request to `$TEST_SERVER_URL/sandbox`.
   - The server will return a response body that represents a custom user agent.
 
 - Using a temporary SQL sandbox:
+
   - Modify your request headers to use the custom user agent when making requests to your temporary SQL sandbox.
     - e.g. `user-agent: BeamMetadata (g2gCZAACd...kAAR0cnVl)`
 
 - To destroy a temporary SQL sandbox:
   - Issue a DELETE request to `$TEST_SERVER_URL/sandbox` that contains the modified user agent string associated with your temporary SQL sandbox.
-
 
 ## Project Structure
 
@@ -69,6 +69,7 @@ The E2E tests for this project are structured by feature. The file hierarchy goe
 Each page directory contains two types of files: `page` code and `test` code:
 
 - Page code (e.g. `page.ts`) uses the [Page Object Model](https://playwright.dev/docs/pom) to abstract out pages into manageable components, including:
+
   - `URLs` - URLs associated with a given page and its workflow:
     - e.g. The URL for a registration page: `this.url = '/users/register'`
     - e.g. The URL to redirect to after successful registration: `this.urlSuccess = '/users/login'`
@@ -98,7 +99,6 @@ Non-test code can be found in the `./support` directory. This includes:
   - e.g. `setup/enable-dark-mode.ts` - Enable dark mode before running the tests.
     - NOTE: Custom setup scripts must be listed as a [dependency](https://playwright.dev/docs/test-projects#dependencies) for a given project.
 - `teardown` - Code that is executed after all tests have finished.
-
 
 ## Writing Tests
 

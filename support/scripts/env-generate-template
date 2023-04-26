@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "# phoenix
+echo "# shellcheck disable=SC2034
+
+# phoenix
 PHX_HOST=\"${PHX_HOST:-localhost}\"
 PORT=\"${PORT:-4000}\"
 SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"

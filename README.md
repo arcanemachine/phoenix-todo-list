@@ -1,5 +1,11 @@
 # phoenix-todo-list
 
+---
+
+**NOTE: This project uses Git submodules. To clone this repo, run `git clone --recurse-submodules https://github.com/arcanemachine/phoenix-todo-list`. If you have already cloned the repo (but haven't cloned the submodules), then navigate to the project root directory and run `git submodule update --init`.**
+
+---
+
 [View Live Demo](https://arcanemachine-phoenix-todo.fly.dev/)
 
 Yet another todo list. Made using the Phoenix web framework.

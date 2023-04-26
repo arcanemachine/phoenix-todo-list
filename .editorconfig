@@ -1,0 +1,22 @@
+# https://EditorConfig.org
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.css]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+[*.html]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+[*.{js,ts}]
+indent_style = space
+indent_size = 2
+tab_width = 2

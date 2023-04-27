@@ -1,5 +1,7 @@
 # phoenix-todo-list
 
+[View Live Demo](https://arcanemachine-phoenix-todo.fly.dev/)
+
 ---
 
 NOTE: This project uses Git submodules. There are a couple caveats to keep in mind when working with submodules:
@@ -13,8 +15,6 @@ NOTE: This project uses Git submodules. There are a couple caveats to keep in mi
   - Navigate to the submodule (`support/containers/traefik`) and run `git pull`.
 
 ---
-
-[View Live Demo](https://arcanemachine-phoenix-todo.fly.dev/)
 
 Yet another todo list. Made using the Phoenix web framework.
 

@@ -28,6 +28,8 @@ Features:
 - Javascript-based E2E tests (Playwright)
 - GitHub Actions CI
 - Releases (vanilla/Docker/fly.io)
+- Supports a variety of container-based environments
+- EditorConfig (standardizes file formatting: spaces per line, etc.)
 - Enforces sane commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
 - Uses [`just`](https://github.com/casey/just) task runner
 

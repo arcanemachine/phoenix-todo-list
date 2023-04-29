@@ -81,12 +81,12 @@ color_reset := "\\033[39m"
 @test-all: test-elixir test-e2e
 
 # run end-to-end (E2E) tests
-@test-e2e:
-  ./support/scripts/test-e2e
+@test-e2e args='':
+  ./support/scripts/test-e2e {{ args }}
 
 # run end-to-end (E2E) tests in watch mode
-@test-e2e-watch:
-  ./support/scripts/test-e2e-watch
+@test-e2e-watch args='':
+  ./support/scripts/test-e2e-watch {{ args }}
 
 # run Elixir tests
 @test-elixir:

@@ -1,7 +1,7 @@
 ---
 services:
   postgres:
-    image: "docker.io/postgres"
+    image: "docker.io/postgres:15"
     container_name: "phoenix-todo-list-postgres"
     hostname: "postgres"
     restart: "always"

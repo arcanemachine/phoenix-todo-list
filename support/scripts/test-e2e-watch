@@ -1,15 +1,12 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "Run Playwright end-to-end tests in watch mode."
-  exit 0
+	echo "Run Playwright end-to-end tests in watch mode."
+	exit 0
 fi
 
 # navigate to project root directory
-cd $(dirname "$0")/../../
+cd "$(dirname "$0")/../../" || exit 1
 
-# find all JS test files that aren't in exempted directories, and run the tests
-# when any change is detected in the files
-while sleep 1; do
-  find $app_dir -name '*.spec.ts' -o -name '*.spec.js' -not -path '*/node_modules/*' | entr ./support/scripts/test-e2e "$@"
-done
+# watch the test files and re-run when any of the files are modified
+until ag -g "test/js/.*\.(js|ts)$" | entr -d ./support/scripts/test-e2e "$@"; do sleep 1; done

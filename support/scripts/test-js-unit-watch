@@ -1,12 +1,12 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "Run this project's Javascript unit tests in watch mode."
-  exit 0
+	echo "Run this project's Javascript unit tests in watch mode."
+	exit 0
 fi
 
 # navigate to JS test root directory
-cd $(dirname "$0")/../../test/js/
+cd "$(dirname "$0")/../../test/js/" || exit 1
 
 # run the tests
 npm run unit-watch

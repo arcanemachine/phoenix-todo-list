@@ -10,7 +10,6 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :todo_list, TodoListWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
-# check_origin: ["http://#{host}", "https://#{host}", "http://#{host}:#{port}"]
 
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: TodoList.Finch

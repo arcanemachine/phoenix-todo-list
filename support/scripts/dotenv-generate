@@ -1,0 +1,40 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+	echo "This script bootstraps a copy of .env using any currently-exported environment variables.
+If a copy doesn't exist, you will need to create one using the 'support/scripts/dotenv-generate-template' generator script."
+fi
+
+project_root=$(dirname "$0")/../../
+cd "$project_root" || exit 1
+
+env_path="$(pwd)/.env"
+env_template_path="$(pwd)/support/scripts/dotenv-generate-template"
+
+if [ -f "$env_path" ]; then
+	if [ "$OVERWRITE" = 1 ] || [ "$1" = "--force" ] || [ "$1" = "-f" ]; then
+		echo "Overwriting existing file: '$env_path'..."
+	elif [ "$DRY_RUN" != 1 ]; then
+		echo "File already exists: '$env_path'. Skipping..."
+		exit 0
+	fi
+else
+	echo "Generating local environment: '$env_path'..."
+fi
+
+if [ "$DRY_RUN" = 1 ]; then
+	echo "This is a dry run. Printing to stdout only..."
+	echo ""
+fi
+
+output_string="$($env_template_path)"
+
+if [ "$DRY_RUN" = 1 ]; then
+	echo "$output_string"
+else
+	# create the .env file
+	echo "$output_string" >"$env_path"
+
+	# set permissions on the newly-created .env file
+	chmod 600 "$env_path"
+fi

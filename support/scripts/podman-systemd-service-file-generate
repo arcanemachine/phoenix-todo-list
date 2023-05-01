@@ -1,99 +1,28 @@
 #!/bin/sh
 
-service_name="phoenix-todo-list"
-service_file="${HOME}/systemd/user/${service_name}.service"
-
-if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
-	echo "This script generates a user-level systemd service file.
-
-The output will be sent here: '$service_file'
-
-In order to start this service on boot, you must enabling lingering for this user:
-  - sudo loginctl enable-linger $USER
-
-Environment variables:
-  - SERVER_ENVIRONMENT: Must be one of: dev, test, prod
-
-To enable this service:
-  - systemctl --user enable $service_name.service
-
-To start this service:
-  - systemctl --user start $service_name.service"
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	echo "Use 'podman-compose' to generate a systemd service file for a production environment."
 	exit 0
 fi
 
+project_name="phoenix-todo-list"
 current_script_directory="$(dirname "$0")"
-project_root_directory="$(cd "${current_script_directory}/../.." && pwd)"
-working_directory="${project_root_directory}/support/containers"
 
-# navigate to current script directory
-cd "$current_script_directory" || exit 1
+# navigate to containers directory
+cd "${current_script_directory}/../../support/containers" || exit 1
 
-# source dotenv
-if [ "$DRY_RUN" != 1 ]; then
-	echo "Importing environment from '.env'..."
-fi
-set -o allexport
-. "${project_root_directory}/.env"
-set +o allexport
+containers_to_run="-f compose.postgres.yaml -f networks/compose.postgres-host.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml"
 
-if [ "$DRY_RUN" = 1 ]; then
-	output_to=/dev/stdout
-else
-	output_to="${HOME}/.config/systemd/user/${service_name}.service"
-fi
+# start the containers so we can add them to the pod
+podman-compose "$containers_to_run" up --remove-orphans -d
 
-if [ "$DRY_RUN" != 1 ]; then
-	echo "Creating systemd service file: '${output_to}'"
-fi
+# create the pod
+podman pod create --name="${project_name}"
 
-containers_to_run="-f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml"
+# add the containers to the pod
+podman create --pod="${project_name}"
 
-echo "[Unit]
-Description=$service_name
-Wants=network-online.target
-After=network-online.target
-Requires=podman.service
-RequiresMountsFor=/run/user/$(id -u)/containers
+# generate the systemd service files
 
-[Service]
-Environment=COMPOSE_DOCKER_CLI_BUILD=0
-
-# phoenix
-Environment=PHX_HOST=\"$PHX_HOST\"
-Environment=PORT=\"$PORT\"
-Environment=SECRET_KEY_BASE=\"$SECRET_KEY_BASE\"
-
-# db
-Environment=DATABASE_URL=\"$DATABASE_URL\"
-Environment=POSTGRES_DB=\"$POSTGRES_DB\"
-Environment=POSTGRES_USER=\"$POSTGRES_USER\"
-Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
-
-# # traefik
-# Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
-
-# # email
-# Environment=AWS_REGION=\"$AWS_REGION\"
-# Environment=AWS_ACCESS_KEY=\"$AWS_ACCESS_KEY\"
-# Environment=AWS_SECRET=\"$AWS_SECRET\"
-
-Restart=on-failure
-WorkingDirectory=${working_directory}
-# Type=forking
-
-# Shutdown container (if running) when unit is started
-ExecStartPre=$(which podman-compose) $containers_to_run down
-
-# Start container when unit is started
-ExecStart=$(which podman-compose) $containers_to_run up --remove-orphans
-
-# Stop all services
-ExecStop=$(which podman-compose) $containers_to_run down
-
-[Install]
-WantedBy=default.target" >"${output_to}"
-
-if [ "$DRY_RUN" != 1 ]; then
-	echo "done"
-fi
+# stop the containers
+podman-compose "$containers_to_run" down

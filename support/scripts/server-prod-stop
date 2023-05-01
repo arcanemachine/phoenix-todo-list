@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	echo "Stop the prod server."
+	exit 0
+fi
+
+project_name="todo_list"
+current_script_directory="$(dirname "$0")"
+project_root_directory="$(cd "${current_script_directory}/../.." && pwd)"
+working_directory="${project_root_directory}/_build/prod/rel/${project_name}/bin"
+
+# navigate to working directory
+cd "$working_directory" || exit 1
+
+# stop the server
+echo "Stopping the prod server..."
+"./${project_name}" stop

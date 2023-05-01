@@ -4,14 +4,16 @@
 
 ---
 
+**All commands in this document should be performed from the project root directory.**
+
 NOTE: This project uses Git submodules. There are a couple caveats to keep in mind when working with submodules:
 
 - To clone this repo:
   - `git clone --recurse-submodules https://github.com/arcanemachine/phoenix-todo-list`
 - If you have already cloned the repo, but didn't clone the submodules using the command above:
-  - Navigate to the project root directory and run `git submodule update --init`.
+  - Run `git submodule update --init`.
 - To update the submodule(s) to the latest commit/revision, perform either of these steps:
-  - Navigate to the project root directory and run `git submodule foreach git pull`.
+  - Run `git submodule foreach git pull`.
   - Navigate to the submodule (`support/containers/traefik`) and run `git pull`.
 
 ---
@@ -44,21 +46,24 @@ It is recommended to use `direnv` to easily load your environment when navigatin
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Copy the example template in `support/.env.example` to `.env` and fill in your desired values.
 - Run `mix deps.get` to fetch the dependencies
-- Ensure that a Postgres server is up and running. You can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
-- Once the Postgres server is running, create a database for the `dev` environment:
+- Setup PostgreSQL:
+  - For easy PostgreSQL setup, you can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
+- Once the PostgreSQL server is running, set up the `dev` environment:
   - `mix ecto.setup`
-- Use any of these commands to start the server:
-  - `mix phx.server` - The regular method of starting the server
-  - `iex -S mix phx.server` - Starts the server in an `IEx` session. Useful for debugging.
-  - `support/scripts/start` - A convenience script for starting the server in an `IEx` shell.
+- Use any of these commands to start a dev server:
+  - `just start` - Uses the `just` task runner to start a dev server
+  - `mix phx.server` - The vanilla-Elixir method of starting a dev server
+  - `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
+  - `support/scripts/start` - A convenience script for starting a dev server in an `IEx` shell.
 
 ### Testing
 
 Before running any tests, use the instructions above to ensure that:
 
 - The required environment variables have been set.
-- A Postgres server is up and running.
-- You have navigated to the project root directory.
+- A PostgreSQL server is up and running.
+  - You may need to create a test database:
+    - `MIX_ENV=test mix ecto.create`
 
 #### Elixir-Based Tests (`mix test`)
 
@@ -107,7 +112,7 @@ Before you create a release, ensure that your environment variables are set corr
 Navigate to the project root directory and set up your environment variables:
 
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
-  - Use the environment generator script (`just env-generate` or `support/scripts/env-generate`) to generate an example `.env` file in the project root directory. You can modify this `.env` file as needed.
+  - Use the environment generator script (`just dotenv-generate` or `support/scripts/dotenv-generate`) to generate an example `.env` file in the project root directory. You can modify this `.env` file as needed.
 
 ##### Vanilla/Bare Metal Deployment
 
@@ -150,22 +155,30 @@ Run the following commands from the project root directory:
 
 ###### Running a Basic Phoenix Container
 
+**Using a Locally-Built Image**
+
 A basic `compose.yaml` file can be found in the project root directory. It exposes a plain Phoenix container.
 
 To run this barebones container, run the following commands from the project root directory:
 
 - First, ensure that you have a PostgreSQL server running locally.
 - [Build the Docker image](#building-a-release-as-a-docker-container).
-- Run the Docker image with Docker Compose:
-  - `docker-compose up`
+- Run the Compose file:
+  - Docker: `docker-compose up`
+  - Podman: `podman-compose up`
 
-###### Other Docker/Podman Deployment Strategies
+**Using the Docker Hub Image**
 
-For other Docker/Podman Deployment Strategies, see the README in the ([`/support/containers/`][support/containers/]) directory.
+Run the following command from the project root directory:
+
+- Docker: `docker compose -f support/containers/compose.phoenix.yaml up`
+- Podman: `podman-compose -f support/containers/compose.phoenix.yaml up`
+
+###### Other Docker/Podman Deployment Procedures
+
+For other Docker/Podman container procedures, see `/support/containers/README.md`.
 
 ### Remote Deployment
-
-All commands in this section must be performed from the project root directory.
 
 #### Fly.io
 

@@ -1,8 +1,5 @@
 set dotenv-load
 
-# aliases
-@start: server-dev-start
-
 # colors
 color_info := "\\033[96m"
 color_reset := "\\033[39m"
@@ -10,6 +7,10 @@ color_reset := "\\033[39m"
 # list available just commands
 @default:
   just --list
+
+# aliases
+@start: server-dev-start
+
 
 # remove stale versions of static assets
 @assets-prune:
@@ -37,12 +38,12 @@ color_reset := "\\033[39m"
   mix ecto.drop
 
 # generate a .env file
-@env-generate args='':
-  ./support/scripts/env-generate {{ args }}
+@dotenv-generate args='':
+  ./support/scripts/dotenv-generate {{ args }}
 
 # view the output of the .env file generator
-@env-generate-template:
-  ./support/scripts/env-generate-template
+@dotenv-generate-template:
+  ./support/scripts/dotenv-generate-template
 
 # generate an OpenAPI schema (format: 'json' | 'yaml')
 @openapi-schema-generate format='json':
@@ -64,10 +65,26 @@ color_reset := "\\033[39m"
   echo "Starting a dev server..."
   iex -S mix phx.server
 
+# run migrations on the prod server
+@server-prod-migrate:
+  echo "Running migrations on the prod server..."
+  # ./_build/prod/rel/todo_list/bin/todo_list eval TodoList.Release.migrate
+  ./_build/prod/rel/todo_list/bin/migrate
+
+# run migrations and start the prod server
+@server-prod-migrate-start:
+  echo "Running and starting the prod server..."
+  ./support/scripts/server-prod-migrate-start
+
 # start the prod server
 @server-prod-start:
   echo "Starting prod server..."
   ./_build/prod/rel/todo_list/bin/server
+
+# stop the prod server
+@server-prod-stop:
+  echo "Stopping prod server..."
+  ./_build/prod/rel/todo_list/bin/todo_list stop
 
 # spawn an IEx shell
 @shell:

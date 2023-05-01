@@ -1,0 +1,91 @@
+#!/bin/sh
+
+service_name="phoenix-todo-list"
+service_file="${HOME}/systemd/user/${service_name}.service"
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	echo "This script generates a user-level systemd service file.
+
+The output will be sent here: '$service_file'
+
+In order to start this service on boot, you must enabling lingering for this user:
+  - sudo loginctl enable-linger $USER
+
+Environment variables:
+  - SERVER_ENVIRONMENT: Must be one of: dev, test, prod
+
+To enable this service:
+  - systemctl --user enable $service_name.service
+
+To start this service:
+  - systemctl --user start $service_name.service"
+	exit 0
+fi
+
+current_script_directory="$(dirname "$0")"
+project_root_directory="$(cd "${current_script_directory}/../.." && pwd)"
+working_directory="${project_root_directory}/_build/prod/rel/todo_list/bin"
+
+# navigate to current script directory
+cd "$current_script_directory" || exit 1
+
+# source dotenv
+if [ "$DRY_RUN" != 1 ]; then
+	echo "Importing environment from '.env'..."
+fi
+set -o allexport
+. "${current_script_directory}/../../.env"
+set +o allexport
+
+if [ "$DRY_RUN" = 1 ]; then
+	output_to=/dev/stdout
+else
+	output_to="${HOME}/.config/systemd/user/${service_name}.service"
+fi
+
+if [ "$DRY_RUN" != 1 ]; then
+	echo "Creating systemd service file: '${output_to}'"
+fi
+
+echo "[Unit]
+Description=Phoenix Todo List
+ConditionPathExists=${working_directory}
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+# phoenix
+Environment=PHX_HOST=\"$PHX_HOST\"
+Environment=PORT=\"$PORT\"
+Environment=SECRET_KEY_BASE=\"$SECRET_KEY_BASE\"
+
+# db
+Environment=DATABASE_URL=\"$DATABASE_URL\"
+Environment=POSTGRES_DB=\"$POSTGRES_DB\"
+Environment=POSTGRES_USER=\"$POSTGRES_USER\"
+Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
+
+# # traefik
+# Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
+
+# # email
+# Environment=AWS_REGION=\"$AWS_REGION\"
+# Environment=AWS_ACCESS_KEY=\"$AWS_ACCESS_KEY\"
+# Environment=AWS_SECRET=\"$AWS_SECRET\"
+
+Environment=\"HOME=${working_directory}\"
+ExecStart=${project_root_directory}/support/scripts/server-prod-migrate-start
+ExecStop=${working_directory}/todo_list stop
+Restart=always
+RemainAfterExit=yes
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=phoenix-todo-list
+
+[Install]
+WantedBy=multi-user.target" >"${output_to}"
+
+if [ "$DRY_RUN" != 1 ]; then
+	echo "done"
+fi

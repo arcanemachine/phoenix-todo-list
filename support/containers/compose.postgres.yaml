@@ -6,9 +6,9 @@ services:
     hostname: "postgres"
     restart: "always"
     environment:
-      POSTGRES_DB: "todo_list"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "${POSTGRES_DB:?}"
+      POSTGRES_USER: "${POSTGRES_USER:?}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?}"
     volumes:
       - "./volumes/postgres:/var/lib/postgresql/data"
   phoenix:

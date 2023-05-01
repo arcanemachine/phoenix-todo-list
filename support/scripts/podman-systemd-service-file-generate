@@ -4,8 +4,9 @@ service_name="phoenix-todo-list"
 service_file="${HOME}/systemd/user/${service_name}.service"
 
 if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
-	echo "This script generates a systemd service file.
-The output should be sent here: '$service_file'
+	echo "This script generates a user-level systemd service file.
+
+The output will be sent here: '$service_file'
 
 In order to start this service on boot, you must enabling lingering for this user:
   - sudo loginctl enable-linger $USER
@@ -42,6 +43,9 @@ else
 	output_to="${HOME}/.config/systemd/user/${service_name}.service"
 fi
 
+if [ "$DRY_RUN" != 1 ]; then
+	echo "Creating systemd service file: '${output_to}'"
+fi
 echo "[Unit]
 Description=$service_name
 Wants=network-online.target

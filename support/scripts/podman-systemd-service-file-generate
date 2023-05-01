@@ -46,6 +46,9 @@ fi
 if [ "$DRY_RUN" != 1 ]; then
 	echo "Creating systemd service file: '${output_to}'"
 fi
+
+containers_to_run="-f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml"
+
 echo "[Unit]
 Description=$service_name
 Wants=network-online.target
@@ -80,13 +83,13 @@ WorkingDirectory=${working_directory}
 # Type=forking
 
 # Shutdown container (if running) when unit is started
-ExecStartPre=$(which podman-compose) -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml down
+ExecStartPre=$(which podman-compose) $containers_to_run down
 
 # Start container when unit is started
-ExecStart=$(which podman-compose) -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up --remove-orphans
+ExecStart=$(which podman-compose) $containers_to_run up --remove-orphans
 
 # Stop all services
-ExecStop=$(which podman-compose) -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml down
+ExecStop=$(which podman-compose) $containers_to_run down
 
 [Install]
 WantedBy=default.target" >"${output_to}"

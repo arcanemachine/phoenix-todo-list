@@ -33,10 +33,12 @@ cd "$current_script_directory" || exit 1
 if [ "$DRY_RUN" != 1 ]; then
 	echo "Importing environment from '.env'..."
 fi
+
 set -o allexport
 . "${current_script_directory}/../../.env"
 set +o allexport
 
+# for DRY_RUN, print output to terminal instead of writing to a file
 if [ "$DRY_RUN" = 1 ]; then
 	output_to=/dev/stdout
 else

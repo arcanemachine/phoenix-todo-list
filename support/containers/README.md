@@ -4,7 +4,7 @@ Additional information on working with containers.
 
 ---
 
-##### \*\*\* All commands in this document must be run from the `support/containers/` directory. \*\*\*
+**All commands in this document must be run from the `support/containers/` directory.**
 
 ---
 

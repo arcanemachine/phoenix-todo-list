@@ -2,7 +2,7 @@
 
 ---
 
-##### \*\*\* Unless otherwise specified, all commands in this document should be run from the `support/deployment/` directory. \*\*\*
+**Unless otherwise specified, all commands in this document should be run from the `support/deployment/` directory.**
 
 ---
 
@@ -28,21 +28,20 @@ Additional information on deployment.
           - `CREATE DATABASE todo_list;`
           - `GRANT ALL PRIVILEGES ON DATABASE todo_list TO todo_list_user;`
         - Exit `psql` by pressing `Ctrl+D` or typing `\q` + `Enter`
-  - Setup Caddy using the instructions in the _[Deploying With Cadde](#deploying-with-caddy)_ section.
+  - Setup Caddy using the instructions in the _[Deploying With Caddy](#deploying-with-caddy)_ section.
     - Alternatively, you can set up a different server as you like.
     - Ensure that the domain matches the `PHX_HOST` environment variable, or else Phoenix will complain and websockets (e.g. LiveView) won't work.
 - Build a release:
   - Use the `support/scripts/release-build` script to build a release.
 - To run the server:
   - Using a script:
-    - Run the `supports/scripts/server-prod-start` script to run migrations and start the server.
+    - Run migrations and start the server with `supports/scripts/server-prod-start`
   - Manually:
     - Navigate to the directory `_build/prod/rel/todo_list/bin/`.
     - Run migrations: `./migrate`
     - Start the prod server: `./server`
 - To stop the server:
-  - Using a script:
-    - Run the `supports/scripts/server-prod-start` script to
+  - Using a script: `supports/scripts/server-prod-start`
   - Manually:
     - Navigate to the directory `_build/prod/rel/todo_list/bin/`.
     - Stop the prod server: `./todo_list stop`
@@ -72,28 +71,41 @@ Any non-Traefik deployment strategy can be used with Caddy. To set up Caddy, con
 
 To deploy with Caddy, complete the following steps:
 
-- Setup Caddy:
-  1. Ensure that Caddy is installed on your machine.
-  2. Backup the existing Caddyfile just in case:
-     `sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak`
-  3. There are 2 example Caddyfiles:
-  - A `Caddyfile.local` to ensure the configuration works locally
-  - A `Caddyfile.remote` Caddyfile for use in a production environment
-  4. Copy the desired project's Caddyfile to the Caddy configuration directory:
-  - local: `sudo cp Caddyfile.local /etc/caddy/Caddyfile`
-  - remote: `sudo cp Caddyfile.remote /etc/caddy/Caddyfile`
-  5. Navigate to the Caddy configuration directory.
-  - `cd /etc/caddy`
-  6. Validate the new Caddyfile:
-  - `sudo caddy validate`
-  7. Reload the Caddyfile:
-  - `sudo caddy reload`
-  8. Caddy should now be working with the new configuration.
-  - Caddy will automatically enable TLS (HTTPS) for your domain. See the Caddy docs for more info.
+1. Ensure that Caddy is installed on your machine.
+
+2. Backup the existing Caddyfile just in case:
+
+- `sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak`
+
+3. There are 2 example Caddyfiles:
+
+- A `Caddyfile.local` to ensure the configuration works locally
+- A `Caddyfile.remote` Caddyfile for use in a production environment
+
+4. Copy the desired project's Caddyfile to the Caddy configuration directory:
+
+- local: `sudo cp Caddyfile.local /etc/caddy/Caddyfile`
+- remote: `sudo cp Caddyfile.remote /etc/caddy/Caddyfile`
+
+5. Navigate to the Caddy configuration directory.
+
+- `cd /etc/caddy`
+
+6. Validate the new Caddyfile:
+
+- `sudo caddy validate`
+
+7. Reload the Caddyfile:
+
+- `sudo caddy reload`
+
+8. Caddy should now be working with the new configuration.
+
+- Caddy will automatically enable TLS (HTTPS) for your domain. See the Caddy docs for more info.
 
 ### Modifying the Caddyfile
 
-The Caddyfile is self-explanatory:
+The base Caddyfile is self-explanatory:
 
 ```
 phoenix-todo-list.nicholasmoen.com

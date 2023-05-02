@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	echo "Use 'podman-compose' to generate a systemd service file for a production environment."
+	exit 0
+fi
+
+project_name="phoenix-todo-list"
+current_script_directory="$(dirname "$0")"
+
+# navigate to containers directory
+cd "${current_script_directory}/../../support/containers" || exit 1
+
+containers_to_run="-f compose.postgres.yaml -f networks/compose.postgres-host.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml"
+
+# start the containers so we can add them to the pod
+podman-compose "$containers_to_run" up --remove-orphans -d
+
+# create the pod
+podman pod create --name="${project_name}"
+
+# add the containers to the pod
+podman create --pod="${project_name}"
+
+# generate the systemd service files
+
+# stop the containers
+podman-compose "$containers_to_run" down

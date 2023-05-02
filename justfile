@@ -42,8 +42,8 @@ color_reset := "\\033[39m"
   ./support/scripts/dotenv-generate {{ args }}
 
 # view the output of the .env file generator
-@dotenv-generate-template:
-  ./support/scripts/dotenv-generate-template
+@dotenv-generate--template:
+  ./support/scripts/dotenv-generate--template
 
 # generate an OpenAPI schema (format: 'json' | 'yaml')
 @openapi-schema-generate format='json':

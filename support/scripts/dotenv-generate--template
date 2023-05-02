@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [ "$1" = "--help" ]; then
+	echo "Prints a dotenv template whose output can be piped to a '.env' file."
+	exit 0
+fi
+
+postgres_db=${POSTGRES_DB:-todo_list}
+postgres_user=${POSTGRES_USER:-postgres}
+postgres_password=${POSTGRES_PASSWORD:-postgres}
+database_url=${DATABASE_URL:-ecto://${postgres_user}:${postgres_password}@localhost/${postgres_db}}
+
+echo "# phoenix
+PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
+PORT=\"${PORT:-4000}\"
+SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
+
+# db
+POSTGRES_DB=\"${postgres_db}\"
+POSTGRES_USER=\"${postgres_user}\"
+POSTGRES_PASSWORD=\"${postgres_password}\"
+DATABASE_URL=\"${database_url}\"
+
+# traefik
+TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\"
+
+# # email
+# AWS_REGION=\"${AWS_REGION:-us-east-1}\"
+# AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
+# AWS_SECRET=\"${AWS_SECRET:-your_aws_secret}\""

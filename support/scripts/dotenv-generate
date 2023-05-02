@@ -2,14 +2,14 @@
 
 if [ "$1" = "--help" ]; then
 	echo "This script bootstraps a copy of .env using any currently-exported environment variables.
-If a copy doesn't exist, you will need to create one using the 'support/scripts/dotenv-generate-template' generator script."
+If a copy doesn't exist, you will need to create one using the 'support/scripts/dotenv-generate--template' generator script."
 fi
 
 project_root=$(dirname "$0")/../../
 cd "$project_root" || exit 1
 
 env_path="$(pwd)/.env"
-env_template_path="$(pwd)/support/scripts/dotenv-generate-template"
+env_template_path="$(pwd)/support/scripts/dotenv-generate--template"
 
 if [ -f "$env_path" ]; then
 	if [ "$OVERWRITE" = 1 ] || [ "$1" = "--force" ] || [ "$1" = "-f" ]; then

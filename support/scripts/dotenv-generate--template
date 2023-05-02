@@ -5,21 +5,16 @@ if [ "$1" = "--help" ]; then
 	exit 0
 fi
 
-postgres_db=${POSTGRES_DB:-todo_list}
-postgres_user=${POSTGRES_USER:-postgres}
-postgres_password=${POSTGRES_PASSWORD:-postgres}
-database_url=${DATABASE_URL:-ecto://${postgres_user}:${postgres_password}@localhost/${postgres_db}}
-
 echo "# phoenix
 PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
 PORT=\"${PORT:-4000}\"
 SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
 # db
-POSTGRES_DB=\"${postgres_db}\"
-POSTGRES_USER=\"${postgres_user}\"
-POSTGRES_PASSWORD=\"${postgres_password}\"
-DATABASE_URL=\"${database_url}\"
+POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
+POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
+POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
+DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 
 # traefik
 TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\"

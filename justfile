@@ -1,17 +1,23 @@
 set dotenv-load
 
+@default:
+  # list all the commands in this justfile
+  just --list
+
+
+# VARIABLES #
+container_image_name := "arcanemachine/phoenix-todo-list"
+
 # colors
 color_info := "\\033[96m"
 color_reset := "\\033[39m"
 
-# list available just commands
-@default:
-  just --list
 
-# aliases
+# ALIASES #
 @start: server-dev-start
 
 
+# COMMANDS #
 # remove stale versions of static assets
 @assets-prune:
   echo "Pruning digested assets..."
@@ -19,23 +25,33 @@ color_reset := "\\033[39m"
 
 # create the database with 'mix' and run initial migrations
 @db-setup:
+  echo "Setting up the database..."
   mix ecto.setup
 
 # create the database with 'mix'
 @db-create:
+  echo "Creating the database..."
   mix ecto.create
 
 # run database migrations with 'mix'
 @db-migrate:
+  echo "Running database migrations..."
   mix ecto.migrate
 
 # drop the database with 'mix'
 @db-drop:
+  echo "Dropping the database..."
   mix ecto.drop
 
 # reset the database with 'mix'
 @db-reset:
-  mix ecto.drop
+  echo "Resetting the database..."
+  mix ecto.reset
+
+# build a docker release
+@docker-image-build:
+  echo "Building a Docker release image..."
+  docker build -t {{ container_image_name }} .
 
 # generate a .env file
 @dotenv-generate args='':

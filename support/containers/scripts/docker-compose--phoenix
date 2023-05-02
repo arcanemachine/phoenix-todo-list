@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# navigate to containers directory
+cd "$(dirname "$0")/../" || exit 1
+
+# ensure first positional argument is present
+if [ "$1" = "" ]; then
+	echo "The first positional argument must specify the 'docker compose' command(s) to run. Examples: up, down, restart, etc."
+	exit 1
+fi
+
+# run container action
+docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml "$@"

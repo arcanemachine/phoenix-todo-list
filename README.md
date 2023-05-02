@@ -41,7 +41,8 @@ Features:
 
 Before you work in a `dev` environment, ensure that your environment variables are set correctly.
 
-It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
+- Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started
+- It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Copy the example template in `support/.env.example` to `.env` and fill in your desired values.
@@ -61,9 +62,11 @@ It is recommended to use `direnv` to easily load your environment when navigatin
 Before running any tests, use the instructions above to ensure that:
 
 - The required environment variables have been set.
+  - Use the instructions in the previous step to create a basic `.env` file in the project root directory.
 - A PostgreSQL server is up and running.
-  - You may need to create a test database:
-    - `MIX_ENV=test mix ecto.create`
+  - You may need to create a test database: `MIX_ENV=test mix ecto.create`
+  - If any errors occur during the tests, try resetting the test database: `MIX_ENV=test mix ecto.reset`
+    - For example, the E2E test scripts reset the database between test runs. However, if the script is aborted, the database may not be reset, which can effect the results of `mix test`.
 
 #### Elixir-Based Tests (`mix test`)
 

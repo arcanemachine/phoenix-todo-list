@@ -33,6 +33,11 @@ Additional information on deployment.
     - Ensure that the domain matches the `PHX_HOST` environment variable, or else Phoenix will complain and websockets (e.g. LiveView) won't work.
 - Build a release:
   - Use the `support/scripts/release-build` script to build a release.
+- Ensure that your `PHX_HOST` environment variable matches the domain entered in your browser's address bar.
+  - You will probably need to set up Caddy using the instructions below.
+    - If you don't set up Caddy, your websockets (e.g. LiveView) probably won't work.
+    - Also, Caddy will automatically set up TLS (HTTPS) which is essential for the modern web
+      - e.g. Browsers will complain when entering passwords if plain HTTP is used.
 - To run the server:
   - Using a script:
     - Run migrations and start the server with `supports/scripts/server-prod-start`

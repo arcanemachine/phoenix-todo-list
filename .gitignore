@@ -1,7 +1,7 @@
-# container stuff
+# container volumes
 /support/containers/volumes/*
 
-# elixir stuff
+# elixir
 /.elixir_ls/
 
 # dotenv
@@ -20,6 +20,7 @@ Session*.vim
 *.tmp
 gitignore.*
 
+# MIX DEFAULTS #
 # The directory Mix will write compiled artifacts to.
 /_build/
 

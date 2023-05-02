@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# navigate to containers directory
+cd "$(dirname "$0")/../" || exit 1
+
+# ensure first positional argument is present
+if [ "$1" = "" ]; then
+	echo "The first positional argument must specify the 'podman-compose' command(s) to run. Examples: up, down, restart, etc."
+	exit 1
+elif [ "$1" != "down" ]; then
+	# ensure the network 'traefik-global-proxy' exists
+	echo "Creating Podman network: 'traefik-global-proxy'..."
+	if [ ! "$(podman network create traefik-global-proxy)" ]; then
+		echo "The 'traefik-global-proxy' network already exists. Continuing..."
+	fi
+fi
+
+podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml "$@"

@@ -2,8 +2,7 @@
 services:
   postgres:
     image: "docker.io/postgres:15"
-    container_name: "phoenix-todo-list-postgres"
-    hostname: "postgres"
+    container_name: "phoenix-todo-list--postgres"
     restart: "always"
     environment:
       POSTGRES_DB: "${POSTGRES_DB:?}"
@@ -11,6 +10,3 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?}"
     volumes:
       - "./volumes/postgres:/var/lib/postgresql/data"
-  phoenix:
-    depends_on:
-      - "postgres"

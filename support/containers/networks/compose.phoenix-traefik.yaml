@@ -2,7 +2,7 @@
 services:
   phoenix:
     environment:
-      DATABASE_URL: "ecto://postgres:postgres@postgres/todo_list"
+      DATABASE_URL: "ecto://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB}"
     networks:
       - "traefik-global-proxy"
       - "phoenix-todo-list"

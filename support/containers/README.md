@@ -2,11 +2,7 @@
 
 Additional information on working with containers.
 
----
-
-**All commands in this document must be run from the `support/containers/` directory.**
-
----
+**NOTE:** These containers are configured for a production environment. You may run into issues if attempting to use containers for development (e.g. database name issues).
 
 This project has ready-made configurations to easily run the following services as Docker/Podman containers alongside this Phoenix project:
 
@@ -18,41 +14,54 @@ In order to maximize flexibility, the service containers (e.g. Phoenix, PostgreS
 1. A Compose file that specifies the service (located in `support/containers/`).
 2. A Compose file that specifies the service's network (located in `support/containers/networks/`).
 
-## Running a Standalone Postgres Container
+## Compose Examples
+
+- To save on typing, you can use the scripts in the `support/containers/scripts` directory to run the configurations described in this section.
+  - If switching between Docker and Podman, you will need to delete the `support/containers/volumes/postgres` directory.
+- All commands in this section must be run from the `support/containers/` directory.
+- If the environment has not been loaded automatically with `direnv`, you may need to include the `.env` file manually using `--env-file .env` when running one or more Compose files.
+
+### Running a Standalone Phoenix Container
+
+**NOTE:** If the server cannot connect to a PostgreSQL server, the container will stop.
+
+Launch a standalone container with host networking (i.e. not isolated to a Docker network):
+
+Examples:
+
+- Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml up`
+- Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml up`
+
+### Running a Standalone Postgres Container
 
 Launch a **Postgres** container with host networking (i.e. not isolated to a Docker network):
 
-- Examples:
-  - Docker: `docker compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
-  - Podman: `podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
+Examples:
+
+- Docker: `docker compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
+- Podman: `podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
+
+### Running Phoenix + Postgres Containers Together
+
+Examples:
+
+- Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
+- Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
 - If the environment has not been loaded automatically with `direnv`, you will need to include the `.env` file manually using `--env-file .env` when starting the Docker Compose containers.
 
-## Running a Phoenix or Postgres/Phoenix Container
+### Deploying With Traefik
 
-\*Traefik always uses it's own proxy network, so you don't need to specify a network Compose configuration for Traefik.
+**Traefik always uses it's own proxy network, so you don't need to specify a network Compose configuration for Traefik.**
 
-Example:
+**NOTE:** When running a Traefik container, the volumes will be created in the `support/containers/traefik/volumes` directory instead of `support/containers/volumes`. I am not sure why.
 
-- Launch a **Phoenix** container with host networking (i.e. not isolated to a Docker network):
-  - Examples:
-    - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml up`
-    - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml up`
-  - If the environment has not been loaded automatically with `direnv`, you will need to include the `.env` file manually using `--env-file .env` when starting the Docker Compose containers.
-- Launch a **Postgres + Phoenix** container with host networking (i.e. not isolated to a Docker network):
-  - Examples:
-    - Docker: `docker compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml up`
-    - Podman: `podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml up`
-  - If the environment has not been loaded automatically with `direnv`, you will need to include the `.env` file manually using `--env-file .env` when starting the Docker Compose containers.
-
-## Deploying With Traefik
-
-Because Traefik can require a lot of custom configuration, it has its own directory, which is a submodule of [this repo](https://github.com/arcanemachine/traefik-generic). Its Compose files have been symlinked to the `support/containers/` directory so that the Compose services run without issue. (Using Compose files in other directories can cause issues with relative pathnames, e.g. for Docker volumes.)
+Because Traefik can require a lot of custom configuration, it has its own directory, which is a submodule of [this repo](https://github.com/arcanemachine/traefik-generic). Its Compose files are located in the `support/containers/traefik` directory.
 
 To run this project's built-in Traefik container service:
 
-- Run the Traefik-specific setup script:
+- Run the Traefik container setup script:
   - `/traefik/setup`
-    - This script configures the Traefik container and creates the `traefik-global-proxy` Docker network.
+    - This script configures the Traefik container + config, and creates the `traefik-global-proxy` Docker network.
       - To create the network manually, run `docker network create traefik-global-proxy`.
 - Ensure that you set the required environment variable(s) before running Docker Compose:
   - `TRAEFIK_HOST`: The URL to use for the Traefik dashboard
@@ -60,13 +69,13 @@ To run this project's built-in Traefik container service:
 - You will need to include the following Compose files when running this Traefik container Docker Compose:
   - `compose.traefik.yaml`
     - The Traefik container
-  - `compose.traefik-config-[dev|prod].yaml`
+  - `compose.traefik-config-[local|remote].yaml`
     - The Traefik container's environment-specific config
   - `compose.phoenix.yaml`
     - This project's Phoenix container
   - `networks/compose.phoenix-traefik.yaml`
     - This project's network configuration for Phoenix + Traefik
-  - `compose.phoenix-config-traefik-[dev|prod].yaml`
+  - `compose.phoenix-config-traefik-[local|remote].yaml`
     - This project's environment-specific Traefik configuration
 - Create a Docker network for proxying services through Traefik:
   - Docker: `docker network create traefik-global-proxy`
@@ -74,14 +83,14 @@ To run this project's built-in Traefik container service:
   - **NOTE:** The name `traefik-global-proxy` is hardcoded in the Compose files. Do not use a different name for the network!
 - Launch the **Postgres + Traefik + Phoenix** container service:
   - Examples:
-    - dev:
-      - Docker: `docker compose -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.dev.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-dev.yaml up`
-      - Podman: `podman-compose -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.dev.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-dev.yaml up`
-    - prod:
-      - Docker: `docker compose -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.prod.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-prod.yaml up`
-      - Podman: `podman-compose -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.prod.yaml -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-prod.yaml up`
+    - In a local environment (hidden behind NAT, no HTTPS):
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
+      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
+    - In a remote environment (exposed to Internet, uses HTTPS):
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
+      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
 
-## Resetting the Containers
+### Resetting the Containers
 
 To reset the containers, run the following commands:
 

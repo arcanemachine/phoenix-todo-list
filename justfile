@@ -1,6 +1,6 @@
 set dotenv-load
 
-@default:
+@_default:
   # list all the commands in this justfile
   just --list
 
@@ -14,6 +14,7 @@ color_reset := "\\033[39m"
 
 
 # ALIASES #
+# start a dev server
 @start: server-dev-start
 
 
@@ -23,7 +24,7 @@ color_reset := "\\033[39m"
   echo "Pruning digested assets..."
   mix phx.digest.clean --all
 
-# copy a project caddyfile to the caddy config directory, then validate the config and reload caddy [format: local | remote]
+# copy caddyfile, then validate and reload caddy [format: local | remote]
 @caddyfile-copy-validate-reload environment='':
   echo "Copying the Caddyfile, then validating and reloading Caddy..."
   ./support/scripts/caddyfile-copy-validate-reload {{ environment }}
@@ -58,12 +59,13 @@ color_reset := "\\033[39m"
   echo "Building a Docker release image..."
   docker build -t {{ container_image_name }} .
 
-# generate a .env file
+# generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':
+  echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
 
-# view the output of the .env file generator
-@dotenv-generate--template:
+# view the output of the environment file generator
+@dotenv-generate--template args='':
   ./support/scripts/dotenv-generate--template
 
 # generate an OpenAPI schema [format: json | yaml]
@@ -116,28 +118,34 @@ color_reset := "\\033[39m"
   iex -S mix phx.server
 
 # run all tests
-@test-all: test-elixir test-e2e
+@test-all: test-elixir test-js-unit test-e2e
 
 # run end-to-end (E2E) tests
 @test-e2e args='':
+  echo "Running E2E tests..."
   ./support/scripts/test-e2e {{ args }}
 
 # run end-to-end (E2E) tests in watch mode
 @test-e2e-watch args='':
+  echo "Running E2E tests in watch mode..."
   ./support/scripts/test-e2e-watch {{ args }}
 
 # run Elixir tests
 @test-elixir:
+  echo "Running Elixir tests in watch mode..."
   ./support/scripts/test-elixir
 
 # run Elixir tests in watch mode
 @test-elixir-watch:
+  echo "Running Elixir tests in watch mode..."
   ./support/scripts/test-elixir-watch
 
 # run Javascript unit tests
 @test-js-unit:
+  echo "Running Javascript unit tests..."
   cd test/js/ && npm run unit
 
 # run Javascript unit tests in watch mode
 @test-js-unit-watch:
+  echo "Running Javascript unit tests in watch mode..."
   cd test/js/ && npm run unit-watch

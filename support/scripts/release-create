@@ -1,12 +1,12 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "Create a new Phoenix release."
-  exit 0
+	echo "Create a new Phoenix release."
+	exit 0
 fi
 
 # navigate to project root directory
-cd $(dirname "$0")/../../
+cd "$(dirname "$0")/../../" || exit 1
 
 # fetch and compile dependencies
 echo "Fetching and compiling dependencies..."

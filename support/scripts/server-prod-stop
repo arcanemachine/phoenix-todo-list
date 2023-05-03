@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+if [ "$1" = "--help" ]; then
 	echo "Stop the prod server."
 	exit 0
 fi

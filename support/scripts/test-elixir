@@ -1,26 +1,26 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "Run this project's Elixir tests using 'mix test'."
-  exit 0
+	echo "Run this project's Elixir tests using 'mix test'."
+	exit 0
 fi
 
 color_warning="\033[93m"
 color_reset="\033[39m"
 
 # navigate to project root directory
-cd $(dirname "$0")/../../
+cd "$(dirname "$0")/../../" || exit 1
 
 # reset the database (to prevent issues with non-empty test database, e.g. from
 # aborted E2E tests)
 echo "Resetting the test database..."
-MIX_ENV=test mix ecto.reset > /dev/null
+MIX_ENV=test mix ecto.reset >/dev/null
 
 # show success message after resetting the test database
 if [ "$?" = 0 ]; then
-  echo "Test database reset successfully."
+	echo "Test database reset successfully."
 else
-  echo "${color_warning}An error occurred while attempting to reset the test database.${color_reset}"
+	echo "${color_warning}An error occurred while attempting to reset the test database.${color_reset}"
 fi
 
 # run the tests

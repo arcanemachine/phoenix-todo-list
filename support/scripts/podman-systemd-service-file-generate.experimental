@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+if [ "$1" = "--help" ]; then
 	echo "Use 'podman-compose' to generate a systemd service file for a production environment."
 	exit 0
 fi

@@ -1,37 +1,34 @@
 #!/bin/sh
 
-show_help () {
-  printf "Run tasks as part of a git pre-commit workflow.
+if [ "$1" = "--help" ]; then
+	echo "Run tasks as part of a git pre-commit workflow.
 
 A flag must be passed as the that describes the action to be performed.
 
 Flags:
   --help - Show this help text and exit.
-  --test-e2e - Run end-to-end tests.\n"
-}
+  --test-e2e - Run end-to-end tests."
+fi
 
 # # add PRE_COMMIT environment variable so we can detect when code is being run
 # # as part of a pre-commit workflow
 # export PRE_COMMIT=1
 
 # navigate to project root directory
-cd $(dirname "$0")/../../
+cd "$(dirname "$0")/../../" || exit 1
 
 if [ "$1" = "" ]; then
-  echo "A flag must be specified when running this script. Use the '--help' flag for more info."
-  exit 1
-elif [ "$1" = "--help" ]; then
-  show_help
-  exit 0
+	echo "A flag must be specified when running this script. Use the '--help' flag for more info."
+	exit 1
 elif [ "$1" = "--test-e2e" ]; then
-  echo "Running E2E tests..."
+	echo "Running E2E tests..."
 
-  ./support/scripts/test-e2e --quiet --forbid-only --retries 3
-  if [ "$?" != 0 ]; then
-    echo "\033[91m" "One or more E2E tests failed. Aborting the commit..." "\033[39m"
-    exit 1
-  else
-    echo "\033[92m" "E2E tests completed successfully." "\033[39m"
-    exit 0
-  fi
+	./support/scripts/test-e2e --quiet --forbid-only --retries 3
+	if [ "$?" != 0 ]; then
+		echo "\033[91m" "One or more E2E tests failed. Aborting the commit..." "\033[39m"
+		exit 1
+	else
+		echo "\033[92m" "E2E tests completed successfully." "\033[39m"
+		exit 0
+	fi
 fi

@@ -1,25 +1,38 @@
 #!/bin/bash
 
 if [ "$1" = "--help" ]; then
-	echo "Prints a dotenv template whose output can be piped to a '.env' file."
-	exit 0
+	echo "Outputs template whose output can be piped to an environment file.
+
+This script is typically run by the 'dotenv-generate' script.
+
+Options:
+  - By default, this script outputs a '.env' file.
+  - To generate a '.envrc' template, pass '--envrc' as the *first* positional argument.
+    - This prepends 'export ' to the variables so they can be sourced using a shell script."
+	exit
+fi
+
+# check if we're making a '.envrc' template (it just prepends 'export ' to the
+# environment variables so they can be sourced in a shell script)
+if [ "$1" = "--envrc" ]; then
+	is_envrc=1
 fi
 
 echo "# phoenix
-PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
-PORT=\"${PORT:-4000}\"
-SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
+${is_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
+${is_envrc:+"export "}PORT=\"${PORT:-4000}\"
+${is_envrc:+"export "}SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
 # db
-POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
-POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
-POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
-DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
+${is_envrc:+"export "}POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
+${is_envrc:+"export "}POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
+${is_envrc:+"export "}POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
+${is_envrc:+"export "}DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 
 # traefik
 TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\"
 
 # # email
-# AWS_REGION=\"${AWS_REGION:-us-east-1}\"
-# AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
-# AWS_SECRET=\"${AWS_SECRET:-your_aws_secret}\""
+# ${is_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
+# ${is_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
+# ${is_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET:-your_aws_secret}\""

@@ -11,9 +11,6 @@ The output will be sent here: '$service_file'
 In order to start this service on boot, you must enabling lingering for this user:
   - sudo loginctl enable-linger $USER
 
-Environment variables:
-  - SERVER_ENVIRONMENT: Must be one of: dev, test, prod
-
 To enable this service:
   - systemctl --user enable $service_name.service
 

@@ -14,6 +14,8 @@ In order to maximize flexibility, the service containers (e.g. Phoenix, PostgreS
 1. A Compose file that specifies the service (located in `support/containers/`).
 2. A Compose file that specifies the service's network (located in `support/containers/networks/`).
 
+\*Traefik always uses it's own Docker/Podman proxy network, so you don't need to specify a network Compose configuration for Traefik.
+
 ## Compose Examples
 
 - To save on typing, you can use the scripts in the `support/containers/scripts` directory to run the configurations described in this section.
@@ -51,7 +53,7 @@ Examples:
 
 ### Deploying With Traefik
 
-**Traefik always uses it's own proxy network, so you don't need to specify a network Compose configuration for Traefik.**
+**Traefik always uses it's own Docker/Podman proxy network, so you don't need to specify a network Compose configuration for Traefik.**
 
 **NOTE:** When running a Traefik container, the volumes will be created in the `support/containers/traefik/volumes` directory instead of `support/containers/volumes`. I am not sure why.
 
@@ -60,7 +62,10 @@ Because Traefik can require a lot of custom configuration, it has its own direct
 To run this project's built-in Traefik container service:
 
 - Run the Traefik container setup script:
-  - `/traefik/setup`
+  - `/traefik/setup [local|remote]`
+    - Must specify `local` or `remote`.
+      - `local` is for local dev. It doesn't use HTTPS.
+      - `remote` assumes your machine is exposed to the Internet and enables HTTPS.
     - This script configures the Traefik container + config, and creates the `traefik-global-proxy` Docker network.
       - To create the network manually, run `docker network create traefik-global-proxy`.
 - Ensure that you set the required environment variable(s) before running Docker Compose:

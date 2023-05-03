@@ -23,6 +23,11 @@ color_reset := "\\033[39m"
   echo "Pruning digested assets..."
   mix phx.digest.clean --all
 
+# copy a project caddyfile to the caddy config directory, then validate the config and reload caddy [format: local | remote]
+@caddyfile-copy-validate-reload environment='':
+  echo "Copying the Caddyfile, then validating and reloading Caddy..."
+  ./support/scripts/caddyfile-copy-validate-reload {{ environment }}
+
 # create the database with 'mix' and run initial migrations
 @db-setup:
   echo "Setting up the database..."
@@ -61,7 +66,7 @@ color_reset := "\\033[39m"
 @dotenv-generate--template:
   ./support/scripts/dotenv-generate--template
 
-# generate an OpenAPI schema (format: 'json' | 'yaml')
+# generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':
   echo "Generating '{{ format }}' schema..."
   mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+	echo "Copy this project's Caddyfile to the Caddy config directory, then validate the config and restart Caddy.
+
+This script accepts a single positional argument that will specify the Caddyfile to use.
+  - Must be one of: local, remote"
+	exit 0
+fi
+
+# navigate to project root directory
+cd "$(dirname "$0")/../../" || exit 1
+
+# use remote caddyfile by default
+if [ "$1" = "remote" ]; then
+	echo "Using 'remote' Caddyfile..."
+	caddyfile_to_use="Caddyfile.remote"
+elif [ "$1" = "local" ]; then
+	echo "Using 'local' Caddyfile..."
+	caddyfile_to_use="Caddyfile.local"
+else
+	echo "First positional argument must be one of: local, remote"
+	echo "Aborting..."
+	exit 1
+fi
+
+caddyfile_config_dir="/etc/caddy"
+
+# copy the caddyfile to the caddy config directory
+if ! sudo cp "support/deploy/$caddyfile_to_use" "$caddyfile_config_dir/Caddyfile"; then
+	echo "Could not copy the Caddyfile to '$caddyfile_config_dir'. Is Caddy installed?"
+	exit 1
+fi
+
+# validate the caddy config
+cd "$caddyfile_config_dir" || exit 1
+caddy validate
+
+# reload caddy
+sudo caddy reload

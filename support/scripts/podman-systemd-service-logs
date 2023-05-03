@@ -1,0 +1,13 @@
+#!/bin/sh
+
+service_name="phoenix-todo-list"
+
+if [ "$1" = "--help" ]; then
+	echo "This script bootstraps this project's user-level systemd service file."
+	exit 0
+fi
+
+# -e - jump to the [e]nd of the pager
+# -f - [f]ollow the logs
+# -x - add e[x]planatory lines
+journalctl --user -efx --unit $service_name

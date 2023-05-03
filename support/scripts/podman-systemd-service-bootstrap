@@ -1,0 +1,30 @@
+#!/bin/sh
+
+service_name="phoenix-todo-list"
+
+if [ "$1" = "--help" ]; then
+	echo "This script bootstraps this project's user-level systemd service file.
+
+It does the following:
+- Runs the user-level systemd service file generator
+- Reloads the user-level systemd daemons
+- Enables the service on startup
+  - NOTE: Lingering must be enabled by the superuser: 'sudo loginctl enable-linger $USER'
+- Starts the service"
+	exit 0
+fi
+
+# navigate to current directory
+cd "$(dirname "$0")" || exit 1
+
+# run the systemd service file generator script
+./podman-systemd-service-file-generate
+
+# reload the systemd daemons
+systemctl --user daemon-reload
+
+# enable the service on startup
+systemctl --user enable $service_name.service
+
+# start the service
+systemctl --user start $service_name.service

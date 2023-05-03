@@ -41,7 +41,10 @@ Features:
 
 Before you work in a `dev` environment, ensure that your environment variables are set correctly.
 
-- Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started
+- Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
+  - To create a `.envrc` style environment file, pass the `--envrc` flag when running the script.
+    - This will create a `.envrc.local` file that can be sourced by a shell script.
+      - e.g. `. .envrc.local`
 - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control

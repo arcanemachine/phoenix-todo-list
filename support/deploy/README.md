@@ -65,6 +65,7 @@ Additional information on deployment.
   - Stop the service: `systemctl --user stop phoenix-todo-list.service`
 - To enable the service on startup: `systemctl --user enable phoenix-todo-list.service`
   - To disable the service from running on startup: `systemctl --user disable phoenix-todo-list.service`
+- To view the logs for the service (useful for troubleshooting): `journalctl --user -xe --unit phoenix-todo-list`
 
 ## Deploying With Containers
 

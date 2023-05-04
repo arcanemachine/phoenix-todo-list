@@ -30,6 +30,7 @@ Features:
 - Javascript-based E2E tests (Playwright)
 - GitHub Actions CI
 - Releases (vanilla/Docker/fly.io)
+  - Supports `x86_64` + `aarch64` (`ARM64v8`) Docker images
 - Supports a variety of container-based environments
 - EditorConfig (standardizes file formatting: spaces per line, etc.)
 - Enforces sane commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
@@ -149,7 +150,7 @@ Run the following commands from the project root directory:
 
 ##### Docker/Podman Deployment
 
-NOTE: When using Podman, you may have issues using `podman-compose` to orchestrate containers (e.g. on ARM64/ARMv8 systems).
+NOTE: When using Podman, you may have issues using `podman-compose` to orchestrate containers (e.g. on `aarch64` systems).
 
 - You can set up `docker-compose` to work as a drop-in replacement for `podman-compose`
 - As a bonus, `docker-compose` has a nicer UI (in my opinion) than `podman-compose`, e.g. containers are color-coded so it's easier to read the logs when viewing the compose logs.
@@ -158,24 +159,24 @@ NOTE: When using Podman, you may have issues using `podman-compose` to orchestra
 ###### Using `docker-compose` With Podman
 
 - Install `docker-compose` v.1.29.2:
-  - There are several ways to install this package, but I have found installation via Python's `pip` to be the most versatile, namely because it works well with x86_64 and ARM64/ARMv8 systems.
+  - There are several ways to install this package, but I have found installation via Python's `pip` to be the most versatile, namely because it works well with `x86_64` and `aarch64` systems.
     - `pip install docker-compose`
       - Note that `pip install` will install the package into the global namespace. If you care to avoid this, use a virtualenv when installing `docker-compose`, or use another method to install it.
 - Set the socket path when running `docker-compose` commands:
   - With an environment variable: `DOCKER_HOST="unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" docker-compose up`
   - With the `-H` flag: `docker-compose -H "unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" up`
 
-###### Building a Release as a Docker Container
+###### Building a Release as a Docker Image
 
 Run the following commands from the project root directory:
 
 - Create a release using the helper script:
   - `support/scripts/release-create`
-- Build a Docker/Podman image:
+- Build a container image:
   - Docker: `docker build -t phoenix-todo-list .`
   - Podman: `podman build -t phoenix-todo-list .`
 
-To push a container to Docker Hub:
+To push an image to Docker Hub:
 
 - Ensure that you have built an image using the instructions above.
 - Login to your Docker Hub account:
@@ -187,6 +188,12 @@ To push a container to Docker Hub:
 - Push the image to Docker Hub:
   - Docker: `docker push arcanemachine/phoenix-todo-list`
   - Podman: `podman push arcanemachine/phoenix-todo-list`
+
+###### Building an `aarch64` Image
+
+To build an `aarch64` (a.k.a `ARM64`/`armv8`/`arm64v8`) image, follow the instructions in the previous section, but do so from an `aarch64` machine. This will produce an `aarch64`-compatible image.
+
+This is the method this project uses to build `aarch64` tagged images. These images are tagged with the `aarch64` tag, e.g. `docker.io/arcanemachine/phoenix-todo-list:aarch64`.
 
 ###### Running a Basic Phoenix Container
 
@@ -209,13 +216,13 @@ Run the following command from the project root directory:
 - Docker: `docker compose -f support/containers/compose.phoenix.yaml up`
 - Podman: `podman-compose -f support/containers/compose.phoenix.yaml up`
 
-**Running an ARM64 (a.k.a. ARMv8) Container**
+**Running an `aarch64` Container**
 
-This project supports the creation and use of containers for the `x86_64` and `aarch64` (ARM64) CPU architectures.
+This project supports the creation and use of containers for the `x86_64` and `aarch64` CPU architectures.
 
 - The default container image tag on Docker Hub (`latest`) supports the `x86_64` architecture.
-- The `aarch64` container image tag on Docker Hub supports the `aarch64` (ARM64/ARMv8) architecture.
-- To use the ARM64/ARMv8 container with Compose files, you will need to override the `IMAGE_TAG` environment variable and specify the `aarch64` architecture:
+- The `aarch64` container image tag on Docker Hub supports the `aarch64` architecture.
+- To use the `aarch64` container with Compose files, you will need to override the `IMAGE_TAG` environment variable and specify the `aarch64` architecture:
   - Examples:
     - Docker: `IMAGE_TAG=aarch64 docker compose -f support/containers/compose.phoenix.yaml up`
     - Podman: `IMAGE_TAG=aarch64 podman-compose -f support/containers/compose.phoenix.yaml up`
@@ -237,3 +244,16 @@ To deploy via fly.io, you must use the Dockerfile in the `support/` directory. T
 This project has a `fly.toml` file. To create a new one, run `fly launch` and follow the prompt.
 
 To deploy the project, run `flyctl deploy`.
+
+### Keeping Dependencies Updated
+
+There are several dependencies throughout this project that should be kept up to date:
+
+- Elixir dependencies
+  - Where are they listed?
+    - In the `mix.exs` file in the project root directory.
+  - How to upgrade them?
+    - To upgrade a dependency manually (2 methods):
+      1. To update to a specific version:
+      - Update the version number of the desired dependency in `mix.exs`.
+      - Run `mix deps.update`.

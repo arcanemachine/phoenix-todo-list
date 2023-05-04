@@ -100,11 +100,3 @@ liveSocket.connect();
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 window.liveSocket = liveSocket;
-
-// any logic that shouldn't be committed to source control should be placed in
-// '/assets/js/gitignore.ts' e.g. debugging logic, livesocket configuration, etc.
-(() => {
-  try {
-    return import("./gitignore.js");
-  } catch (err) {}
-})();

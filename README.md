@@ -149,6 +149,22 @@ Run the following commands from the project root directory:
 
 ##### Docker/Podman Deployment
 
+NOTE: When using Podman, you may have issues using `podman-compose` to orchestrate containers (e.g. on ARM64/ARMv8 systems).
+
+- You can set up `docker-compose` to work as a drop-in replacement for `podman-compose`
+- As a bonus, `docker-compose` has a nicer UI (in my opinion) than `podman-compose`, e.g. containers are color-coded so it's easier to read the logs when viewing the compose logs.
+- Many instructions in these documentation pages use `podman-compose` for Podman example commands, but you should be able to use `docker-compose` as needed by following the instructions below.
+
+###### Using `docker-compose` With Podman
+
+- Install `docker-compose` v.1.29.2:
+  - There are several ways to install this package, but I have found installation via Python's `pip` to be the most versatile, namely because it works well with x86_64 and ARM64/ARMv8 systems.
+    - `pip install docker-compose`
+      - Note that `pip install` will install the package into the global namespace. If you care to avoid this, use a virtualenv when installing `docker-compose`, or use another method to install it.
+- Set the socket path when running `docker-compose` commands:
+  - With an environment variable: `DOCKER_HOST="unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" docker-compose up`
+  - With the `-H` flag: `docker-compose -H "unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" up`
+
 ###### Building a Release as a Docker Container
 
 Run the following commands from the project root directory:
@@ -158,6 +174,19 @@ Run the following commands from the project root directory:
 - Build a Docker/Podman image:
   - Docker: `docker build -t phoenix-todo-list .`
   - Podman: `podman build -t phoenix-todo-list .`
+
+To push a container to Docker Hub:
+
+- Ensure that you have built an image using the instructions above.
+- Login to your Docker Hub account:
+  - Examples:
+    - Docker: `docker login`
+    - Podman: `podman login docker.io`
+  - If you have 2FA enabled, you may need to login using an [Access Token](https://hub.docker.com/settings/security) instead of a password.
+    - Docker will notify you when attempting to login with a password, but Podman will fail silently.
+- Push the image to Docker Hub:
+  - Docker: `docker push arcanemachine/phoenix-todo-list`
+  - Podman: `podman push arcanemachine/phoenix-todo-list`
 
 ###### Running a Basic Phoenix Container
 
@@ -179,6 +208,17 @@ Run the following command from the project root directory:
 
 - Docker: `docker compose -f support/containers/compose.phoenix.yaml up`
 - Podman: `podman-compose -f support/containers/compose.phoenix.yaml up`
+
+**Running an ARM64 (a.k.a. ARMv8) Container**
+
+This project supports the creation and use of containers for the `x86_64` and `aarch64` (ARM64) CPU architectures.
+
+- The default container image tag on Docker Hub (`latest`) supports the `x86_64` architecture.
+- The `aarch64` container image tag on Docker Hub supports the `aarch64` (ARM64/ARMv8) architecture.
+- To use the ARM64/ARMv8 container with Compose files, you will need to override the `IMAGE_TAG` environment variable and specify the `aarch64` architecture:
+  - Examples:
+    - Docker: `IMAGE_TAG=aarch64 docker compose -f support/containers/compose.phoenix.yaml up`
+    - Podman: `IMAGE_TAG=aarch64 podman-compose -f support/containers/compose.phoenix.yaml up`
 
 ###### Other Docker/Podman Deployment Procedures
 

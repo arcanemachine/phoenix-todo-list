@@ -12,7 +12,8 @@ test/js/test-results/
 test/js/playwright-report/
 test/js/playwright/.cache/
 
-# vim session files
+# vim stuff
+*.sw?
 Session*.vim
 
 # misc stuff to ignore

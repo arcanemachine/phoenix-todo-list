@@ -1,5 +1,9 @@
 set dotenv-load
 
+# begin NOTES #
+# - Prepend a statement with '!' to ignore errors in a line's exit code
+# end NOTES #
+
 @_default:
   # list all the commands in this justfile
   just --list
@@ -9,6 +13,7 @@ set dotenv-load
 container_image_name := "arcanemachine/phoenix-todo-list"
 
 # colors
+color_error := "\\033[91m"
 color_info := "\\033[96m"
 color_reset := "\\033[39m"
 
@@ -24,7 +29,7 @@ color_reset := "\\033[39m"
   echo "Pruning digested assets..."
   mix phx.digest.clean --all
 
-# copy caddyfile, then validate and reload caddy [format: local | remote]
+# copy caddyfile, then validate and reload caddy [environment: local | remote]
 @caddyfile-copy-validate-reload environment='':
   echo "Copying the Caddyfile, then validating and reloading Caddy..."
   ./support/scripts/caddyfile-copy-validate-reload {{ environment }}
@@ -54,10 +59,43 @@ color_reset := "\\033[39m"
   echo "Resetting the database..."
   mix ecto.reset
 
-# build a docker release
-@docker-image-build:
-  echo "Building a Docker release image..."
-  docker build -t {{ container_image_name }} .
+# fetch Elixir dependencies
+@elixir-fetch-dependencies:
+  echo "Fetching Elixir dependencies..."
+  mix deps.get
+
+# get info about an Elixir Hex package
+@elixir-package-info package='':
+  if [ "{{ package }}" = "" ]; then \
+    echo "{{ color_error }}You must specify an Elixir package. Aborting...{{ color_reset }}" && \
+    exit 1; \
+  fi
+  echo "Checking for info about the '{{ package }}' Hex package..."
+  ! mix hex.info {{ package }}
+
+# check for Elixir Hex package updates
+@elixir-package-update-list:
+  echo "Listing Elixir package updates..."
+  ! mix hex.outdated
+
+# update a specific Elixir Hex package
+@elixir-package-update package='':
+  if [ "{{ package }}" = "" ]; then \
+    echo "{{ color_error }}You must specify the Elixir Hex package to update. Aborting...{{ color_reset }}" && \
+    exit 1; \
+  fi
+  echo "Updating Elixir Hex package '{{ package }}'..."
+  mix deps.update {{ package }}
+
+# update all Elixir dependencies
+@elixir-package-update-all:
+  echo "Updating all Elixir dependencies..."
+  mix deps.update --all
+
+# build a podman image
+@docker-image-build image_name='arcanemachine/phoenix-todo-list':
+  echo "Building a Docker release image '{{ image_name }}'..."
+  docker build -t {{ image_name }} .
 
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':
@@ -66,12 +104,17 @@ color_reset := "\\033[39m"
 
 # view the output of the environment file generator
 @dotenv-generate--template args='':
-  ./support/scripts/dotenv-generate--template
+  ./support/scripts/dotenv-generate--template {{ args }}
 
 # generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':
   echo "Generating '{{ format }}' schema..."
   mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec
+
+# build a podman image
+@podman-image-build image_name='arcanemachine/phoenix-todo-list':
+  echo "Building a Podman image: '{{ image_name }}'..."
+  podman build -t {{ image_name }} .
 
 # run pre-commit hooks (requires pre-commit.com)
 @pre-commit:

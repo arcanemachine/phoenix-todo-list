@@ -102,10 +102,6 @@ color_reset := "\\033[39m"
   echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
 
-# view the output of the environment file generator
-@dotenv-generate--template args='':
-  ./support/scripts/dotenv-generate--template {{ args }}
-
 # generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':
   echo "Generating '{{ format }}' schema..."

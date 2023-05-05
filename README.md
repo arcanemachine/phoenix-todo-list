@@ -245,15 +245,21 @@ This project has a `fly.toml` file. To create a new one, run `fly launch` and fo
 
 To deploy the project, run `flyctl deploy`.
 
-### Keeping Dependencies Updated
+### Locations of Dependencies
 
-There are several dependencies throughout this project that should be kept up to date:
+There are several types of dependencies throughout this project that should be kept up to date:
 
-- Elixir dependencies
-  - Where are they listed?
-    - In the `mix.exs` file in the project root directory.
-  - How to upgrade them?
-    - To upgrade a dependency manually (2 methods):
-      1. To update to a specific version:
-      - Update the version number of the desired dependency in `mix.exs`.
-      - Run `mix deps.update`.
+- Elixir:
+  - `mix.exs`
+  - `config/config.exs` - `esbuild`, `tailwind`
+- Javascript (npm):
+  - `assets/js/`
+  - `test/js/`
+- Containers (Docker/Podman):
+  - `support/containers/compose.phoenix.yaml`
+  - `support/containers/compose.postgres.yaml`
+  - `support/containers/compose.postgres.yaml`
+  - `support/containers/Dockerfile.base`
+  - `support/containers/Dockerfile.fly`
+- Git submodules:
+  - `support/containers/traefik/`

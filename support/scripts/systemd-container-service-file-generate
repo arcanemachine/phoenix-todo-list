@@ -10,9 +10,6 @@ if [ "$1" = "--help" ]; then
 
 Optional arguments:
 
-  --remote - Configures the service for a remote environment (i.e. uses HTTPS).
-    - If not set, environment will be configured for local use (i.e. no HTTPS).
-
   --docker - Use Docker instead of Podman.
     - If not set, environment will be configured for local use (i.e. no HTTPS).
 
@@ -22,6 +19,10 @@ Optional arguments:
     - This flag does not run a Traefik server. It just configures the service to work with a Traefik server defined elsewhere on the server.
 
   --traefik-host - Runs a Traefik container as part of the service.
+
+  --remote - Configures the service for a remote environment (i.e. uses HTTPS).
+    - This flag only affects Traefik-based setups. It will have no effect if you are not using Traefik.
+    - If not set, the containers will be configured for local use (i.e. no HTTPS).
 
   --dry-run - Only displays the output of this script. Does not write any files.
 
@@ -56,7 +57,7 @@ working_directory="${project_root_directory}/support/containers"
 while test $# -gt 0; do
 	case "$1" in
 	--remote)
-		# use config for remote environments
+		# use traefik config for remote environments
 		is_remote=1
 		;;
 	--docker)

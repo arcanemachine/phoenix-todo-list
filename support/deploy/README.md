@@ -51,27 +51,38 @@ Additional information on deployment.
     - Navigate to the directory `_build/prod/rel/todo_list/bin/`.
     - Stop the prod server: `./todo_list stop`
 
-### How To Start the Server Automatically When the System Boots
+### How To Start The Server Automatically When The System Boots
 
-- Ensure that your environment is configured properly using the instructions in the previous section.
-- Ensure that lingering is enabled for your user account so that services can run on startup:
-  - `sudo loginctl enable-linger $USER`
-- Run the `systemd` service file generator in `support/scripts/native-systemd-service-file-generate`.
-  - This script will place a `systemd` service file called `phoenix-todo-list.service` in the `$USER/.config/systemd/user/phoenix`
-  - To view the `systemd` service file template in the console instead of writing the file, set the `DRY_RUN=1` environment variable before running the script.
-- The `systemd` service file should now be available in the `$USER/.config/systemd/user/phoenix` directory.
-- Reload the `systemd` daemons: `systemctl --user daemon-reload`
-- Start the service: `systemctl --user start phoenix-todo-list.service`
-  - Stop the service: `systemctl --user stop phoenix-todo-list.service`
-- To enable the service on startup: `systemctl --user enable phoenix-todo-list.service`
-  - To disable the service from running on startup: `systemctl --user disable phoenix-todo-list.service`
-- To view the logs for the service (useful for troubleshooting): `journalctl --user -xe --unit phoenix-todo-list`
+1. Ensure that your environment is configured properly using the instructions in the previous section.
+
+2. Ensure that lingering is enabled for your user account so that services can run on startup:
+
+- `sudo loginctl enable-linger $USER`
+
+3. Run the `systemd` service file generator in `support/scripts/native-systemd-service-file-generate`.
+
+- This script will place a `systemd` service file called `phoenix-todo-list.service` in the `$USER/.config/systemd/user/phoenix`
+- To view the `systemd` service file template in the console instead of writing the file, set the `DRY_RUN=1` environment variable before running the script.
+
+4. The `systemd` service file should now be available in the `$USER/.config/systemd/user/phoenix` directory.
+
+5. Reload the `systemd` daemons: `systemctl --user daemon-reload`
+
+6. Start the service: `systemctl --user start phoenix-todo-list.service`
+
+- Stop the service: `systemctl --user stop phoenix-todo-list.service`
+
+7. To enable the service on startup: `systemctl --user enable phoenix-todo-list.service`
+
+- To disable the service from running on startup: `systemctl --user disable phoenix-todo-list.service`
+
+8. To view the logs for the service (useful for troubleshooting): `journalctl --user -xe --unit phoenix-todo-list`
 
 ## Deploying With Containers
 
 To deploy with Docker/Podman containers, see `support/containers/README.md`.
 
-Any non-Traefik deployment strategy can be used with Caddy. To set up Caddy, continue reading.
+Any non-Traefik deployment strategy can be used with Caddy. To set up Caddy, see the [section below](#deploying-with-caddy)
 
 ## Deploying With Caddy
 
@@ -120,3 +131,37 @@ reverse_proxy localhost:4000
 ```
 
 After you change the Caddyfile, follow steps 5-7 to load the new configuration.
+
+## Creating `systemd` Services For This Project
+
+### Natively
+
+You can use the `support/scripts/systemd-native-service-file-generate` to easily create a `systemd` service file for this project using a native Phoenix release (i.e. no containers).
+
+When this script is run, it will generate `systemd` service file called `~/.config/systemd/user/phoenix-todo-list.service`
+
+### Using Containers
+
+You can use the `support/scripts/systemd-container-service-file-generate` to easily create a `systemd` service file for this project:
+
+- This script is configured for Podman by default.
+  - To generate a Docker container, pass the `--docker` flag when running this script.
+- When this script is run, it will generate `systemd` service file called `~/.config/systemd/user/phoenix-todo-list.service` (unless the `--dry-run` flag is set)
+- Other flags:
+  - `--docker` - Configures the service for use with Docker instead of Podman.
+    - If this flag is not set, the service will be configured for use with Podman.
+  - `--dry-run` - Display the service file in the terminal instead of writing to a file.
+    - No permanent changes are made when this flag is used.
+    - The output of a `--dry-run` is identical to the real service file, and can be piped as needed.
+  - `--postgres` - Run a Postgres container as part of the service.
+  - `--traefik-client` - Configures the service to be used as Traefik.
+    - Does not start a Traefik server.
+  - `--traefik-host` - Configures the service to be used as Traefik.
+    - Runs a Traefik container as part of the service.
+  - `--remote` - Configures Traefik to work in a remote environment.
+    - Supports HTTPS certificates via Let's Encrypt.
+    - If the machine will be accessible from the Internet, you will probably want to use this option.
+
+### Starting The Service Automatically On Boot
+
+See [this section](#how-to-start-the-server-automatically-when-the-system-boots).

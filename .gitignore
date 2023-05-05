@@ -17,7 +17,7 @@ test/js/playwright/.cache/
 Session*.vim
 
 # misc stuff to ignore
-*.local
+*.ignore
 *.tmp
 gitignore.*
 

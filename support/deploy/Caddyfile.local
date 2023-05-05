@@ -1,0 +1,3 @@
+phoenix-todo-list.localhost
+
+reverse_proxy :4000

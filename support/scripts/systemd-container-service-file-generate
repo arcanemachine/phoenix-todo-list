@@ -186,13 +186,13 @@ WorkingDirectory=${working_directory}
 # Type=forking
 
 # Shutdown container (if running) when unit is started
-ExecStartPre=docker-compose ${maybe_podman_config} $containers_to_run down
+ExecStartPre=$(which docker-compose) ${maybe_podman_config} $containers_to_run down
 
 # Start container when unit is started
-ExecStart=docker-compose ${maybe_podman_config} $containers_to_run up --remove-orphans
+ExecStart=$(which docker-compose) ${maybe_podman_config} $containers_to_run up --remove-orphans
 
 # Stop all services
-ExecStop=docker-compose ${maybe_podman_config} $containers_to_run down -t 5
+ExecStop=$(which docker-compose) ${maybe_podman_config} $containers_to_run down -t 5
 
 [Install]
 WantedBy=default.target" >"${output_to}"

@@ -19,12 +19,24 @@ while test $# -gt 0; do
 		# generate a '.envrc' style template instead of a '.env'
 		is_envrc=1
 		;;
+	--remote)
+		# generate a '.envrc' style template instead of a '.env'
+		is_remote=1
+		;;
 	esac
 	shift
 done
 
+if [ ! $is_remote ]; then
+	# configure defaults for local deployment
+	default_phx_host="phoenix-todo-list.localhost"
+else
+	# configure defaults for remote deployment
+	default_phx_host="phoenix-todo-list.nicholasmoen.com"
+fi
+
 echo "# phoenix
-${is_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
+${is_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-$default_phx_host}\"
 ${is_envrc:+"export "}PORT=\"${PORT:-4000}\"
 ${is_envrc:+"export "}SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 

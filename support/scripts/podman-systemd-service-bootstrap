@@ -26,5 +26,5 @@ systemctl --user daemon-reload
 # enable the service on startup
 systemctl --user enable $service_name.service
 
-# start the service
-systemctl --user start $service_name.service
+# (re)start the service
+systemctl --user restart $service_name.service

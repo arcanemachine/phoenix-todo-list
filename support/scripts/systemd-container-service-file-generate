@@ -5,7 +5,7 @@ service_name="phoenix-todo-list"
 service_file="${HOME}/systemd/user/${service_name}.service"
 
 if [ "$1" = "--help" ]; then
-	echo "This script generates a user-level systemd service file.
+  echo "This script generates a user-level systemd service file.
 
 
 Optional arguments:
@@ -46,7 +46,7 @@ In order to start this service on boot, you must enabling lingering for this use
 
 If you are having issues with the service, you can examine the logs:
   - journalctl --user -xe --unit $service_name"
-	exit 0
+  exit 0
 fi
 
 current_script_directory="$(dirname "$0")"
@@ -55,33 +55,33 @@ working_directory="${project_root_directory}/support/containers"
 
 # parse args
 while test $# -gt 0; do
-	case "$1" in
-	--remote)
-		# use traefik config for remote environments
-		is_remote=1
-		;;
-	--docker)
-		# use docker instead of podman
-		use_docker=1
-		;;
-	--postgres)
-		# run a postgres server as part of the service
-		use_postgres=1
-		;;
-	--traefik-client)
-		# configure the service for use with traefik, but don't start a traefik server
-		traefik_client=1
-		;;
-	--traefik-host)
-		# configure the service for use with traefik and start a traefik server
-		traefik_host=1
-		;;
-	--dry-run)
-		# print output to console; do not write any files
-		dry_run=1
-		;;
-	esac
-	shift
+  case "$1" in
+  --remote)
+    # use traefik config for remote environments
+    is_remote=1
+    ;;
+  --docker)
+    # use docker instead of podman
+    use_docker=1
+    ;;
+  --postgres)
+    # run a postgres server as part of the service
+    use_postgres=1
+    ;;
+  --traefik-client)
+    # configure the service for use with traefik, but don't start a traefik server
+    traefik_client=1
+    ;;
+  --traefik-host)
+    # configure the service for use with traefik and start a traefik server
+    traefik_host=1
+    ;;
+  --dry-run)
+    # print output to console; do not write any files
+    dry_run=1
+    ;;
+  esac
+  shift
 done
 
 # navigate to current script directory
@@ -89,7 +89,7 @@ cd "$current_script_directory" || exit 1
 
 # source dotenv
 if [ "$dry_run" != 1 ]; then
-	echo "Importing environment from '${project_root_directory}/.env'..."
+  echo "Importing environment from '${project_root_directory}/.env'..."
 fi
 
 set -o allexport
@@ -99,53 +99,53 @@ set +o allexport
 
 # use_docker
 if [ ! $use_docker ]; then
-	# configure service for use with podman
-	podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
-	maybe_podman_config="-H unix:${podman_socket_path}"
+  # configure service for use with podman
+  podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
+  maybe_podman_config="-H unix:${podman_socket_path}"
 fi
 
 # is_remote
 if [ $is_remote ]; then
-	local_or_remote="remote"
+  local_or_remote="remote"
 else
-	local_or_remote="local"
+  local_or_remote="local"
 fi
 
 # containers_to_run
 containers_to_run="-f compose.phoenix.yaml"
 
 if [ $traefik_client ] || [ $traefik_host ]; then
-	containers_to_run="$containers_to_run -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-${local_or_remote}.yaml"
+  containers_to_run="$containers_to_run -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-${local_or_remote}.yaml"
 else
-	containers_to_run="$containers_to_run -f networks/compose.phoenix-host.yaml"
+  containers_to_run="$containers_to_run -f networks/compose.phoenix-host.yaml"
 fi
 
 # postgres
 if [ $use_postgres ]; then
-	containers_to_run="$containers_to_run -f compose.postgres.yaml"
+  containers_to_run="$containers_to_run -f compose.postgres.yaml"
 
-	# postgres + traefik
-	if [ $traefik_client ] || [ $traefik_host ]; then
-		containers_to_run="$containers_to_run -f networks/compose.postgres-traefik.yaml"
-	else
-		containers_to_run="$containers_to_run -f networks/compose.postgres-host.yaml"
-	fi
+  # postgres + traefik
+  if [ $traefik_client ] || [ $traefik_host ]; then
+    containers_to_run="$containers_to_run -f networks/compose.postgres-traefik.yaml"
+  else
+    containers_to_run="$containers_to_run -f networks/compose.postgres-host.yaml"
+  fi
 fi
 
 # traefik
 if [ $traefik_host ]; then
-	containers_to_run="$containers_to_run -f traefik/compose.yaml -f traefik/compose.config-${local_or_remote}.yaml"
+  containers_to_run="$containers_to_run -f traefik/compose.yaml -f traefik/compose.config-${local_or_remote}.yaml"
 fi
 
 # for dry_run, print output to terminal instead of writing to a file
 if [ "$dry_run" = 1 ]; then
-	output_to=/dev/stdout
+  output_to=/dev/stdout
 else
-	output_to="${HOME}/.config/systemd/user/${service_name}.service"
+  output_to="${HOME}/.config/systemd/user/${service_name}.service"
 fi
 
 if [ "$dry_run" != 1 ]; then
-	echo "Creating systemd service file: '${output_to}'"
+  echo "Creating systemd service file: '${output_to}'"
 fi
 
 # generate the service file
@@ -198,5 +198,5 @@ ExecStop=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $container
 WantedBy=default.target" >"${output_to}"
 
 if [ ! "$dry_run" ]; then
-	echo "done"
+  echo "done"
 fi

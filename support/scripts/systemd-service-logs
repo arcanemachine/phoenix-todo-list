@@ -3,8 +3,8 @@
 service_name="phoenix-todo-list"
 
 if [ "$1" = "--help" ]; then
-	echo "Show the logs for this project's 'systemd' service."
-	exit 0
+  echo "Show the logs for this project's 'systemd' service."
+  exit 0
 fi
 
 # -e - jump to the [e]nd of the pager

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Run this project's Javascript unit tests in watch mode."
-	exit 0
+  echo "Run this project's Javascript unit tests in watch mode."
+  exit 0
 fi
 
 # navigate to JS test root directory

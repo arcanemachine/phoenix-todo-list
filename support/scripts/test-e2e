@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Run a batch of end-to-end tests (powered by Playwright)."
-	exit 0
+  echo "Run a batch of end-to-end tests (powered by Playwright)."
+  exit 0
 fi
 
 # navigate to project root directory
@@ -27,7 +27,7 @@ result=$(MIX_ENV="test" mix ecto.reset >/dev/null)
 
 # show success message after resetting the test database
 if [ "$result" = 0 ]; then
-	echo "\033[96m" "Test database reset successfully." "\033[39m"
+  echo "\033[96m" "Test database reset successfully." "\033[39m"
 fi
 
 # pass the return code to the shell (or any parent scripts)

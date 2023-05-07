@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Stop the prod server."
-	exit 0
+  echo "Stop the prod server."
+  exit 0
 fi
 
 project_name="todo_list"

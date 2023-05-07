@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Outputs template whose output can be piped to an environment file.
+  echo "Outputs template whose output can be piped to an environment file.
 
 This script is typically run by the 'dotenv-generate' script.
 
@@ -9,30 +9,30 @@ Options:
   - By default, this script outputs a '.env' file.
   - To generate a '.envrc' template, pass the '--envrc' flag.
     - This prepends 'export ' to each environment variable so the resulting file can be sourced using a shell script."
-	exit
+  exit
 fi
 
 # parse args
 while test $# -gt 0; do
-	case "$1" in
-	--envrc)
-		# generate a '.envrc' style template instead of a '.env'
-		is_envrc=1
-		;;
-	--remote)
-		# generate a '.envrc' style template instead of a '.env'
-		is_remote=1
-		;;
-	esac
-	shift
+  case "$1" in
+  --envrc)
+    # generate a '.envrc' style template instead of a '.env'
+    is_envrc=1
+    ;;
+  --remote)
+    # generate a '.envrc' style template instead of a '.env'
+    is_remote=1
+    ;;
+  esac
+  shift
 done
 
 if [ ! $is_remote ]; then
-	# configure defaults for local deployment
-	default_phx_host="phoenix-todo-list.localhost"
+  # configure defaults for local deployment
+  default_phx_host="phoenix-todo-list.localhost"
 else
-	# configure defaults for remote deployment
-	default_phx_host="phoenix-todo-list.nicholasmoen.com"
+  # configure defaults for remote deployment
+  default_phx_host="phoenix-todo-list.nicholasmoen.com"
 fi
 
 echo "# phoenix

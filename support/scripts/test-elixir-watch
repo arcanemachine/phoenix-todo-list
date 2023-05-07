@@ -1,16 +1,16 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Run this project's Elixir tests in watch mode."
-	exit 0
+  echo "Run this project's Elixir tests in watch mode."
+  exit 0
 fi
 
 # navigate to project root directory
 cd "$(dirname "$0")/../../" || exit 1
 
 if [ "$1" = "-h" ]; then
-	# show help info and exit
-	echo "
+  # show help info and exit
+  echo "
 A helper script for running Elixir tests. Runs tests in 'watch mode' so that
 tests will be re-run when a file is changed (requires 'entr' to be installed).
 
@@ -56,7 +56,7 @@ key-value pair when starting the test runner:
 
     ./scripts/test --exclude your_tag:true  # no space between the key and value
 "
-	exit 0
+  exit 0
 fi
 
 # run the tests

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Run migrations and start the prod server."
-	exit 0
+  echo "Run migrations and start the prod server."
+  exit 0
 fi
 
 project_name="todo_list"

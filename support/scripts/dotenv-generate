@@ -1,47 +1,47 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "This script bootstraps a copy of .env using any currently-exported environment variables.
+  echo "This script bootstraps a copy of .env using any currently-exported environment variables.
 
 - To generate a '.envrc' template, pass '--envrc' as the *first* positional argument.
 - To overwrite an existing '.env' file, pass '--force' as the *last* positional argument."
-	exit
+  exit
 fi
 
 project_root=$(dirname "$0")/../../
 cd "$project_root" || exit 1
 
 if [ "$1" = "--envrc" ]; then
-	# generate a .envrc template
-	env_path="$(pwd)/.envrc.local"
+  # generate a .envrc template
+  env_path="$(pwd)/.envrc.local"
 else
-	# generate a .env template
-	env_path="$(pwd)/.env"
+  # generate a .env template
+  env_path="$(pwd)/.env"
 fi
 
 # get last arg
 for last_arg; do true; done
 
 if [ -f "$env_path" ]; then
-	if [ "$last_arg" = "--force" ]; then
-		echo "Overwriting existing file: '$env_path'..."
-	else
-		echo "File already exists: '$env_path'. Aborting..."
-		exit 1
-	fi
+  if [ "$last_arg" = "--force" ]; then
+    echo "Overwriting existing file: '$env_path'..."
+  else
+    echo "File already exists: '$env_path'. Aborting..."
+    exit 1
+  fi
 else
-	echo "Generating local environment: '$env_path'..."
+  echo "Generating local environment: '$env_path'..."
 fi
 
 env_template_path="$(pwd)/support/scripts/dotenv-generate--template"
 output_string="$($env_template_path "$@")"
 
 if [ "$DRY_RUN" = 1 ]; then
-	echo "$output_string"
+  echo "$output_string"
 else
-	# create the .env file
-	echo "$output_string" >"$env_path"
+  # create the .env file
+  echo "$output_string" >"$env_path"
 
-	# set permissions on the newly-created .env file
-	chmod 600 "$env_path"
+  # set permissions on the newly-created .env file
+  chmod 600 "$env_path"
 fi

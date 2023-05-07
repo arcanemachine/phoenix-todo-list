@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Create a new Phoenix release."
-	exit 0
+  echo "Create a new Phoenix release."
+  exit 0
 fi
 
 # navigate to project root directory

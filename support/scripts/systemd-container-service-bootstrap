@@ -3,7 +3,7 @@
 service_name="phoenix-todo-list"
 
 if [ "$1" = "--help" ]; then
-	echo "This script bootstraps this project's user-level systemd service file.
+  echo "This script bootstraps this project's user-level systemd service file.
 
 It does the following:
 - Runs the user-level systemd service file generator (for containers)
@@ -11,7 +11,7 @@ It does the following:
 - Enables the service on startup
   - NOTE: Lingering must be enabled by the superuser: 'sudo loginctl enable-linger $USER'
 - Starts the service"
-	exit 0
+  exit 0
 fi
 
 # navigate to current directory

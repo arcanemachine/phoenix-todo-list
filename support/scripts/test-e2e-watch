@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-	echo "Run Playwright end-to-end tests in watch mode."
-	exit 0
+  echo "Run Playwright end-to-end tests in watch mode."
+  exit 0
 fi
 
 # navigate to project root directory

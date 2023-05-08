@@ -5,10 +5,17 @@ if [ "$1" = "--help" ]; then
 
 This script is typically run by the 'dotenv-generate' script.
 
+NOTE: To use this script's default values, any matching environment variables
+must first be unset.
+
 Options:
   - By default, this script outputs a '.env' file.
+  - By default, this script generates parameters for a local/dev deployment.
+    - To generate params for a remote/prod deployment, pass the '--remote' flag
+      when calling this script.
   - To generate a '.envrc' template, pass the '--envrc' flag.
-    - This prepends 'export ' to each environment variable so the resulting file can be sourced using a shell script."
+    - This prepends 'export ' to each environment variable so the resulting file
+      can be easily sourced using a shell script."
   exit
 fi
 
@@ -20,7 +27,7 @@ while test $# -gt 0; do
     is_envrc=1
     ;;
   --remote)
-    # generate a '.envrc' style template instead of a '.env'
+    # use the default 'remote' param
     is_remote=1
     ;;
   esac

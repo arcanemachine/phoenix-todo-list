@@ -51,4 +51,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2086
-docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$2.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-$2.yaml $1 $maybe_remove_orphans
+docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$2.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-$2.yaml $1 $maybe_remove_orphans

@@ -63,20 +63,14 @@ Because Traefik can require a lot of custom configuration, it has its own direct
 
 To run this project's built-in Traefik container service:
 
-- Run the Traefik container setup script:
-  - `/traefik/setup [local|remote]`
-    - Must specify `local` or `remote`.
-      - `local` is for local dev. It doesn't use HTTPS.
-      - `remote` assumes your machine is exposed to the Internet and enables HTTPS.
-    - This script configures the Traefik container + config, and creates the `traefik-global-proxy` Docker network.
-      - To create the network manually, run `docker network create traefik-global-proxy`.
 - Ensure that you set the required environment variable(s) before running Docker Compose:
   - `TRAEFIK_HOST`: The URL to use for the Traefik dashboard
+    - e.g. `TRAEFIK_HOST=localhost`
   - A generic `.env` file can be created using the `support/scripts/dotenv-generate script`
-- You will need to include the following Compose files when running this Traefik container Docker Compose:
+- You will need to include the following Compose files when running a Traefik container via `docker-compose`:
   - `compose.traefik.yaml`
     - The Traefik container
-  - `compose.traefik-config-[local|remote].yaml`
+  - `compose.traefik-config-[local|remote].yaml` (pick one of `local` or `remote`)
     - The Traefik container's environment-specific config
   - `compose.phoenix.yaml`
     - This project's Phoenix container
@@ -90,29 +84,36 @@ To run this project's built-in Traefik container service:
   - **NOTE:** The name `traefik-global-proxy` is hardcoded in the Compose files. Do not use a different name for the network!
 - Launch the **Postgres + Traefik + Phoenix** container service:
   - Examples:
-    - In a local environment (hidden behind NAT, no HTTPS):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
-      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
+    - In a local environment (HTTP only):
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
+      - Podman: `docker-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
     - In a remote environment (exposed to Internet, uses HTTPS):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
-      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
+      - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
+    - To avoid running these long commands, use the easy-use scripts in `support/containers/scripts`.
+- To access the Traefik dashboard:
+  - Using a web browser, navigate to the location of your `$TRAEFIK_HOST`.
+    - e.g. `http://localhost/`
+- To access the Phoenix web service:
+  - Using a web browser, navigate to the location of your `$PHX_HOST`.
+    - e.g. `http://phoenix-todo-list.localhost/`
 
 ### Resetting the Containers
 
-To reset the containers, run the following commands:
+To reset the containers, run the following commands (for Podman, replace `docker` with `podman`):
 
-- `docker system prune` - Remove all stopped containers and unused networks
+- Remove all stopped containers and unused networks
+
+  - Docker: `docker system prune`
+  - Podman: `podman system prune`
 
 - If a container is still running:
 
   - Stop the container: `docker stop [container-name]`
   - Remove the container: `docker rm [container-name]`
 
-- Re-create the Trafik proxy network: `docker network create traefik-global-proxy`
+- If you are using Traefik:
 
-- Start the containers again: `docker compose [your containers] up`
+  - Re-create the Trafik proxy network: `docker network create traefik-global-proxy`
 
-Notes:
-
-- To use this project with an external Traefik service, the `compose.traefik-config.yaml` Compose file will still be useful.
-- To use this project with Podman or rootless Docker, see the [Troubleshooting](https://github.com/arcanemachine/traefik-generic#troubleshooting) section of the [`traefik-generic`](https://github.com/arcanemachine/traefik-generic) README for more info.
+- Start the containers again: `docker-compose [your containers] up`

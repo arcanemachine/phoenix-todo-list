@@ -1,0 +1,24 @@
+---
+global:
+  sendAnonymousUsage: false
+  checkNewVersion: false
+
+log:
+  level: "DEBUG"
+
+api:
+  dashboard: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: "traefik-global-proxy"
+  file:
+    directory: "/etc/traefik"
+
+entryPoints:
+  web:
+    address: ":80"
+
+pilot:
+  dashboard: false

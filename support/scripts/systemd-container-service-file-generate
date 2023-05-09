@@ -84,6 +84,16 @@ while test $# -gt 0; do
   shift
 done
 
+# validate args - do not allow '--traefik-client' and '--traefik-host' to be
+# passed at the same time
+if [ "$traefik_client" = 1 ] && [ "$traefik_host" = 1 ]; then
+  echo "\033[91mYou cannot pass the '--traefik-client' and '--traefik-host' flags at the same time.\033[39m
+If you only need to add the labels so an existing Traefik container can detect this service, pass the '--traefik-client' flag.
+If you want to start a Traefik container as part of this service, pass the '--traefik-host' flag. This flag will also add the necessary labels to the web server container.
+Aborting..."
+  exit 1
+fi
+
 # navigate to current script directory
 cd "$current_script_directory" || exit 1
 

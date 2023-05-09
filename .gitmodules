@@ -1,3 +1,0 @@
-[submodule "support/containers/traefik"]
-	path = support/containers/traefik
-	url = https://github.com/arcanemachine/traefik-generic

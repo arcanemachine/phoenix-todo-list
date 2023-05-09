@@ -37,7 +37,7 @@ Features:
   - Supports `x86_64` + `aarch64` (`ARM64v8`) Docker images
 - Supports a variety of container-based environments
 - EditorConfig (standardizes file formatting: spaces per line, etc.)
-- Enforces sane commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
+- Enforces standardized commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
 - Uses [`just`](https://github.com/casey/just) task runner
 
 ## Getting Started
@@ -47,11 +47,7 @@ Features:
 Before you work in a `dev` environment, ensure that your environment variables are set correctly.
 
 - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
-  - To create a `.envrc` style environment file, pass the `--envrc` flag when running the script.
-    - This will create a `.envrc.local` file that can be sourced by a shell script.
-      - e.g. `. .envrc.local`
-- It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
-
+  - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Copy the example template in `support/.env.example` to `.env` and fill in your desired values.
 - Run `mix deps.get` to fetch the dependencies

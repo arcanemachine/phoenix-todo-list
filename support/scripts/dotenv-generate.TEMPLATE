@@ -37,9 +37,11 @@ done
 if [ ! $is_remote ]; then
   # configure defaults for local deployment
   default_phx_host="phoenix-todo-list.localhost"
+  default_traefik_host="localhost"
 else
   # configure defaults for remote deployment
   default_phx_host="phoenix-todo-list.nicholasmoen.com"
+  default_traefik_host="traefik.nicholasmoen.com"
 fi
 
 echo "# phoenix
@@ -62,4 +64,4 @@ ${is_envrc:+"export "}DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@lo
 ${is_envrc:+"export "}IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
 
 # traefik
-# ${is_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-us-east-1}\""
+${is_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-$default_traefik_host}\""

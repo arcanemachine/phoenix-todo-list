@@ -27,7 +27,7 @@ while test $# -gt 0; do
     is_envrc=1
     ;;
   --remote)
-    # use the default 'remote' param
+    # configure environment for a 'remote' deployment
     is_remote=1
     ;;
   esac

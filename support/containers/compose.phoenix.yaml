@@ -1,7 +1,7 @@
 ---
 services:
   phoenix:
-    image: "arcanemachine/phoenix-todo-list:${IMAGE_TAG:-latest}"
+    image: "docker.io/arcanemachine/phoenix-todo-list:${IMAGE_TAG:-latest}"
     container_name: "phoenix-todo-list--phoenix"
     restart: "always"
     environment:

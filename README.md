@@ -6,6 +6,10 @@
 
 **All commands in this document should be performed from the project root directory.**
 
+---
+
+<!-- old info, keeping for reference
+
 NOTE: This project uses Git submodules. There are a couple caveats to keep in mind when working with submodules:
 
 - To clone this repo:
@@ -16,7 +20,7 @@ NOTE: This project uses Git submodules. There are a couple caveats to keep in mi
   - Run `git submodule foreach git pull`.
   - Navigate to the submodule (`support/containers/traefik`) and run `git pull`.
 
----
+-->
 
 Yet another todo list. Made using the Phoenix web framework.
 

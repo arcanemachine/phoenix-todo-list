@@ -19,6 +19,8 @@ color_reset := "\\033[39m"
 
 
 # ALIASES #
+# build a release
+@build: release-create
 # start a dev server
 @start: server-dev-start
 

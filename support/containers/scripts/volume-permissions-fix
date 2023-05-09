@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+  echo "This script removes root permissions on any Docker volumes created in 'support/containers/volumes'."
+  exit 1
+fi
+
+# navigate to container volumes directory
+cd "$(dirname "$0")/../volumes/" || exit 1
+
+echo "Fixing user permissions on container volumes..."
+
+# shellcheck disable=SC2086
+if ! chown -R $USER:$USER .; then
+  sudo !!
+fi

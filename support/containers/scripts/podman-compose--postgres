@@ -7,7 +7,9 @@ cd "$(dirname "$0")/../" || exit 1
 if [ "$1" = "" ]; then
   echo "The first positional argument must specify the 'docker compose' command(s) to run. Examples: up, down, restart, etc."
   exit 1
+elif [ "$1" = "up" ]; then
+  maybe_remove_orphans="--remove-orphans"
 fi
 
 # run container action
-podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml "$@" --remove-orphans
+podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml "$@" "$maybe_remove_orphans"

@@ -56,10 +56,6 @@ working_directory="${project_root_directory}/support/containers"
 # parse args
 while test $# -gt 0; do
   case "$1" in
-  --remote)
-    # use traefik config for remote environments
-    is_remote=1
-    ;;
   --docker)
     # use docker instead of podman
     use_docker=1
@@ -75,6 +71,10 @@ while test $# -gt 0; do
   --traefik-host)
     # configure the service for use with traefik and start a traefik server
     traefik_host=1
+    ;;
+  --remote)
+    # use traefik config for remote environments
+    is_remote=1
     ;;
   --dry-run)
     # print output to console; do not write any files
@@ -111,7 +111,8 @@ else
   local_or_remote="local"
 fi
 
-# containers_to_run
+# containers_to_run #
+# phoenix
 containers_to_run="-f compose.phoenix.yaml"
 
 if [ $traefik_client ] || [ $traefik_host ]; then
@@ -134,6 +135,7 @@ fi
 
 # traefik
 if [ $traefik_host ]; then
+  # run traefik container
   containers_to_run="$containers_to_run -f traefik/compose.yaml -f traefik/compose.config-${local_or_remote}.yaml"
 fi
 
@@ -196,7 +198,3 @@ ExecStop=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $container
 
 [Install]
 WantedBy=default.target" >"${output_to}"
-
-if [ ! "$dry_run" ]; then
-  echo "done"
-fi

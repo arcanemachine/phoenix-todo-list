@@ -47,6 +47,7 @@ if [ "$3" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
+  export DOCKER_HOST="$podman_socket_path"
 fi
 
 # run container action

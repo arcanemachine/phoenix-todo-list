@@ -18,13 +18,17 @@ fi
 cd "$(dirname "$0")" || exit 1
 
 # run the systemd service file generator script
+echo "Generating the systemd service file..."
 ./systemd-container-service-file-generate "$@"
 
 # reload the systemd daemons
+echo "Reloading the user-level systemd daemons..."
 systemctl --user daemon-reload
 
 # enable the service on startup
+echo "Enabling the systemd service on startup (if service doesn't work on startup, enable lingering for this user)..."
 systemctl --user enable $service_name.service
 
 # (re)start the service
+echo "(Re)starting the systemd service..."
 systemctl --user restart $service_name.service

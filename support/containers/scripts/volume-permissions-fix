@@ -1,7 +1,9 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script removes root permissions on any Docker volumes created in 'support/containers/volumes'."
+  echo "This script removes root permissions on any Docker volumes created in 'support/containers/volumes'.
+
+It uses 'chown' to change ownership of the volume directory to the current user."
   exit 1
 fi
 

@@ -19,7 +19,10 @@ cd "$(dirname "$0")" || exit 1
 
 # run the systemd service file generator script
 echo "Generating the systemd service file..."
-./systemd-container-service-file-generate "$@"
+if ! ./systemd-container-service-file-generate "$@"; then
+  echo "\033[91mCould not create the systemd service file.\033[39m"
+  exit 1
+fi
 
 # reload the systemd daemons
 echo "Reloading the user-level systemd daemons..."

@@ -1,0 +1,1 @@
+{"author":{"id":"47620cbad285ce1affe96a0c1bd4c41a29333c345fb425133436708a70d37799"},"ops":[{"type":1,"timestamp":1683672486,"nonce":"Qr7C03seoCLnyLPvcTZGoIcMwbs=","title":"`volume-permissions-fix` script help text is inaccurate.","message":"It should describe what permissions are added, not which ones are removed.","files":null}]}

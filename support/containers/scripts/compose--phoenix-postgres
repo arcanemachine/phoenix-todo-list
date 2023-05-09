@@ -1,5 +1,20 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script manages a Compose service for Phoenix + Postgres.
+
+The first positional argument must specify the 'docker-compose' command(s) to run.
+  - Examples: up, down, restart, etc.
+
+The second positional argument must specify the location of the deployment.
+  - Must be one of: local, remote
+    - local: no HTTPS
+    - remote: uses HTTPS
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
+  exit 1
+fi
+
 # navigate to containers directory
 cd "$(dirname "$0")/../" || exit 1
 
@@ -7,7 +22,7 @@ cd "$(dirname "$0")/../" || exit 1
 if [ "$1" = "" ]; then
   echo "The first positional argument must specify the 'docker-compose' command(s) to run. Examples: up, down, restart, etc.
 
-To use Podman instead of Docker, pass the '--podman' flag as the last positional argumnet."
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
   exit 1
 elif [ "$1" = "up" ]; then
   maybe_remove_orphans="--remove-orphans"

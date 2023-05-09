@@ -5,11 +5,22 @@ cd "$(dirname "$0")/../" || exit 1
 
 # ensure first positional argument is present
 if [ "$1" = "" ]; then
-  echo "The first positional argument must specify the 'docker-compose' command(s) to run.
+  echo "This script manages a Compose service for Traefik + Phoenix + Postgres.
+
+The first positional argument must specify the 'docker-compose' command(s) to run.
   - Examples: up, down, restart, etc.
 
-  The second positional argument must specify the location of the deployment. Options are: local (no HTTPS) or remote (uses HTTPS)
+The second positional argument must specify the location of the deployment.
   - Must be one of: local, remote
+    - local: no HTTPS
+    - remote: uses HTTPS
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
+  exit 1
+fi
+
+if [ "$1" = "" ]; then
+  echo "The first positional argument must specify the 'docker-compose' command(s) to run. Examples: up, down, restart, etc.
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argumnet."
   exit 1
@@ -30,6 +41,8 @@ Aborting..."
   exit 1
 fi
 
+# if third positional argument is '--podman', then use podman as container
+# orchestrator
 if [ "$3" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')

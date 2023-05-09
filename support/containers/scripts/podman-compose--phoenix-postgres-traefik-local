@@ -15,4 +15,4 @@ elif [ "$1" != "down" ]; then
   fi
 fi
 
-podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml "$@"
+podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml "$@" --remove-orphans

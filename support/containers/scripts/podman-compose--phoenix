@@ -10,4 +10,4 @@ if [ "$1" = "" ]; then
 fi
 
 # run container action
-podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml "$@"
+podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml "$@" --remove-orphans

@@ -10,4 +10,4 @@ if [ "$1" = "" ]; then
 fi
 
 # run container action
-docker compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml "$@"
+docker compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml "$@" --remove-orphans

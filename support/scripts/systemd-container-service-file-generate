@@ -122,7 +122,7 @@ fi
 
 # postgres
 if [ $use_postgres ]; then
-  containers_to_run="$containers_to_run -f compose.postgres.yaml"
+  containers_to_run="$containers_to_run -f compose.phoenix-postgres.yaml -f compose.postgres.yaml"
 
   # postgres + traefik
   if [ $traefik_client ] || [ $traefik_host ]; then

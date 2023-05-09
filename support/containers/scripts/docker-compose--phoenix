@@ -10,4 +10,4 @@ if [ "$1" = "" ]; then
 fi
 
 # run container action
-docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml "$@"
+docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml "$@" --remove-orphans

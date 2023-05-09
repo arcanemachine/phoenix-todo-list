@@ -10,4 +10,4 @@ if [ "$1" = "" ]; then
 fi
 
 # run container action
-podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml "$@"
+podman-compose -f compose.postgres.yaml -f networks/compose.postgres-host.yaml "$@" --remove-orphans

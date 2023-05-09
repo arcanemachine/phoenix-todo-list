@@ -45,10 +45,12 @@ Examples:
 
 ### Running Phoenix + Postgres Containers Together
 
+NOTE: This configuation uses a small extra Compose file: `compose.phoenix-postgres.yaml`. This file ensures that Phoenix will not start until Postgres is available. The Phoenix container may fail if this file is not present. (It should restart automatically, but this ensures that the container orchestrator (e.g. 'docker-compose') will not give up after `n` attempts).
+
 Examples:
 
-- Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
-- Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
+- Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
+- Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
 - If the environment has not been loaded automatically with `direnv`, you will need to include the `.env` file manually using `--env-file .env` when starting the Docker Compose containers.
 
 ### Deploying With Traefik
@@ -89,11 +91,11 @@ To run this project's built-in Traefik container service:
 - Launch the **Postgres + Traefik + Phoenix** container service:
   - Examples:
     - In a local environment (hidden behind NAT, no HTTPS):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
-      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
+      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-local.yaml up`
     - In a remote environment (exposed to Internet, uses HTTPS):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
-      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
+      - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-remote.yaml up`
 
 ### Resetting the Containers
 

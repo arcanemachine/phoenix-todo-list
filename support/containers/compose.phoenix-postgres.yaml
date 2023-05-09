@@ -1,0 +1,5 @@
+---
+services:
+  phoenix:
+    depends_on:
+      - "postgres"

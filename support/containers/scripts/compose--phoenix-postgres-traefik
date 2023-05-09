@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# navigate to containers directory
+cd "$(dirname "$0")/../" || exit 1
+
+# ensure first positional argument is present
+if [ "$1" = "" ]; then
+  echo "The first positional argument must specify the 'docker-compose' command(s) to run.
+  - Examples: up, down, restart, etc.
+
+  The second positional argument must specify the location of the deployment. Options are: local (no HTTPS) or remote (uses HTTPS)
+  - Must be one of: local, remote
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argumnet."
+  exit 1
+elif [ "$1" = "up" ]; then
+  maybe_remove_orphans="--remove-orphans"
+
+  # ensure the network 'traefik-global-proxy' exists
+  echo "Creating Docker network: 'traefik-global-proxy'..."
+  if [ ! "$(docker network create traefik-global-proxy)" ]; then
+    echo "\033[96mThe 'traefik-global-proxy' network already exists.\033[39m"
+  fi
+fi
+
+# ensure second positional argument is present
+if [ "$2" = "" ]; then
+  echo "\033[91mThe second positional argument must specify whether the Traefik container should use a 'local' (no HTTPS) or 'remote' (uses HTTPS) config (without the quotes).\033[39m
+Aborting..."
+  exit 1
+fi
+
+if [ "$3" = "--podman" ]; then
+  # use podman config
+  podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
+  maybe_podman_config="-H unix:${podman_socket_path}"
+fi
+
+# run container action
+# shellcheck disable=SC2086
+docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$2.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f traefik/compose.yaml -f traefik/compose.config-$2.yaml $1 $maybe_remove_orphans

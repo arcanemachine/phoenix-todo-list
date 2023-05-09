@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# navigate to containers directory
+cd "$(dirname "$0")/../" || exit 1
+
+# ensure first positional argument is present
+if [ "$1" = "" ]; then
+  echo "The first positional argument must specify the 'docker-compose' command(s) to run. Examples: up, down, restart, etc.
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argumnet."
+  exit 1
+elif [ "$1" = "up" ]; then
+  maybe_remove_orphans="--remove-orphans"
+fi
+
+if [ "$2" = "--podman" ]; then
+  # use podman config
+  podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
+  maybe_podman_config="-H unix:${podman_socket_path}"
+fi
+
+# run container action
+# shellcheck disable=SC2086
+docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml $1 "$maybe_remove_orphans"

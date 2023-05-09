@@ -6,6 +6,8 @@ services:
       - "phoenix-todo-list"
     ports:
       - "5432"
+#   # depends_on:
+#   #   - "traefik"
 #   phoenix:
 #     environment:
 #       POSTGRES_HOST: "postgres"

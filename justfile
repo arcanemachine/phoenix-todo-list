@@ -21,6 +21,7 @@ color_reset := "\\033[39m"
 # ALIASES #
 # build a release
 @build: elixir-release-create
+
 # start a dev server
 @start: server-dev-start
 
@@ -94,10 +95,20 @@ color_reset := "\\033[39m"
   echo "Updating all Elixir dependencies..."
   mix deps.update --all
 
-# build a podman image
-@docker-image-build image_name='arcanemachine/phoenix-todo-list':
-  echo "Building a Docker release image '{{ image_name }}'..."
+# create a release
+@elixir-release-create:
+  echo "Creating a release..."
+  ./support/scripts/elixir-release-create
+
+# build a docker image
+@docker-image-build image_name={{ container_image_name }}:
+  echo "Building a Docker image '{{ image_name }}'..."
   docker build -t {{ image_name }} .
+
+# push the image to docker hub
+@docker-image-push image_name={{ container_image_name }}:
+  echo "Pushing the '{{ image_name }}' image to Docker Hub..."
+  docker push {{ image_name }}
 
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':
@@ -110,19 +121,19 @@ color_reset := "\\033[39m"
   mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec
 
 # build a podman image
-@podman-image-build image_name='arcanemachine/phoenix-todo-list':
-  echo "Building a Podman image: '{{ image_name }}'..."
+@podman-image-build image_name={{ container_image_name }}:
+  echo "Building a container image with Podman for '{{ image_name }}'..."
   podman build -t {{ image_name }} .
+
+# push the image to podman hub
+@podman-image-push image_name={{ container_image_name }}:
+  echo "Using Podman to push the '{{ image_name }}' image to Docker Hub..."
+  podman push {{ image_name }} docker.io
 
 # run pre-commit hooks (requires pre-commit.com)
 @pre-commit:
   echo "Running pre-commit hooks..."
   pre-commit run --all-files
-
-# create a release
-@elixir-release-create:
-  echo "Creating a release..."
-  ./support/scripts/elixir-release-create
 
 # start a dev server
 @server-dev-start:

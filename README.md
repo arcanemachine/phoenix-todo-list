@@ -126,7 +126,7 @@ Navigate to the project root directory and set up your environment variables:
 Run the following commands from the project root directory:
 
 - Create a release using the helper script:
-  - `support/scripts/release-create`
+  - `support/scripts/elixir-release-create`
 - Make sure that PostgreSQL is running.
   - e.g. `pg_isready` or `pg_isready -h localhost` or `pg_isready -h your-postgres-ip-address-or-domain`
 - Set up the database in PostgreSQL:
@@ -178,7 +178,7 @@ NOTE: When using Podman, you may have issues using `podman-compose` to orchestra
 Run the following commands from the project root directory:
 
 - Create a release using the helper script:
-  - `support/scripts/release-create`
+  - `support/scripts/elixir-release-create`
 - Build a container image:
   - Docker: `docker build -t phoenix-todo-list .`
   - Podman: `podman build -t phoenix-todo-list .`

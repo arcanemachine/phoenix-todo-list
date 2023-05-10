@@ -20,7 +20,7 @@ color_reset := "\\033[39m"
 
 # ALIASES #
 # build a release
-@build: release-create
+@build: elixir-release-create
 # start a dev server
 @start: server-dev-start
 
@@ -120,9 +120,9 @@ color_reset := "\\033[39m"
   pre-commit run --all-files
 
 # create a release
-@release-create:
+@elixir-release-create:
   echo "Creating a release..."
-  ./support/scripts/release-create
+  ./support/scripts/elixir-release-create
 
 # start a dev server
 @server-dev-start:

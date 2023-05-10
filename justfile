@@ -69,6 +69,15 @@ color_reset := "\\033[39m"
   echo "Resetting the database..."
   mix ecto.reset
 
+# deploy to production
+@deploy remote='prod':
+  echo "Deploying to '{{ remote }}'..."
+  git push {{ remote }}
+
+# create a release, build an image, push to docker hub, and deploy to production
+@one-click-build-and-deploy: && elixir-release-create podman-image-build podman-image-push deploy
+  echo "Beginning one-click build and deployment..."
+
 # fetch Elixir dependencies
 @elixir-fetch-dependencies:
   echo "Fetching Elixir dependencies..."

@@ -10,7 +10,7 @@ set dotenv-load
 
 
 # VARIABLES #
-container_image_name := "arcanemachine/phoenix-todo-list"
+image_name := "arcanemachine/phoenix-todo-list"
 
 # colors
 color_error := "\\033[91m"
@@ -19,6 +19,9 @@ color_reset := "\\033[39m"
 
 
 # ALIASES #
+# create a release and build a docker image
+@build: elixir-release-create docker-image-build
+
 # start a dev server
 @start: server-dev-start
 
@@ -98,12 +101,12 @@ color_reset := "\\033[39m"
   ./support/scripts/elixir-release-create
 
 # build a docker image
-@docker-image-build image_name={{ container_image_name }}:
+@docker-image-build image_name=image_name:
   echo "Building a Docker image '{{ image_name }}'..."
   docker build -t {{ image_name }} .
 
 # push the image to docker hub
-@docker-image-push image_name={{ container_image_name }}:
+@docker-image-push image_name=image_name:
   echo "Pushing the '{{ image_name }}' image to Docker Hub..."
   docker push {{ image_name }}
 
@@ -118,12 +121,12 @@ color_reset := "\\033[39m"
   mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec
 
 # build a podman image
-@podman-image-build image_name={{ container_image_name }}:
+@podman-image-build image_name=image_name:
   echo "Building a container image with Podman for '{{ image_name }}'..."
   podman build -t {{ image_name }} .
 
 # push the image to podman hub
-@podman-image-push image_name={{ container_image_name }}:
+@podman-image-push image_name=image_name:
   echo "Using Podman to push the '{{ image_name }}' image to Docker Hub..."
   podman push {{ image_name }} docker.io
 

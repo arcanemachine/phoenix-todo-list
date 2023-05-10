@@ -74,10 +74,6 @@ color_reset := "\\033[39m"
   echo "Deploying to '{{ remote }}'..."
   git push {{ remote }}
 
-# create a release, build an image, push to docker hub, and deploy to production
-@one-click-build-and-deploy: && elixir-release-create podman-image-build podman-image-push deploy
-  echo "Beginning one-click build and deployment..."
-
 # fetch Elixir dependencies
 @elixir-fetch-dependencies:
   echo "Fetching Elixir dependencies..."
@@ -130,6 +126,10 @@ color_reset := "\\033[39m"
 @dotenv-generate args='':
   echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
+
+# create a release, build an image, push to docker hub, and deploy to production
+@one-click-build-and-deploy: && elixir-release-create podman-image-build podman-image-push deploy
+  echo "Beginning one-click build and deployment..."
 
 # generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':

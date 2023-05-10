@@ -127,6 +127,10 @@ color_reset := "\\033[39m"
   echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
 
+# run a loadtest with 'wrk'
+@loadtest:
+  wrk -t12 -c400 -d30s https://phoenix-todo-list.nicholasmoen.com/
+
 # create a release, build an image, push to docker hub, and deploy to production
 @one-click-build-and-deploy: && elixir-release-create podman-image-build podman-image-push deploy
   echo "Beginning one-click build and deployment..."

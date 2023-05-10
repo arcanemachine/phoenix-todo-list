@@ -27,7 +27,7 @@ fi
 caddyfile_config_dir="/etc/caddy"
 
 # copy the caddyfile to the caddy config directory
-if ! sudo cp "support/deploy/$caddyfile_to_use" "$caddyfile_config_dir/Caddyfile"; then
+if ! sudo cp "support/deployment/$caddyfile_to_use" "$caddyfile_config_dir/Caddyfile"; then
   echo "Could not copy the Caddyfile to '$caddyfile_config_dir'. Is Caddy installed?"
   exit 1
 fi

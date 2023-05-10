@@ -1,8 +1,8 @@
-# /support/deploy/
+# /support/deployment/
 
 ---
 
-**Unless otherwise specified, all commands in this document should be run from the `support/deploy/` directory.**
+**Unless otherwise specified, all commands in this document should be run from the `support/deployment/` directory.**
 
 ---
 

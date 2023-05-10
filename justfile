@@ -6,7 +6,7 @@ set dotenv-load
 
 @_default:
   # list all the commands in this justfile
-  just --list
+  just --list -u
 
 
 # VARIABLES #
@@ -17,16 +17,23 @@ color_error := "\\033[91m"
 color_info := "\\033[96m"
 color_reset := "\\033[39m"
 
-
-# ALIASES #
-# create a release and build a docker image
-@build: elixir-release-create docker-image-build
+# SHORTCUTS #
+@JUST-SHORTCUTS:
+  exit
 
 # start a dev server
 @start: server-dev-start
 
+# create a release and build a docker image
+@build: elixir-release-create docker-image-build
+
+# push the image to docker hub
+@push: docker-image-push
 
 # COMMANDS #
+@JUST-COMMANDS:
+  exit
+
 # remove stale versions of static assets
 @assets-prune:
   echo "Pruning digested assets..."

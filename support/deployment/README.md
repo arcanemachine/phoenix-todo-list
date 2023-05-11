@@ -14,14 +14,14 @@ Additional information on deployment.
   - Use the `support/scripts/dotenv-generate` script to create a `.env` file if one doesn't already exist.
   - Ensure that the `.env` file contains the desired values.
 - Ensure the required steps have been completed before continuing:
-  - Setup PostgreSQL:
+  - Setup Postgres:
     - Using a container:
       - See the "Running a Standalone Postgres Container" in `support/containers/README.md`.
     - Manually:
       - Install the required packages (instructions will work for Debian/Ubuntu environments):
         - `sudo apt update`
         - `sudo apt install postgresql postgresql-contrib`
-      - Use a PostgreSQL terminal to create a new database and user:
+      - Use a Postgres terminal to create a new database and user:
         - `sudo su - postgres`
         - `psql`
           - `CREATE USER todo_list_user WITH PASSWORD 'todo_list_password';`

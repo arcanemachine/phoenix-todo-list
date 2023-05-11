@@ -13,6 +13,6 @@ This is a hacky collection of scripts designed to save you from having to type o
 
 ## Troubleshooting
 
-- If switching between Docker and Podman, you will need to delete the PostgreSQL volume, which may be in 1 of 2 locations:
+- If switching between Docker and Podman, you will need to delete the Postgres volume, which may be in 1 of 2 locations:
   - When not using a Traefik container: `support/containers/volumes/postgres`
   - When using a Traefik container: `support/containers/traefik/volumes/postgres`

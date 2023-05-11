@@ -6,10 +6,10 @@ Additional information on working with containers.
 
 This project has ready-made configurations to easily run the following services as Docker/Podman containers alongside this Phoenix project:
 
-- PostgreSQL
+- Postgres
 - Traefik
 
-In order to maximize flexibility, the service containers (e.g. Phoenix, PostgreSQL, etc.) do not specify networks. This means that for each service (except Traefik\*), you must specify at least 2 Compose files:
+In order to maximize flexibility, the service containers (e.g. Phoenix, Postgres, etc.) do not specify networks. This means that for each service (except Traefik\*), you must specify at least 2 Compose files:
 
 1. A Compose file that specifies the service (located in `support/containers/`).
 2. A Compose file that specifies the service's network (located in `support/containers/networks/`).
@@ -25,7 +25,7 @@ In order to maximize flexibility, the service containers (e.g. Phoenix, PostgreS
 
 ### Running a Standalone Phoenix Container
 
-**NOTE:** If the server cannot connect to a PostgreSQL server, the container will stop.
+**NOTE:** If the server cannot connect to a Postgres server, the container will stop.
 
 Launch a standalone container with host networking (i.e. not isolated to a Docker network):
 

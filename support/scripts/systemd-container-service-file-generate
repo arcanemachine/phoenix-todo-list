@@ -13,7 +13,7 @@ Optional arguments:
   --docker - Use Docker instead of Podman.
     - If not set, environment will be configured for local use (i.e. no HTTPS).
 
-  --postgres - Enables the use of a PostgreSQL server container when running the service.
+  --postgres - Enables the use of a Postgres server container when running the service.
 
   --traefik-client - Configures the service to be used with Traefik.
     - This flag does not run a Traefik server. It just configures the service to work with a Traefik server defined elsewhere on the server.

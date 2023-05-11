@@ -51,9 +51,9 @@ Before you work in a `dev` environment, ensure that your environment variables a
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Copy the example template in `support/.env.example` to `.env` and fill in your desired values.
 - Run `mix deps.get` to fetch the dependencies
-- Setup PostgreSQL:
-  - For easy PostgreSQL setup, you can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
-- Once the PostgreSQL server is running, set up the `dev` environment:
+- Setup Postgres:
+  - For easy Postgres setup, you can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
+- Once the Postgres server is running, set up the `dev` environment:
   - `mix ecto.setup`
 - Use any of these commands to start a dev server:
   - `just start` - Uses the `just` task runner to start a dev server
@@ -67,7 +67,7 @@ Before running any tests, use the instructions above to ensure that:
 
 - The required environment variables have been set.
   - Use the instructions in the previous step to create a basic `.env` file in the project root directory.
-- A PostgreSQL server is up and running.
+- A Postgres server is up and running.
   - You may need to create a test database: `MIX_ENV=test mix ecto.create`
   - If any errors occur during the tests, try resetting the test database: `MIX_ENV=test mix ecto.reset`
     - For example, the E2E test scripts reset the database between test runs. However, if the script is aborted, the database may not be reset, which can effect the results of `mix test`.
@@ -127,21 +127,21 @@ Run the following commands from the project root directory:
 
 - Create a release using the helper script:
   - `support/scripts/elixir-release-create`
-- Make sure that PostgreSQL is running.
+- Make sure that Postgres is running.
   - e.g. `pg_isready` or `pg_isready -h localhost` or `pg_isready -h your-postgres-ip-address-or-domain`
-- Set up the database in PostgreSQL:
+- Set up the database in Postgres:
   - Spawn a shell as the `postgres` user:
     - `sudo -iu postgres`
-  - Open the PostgreSQL terminal:
+  - Open the Postgres terminal:
     - `psql -U postgres`
   - Create a new database user:
     - `CREATE USER your_postgres_user WITH PASSWORD 'your_postgres_password';`
   - Create the database and grant privileges to the new user:
     - `CREATE DATABASE todo_list;`
     - `GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;`
-  - TODO: Configure PostgreSQL settings like in a Django project?
+  - TODO: Configure Postgres settings like in a Django project?
     - (e.g. `client_encoding`, `default_transaction_isolation`, `timezone`, etc.)
-  - Exit the PostgreSQL prompt:
+  - Exit the Postgres prompt:
     - `\q`
   - Run migrations:
     - `MIX_ENV=prod ./_build/prod/rel/todo_list/bin/migrate`
@@ -212,7 +212,7 @@ A basic `compose.yaml` file can be found in the project root directory. It expos
 
 To run this barebones container, run the following commands from the project root directory:
 
-- First, ensure that you have a PostgreSQL server running locally.
+- First, ensure that you have a Postgres server running locally.
 - [Build the Docker image](#building-a-release-as-a-docker-container).
 - Run the Compose file:
   - Docker: `docker-compose up`

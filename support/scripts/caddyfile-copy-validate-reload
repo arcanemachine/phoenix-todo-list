@@ -14,13 +14,16 @@ fi
 # navigate to project root directory
 cd "$(dirname "$0")/../../" || exit 1
 
-# use remote caddyfile by default
+# use first positional argument to set caddyfile type
 if [ "$1" = "local" ] || [ "$1" = "remote" ] || [ "$1" = "staging" ]; then
   echo "Using '$1' Caddyfile..."
   caddyfile_to_use="support/deployment/Caddyfile.$1"
 else
+
+  # if invalid caddyfile type is specified, then abort
   echo "\033[91mFirst positional argument must be one of: local, remote, staging. Aborting...\033[39m"
   exit 1
+
 fi
 
 caddy_config_dir="/etc/caddy"
@@ -29,7 +32,8 @@ caddyfile_full_path="$caddy_config_dir/Caddyfile"
 if [ ! -d $caddy_config_dir ]; then
   echo "Could not find Caddy config directory '$caddy_config_dir'. Aborting..."
 elif [ -f "$caddy_config_dir/Caddyfile" ]; then
-  # backup old caddyfile if it is different from the new one
+
+  # back up old caddyfile if it is different from the new one
   if ! diff "$caddyfile_to_use" "$caddyfile_full_path"; then
     current_time=$(date +%s%3N)
     backup_caddyfile_name="Caddyfile.$current_time.bak"

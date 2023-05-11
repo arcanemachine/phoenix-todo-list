@@ -1,1 +1,1 @@
-{"author":{"id":"47620cbad285ce1affe96a0c1bd4c41a29333c345fb425133436708a70d37799"},"ops":[{"type":4,"timestamp":1683831132,"nonce":"wt9cz0hmCq4jXG01BqnKMXoZCZk=","status":2}]}
+{"author":{"id":"47620cbad285ce1affe96a0c1bd4c41a29333c345fb425133436708a70d37799"},"ops":[{"type":8,"timestamp":1683831153,"nonce":"AE5dHZDrXC/YAzSzg8KfoDAZHIs=","target":"33d2e0bdc71246fd3dde5b0e217e5056fc92270c2200ffc05b251eb13b24923f","new_metadata":{"github-id":"I_kwDOIS6BHs5ltPYY","github-url":"https://github.com/arcanemachine/phoenix-todo-list/issues/4"}}]}

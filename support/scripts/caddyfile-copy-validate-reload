@@ -15,28 +15,41 @@ fi
 cd "$(dirname "$0")/../../" || exit 1
 
 # use remote caddyfile by default
-if [ "$1" = "local" ] || [ "$1" = "staging" ] || [ "$1" = "prod" ]; then
+if [ "$1" = "local" ] || [ "$1" = "remote" ] || [ "$1" = "staging" ]; then
   echo "Using '$1' Caddyfile..."
-  caddyfile_to_use="Caddyfile.$1"
-elif [ "$1" = "local" ]; then
-  echo "Using '$1' Caddyfile..."
-  caddyfile_to_use="Caddyfile.$1"
+  caddyfile_to_use="support/deployment/Caddyfile.$1"
 else
-  echo "First positional argument must be one of: local, staging, prod"
-  echo "Aborting..."
+  echo "\033[91mFirst positional argument must be one of: local, remote, staging. Aborting...\033[39m"
   exit 1
 fi
 
-caddyfile_config_dir="/etc/caddy"
+caddy_config_dir="/etc/caddy"
+caddyfile_full_path="$caddy_config_dir/Caddyfile"
+
+if [ ! -d $caddy_config_dir ]; then
+  echo "Could not find Caddy config directory '$caddy_config_dir'. Aborting..."
+elif [ -f "$caddy_config_dir/Caddyfile" ]; then
+  # backup old caddyfile if it is different from the new one
+  if ! diff "$caddyfile_to_use" "$caddyfile_full_path"; then
+    current_time=$(date +%s%3N)
+    backup_caddyfile_name="Caddyfile.$current_time.bak"
+    backup_caddyfile_full_path="$caddy_config_dir/$backup_caddyfile_name"
+
+    echo "Backing up existing Caddyfile to '$backup_caddyfile_full_path'..."
+    sudo cp $caddyfile_full_path "$backup_caddyfile_full_path"
+  else
+    echo "\033[96mThe new Caddyfile is the same as the old one, so we don't need to backup the old Caddyfile.\033[39m"
+  fi
+fi
 
 # copy the caddyfile to the caddy config directory
-if ! sudo cp "support/deployment/$caddyfile_to_use" "$caddyfile_config_dir/Caddyfile"; then
-  echo "Could not copy the Caddyfile to '$caddyfile_config_dir'. Is Caddy installed?"
+if ! sudo cp "$caddyfile_to_use" "$caddyfile_full_path"; then
+  echo "\033[91mCould not copy the Caddyfile to '$caddy_config_dir'. Aborting...\033[39m"
   exit 1
 fi
 
 # validate the caddy config
-cd "$caddyfile_config_dir" || exit 1
+cd "$caddy_config_dir" || exit 1
 caddy validate
 
 # reload caddy

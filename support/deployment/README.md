@@ -94,15 +94,20 @@ To deploy with Caddy, complete the following steps:
 
 - `sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak`
 
-3. There are 2 example Caddyfiles:
+3. There are several example Caddyfiles:
 
-- A `Caddyfile.local` to ensure the configuration works locally
-- A `Caddyfile.remote` Caddyfile for use in a production environment
+- A `Caddyfile.local` for use on your dev machine.
+  - Uses a `localhost` (sub)domain
+- A `Caddyfile.remote` Caddyfile for use in a remote environment (e.g. in production).
+  - Uses a live domain name + Let's Encrypt
+- A `Caddyfile.staging` Caddyfile for use in a staging environment.
+  - Like `remote`, but uses Let's Encrypt testing certificates to avoid rate limiting.
 
 4. Copy the desired project's Caddyfile to the Caddy configuration directory:
 
 - local: `sudo cp Caddyfile.local /etc/caddy/Caddyfile`
 - remote: `sudo cp Caddyfile.remote /etc/caddy/Caddyfile`
+- staging: `sudo cp Caddyfile.staging /etc/caddy/Caddyfile`
 
 5. Navigate to the Caddy configuration directory.
 

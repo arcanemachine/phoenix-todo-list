@@ -4,7 +4,10 @@ if [ "$1" = "--help" ]; then
   echo "Copy this project's Caddyfile to the Caddy config directory, then validate the config and restart Caddy.
 
 This script accepts a single positional argument that will specify the Caddyfile to use.
-  - Must be one of: local, remote"
+  - Must be one of: local, staging, remote
+    - Local: Uses 'localhost' subdomain
+    - Remote: Uses real domain name
+    - Staging: Like remote, but uses Let's Encrypt testing certificates (to avoid rate limits)"
   exit 0
 fi
 
@@ -12,14 +15,14 @@ fi
 cd "$(dirname "$0")/../../" || exit 1
 
 # use remote caddyfile by default
-if [ "$1" = "remote" ]; then
-  echo "Using 'remote' Caddyfile..."
-  caddyfile_to_use="Caddyfile.remote"
+if [ "$1" = "local" ] || [ "$1" = "staging" ] || [ "$1" = "prod" ]; then
+  echo "Using '$1' Caddyfile..."
+  caddyfile_to_use="Caddyfile.$1"
 elif [ "$1" = "local" ]; then
-  echo "Using 'local' Caddyfile..."
-  caddyfile_to_use="Caddyfile.local"
+  echo "Using '$1' Caddyfile..."
+  caddyfile_to_use="Caddyfile.$1"
 else
-  echo "First positional argument must be one of: local, remote"
+  echo "First positional argument must be one of: local, staging, prod"
   echo "Aborting..."
   exit 1
 fi

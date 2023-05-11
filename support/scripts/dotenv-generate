@@ -33,7 +33,7 @@ else
   echo "Generating local environment: '$env_path'..."
 fi
 
-env_template_path="$(pwd)/support/scripts/dotenv-generate.TEMPLATE"
+env_template_path="$(pwd)/support/scripts/templates/dotenv"
 output_string="$($env_template_path "$@")"
 
 if [ "$DRY_RUN" = 1 ]; then

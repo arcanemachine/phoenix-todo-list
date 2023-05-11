@@ -8,7 +8,9 @@ It uses 'chown' to change ownership of the volume directory to the current user.
 fi
 
 # navigate to container volumes directory
-cd "$(dirname "$0")/../volumes/" || exit 1
+project_root_directory="$(dirname "$0")/../../.."
+container_volumes_directory="$project_root_directory/support/containers/volumes"
+cd "$container_volumes_directory" || exit 1
 
 echo "Fixing user permissions on container volumes..."
 

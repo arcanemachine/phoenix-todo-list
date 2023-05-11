@@ -73,7 +73,7 @@ while test $# -gt 0; do
     traefik_host=1
     ;;
   --remote)
-    # use traefik config for remote environments
+    # configure traefik for use in a remote environment (i.e. uses HTTPS)
     is_remote=1
     ;;
   --dry-run)

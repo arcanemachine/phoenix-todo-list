@@ -27,7 +27,7 @@ while test $# -gt 0; do
     is_envrc=1
     ;;
   --remote)
-    # configure environment for a 'remote' deployment
+    # configure environment for a 'remote' deployment (i.e. uses HTTPS)
     is_remote=1
     ;;
   esac

@@ -201,9 +201,9 @@ WorkingDirectory=${working_directory}
 
 
 # LIFECYCLE #
-ExecStartPre=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down
-ExecStart=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run up
-ExecStop=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down -t 5
+ExecStartPre=$(which docker-compose) ${maybe_podman_config} $containers_to_run down
+ExecStart=$(which docker-compose) ${maybe_podman_config} $containers_to_run up
+ExecStop=$(which docker-compose) ${maybe_podman_config} $containers_to_run down -t 5
 
 [Install]
 WantedBy=default.target" >"${output_to}"

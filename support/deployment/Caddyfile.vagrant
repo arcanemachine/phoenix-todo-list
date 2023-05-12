@@ -1,7 +1,17 @@
 phoenix-todo-list.localhost
 
-# to generate a valid self-signed certificate with 'mkcert':
-#   - mkcert -key-file key.pem -cert-file cert.pem phoenix-todo-list.localhost
+# To generate a valid self-signed certificate with 'mkcert':
+#   - Ensure that mkcert is installed on the host machine (mkcert is not needed in the VM)
+#   - Ensure that a shared Vagrant directory has been created in your Vagrantfile
+#     - It should point to '/vagrant' in the VM
+#   - Navigate to the shared directory in the host.
+#   - Generate the self-signed certificate:
+#     - mkcert -key-file key.pem -cert-file cert.pem phoenix-todo-list.localhost
+#   - Add read permissions to the newly-generated 'key.pem' file:
+#     - chmod 644 key.pem
+#       - NOTE: Assigning read permissions poses a potential security issue!
+#         - To be on the safe side, delete the key when you are done with it!
+
 
 tls /vagrant/cert.pem /vagrant/key.pem
 

@@ -1,5 +1,8 @@
 phoenix-todo-list.localhost
 
+# to generate a valid self-signed certificate with 'mkcert':
+#   - mkcert -key-file key.pem -cert-file cert.pem phoenix-todo-list.localhost
+
 tls /vagrant/cert.pem /vagrant/key.pem
 
 reverse_proxy :4000

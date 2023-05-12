@@ -10,4 +10,7 @@ fi
 # -e - jump to the [e]nd of the pager
 # -f - [f]ollow the logs
 # -x - add e[x]planatory lines
-journalctl --user -efx --unit $service_name
+# -u - monitor a specific [u]nit file (must be positioned last)
+
+# journalctl --user -efx --unit $service_name
+journalctl --user -efxu $service_name

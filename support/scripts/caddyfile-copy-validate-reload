@@ -4,10 +4,13 @@ if [ "$1" = "--help" ]; then
   echo "Copy this project's Caddyfile to the Caddy config directory, then validate the config and restart Caddy.
 
 This script accepts a single positional argument that will specify the Caddyfile to use.
-  - Must be one of: local, staging, remote
-    - Local: Uses 'localhost' subdomain
-    - Remote: Uses real domain name
-    - Staging: Like remote, but uses Let's Encrypt testing certificates (to avoid rate limits)"
+  - Must be one of: local, vagrant, staging, prod
+    - local: Uses 'localhost' subdomain
+    - vagrant: Like local, but sets a manual path for the TLS certificates.
+    - This allows a self-signed certificate to be made on the host (e.g. using 'mkcert'), and used in the VM.
+    - staging: Uses a live domain name, but not the production one.
+      - e.g. staging.your-project.com
+    - prod: Uses live domain name"
   exit 0
 fi
 

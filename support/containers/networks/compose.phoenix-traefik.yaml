@@ -8,8 +8,6 @@ services:
       - "phoenix-todo-list"
     ports:
       - "${PORT:?}"
-    depends_on:
-      - "traefik"
 
 networks:
   traefik-global-proxy:

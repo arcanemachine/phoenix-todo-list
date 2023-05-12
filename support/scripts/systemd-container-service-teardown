@@ -1,0 +1,39 @@
+#!/bin/sh
+
+service_name="phoenix-todo-list"
+
+if [ "$1" = "--help" ]; then
+  echo "This script stops and removes this project's user-level systemd service file.
+
+It does the following:
+- Stops the user-level systemd service
+- Disables the user-level systemd service
+- Deletes the user-level systemd service file
+- Reloads the user-level systemd daemons
+
+To prevent accidental service file deletion, enter 'ok' (without the quotes) as the first positional parameter when running this script."
+  exit 0
+elif [ "$1" != "ok" ]; then
+  echo "Must enter 'ok' (without the quotes) as the first positional parameter to continue. Aborting..."
+  exit 1
+fi
+
+# navigate to current directory
+cd "$(dirname "$0")" || exit 1
+
+# stop the user-level systemd service
+echo "Stopping the user-level systemd service '$service_name'..."
+systemctl --user stop $service_name
+
+# disable the user-level systemd service
+echo "Disabling the user-level systemd service '$service_name'..."
+systemctl --user disable $service_name
+
+# delete the user-level systemd service file
+service_file_path=$HOME/.config/systemd/user/$service_name.service
+echo "Deleting the user-level systemd unit file from '$service_file_path'..."
+rm "$service_file_path"
+
+# reload the systemd daemons
+echo "Reloading the user-level systemd daemons..."
+systemctl --user daemon-reload

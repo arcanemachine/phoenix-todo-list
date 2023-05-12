@@ -5,43 +5,47 @@ service_file="${HOME}/systemd/user/${service_name}.service"
 if [ "$1" = "--help" ]; then
   echo "This script generates a user-level systemd service file.
 
+It can run a combination of Phoenix, Postgres, and Traefik containers.
 
 Optional arguments:
+
   --dry-run - Only displays the output of this script. Does not write any files.
 
   --podman - Use Podman instead of Docker.
 
   --postgres - Enables the use of a Postgres server container when running the service.
 
-  --remote - Configures the service for a remote environment (i.e. uses HTTPS).
-    - This flag only affects Traefik-based setups. It will have no effect if you are not using Traefik.
-    - If not set, the containers will be configured for local use (i.e. no HTTPS).
+  - Traefik-specific options:
 
-  --traefik-client - Configures the service to be used with Traefik.
-    - This flag does not run a Traefik server. It just configures the service to work with a Traefik server defined elsewhere on the server.
+    --remote - Configures the service for a remote environment (i.e. uses HTTPS).
+      - This flag only affects Traefik-based setups. It will have no effect if you are not using Traefik.
+      - If not set, the containers will be configured for local use (i.e. no HTTPS).
 
-  --traefik-host - Runs a Traefik container as part of the service.
+    --traefik-client - Configures the service to be used with Traefik.
+      - This flag does not run a Traefik server. It just configures the service to work with a Traefik server defined elsewhere on the server.
+
+    --traefik-host - Runs a Traefik container as part of the service.
 
 
 After running this script:
 
-The output will be sent here:
-  - '$service_file'
+  - The output will be sent here:
+    - '$service_file'
 
-Before you can manage the systemd service, you will need to reload the systemd daemons:
-  - systemctl --user daemon-reload
+  - Before you can manage the systemd service, you will need to reload the systemd daemons:
+    - systemctl --user daemon-reload
 
-To enable this service:
-  - systemctl --user enable $service_name.service
+  - To enable this service:
+    - systemctl --user enable $service_name.service
 
-To start this service:
-  - systemctl --user start $service_name.service
+  - To start this service:
+    - systemctl --user start $service_name.service
 
-In order to start this service on boot, you must enabling lingering for this user:
-  - sudo loginctl enable-linger $USER
+  - In order to start this service on boot, you must enabling lingering for this user:
+    - sudo loginctl enable-linger $USER
 
-If you are having issues with the service, you can examine the logs:
-  - journalctl --user -xe --unit $service_name"
+  - If you are having issues with the service, you can examine the logs:
+    - journalctl --user -xe --unit $service_name"
   exit 0
 fi
 
@@ -192,13 +196,13 @@ Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 
 
 # ENVIRONMENT #
-Restart=always
+Restart=on-error
 WorkingDirectory=${working_directory}
 
 
 # LIFECYCLE #
 ExecStartPre=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down
-ExecStart=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run up -d
+ExecStart=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run up
 ExecStop=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down -t 5
 
 [Install]

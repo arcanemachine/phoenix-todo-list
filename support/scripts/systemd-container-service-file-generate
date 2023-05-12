@@ -196,7 +196,7 @@ Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 
 
 # ENVIRONMENT #
-Restart=on-error
+Restart=always
 WorkingDirectory=${working_directory}
 
 

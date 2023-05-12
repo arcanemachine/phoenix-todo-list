@@ -1,6 +1,4 @@
 #!/bin/sh
-# shellcheck disable=SC2153  # ignore inaccurate warning
-
 service_name="phoenix-todo-list"
 service_file="${HOME}/systemd/user/${service_name}.service"
 
@@ -72,11 +70,11 @@ while test $# -gt 0; do
     ;;
   --traefik-client)
     # configure the service for use with traefik, but don't start a traefik server
-    traefik_client=1
+    use_traefik_client=1
     ;;
   --traefik-host)
     # configure the service for use with traefik and start a traefik server
-    traefik_host=1
+    use_traefik_host=1
     ;;
   esac
   shift
@@ -84,7 +82,7 @@ done
 
 # validate args - do not allow '--traefik-client' and '--traefik-host' to be
 # passed at the same time
-if [ "$traefik_client" = 1 ] && [ "$traefik_host" = 1 ]; then
+if [ "$use_traefik_client" = 1 ] && [ "$use_traefik_host" = 1 ]; then
   echo "\033[91mYou cannot pass the '--traefik-client' and '--traefik-host' flags at the same time.\033[39m
 If you only need to add the labels so an existing Traefik container can detect this service, pass the '--traefik-client' flag.
 If you want to start a Traefik container as part of this service, pass the '--traefik-host' flag. This flag will also add the necessary labels to the web server container.
@@ -123,7 +121,7 @@ fi
 # phoenix
 containers_to_run="-f compose.phoenix.yaml"
 
-if [ "$traefik_client" = 1 ] || [ "$traefik_host" = 1 ]; then
+if [ "$use_traefik_client" = 1 ] || [ "$use_traefik_host" = 1 ]; then
   containers_to_run="$containers_to_run -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-${deployment_type}.yaml"
 else
   containers_to_run="$containers_to_run -f networks/compose.phoenix-host.yaml"
@@ -134,7 +132,7 @@ if [ "$use_postgres" = 1 ]; then
   containers_to_run="$containers_to_run -f compose.phoenix-postgres.yaml -f compose.postgres.yaml"
 
   # postgres + traefik
-  if [ "$traefik_client" = 1 ] || [ "$traefik_host" = 1 ]; then
+  if [ "$use_traefik_client" = 1 ] || [ "$use_traefik_host" = 1 ]; then
     containers_to_run="$containers_to_run -f networks/compose.postgres-traefik.yaml"
   else
     containers_to_run="$containers_to_run -f networks/compose.postgres-host.yaml"
@@ -142,7 +140,7 @@ if [ "$use_postgres" = 1 ]; then
 fi
 
 # traefik
-if [ $traefik_host ]; then
+if [ $use_traefik_host ]; then
   # run traefik container
   containers_to_run="$containers_to_run -f traefik/compose.yaml -f traefik/compose.config-${deployment_type}.yaml"
 fi

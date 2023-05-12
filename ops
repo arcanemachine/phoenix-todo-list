@@ -1,0 +1,1 @@
+{"author":{"id":"47620cbad285ce1affe96a0c1bd4c41a29333c345fb425133436708a70d37799"},"ops":[{"type":1,"timestamp":1683931415,"nonce":"S1u6u9sNEEkTKhj9jO2mgEI5AEw=","title":"For Traefik-based deployments, the Phoenix should depend_on Traefik when Traefik is part of the same container service.","message":"","files":null}]}

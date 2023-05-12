@@ -69,7 +69,7 @@ while test $# -gt 0; do
     use_postgres=1
     ;;
   --remote)
-    # configure traefik for use in a remote environment (i.e. uses HTTPS)
+    # configure traefik for use in a remote deployment (i.e. uses HTTPS)
     is_remote=1
     ;;
   --traefik-client)

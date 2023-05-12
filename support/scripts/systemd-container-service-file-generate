@@ -195,13 +195,14 @@ Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 
 Restart=on-failure
 WorkingDirectory=${working_directory}
-# Type=forking
+Type=oneshot
+RemainAfterExit=true
 
 # Shutdown container (if running) when unit is started
 ExecStartPre=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down
 
 # Start container when unit is started
-ExecStart=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run up --remove-orphans
+ExecStart=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run up -d
 
 # Stop all services
 ExecStop=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down -t 5

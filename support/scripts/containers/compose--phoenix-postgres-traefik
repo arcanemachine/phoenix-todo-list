@@ -1,13 +1,7 @@
 #!/bin/sh
 
-# navigate to containers directory
-project_root_directory="$(dirname "$0")/../../.."
-containers_directory="$project_root_directory/support/containers"
-cd "$containers_directory" || exit 1
-
-# ensure first positional argument is present
-if [ "$1" = "" ]; then
-  echo "This script manages a Compose service for Traefik + Phoenix + Postgres.
+if [ "$1" = "--help" ]; then
+  echo "This script manages a Compose service for Phoenix + Postgres + Traefik.
 
 The first positional argument must specify the 'docker-compose' command(s) to run.
   - Examples: up, down, restart, etc.
@@ -19,6 +13,21 @@ The second positional argument must specify the location of the deployment.
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
   exit 1
+fi
+
+# navigate to containers directory
+project_root_directory="$(dirname "$0")/../../.."
+containers_directory="$project_root_directory/support/containers"
+cd "$containers_directory" || exit 1
+
+# ensure first positional argument is present
+if [ "$1" = "" ]; then
+  echo "The first positional argument must specify the 'docker-compose' command(s) to run. Examples: up, down, restart, etc.
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
+  exit 1
+elif [ "$1" = "up" ]; then
+  maybe_remove_orphans="--remove-orphans"
 fi
 
 if [ "$1" = "" ]; then

@@ -166,6 +166,7 @@ Requires=podman.service
 RequiresMountsFor=/run/user/$(id -u)/containers
 
 [Service]
+# ENVIRONMENT #
 # docker
 Environment=COMPOSE_DOCKER_CLI_BUILD=0
 Environment=IMAGE_TAG=\"$IMAGE_TAG\"
@@ -189,16 +190,13 @@ Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 # Environment=AWS_ACCESS_KEY=\"$AWS_ACCESS_KEY\"
 # Environment=AWS_SECRET=\"$AWS_SECRET\"
 
+# ENVIRONMENT #
 Restart=always
 WorkingDirectory=${working_directory}
 
-# Shutdown container (if running) when unit is started
+# LIFECYCLE #
 ExecStartPre=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down
-
-# Start container when unit is started
 ExecStart=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run up -d
-
-# Stop all services
 ExecStop=/home/$USER/.local/bin/docker-compose ${maybe_podman_config} $containers_to_run down -t 5
 
 [Install]

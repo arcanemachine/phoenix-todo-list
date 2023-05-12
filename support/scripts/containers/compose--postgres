@@ -1,5 +1,20 @@
 #!/bin/sh
 
+if [ "$1" = "--help" ]; then
+  echo "This script manages a Compose service for Phoenix + Postgres + Traefik.
+
+The first positional argument must specify the 'docker-compose' command(s) to run.
+  - Examples: up, down, restart, etc.
+
+The second positional argument must specify the location of the deployment.
+  - Must be one of: local, remote
+    - local: no HTTPS
+    - remote: uses HTTPS
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
+  exit 1
+fi
+
 # navigate to containers directory
 project_root_directory="$(dirname "$0")/../../.."
 containers_directory="$project_root_directory/support/containers"
@@ -15,7 +30,7 @@ elif [ "$1" = "up" ]; then
   maybe_remove_orphans="--remove-orphans"
 fi
 
-if [ "$3" = "--podman" ]; then
+if [ "$2" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"

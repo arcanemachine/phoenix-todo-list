@@ -24,7 +24,7 @@ while test $# -gt 0; do
   case "$1" in
   --envrc)
     # generate a '.envrc' style template instead of a '.env'
-    is_envrc=1
+    generate_envrc=1
     ;;
   --remote)
     # configure environment for a 'remote' deployment (i.e. uses HTTPS)
@@ -45,23 +45,23 @@ else
 fi
 
 echo "# phoenix
-${is_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-$default_phx_host}\"
-${is_envrc:+"export "}PORT=\"${PORT:-4000}\"
-${is_envrc:+"export "}SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
+${generate_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-$default_phx_host}\"
+${generate_envrc:+"export "}PORT=\"${PORT:-4000}\"
+${generate_envrc:+"export "}SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
 # db
-${is_envrc:+"export "}POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
-${is_envrc:+"export "}POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
-${is_envrc:+"export "}POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
-${is_envrc:+"export "}DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
+${generate_envrc:+"export "}POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
+${generate_envrc:+"export "}POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
+${generate_envrc:+"export "}POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
+${generate_envrc:+"export "}DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 
 # # email
-# ${is_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
-# ${is_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
-# ${is_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET:-your_aws_secret}\"
+# ${generate_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
+# ${generate_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
+# ${generate_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET:-your_aws_secret}\"
 
 # docker
-${is_envrc:+"export "}IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
+${generate_envrc:+"export "}IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
 
 # traefik
-${is_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-$default_traefik_host}\""
+${generate_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-$default_traefik_host}\""

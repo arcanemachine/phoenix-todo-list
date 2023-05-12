@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+  echo "This script removes root permissions on any Docker volumes created in 'support/containers/volumes'.
+
+It uses 'chown' to change ownership of the volume directory to the current user."
+  exit 1
+elif [ "$1" != "ok" ]; then
+  echo "Must enter 'ok' (without the quotes) as the first positional parameter to continue. Aborting..."
+  exit 1
+fi
+
+# navigate to container volumes directory
+project_root_directory="$(dirname "$0")/../../.."
+container_volumes_directory="$project_root_directory/support/containers/volumes"
+cd "$container_volumes_directory" || exit 1
+
+echo "Deleting this project's container volumes..."
+
+# shellcheck disable=SC2086
+if ! rm -rf ./postgres; then
+  echo "\033[96mPermission denied. Trying again as superuser...\033[39m"
+  if sudo rm -rf ./postgres; then
+    echo "\033[92mok\033[39m"
+  fi
+fi

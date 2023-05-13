@@ -7,10 +7,11 @@ This script accepts a single positional argument that will specify the Caddyfile
   - Must be one of: local, vagrant, staging, prod
     - local: Uses 'localhost' subdomain
     - vagrant: Like local, but sets a manual path for the TLS certificates.
+      - Designed for use with Vagrant (https://github.com/hashicorp/vagrant)
     - This allows a self-signed certificate to be made on the host (e.g. using 'mkcert'), and used in the VM.
     - staging: Uses a live domain name, but not the production one.
       - e.g. staging.your-project.com
-    - prod: Uses live domain name"
+    - prod: Uses a live domain name"
   exit 0
 fi
 

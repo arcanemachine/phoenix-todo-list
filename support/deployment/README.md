@@ -1,4 +1,4 @@
-# /support/deployment/
+# Deployment
 
 ---
 
@@ -32,12 +32,12 @@ Additional information on deployment.
     - Alternatively, you can set up a different server as you like.
     - Ensure that the domain matches the `PHX_HOST` environment variable, or else Phoenix will complain and websockets (e.g. LiveView) won't work.
 - Build a release:
-  - Use the `support/scripts/release-build` script to build a release.
+  - Use the `support/scripts/elixir-release-create` script to create a release with Elixir/Mix.
 - Ensure that your `PHX_HOST` environment variable matches the domain entered in your browser's address bar.
   - You will probably need to set up Caddy using the instructions below.
     - If you don't set up Caddy, your websockets (e.g. LiveView) probably won't work.
     - Also, Caddy will automatically set up TLS (HTTPS) which is essential for the modern web
-      - e.g. Browsers will complain when entering passwords if plain HTTP is used.
+      - e.g. Modern browsers will complain when entering passwords if plain HTTP is used.
 - To run the server:
   - Using a script:
     - Run migrations and start the server with `supports/scripts/server-prod-start`
@@ -96,18 +96,20 @@ To deploy with Caddy, complete the following steps:
 
 3. There are several example Caddyfiles:
 
-- A `Caddyfile.local` for use on your dev machine.
-  - Uses a `localhost` (sub)domain
-- A `Caddyfile.remote` Caddyfile for use in a remote environment (e.g. in production).
-  - Uses a live domain name + Let's Encrypt
-- A `Caddyfile.staging` Caddyfile for use in a staging environment.
-  - Like `remote`, but uses Let's Encrypt testing certificates to avoid rate limiting.
+   - `Caddyfile.local`: Uses 'localhost' subdomain
+   - `Caddyfile.vagrant`: Like local, but sets a manual path for the TLS certificates.
+     - This allows a self-signed certificate to be made on the host (e.g. using 'mkcert'), and used in the VM.
+     - Designed for use with [Vagrant](https://github.com/hashicorp/vagrant)
+   - `Caddyfile.staging`: Uses a live domain name, but not the production one.
+     - e.g. staging.your-project.com
+   - `Caddyfile.prod`: Uses a live domain name
 
 4. Copy the desired project's Caddyfile to the Caddy configuration directory:
 
 - local: `sudo cp Caddyfile.local /etc/caddy/Caddyfile`
-- remote: `sudo cp Caddyfile.remote /etc/caddy/Caddyfile`
+- vagrant: `sudo cp Caddyfile.vagrant /etc/caddy/Caddyfile`
 - staging: `sudo cp Caddyfile.staging /etc/caddy/Caddyfile`
+- prod: `sudo cp Caddyfile.prod /etc/caddy/Caddyfile`
 
 5. Navigate to the Caddy configuration directory.
 
@@ -127,7 +129,7 @@ To deploy with Caddy, complete the following steps:
 
 ### Modifying the Caddyfile
 
-The base Caddyfile is self-explanatory:
+Caddyfiles are quite simple and mostly self-explanatory. Example:
 
 ```
 phoenix-todo-list.nicholasmoen.com

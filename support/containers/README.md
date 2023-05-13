@@ -1,8 +1,12 @@
-# /support/containers/
+# Containers
 
-Additional information on working with containers.
+This section contains additional information on working with containers.
 
-**NOTE:** These containers are configured for a production environment. You may run into issues if attempting to use containers for development (e.g. database name issues).
+**NOTE:** These containers are configured for a production environment.
+
+- You may run into issues if attempting to use containers for development (e.g. database name issues).
+- The easiest way to work in a dev environment is to run `just start`.
+  - Requires [`just`](https://github.com/casey/just) task runner to be installed
 
 This project has ready-made configurations to easily run the following services as Docker/Podman containers alongside this Phoenix project:
 
@@ -18,7 +22,7 @@ In order to maximize flexibility, the service containers (e.g. Phoenix, Postgres
 
 ## Compose Examples
 
-- To save on typing, you can use the scripts in the `support/containers/scripts` directory to run the configurations described in this section.
+- To save on typing, you can use the scripts in the `support/scripts/containers` directory to run the configurations described in this section.
   - If switching between Docker and Podman, you will need to delete the `support/containers/volumes/postgres` directory.
 - All commands in this section must be run from the `support/containers/` directory.
 - If the environment has not been loaded automatically with `direnv`, you may need to include the `.env` file manually using `--env-file .env` when running one or more Compose files.

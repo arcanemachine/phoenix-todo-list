@@ -8,20 +8,6 @@
 
 ---
 
-<!-- old info, keeping for reference
-
-NOTE: This project uses Git submodules. There are a couple caveats to keep in mind when working with submodules:
-
-- To clone this repo:
-  - `git clone --recurse-submodules https://github.com/arcanemachine/phoenix-todo-list`
-- If you have already cloned the repo, but didn't clone the submodules using the command above:
-  - Run `git submodule update --init`.
-- To update the submodule(s) to the latest commit/revision, perform either of these steps:
-  - Run `git submodule foreach git pull`.
-  - Navigate to the submodule (`support/containers/traefik`) and run `git pull`.
-
--->
-
 Yet another todo list. Made using the Phoenix web framework.
 
 Features:
@@ -46,20 +32,18 @@ Features:
 
 Before you work in a `dev` environment, ensure that your environment variables are set correctly.
 
-- Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
-  - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
-  - Copy the example template in `support/.env.example` to `.env` and fill in your desired values.
+  - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
+  - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 - Run `mix deps.get` to fetch the dependencies
 - Setup Postgres:
-  - For easy Postgres setup, you can use my [`container-postgres`](https://github.com/arcanemachine/container-postgres) repo for a Dockerized version that can be easily removed when you no longer need it.
+  - For easy Postgres setup, run `just postgres`. (requires [`just`](https://github.com/casey/just) task runner)
 - Once the Postgres server is running, set up the `dev` environment:
   - `mix ecto.setup`
 - Use any of these commands to start a dev server:
-  - `just start` - Uses the `just` task runner to start a dev server
-  - `mix phx.server` - The vanilla-Elixir method of starting a dev server
+  - `just start` - Uses [`just`](https://github.com/casey/just) task runner to start a dev server
+  - `mix phx.server` - The regular method of starting a dev server
   - `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
-  - `support/scripts/start` - A convenience script for starting a dev server in an `IEx` shell.
 
 ### Testing
 
@@ -119,7 +103,10 @@ Before you create a release, ensure that your environment variables are set corr
 Navigate to the project root directory and set up your environment variables:
 
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
-  - Use the environment generator script (`just dotenv-generate` or `support/scripts/dotenv-generate`) to generate an example `.env` file in the project root directory. You can modify this `.env` file as needed.
+  - Use the environment generator script to generate a `.env` file in the project root directory. You can modify this `.env` file as needed.
+    - To run the script:
+      - `support/scripts/dotenv-generate`
+      - Or, `just dotenv-generate`
 
 ##### Vanilla/Bare Metal Deployment
 
@@ -127,8 +114,9 @@ Run the following commands from the project root directory:
 
 - Create a release using the helper script:
   - `support/scripts/elixir-release-create`
-- Make sure that Postgres is running.
-  - e.g. `pg_isready` or `pg_isready -h localhost` or `pg_isready -h your-postgres-ip-address-or-domain`
+- Make sure that Postgres is running:
+  - Use `pg_isready`:
+    - e.g. `pg_isready` or `pg_isready -h localhost` or `pg_isready -h your-postgres-ip-address-or-domain`
 - Set up the database in Postgres:
   - Spawn a shell as the `postgres` user:
     - `sudo -iu postgres`
@@ -152,7 +140,7 @@ Run the following commands from the project root directory:
 
 NOTE: When using Podman, you may have issues using `podman-compose` to orchestrate containers (e.g. on `aarch64` systems).
 
-- I have found that `docker-compose` can work as a drop-in replacement for `podman-compose`.
+- I have found that `docker-compose` works well as a drop-in replacement for `podman-compose`.
   - The only difference is that the `-H` flag must be passed so that `docker-compose` can use the Podman socket instead of the default Docker socket.
 - As a bonus, `docker-compose` has a nicer UI (in my opinion) than `podman-compose`, e.g. containers are color-coded so it's easier to read the logs when viewing the compose logs.
 - Many instructions in these documentation pages use `podman-compose` for Podman example commands, but you should be able to use `docker-compose` as needed by following the instructions below.
@@ -161,17 +149,13 @@ NOTE: When using Podman, you may have issues using `podman-compose` to orchestra
 
 - Install `docker-compose` v.1.29.2:
   - There are several ways to install this package, but I have found installation via Python's `pip` to be the most versatile, namely because it works well with `x86_64` and `aarch64` systems.
-    - To install via `pip`:
+    - Install via [`pipx`](https://pypa.github.io/pipx/) (recommended):
+      - `pipx install docker-compose`
+    - Install via `pip`:
       - `pip install docker-compose`
-    - If you want to avoid polluting the global namespace:
-      - Create and activate a virtualenv before installing `docker-compose` using the instructions above.
-      - Or, install `pipx` and install `docker-compose` via `pipx`: `pipx install docker-compose`
-        - `pipx` allows you to install Python packages globally without polluting the global namespace.
-          - It does this by creating a virtualenv for each installed package.
-          - It works very well for reducing Python package clutter.
 - Set the socket path when running `docker-compose` commands:
   - With an environment variable: `DOCKER_HOST="unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" docker-compose up`
-  - With the `-H` flag: `docker-compose -H "unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" up`
+  - Or, with the `-H` flag: `docker-compose -H "unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" up`
 
 ###### Building a Release as a Docker Image
 
@@ -179,6 +163,7 @@ Run the following commands from the project root directory:
 
 - Create a release using the helper script:
   - `support/scripts/elixir-release-create`
+  - Or, `just release`
 - Build a container image:
   - Docker: `docker build -t phoenix-todo-list .`
   - Podman: `podman build -t phoenix-todo-list .`
@@ -230,11 +215,13 @@ Run the following command from the project root directory:
 This project supports the creation and use of containers for the `x86_64` and `aarch64` CPU architectures.
 
 - The default container image tag on Docker Hub (`latest`) supports the `x86_64` architecture.
-- The `aarch64` container image tag on Docker Hub supports the `aarch64` architecture.
-- To use the `aarch64` container with Compose files, you will need to override the `IMAGE_TAG` environment variable and specify the `aarch64` architecture:
+- The `aarch64` image tag for this project on Docker Hub supports the `aarch64` architecture.
+  - e.g. `docker.io/arcanemachine/phoenix-todo-list:aarch64`
+- To use the `aarch64` container with this project's compose files (located in `support/containers/`), ensure the `IMAGE_TAG` environment variable is set to `aarch64`:
   - Examples:
     - Docker: `IMAGE_TAG=aarch64 docker compose -f support/containers/compose.phoenix.yaml up`
     - Podman: `IMAGE_TAG=aarch64 podman-compose -f support/containers/compose.phoenix.yaml up`
+  - NOTE: The generated `.env` file (created by running `just dotenv-generate`) should have the proper CPU architecture for your machine in the `IMAGE_TAG` variable.
 
 ###### Other Docker/Podman Deployment Procedures
 
@@ -250,9 +237,9 @@ To deploy via fly.io, you must use the Dockerfile in the `support/` directory. T
 
 - `rm ./Dockerfile && ln -s support/containers/Dockerfile.fly Dockerfile`
 
-The `fly.io` Dockerfile is essentially the same as the default Dockerfile generated by Phoenix. You can diff them to see the differences:
+The `fly.io` Dockerfile is essentially the same as the default Dockerfile generated by Phoenix, but has a few additions to make it work with `fly.io`. These additions are created when creating the project with `flyctl`.
 
-- `diff support/containers/Dockerfile.base support/containers/Dockerfile.fly`
+- NOTE: The default Dockerfile generated by `flyctl` may have some issues with Tailwind and other NPM dependencies. The modified Dockerfiles used in this project have a few modifications designed to mitigate this.
 
 This project has a `fly.toml` file. To create a new one, run `fly launch` and follow the prompt.
 

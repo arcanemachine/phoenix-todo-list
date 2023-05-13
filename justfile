@@ -118,7 +118,14 @@ color_reset := "\\033[39m"
 # push the image to docker hub
 @docker-image-push image_name=image_name:
   echo "Pushing the '{{ image_name }}' image to Docker Hub..."
-  docker push {{ image_name }}
+
+  # push an architecture-specific image
+  echo "\033[96mPushing a '$(uname -m)' image to Docker Hub...\033[39m"
+  docker push "{{ image_name }}:$(uname -m)"
+
+  # if this machine's architecture is x86_64, push a 'latest' image to Docker Hub
+  echo "\033[96mUpdating the 'latest' image on Docker Hub...\033[39m"
+  sh -c "if [ $(uname -m) = 'x86_64' ]; then docker push '{{ image_name }}:latest'; fi"
 
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':

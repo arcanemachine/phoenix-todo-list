@@ -161,6 +161,11 @@ color_reset := "\\033[39m"
   echo "Using Podman to push the '{{ image_name }}' image to Docker Hub..."
   podman push {{ image_name }} docker.io
 
+# run a postgres container
+@postgres:
+  echo "Starting a Postgres container..."
+  ./support/scripts/containers/compose--postgres up
+
 # run pre-commit hooks (requires pre-commit.com)
 @pre-commit:
   echo "Running pre-commit hooks..."

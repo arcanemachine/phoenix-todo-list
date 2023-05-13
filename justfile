@@ -18,28 +18,31 @@ color_info := "\\033[96m"
 color_reset := "\\033[39m"
 
 # SHORTCUTS #
-@JUST-SHORTCUTS:
-  exit
+@SHORTCUTS_____________________:
+  echo "This command doesn't do anything. It's just a separator for 'just --list -u'."
 
-# start a dev server
+# start a dev server (server-dev-start)
 @start: server-dev-start
 
-# create a release and build a docker image
-@build: elixir-release-create docker-image-build
+# create a release (elixir-release-create)
+@release: elixir-release-create
 
-# push the image to docker hub
+# create a release and build a docker image (docker-image-build)
+@build: docker-image-build
+
+# push the image to docker hub (docker-image-push)
 @push: docker-image-push
 
 # COMMANDS #
-@JUST-COMMANDS:
-  exit
+@COMMANDS______________________:
+  echo "This command doesn't do anything. It's just a separator for 'just --list -u'."
 
 # remove stale versions of static assets
 @assets-prune:
   echo "Pruning digested assets..."
   mix phx.digest.clean --all
 
-# copy caddyfile, then validate and reload caddy [environment: local | remote | staging]
+# copy caddyfile, then validate and reload caddy [environment: local | vagrant | staging | prod]
 @caddyfile-copy-validate-reload environment='':
   echo "Copying the Caddyfile, then validating and reloading Caddy..."
   ./support/scripts/caddyfile-copy-validate-reload {{ environment }}
@@ -68,11 +71,6 @@ color_reset := "\\033[39m"
 @db-reset:
   echo "Resetting the database..."
   mix ecto.reset
-
-# deploy to production
-@deploy remote='prod':
-  echo "Deploying to '{{ remote }}'..."
-  git push {{ remote }}
 
 # fetch Elixir dependencies
 @elixir-fetch-dependencies:
@@ -131,10 +129,6 @@ color_reset := "\\033[39m"
 @loadtest url='https://phoenix-todo-list.nicholasmoen.com/':
   wrk -t12 -c400 -d30s {{ url }}
 
-# create a release, build an image, push to docker hub, and deploy to production
-@one-click-build-and-deploy: && elixir-release-create podman-image-build podman-image-push deploy
-  echo "Beginning one-click build and deployment..."
-
 # generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':
   echo "Generating '{{ format }}' schema..."
@@ -190,17 +184,7 @@ color_reset := "\\033[39m"
   iex -S mix phx.server
 
 # run all tests
-@test-all: test-elixir test-js-unit test-e2e
-
-# run end-to-end (E2E) tests
-@test-e2e args='':
-  echo "Running E2E tests..."
-  ./support/scripts/test-e2e {{ args }}
-
-# run end-to-end (E2E) tests in watch mode
-@test-e2e-watch args='':
-  echo "Running E2E tests in watch mode..."
-  ./support/scripts/test-e2e-watch {{ args }}
+@test-all: test-elixir test-js-unit test-js-e2e
 
 # run Elixir tests
 @test-elixir:
@@ -211,6 +195,16 @@ color_reset := "\\033[39m"
 @test-elixir-watch:
   echo "Running Elixir tests in watch mode..."
   ./support/scripts/test-elixir-watch
+
+# run Javascript end-to-end (E2E) tests
+@test-js-e2e args='':
+  echo "Running E2E tests..."
+  ./support/scripts/test-e2e {{ args }}
+
+# run Javascript end-to-end (E2E) tests in watch mode
+@test-js-e2e-watch args='':
+  echo "Running E2E tests in watch mode..."
+  ./support/scripts/test-e2e-watch {{ args }}
 
 # run Javascript unit tests
 @test-js-unit:

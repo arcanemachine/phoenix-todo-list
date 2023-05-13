@@ -113,18 +113,28 @@ color_reset := "\\033[39m"
 # build a docker image
 @docker-image-build image_name=image_name:
   echo "Building a Docker image '{{ image_name }}'..."
+
+  # build an untagged image
   docker build -t {{ image_name }} .
+
+  # build an architecture-specific image
+  printf "\n\033[96mBuilding a '$(uname -m)' image...\033[39m\n\n"
+  docker build -t "{{ image_name }}:$(uname -m)" .
 
 # push the image to docker hub
 @docker-image-push image_name=image_name:
-  echo "Pushing the '{{ image_name }}' image to Docker Hub..."
+  echo "Pushing image to Docker Hub..."
 
   # push an architecture-specific image
   echo "\033[96mPushing a '$(uname -m)' image to Docker Hub...\033[39m"
   docker push "{{ image_name }}:$(uname -m)"
 
   # if this machine's architecture is x86_64, push a 'latest' image to Docker Hub
-  echo "\033[96mUpdating the 'latest' image on Docker Hub...\033[39m"
+
+  sh -c "if [ $(uname -m) = 'x86_64' ]; then \
+    echo \"\033[96mUpdating the 'latest' image on Docker Hub since we're using the 'x86_64' architecture...\033[39m\"; \
+  fi"
+
   sh -c "if [ $(uname -m) = 'x86_64' ]; then docker push '{{ image_name }}:latest'; fi"
 
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')

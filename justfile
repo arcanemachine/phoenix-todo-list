@@ -21,8 +21,8 @@ color_reset := "\\033[39m"
 @SHORTCUTS_____________________:
   echo "This command doesn't do anything. It's just a separator for 'just --list -u'."
 
-# start a dev server (server-dev-start)
-@start: server-dev-start
+# start a dev server (db-setup + server-dev-start)
+@start: db-setup server-dev-start
 
 # create a release (elixir-release-create)
 @release: elixir-release-create

@@ -10,7 +10,9 @@ It does the following:
 - Reloads the user-level systemd daemons
 - Enables the service on startup
   - NOTE: Lingering must be enabled by the superuser: 'sudo loginctl enable-linger $USER'
-- Starts the service"
+- Starts the service
+
+For more information about the service file generator script, run './systemd-container-service-file-generate --help'"
   exit 0
 fi
 

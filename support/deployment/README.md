@@ -149,26 +149,52 @@ When this script is run, it will generate `systemd` service file called `~/.conf
 
 ### Using Containers
 
+#### The Easy Way
+
+The helper scripts allow you to easily setup and teardown a user-level `systemd` service for this project.
+
+##### Setup
+
+You can use the `support/scripts/systemd-container-service-bootstrap` to easily create and run a `systemd` service for this project.
+
+- Run `support/scripts/systemd-container-service-bootstrap --help` to learn about configuration options for this script.
+
+##### Teardown
+
+You can use the `support/scripts/systemd-container-service-teardown` to easily stop and disable the service, and remove the service file for this project.
+
+#### Manual Configuration
+
 You can use the `support/scripts/systemd-container-service-file-generate` to easily create a `systemd` service file for this project:
 
 - This script is configured for Podman by default.
   - To generate a Docker container, pass the `--docker` flag when running this script.
 - When this script is run, it will generate `systemd` service file called `~/.config/systemd/user/phoenix-todo-list.service` (unless the `--dry-run` flag is set)
 - Other flags:
-  - `--docker` - Configures the service for use with Docker instead of Podman.
-    - If this flag is not set, the service will be configured for use with Podman.
   - `--dry-run` - Display the service file in the terminal instead of writing to a file.
     - No permanent changes are made when this flag is used.
     - The output of a `--dry-run` is identical to the real service file, and can be piped as needed.
+  - `--podman` - Configures the service for use with Podman instead of Docker.
   - `--postgres` - Run a Postgres container as part of the service.
+  - `--remote` - Configures Traefik to work in a remote environment.
+    - Supports HTTPS certificates via Let's Encrypt.
+    - If the machine will be accessible from the Internet, you will probably want to use this option.
   - `--traefik-client` - Configures the service to be used as Traefik.
     - Does not start a Traefik server.
   - `--traefik-host` - Configures the service to be used as Traefik.
     - Runs a Traefik container as part of the service.
-  - `--remote` - Configures Traefik to work in a remote environment.
-    - Supports HTTPS certificates via Let's Encrypt.
-    - If the machine will be accessible from the Internet, you will probably want to use this option.
 
-### Starting The Service Automatically On Boot
+After running the `systemd-container-service-file-generate` script:
 
-See [this section](#how-to-start-the-server-automatically-when-the-system-boots).
+- The output will be sent here:
+  - '~/.confir/systemd/user/phoenix-todo-list.service'
+- Before you can manage the systemd service, you will need to reload the systemd daemons:
+  - systemctl --user daemon-reload
+- To enable this service:
+  - systemctl --user enable phoenix-todo-list.service
+- To start this service:
+  - systemctl --user start phoenix-todo-list.service
+- In order to start this service on boot, you must enabling lingering for this user:
+  - sudo loginctl enable-linger $USER
+- If you are having issues with the service, you can examine the logs:
+  - journalctl --user -xe --unit phoenix-todo-list

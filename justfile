@@ -107,7 +107,7 @@ color_reset := "\\033[39m"
 
 # create a release
 @elixir-release-create:
-  echo "Creating a release..."
+  echo "Creating an Elixir release..."
   ./support/scripts/elixir-release-create
 
 # build a docker image

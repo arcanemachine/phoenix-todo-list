@@ -203,7 +203,7 @@ WorkingDirectory=$working_directory
 
 
 # LIFECYCLE #
-ExecStartPre=$command_to_run down && $command_to_run build --pull
+ExecStartPre=$command_to_run down
 ExecStart=$command_to_run up
 ExecStop=$command_to_run down -t 5
 

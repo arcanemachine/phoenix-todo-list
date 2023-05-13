@@ -37,7 +37,7 @@ echo "(Re)starting the systemd service..."
 systemctl --user restart $service_name.service
 
 echo "
-If this service is running alongside Traefik, you may need to create a container network for Traefik.
+If this service uses Traefik, you may need to create a container network for Traefik.
   - e.g. Docker: 'docker network create traefik-global-proxy'
   - e.g. Podman: 'podman network create traefik-global-proxy'
 

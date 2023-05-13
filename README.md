@@ -1,6 +1,6 @@
 # phoenix-todo-list
 
-[View Live Demo](https://arcanemachine-phoenix-todo.fly.dev/)
+[View Live Demo](https://phoenix-todo-list.nicholasmoen.com/)
 
 ---
 

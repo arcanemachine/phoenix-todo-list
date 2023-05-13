@@ -16,12 +16,13 @@ Features:
 - LiveView CRUD
 - REST API
 - OpenAPI spec
+- Elixir tests (ExUnit)
 - Javascript-based unit tests (Vitest)
 - Javascript-based E2E tests (Playwright)
 - GitHub Actions CI
 - Releases (vanilla/Docker/fly.io)
   - Supports `x86_64` + `aarch64` (`ARM64v8`) Docker images
-- Supports a variety of container-based environments
+- Supports a variety of container-based environments using Docker/Podman
 - EditorConfig (standardizes file formatting: spaces per line, etc.)
 - Enforces standardized commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
 - Uses [`just`](https://github.com/casey/just) task runner
@@ -52,11 +53,12 @@ Before running any tests, use the instructions above to ensure that:
 - The required environment variables have been set.
   - Use the instructions in the previous step to create a basic `.env` file in the project root directory.
 - A Postgres server is up and running.
+  - To easily create a Postgres server container, run `just postgres`.
   - You may need to create a test database: `MIX_ENV=test mix ecto.create`
   - If any errors occur during the tests, try resetting the test database: `MIX_ENV=test mix ecto.reset`
     - For example, the E2E test scripts reset the database between test runs. However, if the script is aborted, the database may not be reset, which can effect the results of `mix test`.
 
-#### Elixir-Based Tests (`mix test`)
+#### Elixir-Based Tests
 
 Run the Elixir-based tests using any of these commands:
 

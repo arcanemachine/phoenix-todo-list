@@ -162,6 +162,8 @@ fi
 
 # generate the service file
 
+command_to_run="$(which docker-compose) ${maybe_podman_config} $containers_to_run"
+
 echo "[Unit]
 Description=$service_name
 Wants=network-online.target
@@ -197,13 +199,13 @@ Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 
 # ENVIRONMENT #
 Restart=always
-WorkingDirectory=${working_directory}
+WorkingDirectory=$working_directory
 
 
 # LIFECYCLE #
-ExecStartPre=$(which docker-compose) ${maybe_podman_config} $containers_to_run down
-ExecStart=$(which docker-compose) ${maybe_podman_config} $containers_to_run up
-ExecStop=$(which docker-compose) ${maybe_podman_config} $containers_to_run down -t 5
+ExecStartPre=$command_to_run down
+ExecStart=$command_to_run pull && $command_to_run up
+ExecStop=$command_to_run down -t 5
 
 [Install]
 WantedBy=default.target" >"${output_to}"

@@ -20,7 +20,7 @@ echo "Deleting this project's container volumes..."
 # shellcheck disable=SC2086
 if ! rm -rf ./postgres; then
   echo "\033[96mPermission denied. Trying again as superuser...\033[39m"
-  if sudo rm -rf ./postgres; then
+  if pkexec rm -rf ./postgres; then
     echo "\033[92mok\033[39m"
   fi
 fi

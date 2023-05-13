@@ -17,7 +17,7 @@ echo "Fixing user permissions on container volumes..."
 # shellcheck disable=SC2086
 if ! chown -R $USER:$USER .; then
   echo "\033[96mPermission denied. Trying again as superuser...\033[39m"
-  if sudo chown -R $USER:$USER .; then
+  if pkexec chown -R $USER:$USER .; then
     echo "\033[92mok\033[39m"
   fi
 fi

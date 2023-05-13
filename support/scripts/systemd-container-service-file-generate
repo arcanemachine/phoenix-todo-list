@@ -209,7 +209,7 @@ WorkingDirectory=$working_directory
 
 # LIFECYCLE #
 ExecStartPre=$command_to_run down
-ExecStart=$command_to_run up
+ExecStart=$command_to_run up -d
 ExecStop=$command_to_run down -t 5
 
 [Install]

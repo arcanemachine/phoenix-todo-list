@@ -15,4 +15,5 @@ phoenix-todo-list.localhost
 
 tls /vagrant/cert.pem /vagrant/key.pem
 
+encode gzip
 reverse_proxy :4000

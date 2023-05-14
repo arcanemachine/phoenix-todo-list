@@ -1,3 +1,4 @@
 phoenix-todo-list.localhost
 
+encode gzip
 reverse_proxy :4000

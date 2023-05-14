@@ -5,4 +5,5 @@
 
 phoenix-todo-list.staging.nicholasmoen.com
 
+encode gzip
 reverse_proxy :4000

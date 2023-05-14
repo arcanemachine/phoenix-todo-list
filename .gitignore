@@ -1,6 +1,3 @@
-# container volumes
-/support/containers/volumes/*
-
 # elixir
 /.elixir_ls/
 

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+show_help() {
+  echo "This script restores a pg_dump backup. It must be run outside the container.
+
+The first positional argument must be the filename of the backup you want to restore.
+  - DO NOT pass in the full path. Just the filename.
+    - e.g. 'pg-dump-2022-11-01-08-57-30.dump'"
+}
+
+if [ "$1" = "--help" ]; then
+  show_help
+  exit
+elif [ "$1" = "" ]; then
+  show_help
+  exit 2
+fi
+
+podman exec -it phoenix-todo-list--postgres /var/lib/postgresql/backups/backup-restore-inside-container "$1"

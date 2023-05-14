@@ -15,12 +15,11 @@ project_root_directory="$(dirname "$0")/../../.."
 container_volumes_directory="$project_root_directory/support/containers/volumes"
 cd "$container_volumes_directory" || exit 1
 
-echo "Deleting this project's container volumes..."
-
-# shellcheck disable=SC2086
+echo "Resetting this project's Postgres container volume..."
 if ! rm -rf ./postgres; then
   echo "\033[96mPermission denied. Trying again as superuser...\033[39m"
-  if pkexec rm -rf ./postgres; then
+  if sudo rm -rf ./postgres; then
     echo "\033[92mok\033[39m"
   fi
 fi
+mkdir postgres

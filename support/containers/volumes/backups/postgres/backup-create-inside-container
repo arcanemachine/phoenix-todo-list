@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 show_help() {
   echo "This script creates a pg_dump backup. It must be run inside the container.
@@ -20,5 +20,5 @@ cd /var/lib/postgresql/backups/ || exit 1
 # make backup
 pg_dump -h localhost -p 5432 -U "$POSTGRES_USER" -F c -b -v -f "phoenix-todo-list--pg-dump-$(date +'%Y-%m-%d-%H-%M-%S').dump" "$POSTGRES_DB"
 
-# # remove all local backups older than 7 days
-# find *.dump -type f -mtime +7 | xargs rm -f
+# remove all local backups older than 2 days
+find *.dump -type f -mtime +7 | xargs rm -f

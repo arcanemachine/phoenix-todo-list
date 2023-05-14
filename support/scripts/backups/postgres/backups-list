@@ -1,0 +1,18 @@
+#!/bin/bash
+
+show_help() {
+  echo "Lists available backups inside the Postgres container directory '/var/lib/postgresql/backups/'."
+}
+
+if [ "$1" = "--help" ]; then
+  show_help
+  exit
+elif [ "$1" = "--docker" ]; then
+  container_program=docker
+else
+  container_program=podman
+fi
+
+printf "Listing available backups in Postgres container volume directory '/var/lib/postgresql/backups/'...\n\n"
+
+$container_program exec -it phoenix-todo-list--postgres sh -c 'cd /var/lib/postgresql/backups/ && ls *.dump'

@@ -5,7 +5,9 @@ show_help() {
 
 The first positional argument must be the filename of the backup you want to restore.
   - DO NOT pass in the full path. Just the filename.
-    - e.g. 'pg-dump-2022-11-01-08-57-30.dump'"
+    - e.g. 'pg-dump-2022-11-01-08-57-30.dump'
+
+To use Docker instead of Podman, pass '--docker' as the last positional argument."
 }
 
 if [ "$1" = "--help" ]; then
@@ -14,6 +16,10 @@ if [ "$1" = "--help" ]; then
 elif [ "$1" = "" ]; then
   show_help
   exit 2
+elif [ "$2" = "--docker" ]; then
+  container_program=docker
+else
+  container_program=podman
 fi
 
-podman exec -it phoenix-todo-list--postgres /var/lib/postgresql/backups/backup-restore-inside-container "$1"
+$container_program exec -it phoenix-todo-list--postgres /var/lib/postgresql/backups/backup-restore-inside-container "$1"

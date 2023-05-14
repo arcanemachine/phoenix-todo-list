@@ -6,12 +6,18 @@ show_help() {
 The backup file will be created in the same directory as this script. It will be created with a timestamp in the filename.
   - e.g. 'phoenix-todo-list--pg-dump-2022-11-05-06-23-37.dump'
 
-This script takes no arguments."
+To use Docker instead of Podman, pass '--docker' as the last positional argument."
 }
 
 if [ "$1" = "--help" ]; then
   show_help
   exit
+elif [ "$1" = "--docker" ]; then
+  container_program=docker
+else
+  container_program=podman
 fi
 
-podman exec -it phoenix-todo-list--postgres /var/lib/postgresql/backups/backup-create-inside-container
+echo "Creating backup in Postgres container volume directory '/var/lib/postgresql/backups/'..."
+
+$container_program exec -it phoenix-todo-list--postgres /var/lib/postgresql/backups/backup-create-inside-container

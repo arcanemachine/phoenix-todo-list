@@ -33,6 +33,9 @@ color_reset := "\\033[39m"
 # push the image to docker hub (docker-image-push)
 @push: docker-image-push
 
+# run all tests (test-elixir, test-js-unit, test-js-e2e)
+@test: test-elixir test-js-unit test-js-e2e
+
 # COMMANDS #
 @COMMANDS______________________:
   echo "This command doesn't do anything. It's just a separator for 'just --list -u'."

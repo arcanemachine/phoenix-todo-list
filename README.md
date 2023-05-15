@@ -133,6 +133,7 @@ Run the following commands from the project root directory:
     - (e.g. `client_encoding`, `default_transaction_isolation`, `timezone`, etc.)
   - Exit the Postgres prompt:
     - `\q`
+- Set up the Phoenix server:
   - Run migrations:
     - `MIX_ENV=prod ./_build/prod/rel/todo_list/bin/migrate`
   - Start the server:

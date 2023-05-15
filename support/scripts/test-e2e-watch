@@ -6,7 +6,7 @@ if [ "$1" = "--help" ]; then
 fi
 
 # navigate to project root directory
-cd "$(dirname "$0")/../../" || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 
 # watch the test files and re-run when any of the files are modified
 until ag -g "test/js/.*\.(js|ts)$" | entr -d ./support/scripts/test-e2e "$@"; do sleep 1; done

@@ -8,8 +8,8 @@ if [ "$1" = "--help" ]; then
   exit
 fi
 
-project_root=$(dirname "$0")/../../
-cd "$project_root" || exit 1
+project_root_directory="$(dirname "$0")/../.."
+cd "$project_root_directory" || exit 1
 
 if [ "$1" = "--envrc" ]; then
   # generate a .envrc template

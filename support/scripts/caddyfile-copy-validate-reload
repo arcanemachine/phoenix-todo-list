@@ -16,7 +16,7 @@ This script accepts a single positional argument that will specify the Caddyfile
 fi
 
 # navigate to project root directory
-cd "$(dirname "$0")/../../" || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 
 # use first positional argument to set caddyfile type
 if [ "$1" = "local" ] || [ "$1" = "vagrant" ] || [ "$1" = "staging" ] || [ "$1" = "prod" ]; then

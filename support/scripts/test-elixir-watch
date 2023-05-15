@@ -6,7 +6,7 @@ if [ "$1" = "--help" ]; then
 fi
 
 # navigate to project root directory
-cd "$(dirname "$0")/../../" || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 
 if [ "$1" = "-h" ]; then
   # show help info and exit

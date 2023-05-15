@@ -15,7 +15,7 @@ fi
 # export PRE_COMMIT=1
 
 # navigate to project root directory
-cd "$(dirname "$0")/../../" || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 
 if [ "$1" = "" ]; then
   echo "A flag must be specified when running this script. Use the '--help' flag for more info."

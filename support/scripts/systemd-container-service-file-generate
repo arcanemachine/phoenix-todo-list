@@ -50,7 +50,7 @@ After running this script:
 fi
 
 current_script_directory="$(dirname "$0")"
-project_root_directory="$(cd "${current_script_directory}/../../" && pwd)"
+project_root_directory="$(cd "${current_script_directory}/../.." && pwd)"
 working_directory="${project_root_directory}/support/containers"
 
 # parse args

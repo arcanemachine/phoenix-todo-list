@@ -21,6 +21,12 @@ color_reset := "\\033[39m"
 @SHORTCUTS_____________________:
   echo "This command doesn't do anything. It's just a separator for 'just --list -u'."
 
+# run a postgres container
+@postgres: docker-postgres
+
+# reset the postgres container volume
+@postgres-reset: docker-postgres-reset
+
 # start a dev server (db-setup + server-dev-start)
 @dev: db-setup server-dev-start
 
@@ -168,9 +174,14 @@ color_reset := "\\033[39m"
   podman push {{ image_name }} docker.io
 
 # run a postgres container
-@postgres:
+@docker-postgres:
   echo "Starting a Postgres container..."
   ./support/scripts/containers/compose--postgres up
+
+# reset the postgres container volume
+@docker-postgres-reset:
+  echo "Resetting the Postgres container volume..."
+  ./support/scripts/containers/container-volumes-reset ok
 
 # run pre-commit hooks (requires pre-commit.com)
 @pre-commit:

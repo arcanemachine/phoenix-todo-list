@@ -22,19 +22,22 @@ color_reset := "\\033[39m"
   echo "This command doesn't do anything. It's just a separator for 'just --list -u'."
 
 # start a dev server (db-setup + server-dev-start)
-@start: db-setup server-dev-start
+@dev: db-setup server-dev-start
+
+# run all tests (test-elixir, test-js-unit, test-js-e2e)
+@test: test-elixir test-js-unit test-js-e2e
 
 # create a release (elixir-release-create)
 @release: elixir-release-create
+
+# run migrations and start the prod server (server-prod-migrate server-dev-start)
+@prod: server-prod-migrate server-prod-start
 
 # create a release and build a docker image (docker-image-build)
 @build: docker-image-build
 
 # push the image to docker hub (docker-image-push)
 @push: docker-image-push
-
-# run all tests (test-elixir, test-js-unit, test-js-e2e)
-@test: test-elixir test-js-unit test-js-e2e
 
 # COMMANDS #
 @COMMANDS______________________:
@@ -182,13 +185,7 @@ color_reset := "\\033[39m"
 # run migrations on the prod server
 @server-prod-migrate:
   echo "Running migrations on the prod server..."
-  # ./_build/prod/rel/todo_list/bin/todo_list eval TodoList.Release.migrate
   ./_build/prod/rel/todo_list/bin/migrate
-
-# run migrations and start the prod server
-@server-prod-migrate-start:
-  echo "Running and starting the prod server..."
-  ./support/scripts/server-prod-migrate-start
 
 # start the prod server
 @server-prod-start:

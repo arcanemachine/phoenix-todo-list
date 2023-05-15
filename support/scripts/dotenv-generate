@@ -23,10 +23,21 @@ fi
 for last_arg; do true; done
 
 if [ -f "$env_path" ]; then
+
   if [ "$last_arg" = "--force" ]; then
+    # import existing dotenv
+    echo "Importing existing environment from '$env_path'"
+    set -o allexport
+    # shellcheck source=/dev/null
+    . "$env_path"
+    set +o allexport
+
+    # we will overwrite the dotenv file
     echo "Overwriting existing dotenv file: '$env_path'..."
+
   else
-    echo "Dotenv file already exists: '$env_path'."
+    # exit without writing the dotenv file
+    echo "Dotenv file already exists: '$env_path'"
     exit 1
   fi
 else

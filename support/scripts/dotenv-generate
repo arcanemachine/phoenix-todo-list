@@ -24,9 +24,9 @@ for last_arg; do true; done
 
 if [ -f "$env_path" ]; then
   if [ "$last_arg" = "--force" ]; then
-    echo "Overwriting existing file: '$env_path'..."
+    echo "Overwriting existing dotenv file: '$env_path'..."
   else
-    echo "File already exists: '$env_path'. Aborting..."
+    echo "Dotenv file already exists: '$env_path'."
     exit 1
   fi
 else

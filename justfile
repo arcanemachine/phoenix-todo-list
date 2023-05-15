@@ -213,7 +213,7 @@ color_reset := "\\033[39m"
 
 # run Elixir tests
 @test-elixir:
-  echo "Running Elixir tests in watch mode..."
+  echo "Running Elixir tests..."
   ./support/scripts/test-elixir
 
 # run Elixir tests in watch mode

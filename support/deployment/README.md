@@ -84,6 +84,15 @@ To deploy with Docker/Podman containers, see `support/containers/README.md`.
 
 Any non-Traefik deployment strategy can be used with Caddy. To set up Caddy, see the [section below](#deploying-with-caddy)
 
+### Pulling the Newest Image During an Update
+
+You may need to pull the latest image when doing an update:
+
+- Log in to your server.
+- Pull the correct image for your CPU architecture:
+  - `x86_64`: `podman image pull docker.io/arcanemachine/phoenix-todo-list:x86_64`
+  - `aarch64`: `podman image pull docker.io/arcanemachine/phoenix-todo-list:aarch64`
+
 ## Deploying With Caddy
 
 To deploy with Caddy, complete the following steps:

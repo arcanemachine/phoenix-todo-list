@@ -1,4 +1,14 @@
-phoenix-todo-list.localhost
+phoenix-todo-list.localhost {
+	encode gzip
+	reverse_proxy :4000
+}
 
-encode gzip
-reverse_proxy :4000
+dev.phoenix-todo-list.localhost {
+	encode gzip
+	reverse_proxy :4001
+}
+
+test.phoenix-todo-list.localhost {
+	encode gzip
+	reverse_proxy :4002
+}

@@ -198,3 +198,13 @@ After running the `systemd-container-service-file-generate` script:
   - sudo loginctl enable-linger $USER
 - If you are having issues with the service, you can examine the logs:
   - journalctl --user -xe --unit phoenix-todo-list
+
+## Configuring the Email Provider
+
+By default, this project does not support live email. However, this can be easily configured.
+
+- This project is configured for an easy setup using Amazon SES as the email provider.
+- To configure this provider, modify the generated `.env` file in the project root directory.
+  - You need to update these 3 environment variables: `AWS_REGION`, `AWS_ACCESS_KEY`, and `AWS_SECRET`
+- If the `AWS_SECRET` environment variable is empty, the config in `config/runtime.exs` will not set up any email provider.
+  - This provides a failsafe method to opt into an easy-to-use email provider, while not breaking the workflow for any user who doesn't want to enable live email features.

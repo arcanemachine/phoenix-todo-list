@@ -55,10 +55,10 @@ ${generate_envrc:+"export "}POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
 ${generate_envrc:+"export "}POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
 ${generate_envrc:+"export "}DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 
-# # email
-# ${generate_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
-# ${generate_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
-# ${generate_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET:-your_aws_secret}\"
+# email
+${generate_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
+${generate_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
+${generate_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET}\"
 
 # docker
 ${generate_envrc:+"export "}IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"

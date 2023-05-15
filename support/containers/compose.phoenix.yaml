@@ -15,3 +15,8 @@ services:
       # POSTGRES_DB: "${POSTGRES_DB:?}"
       # POSTGRES_USER: "${POSTGRES_USER:?}"
       # POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?}"
+
+      # email
+      AWS_REGION: "${AWS_REGION:?}"
+      AWS_ACCESS_KEY: "${AWS_ACCESS_KEY:?}"
+      AWS_SECRET: "${AWS_SECRET:?}"

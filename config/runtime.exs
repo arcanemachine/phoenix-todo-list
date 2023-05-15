@@ -113,4 +113,14 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+
+  # send live emails if the environment is configured to do so
+  if System.get_env("AWS_SECRET", "") != "" do
+    # use live email in production
+    config :todo_list, TodoList.Mailer,
+      adapter: Swoosh.Adapters.AmazonSES,
+      region: System.get_env("AWS_REGION"),
+      access_key: System.get_env("AWS_ACCESS_KEY"),
+      secret: System.get_env("AWS_SECRET")
+  end
 end

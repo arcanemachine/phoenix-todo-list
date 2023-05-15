@@ -31,12 +31,12 @@ Features:
 
 ### Working in a `dev` Environment
 
-Before you work in a `dev` environment, ensure that your environment variables are set correctly.
+Before you work in a `dev` environment, ensure that your environment variables are set correctly:
 
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
   - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
-- Run `mix deps.get` to fetch the dependencies
+- Run `mix deps.get` to fetch the dependencies.
 - Setup Postgres:
   - For easy Postgres setup, run `just postgres`. (requires [`just`](https://github.com/casey/just) task runner)
 - Once the Postgres server is running, set up the `dev` environment:

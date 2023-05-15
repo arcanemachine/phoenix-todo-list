@@ -33,6 +33,10 @@ defmodule TodoListWeb.UserUpdateEmailLive do
 
   def render(assigns) do
     ~H"""
+    <div class="mb-8 text-center">
+      Enter your new email address so we can send a confirmation email to your inbox.
+    </div>
+
     <.simple_form
       :let={f}
       id="email_form"
@@ -40,7 +44,7 @@ defmodule TodoListWeb.UserUpdateEmailLive do
       phx-submit="update_email"
       phx-change="validate_email"
     >
-      <.input field={{f, :email}} type="email" label="Email" required />
+      <.input field={{f, :email}} type="email" label="New Email Address" required />
 
       <.input
         field={{f, :current_password}}

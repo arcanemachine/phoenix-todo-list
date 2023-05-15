@@ -200,7 +200,7 @@ A basic `compose.yaml` file can be found in the project root directory. It expos
 To run this barebones container, run the following commands from the project root directory:
 
 - First, ensure that you have a Postgres server running locally.
-- [Build the Docker image](#building-a-release-as-a-docker-container).
+- [Build the Docker image](#building-a-release-as-a-docker-image).
 - Run the Compose file:
   - Docker: `docker-compose up`
   - Podman: `podman-compose up`

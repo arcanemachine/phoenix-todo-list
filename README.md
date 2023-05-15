@@ -42,7 +42,7 @@ Before you work in a `dev` environment, ensure that your environment variables a
 - Once the Postgres server is running, set up the `dev` environment:
   - `mix ecto.setup`
 - Use any of these commands to start a dev server:
-  - `just start` - Uses [`just`](https://github.com/casey/just) task runner to start a dev server
+  - `just dev` - Uses [`just`](https://github.com/casey/just) task runner to start a dev server
   - `mix phx.server` - The regular method of starting a dev server
   - `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
 - Your server should now be accessible on `localhost:4001`.

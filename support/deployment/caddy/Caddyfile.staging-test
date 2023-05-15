@@ -1,0 +1,9 @@
+# use Let's Encrypt test certificates to avoid cert renewal rate limits
+{
+	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+phoenix-todo-list.staging.nicholasmoen.com
+
+encode gzip
+reverse_proxy :4000

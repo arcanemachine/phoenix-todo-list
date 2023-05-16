@@ -184,6 +184,10 @@ RequiresMountsFor=/run/user/$(id -u)/containers
 Environment=COMPOSE_DOCKER_CLI_BUILD=0
 Environment=IMAGE_TAG=\"$IMAGE_TAG\"
 
+# fix container timeout issues caused by slow CPU and/or RAM
+# Environment=DOCKER_CLIENT_TIMEOUT=180
+# Environment=COMPOSE_HTTP_TIMEOUT=180
+
 # phoenix
 Environment=PHX_HOST=\"$PHX_HOST\"
 Environment=PORT=\"$PORT\"

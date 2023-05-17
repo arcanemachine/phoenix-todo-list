@@ -2,14 +2,29 @@
 
 This project uses [`Playwright`](https://playwright.dev/) to manage its E2E (end-to-end) tests.
 
+## Initial Setup
+
+NOTE: The commands in this section should be run from the project root directory.
+
+Before you can run the tests, you must ensure that the npm dependencies have been installed:
+
+- Ensure npm is installed. (I recommend using `asdf` to install `npm` if necessary.)
+- Navigate to the Javascript root directory for this projects: `cd assets`
+- Install the dependencies: `npm install --save-dev`
+
 ## Running the Tests
 
-There are a few ways to run this project's E2E tests:
+To run this project's E2E tests:
 
-- Navigate to the directory that contains the Javascript-based testing projects (located at `tests/js/` as of the current writing) and run `npm run e2e`.
-- You can also use the convenience scripts or the `just` commands located in the `/scripts/` folder:
-  - To run the tests once, run `/scripts/test-e2e` or `just test-e2e`
-  - To run the tests in watch mode, run `/scripts/test-e2e-watch` or `just test-e2e-watch`
+- Run once:
+  - Navigate to the directory that contains the Javascript-based testing projects and run the tests:
+    - `cd assets && npm run test-e2e`
+  - Or, use one of the alternative methods:
+    - `just test-e2e`
+    - Or, `support/scripts/test-e2e`
+- Run in watch mode:
+  - `just test-e2e-watch`
+  - Or, `support/scripts/test-e2e-watch`
 
 ### Test Runner Options
 

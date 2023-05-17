@@ -31,7 +31,7 @@ color_reset := "\\033[39m"
 @dev: db-setup server-dev-start
 
 # run all tests (test-elixir, test-js-unit, test-js-e2e)
-@test: test-elixir test-js-unit test-js-e2e
+@test: test-elixir test-js test-e2e
 
 # create a release (elixir-release-create)
 @release: elixir-release-create
@@ -217,34 +217,34 @@ color_reset := "\\033[39m"
   iex -S mix phx.server
 
 # run all tests
-@test-all: test-elixir test-js-unit test-js-e2e
+@test-all: test-e2e test-elixir test-js
+
+# run end-to-end (E2E) tests with Playwright
+@test-e2e args='':
+  echo "Running E2E tests..."
+  ./support/scripts/test-e2e {{ args }}
+
+# run end-to-end (E2E) tests with Playwright (in watch mode)
+@test-e2e-watch args='':
+  echo "Running E2E tests in watch mode..."
+  ./support/scripts/test-e2e-watch {{ args }}
 
 # run Elixir tests
 @test-elixir:
   echo "Running Elixir tests..."
   ./support/scripts/test-elixir
 
-# run Elixir tests in watch mode
+# run Elixir tests (in watch mode)
 @test-elixir-watch:
   echo "Running Elixir tests in watch mode..."
   ./support/scripts/test-elixir-watch
 
-# run Javascript end-to-end (E2E) tests
-@test-js-e2e args='':
-  echo "Running E2E tests..."
-  ./support/scripts/test-e2e {{ args }}
-
-# run Javascript end-to-end (E2E) tests in watch mode
-@test-js-e2e-watch args='':
-  echo "Running E2E tests in watch mode..."
-  ./support/scripts/test-e2e-watch {{ args }}
-
-# run Javascript unit tests
-@test-js-unit:
+# run Javascript unit tests with Vitest
+@test-js:
   echo "Running Javascript unit tests..."
   cd test/js/ && npm run unit
 
-# run Javascript unit tests in watch mode
-@test-js-unit-watch:
+# run Javascript unit tests with Vitest (in watch mode)
+@test-js-watch:
   echo "Running Javascript unit tests in watch mode..."
   cd test/js/ && npm run unit-watch

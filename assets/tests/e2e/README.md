@@ -19,11 +19,11 @@ There are a few ways to run this project's E2E tests:
   - `support/scripts/test-e2e path/to/your/test.spec.ts`
 - To run a test by its title:
   - `npx playwright test -g "your test title"`
-  - `just test-e2e -g "your test title"`
+  - `just test-e2e '-g "your test title"'`
   - `support/scripts/test-e2e -g "your test title"`
 - To run a test by its tag (or any other keyword):
   - `npx playwright test --grep @your-tag`
-  - `just test-e2e --grep @your-tag`
+  - `just test-e2e "--grep @your-tag"`
   - `support/scripts/test-e2e --grep @your-tag`
 - To run specific tests:
   - `npx playwright test path/to/your/test.spec.ts`

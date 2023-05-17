@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "test-e2e": "playwright test",
+    "test-unit": "vitest run unit/",
+    "test-unit-watch": "vitest watch unit/",
+    "test-unit-coverage": "vitest run --coverage"
+  },
   "dependencies": {
     "@alpinejs/collapse": "^3.12.1",
     "@alpinejs/focus": "^3.12.1",
@@ -9,9 +15,11 @@
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.33.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/alpinejs": "^3.7.1",
     "prettier": "2.8.8",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.0"
   }
 }

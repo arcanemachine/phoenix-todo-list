@@ -5,8 +5,8 @@ if [ "$1" = "--help" ]; then
   exit 0
 fi
 
-# navigate to JS test root directory
-cd "$(dirname "$0")/../../test/js" || exit 1
+# navigate to the project's npm root directory
+cd "$(dirname "$0")/../../assets" || exit 1
 
 # run the tests
-npm run unit-watch
+npm run test-unit

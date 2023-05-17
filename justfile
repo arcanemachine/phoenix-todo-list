@@ -242,9 +242,9 @@ color_reset := "\\033[39m"
 # run Javascript unit tests with Vitest
 @test-js:
   echo "Running Javascript unit tests..."
-  cd test/js/ && npm run unit
+  ./support/scripts/test-js
 
 # run Javascript unit tests with Vitest (in watch mode)
 @test-js-watch:
   echo "Running Javascript unit tests in watch mode..."
-  cd test/js/ && npm run unit-watch
+  ./support/scripts/test-js-watch

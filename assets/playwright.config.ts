@@ -13,11 +13,11 @@ export default defineConfig({
   // forbidOnly: !!process.env.CI || !!process.env.PRE_COMMIT,
   // fail if `.only()` in tests during CI
   forbidOnly: !!process.env.CI,
-  globalSetup: "e2e/support/setup/global.ts",
-  // globalTeardown: "e2e/support/teardown.ts",
+  globalSetup: "tests/e2e/support/setup/global.ts",
+  // globalTeardown: "tests/e2e/support/teardown.ts",
   retries: process.env.CI ? 2 : 0, // retry on CI only
   reporter: "line",
-  testDir: "./e2e",
+  testDir: "./tests/e2e",
   timeout: 1000 * 60, // timeout for a single test
   use: {
     actionTimeout: 0, // timeout for each action (0 for infinite timeout)
@@ -30,7 +30,7 @@ export default defineConfig({
   projects: [
     // {
     //   name: "setup-hello",
-    //   testMatch: "e2e/support/setup/hello.ts",
+    //   testMatch: "tests/e2e/support/setup/hello.ts",
     // },
     {
       name: "chromium",
@@ -99,6 +99,6 @@ export default defineConfig({
       MIX_ENV: "test",
     },
     url: baseUrl,
-    cwd: "../../",
+    cwd: "../",
   },
 });

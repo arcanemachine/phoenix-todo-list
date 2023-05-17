@@ -9,7 +9,7 @@
     "baseUrl": "./",
     "paths": {
       "assets/*": ["./*"],
-      "js/*": ["./js/*"]
+      "test/*": ["./tests/*"]
     }
   },
   "$schema": "https://json.schemastore.org/tsconfig",

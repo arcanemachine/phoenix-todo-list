@@ -29,8 +29,8 @@ export default defineConfig({
 
   projects: [
     // {
-    //   name: "setup-hello",
-    //   testMatch: "tests/e2e/support/setup/hello.ts",
+    //   name: "setup-example",
+    //   testMatch: "tests/e2e/support/setup/example.ts",
     // },
     {
       name: "chromium",

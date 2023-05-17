@@ -9,15 +9,13 @@ export default defineConfig({
     timeout: 1000 * 10, // timeout for a single `expect()` condition
   },
   fullyParallel: true, // run tests in parallel
-  // // fail if `.only()` in tests during CI run or during git `pre-commit` hook
-  // forbidOnly: !!process.env.CI || !!process.env.PRE_COMMIT,
-  // fail if `.only()` in tests during CI
-  forbidOnly: !!process.env.CI,
+  forbidOnly: !!process.env.CI, // fail if `.only()` in tests during CI
   globalSetup: "tests/e2e/support/setup/global.ts",
   // globalTeardown: "tests/e2e/support/teardown.ts",
+  outputDir: "tests/e2e/test-results.ignore",
   retries: process.env.CI ? 2 : 0, // retry on CI only
   reporter: "line",
-  testDir: "./tests/e2e",
+  testDir: "tests/e2e",
   timeout: 1000 * 60, // timeout for a single test
   use: {
     actionTimeout: 0, // timeout for each action (0 for infinite timeout)
@@ -87,9 +85,6 @@ export default defineConfig({
     //   },
     // },
   ],
-
-  /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
   webServer: {

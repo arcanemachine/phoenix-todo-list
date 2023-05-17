@@ -85,17 +85,17 @@ Then, navigate back to the project root directory and continue reading for instr
 
 Run the Javascript-based unit tests using any of these commands:
 
-- `support/scripts/test-unit` - A convenience script for running the Vitest unit tests.
-- `support/scripts/test-unit-watch` - A convenience script for running the Vitest unit tests in watch mode.
+- `support/scripts/test-js` - A convenience script for running the Vitest unit tests.
+- `support/scripts/test-js-watch` - A convenience script for running the Vitest unit tests in watch mode.
 - `cd test/js/ && npx playwright test` - Navigate to the JS test root directory and run the JS E2E tests directly.
 
-##### JS End-To-End Tests (Playwright)
+##### End-To-End Tests (Playwright)
 
 Run the Javascript-based end-to-end (E2E) Playwright tests using any of these commands:
 
 - `support/scripts/test-e2e` - A convenience script for running the Playwright E2E tests.
 - `support/scripts/test-e2e-watch` - A convenience script for running the Playwright E2E tests in watch mode.
-- `cd test/js/ && npm run unit` - Navigate to the JS test root directory and run the JS unit tests directly.
+- `cd test/js/ && npm run e2e` - Navigate to the JS test root directory and run the JS unit tests directly.
 
 ### Releases
 

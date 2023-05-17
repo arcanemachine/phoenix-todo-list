@@ -5,3 +5,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.phoenix-todo-list.rule=Host(`${PHX_HOST:?}`)"
       - "traefik.http.routers.phoenix-todo-list.entrypoints=web"
+
+      # enable gzip compression
+      - "traefik.http.middlewares.phoenix-todo-list--compress.compress=true"
+      - "traefik.http.routers.phoenix-todo-list.middlewares=phoenix-todo-list--compress"

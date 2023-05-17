@@ -7,3 +7,7 @@ services:
       - "traefik.http.routers.phoenix-todo-list.middlewares=redirect-www-to-non-www@file"
       - "traefik.http.routers.phoenix-todo-list.entrypoints=websecure"
       - "traefik.http.routers.phoenix-todo-list.tls.certresolver=letsencrypt"
+
+      # enable gzip compression
+      - "traefik.http.middlewares.phoenix-todo-list--compress.compress=true"
+      - "traefik.http.routers.phoenix-todo-list.middlewares=phoenix-todo-list--compress"

@@ -11,6 +11,37 @@ There are a few ways to run this project's E2E tests:
   - To run the tests once, run `/scripts/test-e2e` or `just test-e2e`
   - To run the tests in watch mode, run `/scripts/test-e2e-watch` or `just test-e2e-watch`
 
+### Test Runner Options
+
+- To run specific test module(s):
+  - `npx playwright test path/to/your/test.spec.ts`
+  - `just test-e2e path/to/your/test.spec.ts`
+  - `support/scripts/test-e2e path/to/your/test.spec.ts`
+- To run a test by its title:
+  - `npx playwright test -g "your test title"`
+  - `just test-e2e -g "your test title"`
+  - `support/scripts/test-e2e -g "your test title"`
+- To run a test by its tag (or any other keyword):
+  - `npx playwright test --grep @your-tag`
+  - `just test-e2e --grep @your-tag`
+  - `support/scripts/test-e2e --grep @your-tag`
+- To run specific tests:
+  - `npx playwright test path/to/your/test.spec.ts`
+  - `just test-e2e path/to/your/test.spec.ts`
+  - `support/scripts/test-e2e path/to/your/test.spec.ts`
+- Run tests with a specific browser:
+  - `playwright test --project=chromium`
+  - `just test-e2e --project=chromium`
+  - `support/scripts/test-e2e --project=chromium`
+- Run tests in headed mode (i.e. show the browser window):
+  - `playwright test --headed`
+  - `just test-e2e --headed`
+  - `support/scripts/test-e2e --headed`
+- Run tests a fancy UI:
+  - `playwright test --ui`
+  - `just test-e2e --ui`
+  - `support/scripts/test-e2e --ui`
+
 ### Coordinating With the Web Server
 
 When running the E2E tests, a web server is automatically started using the parameters in `../playwright.config.ts`, in the `webServer` key of the configuration object.

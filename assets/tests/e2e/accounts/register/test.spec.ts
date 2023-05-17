@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
 
-import { emailGenerateRandom } from "test/e2e/support/helpers";
+import { emailGenerateRandom } from "tests/e2e/support/helpers";
 import {
   emailInvalid,
   errors,
   passwordValid,
   testUserEmail,
-} from "test/support/constants";
+} from "tests/support/constants";
 import { AccountsRegisterPage } from "./page";
 
 test.describe("Account register page", () => {

@@ -1,7 +1,7 @@
 import { BrowserContext, expect } from "@playwright/test";
 import { randomUUID } from "crypto";
 
-import { authenticatedTest, genericTests } from "test/e2e/support/fixtures";
+import { authenticatedTest, genericTests } from "tests/e2e/support/fixtures";
 import { TodosLivePage } from "./page";
 
 // generic tests

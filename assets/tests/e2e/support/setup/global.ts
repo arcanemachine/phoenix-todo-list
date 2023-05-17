@@ -1,10 +1,10 @@
 import fs from "fs";
 import { FullConfig, chromium } from "@playwright/test";
 
-import { AccountsRegisterPage } from "test/e2e/accounts/register/page";
-import { storageState } from "test/e2e/support/constants";
-import { testUserEmail, passwordValid } from "test/support/constants";
-import { textColorize } from "test/support/helpers";
+import { AccountsRegisterPage } from "tests/e2e/accounts/register/page";
+import { storageState } from "tests/e2e/support/constants";
+import { testUserEmail, passwordValid } from "tests/support/constants";
+import { textColorize } from "tests/support/helpers";
 
 // expose shared state so that setup data can be accessed in teardown logic
 export const state: { baseUrl?: string; sqlSandboxUserAgent?: string } = {};

@@ -4,10 +4,10 @@
  * test fixtures.
  */
 import { expect } from "@playwright/test";
-import { AccountsLoginPage } from "test/e2e/accounts/login/page";
-import { passwordValid, testUserEmail } from "test/support/constants";
+import { AccountsLoginPage } from "tests/e2e/accounts/login/page";
+import { passwordValid, testUserEmail } from "tests/support/constants";
 
-import { unauthenticatedTest } from "test/e2e/support/fixtures";
+import { unauthenticatedTest } from "tests/e2e/support/fixtures";
 import { AccountsLogoutPage } from "./page";
 
 unauthenticatedTest.describe("[Unauthenticated] Account logout page", () => {

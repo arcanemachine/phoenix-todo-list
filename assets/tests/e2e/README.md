@@ -6,10 +6,10 @@ This project uses [`Playwright`](https://playwright.dev/) to manage its E2E (end
 
 There are a few ways to run this project's E2E tests:
 
-- Navigate to the directory that contains the Javascript-based testing projects (located at `/test/js/` as of the current writing) and run `npm run e2e`.
-- You can also use the convenience scripts located in the `/scripts/` folder:
-  - To run the tests once, run `/scripts/test-e2e`
-  - To run the tests in watch mode, run `/scripts/test-e2e-watch`
+- Navigate to the directory that contains the Javascript-based testing projects (located at `tests/js/` as of the current writing) and run `npm run e2e`.
+- You can also use the convenience scripts or the `just` commands located in the `/scripts/` folder:
+  - To run the tests once, run `/scripts/test-e2e` or `just test-e2e`
+  - To run the tests in watch mode, run `/scripts/test-e2e-watch` or `just test-e2e-watch`
 
 ### Coordinating With the Web Server
 

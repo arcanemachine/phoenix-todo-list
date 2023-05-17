@@ -4,7 +4,7 @@ import {
   passwordInvalid,
   passwordValid,
   testUserEmail,
-} from "test/support/constants";
+} from "tests/support/constants";
 import { AccountsLoginPage } from "./page";
 
 test.describe("Account login page", () => {

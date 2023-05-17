@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 
-import { BasePage } from "test/e2e/base/page";
-import { urls } from "test/support/constants";
+import { BasePage } from "tests/e2e/base/page";
+import { urls } from "tests/support/constants";
 
 export class AccountsRegisterPage extends BasePage {
   readonly page: Page;

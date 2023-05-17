@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import { Page, expect, test } from "@playwright/test";
 
-import { AccountsRegisterPage } from "test/e2e/accounts/register/page";
-import { emailGenerateRandom } from "test/e2e/support/helpers";
-import { passwordValid, urls } from "test/support/constants";
+import { AccountsRegisterPage } from "tests/e2e/accounts/register/page";
+import { emailGenerateRandom } from "tests/e2e/support/helpers";
+import { passwordValid, urls } from "tests/support/constants";
 
 const baseTest = test.extend({}); // shared logic common to all tests
 

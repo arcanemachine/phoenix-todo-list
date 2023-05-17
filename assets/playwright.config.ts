@@ -1,8 +1,8 @@
 import { defineConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
-import { baseUrl } from "test/support/constants";
-import { storageState } from "test/e2e/support/constants";
+import { baseUrl } from "tests/support/constants";
+import { storageState } from "tests/e2e/support/constants";
 
 export default defineConfig({
   expect: {

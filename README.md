@@ -262,7 +262,6 @@ There are several types of dependencies throughout this project that should be k
   - `config/config.exs`: `esbuild`, `tailwind`
 - Javascript (npm):
   - `assets/js/`
-  - `test/js/`
 - Containers (Docker/Podman):
   - `support/containers/compose.phoenix.yaml`
   - `support/containers/compose.postgres.yaml`

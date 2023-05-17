@@ -1,5 +1,7 @@
 import Alpine from "alpinejs";
 
+import { AlpineStore } from "../alpine";
+
 const helpers = {
   alpineExpressionIsObject(expression: string): boolean {
     /** If expression can be evaluated as an object, return true. */
@@ -104,7 +106,8 @@ const helpers = {
 
   pushEventHandleFailed() {
     // show error toast message
-    Alpine.store("toasts").showError("Error: Could not contact the server");
+    const alpineStoreToasts = Alpine.store("toasts") as AlpineStore;
+    alpineStoreToasts.showError("Error: Could not contact the server");
   },
 };
 

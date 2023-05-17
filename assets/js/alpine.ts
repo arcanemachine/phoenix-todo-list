@@ -5,9 +5,9 @@ import {
 } from "./base/alpine";
 import { data as todosData } from "js/todos/alpine";
 
-// convert alpine component namespace to type and export it
-import type { AlpineComponent as AlpineComponentNS } from "alpinejs";
-export type AlpineComponent = typeof AlpineComponentNS;
+// export generic alpine types
+export type AlpineComponent = any;
+export type AlpineStore = any;
 
 export const data = [...baseData, ...todosData];
 export const directives = [...baseDirectives];

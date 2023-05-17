@@ -1,10 +1,13 @@
 import Alpine from "alpinejs";
 
+import { AlpineStore } from "../alpine";
+
 const Hooks = {
   TodosLive: {
     // data
     get component() {
-      return Alpine.store("components").todosLive;
+      const alpineStoreComponents = Alpine.store("components") as AlpineStore;
+      return alpineStoreComponents.todosLive;
     },
 
     // lifecycle

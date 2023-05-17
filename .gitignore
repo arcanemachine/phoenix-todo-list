@@ -4,11 +4,6 @@
 # dotenv
 .env
 
-# testing
-test/js/test-results/
-test/js/playwright-report/
-test/js/playwright/.cache/
-
 # vim stuff
 *.sw?
 Session*.vim

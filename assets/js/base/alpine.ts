@@ -1,7 +1,8 @@
+import Alpine from "alpinejs";
 import Toastify from "toastify-js";
 import tippy from "tippy.js";
 
-import type { AlpineComponent } from "js/alpine";
+import type { AlpineComponent, AlpineStore } from "js/alpine";
 import constants from "js/constants";
 import helpers from "js/helpers";
 import { data as todosData } from "js/todos/alpine";
@@ -82,7 +83,6 @@ function darkModeSelect() {
     },
 
     handleChange() {
-      // FIXME: this is a harmless workaround to a tsserver warning
       const choice = this.choice as unknown as string;
 
       if (choice === "Auto") {
@@ -156,6 +156,7 @@ export const directives = [
   },
 ];
 
+/* helpers */
 /* stores */
 // animations
 const animations = {
@@ -424,6 +425,17 @@ const components = {
   },
 };
 
+// events
+export const events = {
+  pushEventHandleFailed() {
+    // show error toast message
+    (Alpine.store("toasts") as AlpineStore).showError(
+      "Error: Could not contact the server"
+    );
+  },
+} as AlpineComponent;
+
+// globals
 const globals = { userIsAuthenticated: undefined };
 
 // toasts
@@ -629,6 +641,10 @@ export const stores: Array<object> = [
   {
     name: "constants",
     store: constants,
+  },
+  {
+    name: "events",
+    store: events,
   },
   {
     name: "globals",

@@ -171,7 +171,7 @@ function todosLive() {
             todoElt.dispatchEvent(new CustomEvent("show"));
 
             // run generic pushEvent failure logic
-            this.$store.helpers.base.pushEventHandleFailed();
+            this.$store.events.pushEventHandleFailed();
           }
         });
     },

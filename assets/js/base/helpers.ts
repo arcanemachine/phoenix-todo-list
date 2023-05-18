@@ -1,7 +1,3 @@
-import Alpine from "alpinejs";
-
-import { AlpineStore } from "../alpine";
-
 const helpers = {
   alpineExpressionIsObject(expression: string): boolean {
     /** If expression can be evaluated as an object, return true. */
@@ -122,12 +118,6 @@ const helpers = {
      */
     return baseWord + (count === 1 ? nonPluralSuffix : pluralSuffix);
   },
-
-  pushEventHandleFailed() {
-    // show error toast message
-    const alpineStoreToasts = Alpine.store("toasts") as AlpineStore;
-    alpineStoreToasts.showError("Error: Could not contact the server");
-  },
 };
 
 export const alpineExpressionIsObject = helpers.alpineExpressionIsObject;
@@ -137,6 +127,5 @@ export const darkModeSavedPreferenceExists =
 export const debug = helpers.debug;
 export const delayFor = helpers.delayFor;
 export const pluralize = helpers.pluralize;
-export const pushEventHandleFailed = helpers.pushEventHandleFailed;
 
 export default helpers;

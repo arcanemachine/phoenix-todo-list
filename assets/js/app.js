@@ -60,10 +60,6 @@ let csrfToken = document
 let liveSocket = new LiveSocket("/live", Socket, {
   dom: {
     onBeforeElUpdated(from, to) {
-      // if (from._x_dataStack) {
-      //   Alpine.clone(from, to);
-      // }
-
       const liveSocketInitializeAlpine = (from, to) => {
         if (!Alpine || !from || !to) return;
 

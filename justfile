@@ -33,11 +33,11 @@ color_reset := "\\033[39m"
 # run all tests (test-elixir, test-js-unit, test-js-e2e)
 @test: test-elixir test-js test-e2e
 
-# create a release (elixir-release-create)
-@release: elixir-release-create
-
 # run migrations and start the prod server (server-prod-migrate server-dev-start)
 @prod: server-prod-migrate server-prod-start
+
+# create a release (elixir-release-create)
+@release: elixir-release-create
 
 # create a release and build a docker image (docker-image-build)
 @build: docker-image-build

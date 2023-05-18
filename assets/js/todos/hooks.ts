@@ -6,7 +6,7 @@ const Hooks = {
   TodosLive: {
     // data
     get component() {
-      const alpineStoreComponents = Alpine.store("components") as AlpineStore;
+      const alpineStoreComponents: AlpineStore = Alpine.store("components");
       return alpineStoreComponents.todosLive;
     },
 

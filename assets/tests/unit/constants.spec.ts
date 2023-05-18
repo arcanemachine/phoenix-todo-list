@@ -1,7 +1,9 @@
-import { expect, test } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import constants from "js/constants";
 
-test("constants", () => {
-  expect(constants.transitionDurationDefault).toBe(500);
+describe("constants", () => {
+  it("has expected values", () => {
+    expect(constants.transitionDurationDefault).toBe(500);
+  });
 });

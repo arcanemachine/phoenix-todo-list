@@ -7,8 +7,9 @@ import { data as todosData } from "js/todos/alpine";
 
 // export generic alpine types
 export type AlpineComponent = any;
+export type AlpineInstance = any;
 export type AlpineStore = any;
 
-export const data = [...baseData, ...todosData];
-export const directives = [...baseDirectives];
-export const stores: Array<object> = [...baseStores];
+export const data: Array<any> = [...baseData, ...todosData];
+export const directives: Array<any> = [...baseDirectives];
+export const stores: Array<Record<string, any>> = [...baseStores];

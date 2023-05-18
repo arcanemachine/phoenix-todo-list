@@ -12,10 +12,7 @@ const helpers = {
   get darkModeEnabled(): boolean {
     if (this.darkModeSavedPreferenceExists) {
       // use saved preference
-      const savedDarkModePreference = JSON.parse(
-        localStorage.getItem("darkModeEnabled") || "0"
-      );
-      return Boolean(savedDarkModePreference);
+      return localStorage.getItem("darkModeEnabled") === "1" || false;
     } else {
       // use browser preference
       const browserDarkModePreference = window.matchMedia(
@@ -27,7 +24,13 @@ const helpers = {
   },
 
   get darkModeSavedPreferenceExists(): boolean {
-    return localStorage.getItem("darkModeEnabled") !== null;
+    const lsDarkModePreference = localStorage.getItem("darkModeEnabled");
+
+    if (["0", "1"].includes(String(lsDarkModePreference))) {
+      return true;
+    } else if (lsDarkModePreference === null) {
+      return false;
+    } else throw "localStorage.darkModeEnabled must be one of: '0', '1'";
   },
 
   debug: {
@@ -100,8 +103,24 @@ const helpers = {
     });
   },
 
-  pluralize(val: number, nonPluralResult: "", pluralResult = "s"): string {
-    return val === 1 ? pluralResult : nonPluralResult;
+  pluralize(
+    count: number,
+    baseWord: string,
+    nonPluralSuffix = "",
+    pluralSuffix = "s"
+  ): string {
+    /**
+     * Given a word and the number of instances (count), return the result
+     * in a non-plural or plural format.
+     * Examples:
+     *   - pluralize("dog", 1) -> "dog"
+     *   - pluralize("dog", 2) -> "dogs"
+     *   - pluralize("bench", 1) -> "bench"
+     *   - pluralize("bench", 2, "", "es") -> "benches"
+     *   - pluralize("cherr", 1, "y", "ies") -> "cherry"
+     *   - pluralize("cherr", 2, "y", "es") -> "cherries"
+     */
+    return baseWord + (count === 1 ? nonPluralSuffix : pluralSuffix);
   },
 
   pushEventHandleFailed() {

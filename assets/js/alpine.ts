@@ -2,7 +2,7 @@ import {
   data as baseData,
   directives as baseDirectives,
   stores as baseStores,
-} from "./base/alpine";
+} from "js/base/alpine";
 import { data as todosData } from "js/todos/alpine";
 
 // export generic alpine types

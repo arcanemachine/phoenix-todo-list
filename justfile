@@ -162,6 +162,7 @@ color_reset := "\\033[39m"
 @openapi-schema-generate format='json':
   echo "Generating '{{ format }}' schema..."
   mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec
+  mv openapi.{{ format }} priv/static/static
 
 # build a podman image
 @podman-image-build image_name=image_name:

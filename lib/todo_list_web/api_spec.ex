@@ -2,7 +2,7 @@ defmodule TodoListWeb.ApiSpec do
   @moduledoc "Define the OpenAPI specification generator."
 
   alias OpenApiSpex.{Components, Info, OpenApi, Paths, SecurityScheme, Server}
-  alias TodoListWeb.{Endpoint, Router}
+  alias TodoListWeb.{Router}
   @behaviour OpenApi
 
   @impl OpenApi
@@ -12,7 +12,7 @@ defmodule TodoListWeb.ApiSpec do
         title: "TodoList",
         version: "0.1.0"
       },
-      servers: [Server.from_endpoint(Endpoint)],
+      servers: [%Server{url: "https://phoenix-todo-list.nicholasmoen.com/"}],
       paths: Paths.from_router(Router),
       components: %Components{
         securitySchemes: %{

@@ -801,6 +801,6 @@ paths:
         - users
 security: []
 servers:
-  - url: http://localhost:4001
+  - url: https://phoenix-todo-list.nicholasmoen.com/
     variables: {}
 tags: []

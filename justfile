@@ -154,7 +154,7 @@ color_reset := "\\033[39m"
   echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
 
-# run a loadtest with 'wrk'
+# run a basic loadtest with 'wrk'
 @loadtest url='https://phoenix-todo-list.nicholasmoen.com/':
   wrk -t12 -c400 -d30s {{ url }}
 

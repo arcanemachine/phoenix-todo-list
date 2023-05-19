@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# restart the systemd service
-systemctl --user restart phoenix-todo-list.service

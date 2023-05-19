@@ -5,9 +5,13 @@ defmodule TodoListWeb.Helpers.Controller do
 
   def http_response_403(conn) do
     conn
-    |> put_status(403)
+    |> put_status(:forbidden)
     |> Phoenix.Controller.text("403 Forbidden")
     |> halt()
+  end
+
+  def json_response_403(conn) do
+    conn |> put_status(:forbidden) |> Phoenix.Controller.json(%{message: "Forbidden"}) |> halt()
   end
 end
 

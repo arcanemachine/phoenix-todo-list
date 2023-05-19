@@ -2,12 +2,10 @@ defmodule TodoListWeb.Plug do
   @moduledoc """
   This project's custom plugs
   """
-  import Phoenix.Controller, only: [json: 2]
   import Plug.Conn
 
-  import TodoListWeb.Helpers.Controller, only: [http_response_403: 1]
-
   alias TodoList.Todos
+  alias TodoListWeb.Helpers.Controller, as: ControllerHelpers
 
   @doc """
   Get a Todo by the `id` param and add it to the `conn`.
@@ -25,7 +23,7 @@ defmodule TodoListWeb.Plug do
     if todo.user_id == conn.assigns.current_user.id do
       conn
     else
-      conn |> http_response_403()
+      conn |> ControllerHelpers.http_response_403()
     end
   end
 
@@ -38,7 +36,7 @@ defmodule TodoListWeb.Plug do
     if todo.user_id == conn.assigns.current_user.id do
       conn
     else
-      conn |> put_status(:forbidden) |> json(%{message: "Forbidden"}) |> halt()
+      conn |> ControllerHelpers.json_response_403()
     end
   end
 
@@ -49,7 +47,7 @@ defmodule TodoListWeb.Plug do
     if String.to_integer(conn.params["id"]) == conn.assigns.current_user.id do
       conn
     else
-      conn |> put_status(:forbidden) |> json(%{message: "Forbidden"}) |> halt()
+      conn |> ControllerHelpers.json_response_403()
     end
   end
 end

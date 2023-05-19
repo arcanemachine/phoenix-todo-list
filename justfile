@@ -10,6 +10,8 @@ set dotenv-load
 
 
 # VARIABLES #
+default_cpu_arch := "x86_64"
+newest_supported_otp := "26.0"
 image_name := "arcanemachine/phoenix-todo-list"
 
 # colors
@@ -129,41 +131,29 @@ color_reset := "\\033[39m"
 @docker-image-build image_name=image_name:
   echo "Building a Docker image '{{ image_name }}'..."
 
-  # build an untagged image
+  # build untagged image
   docker build -t {{ image_name }} .
 
-  # build an architecture-specific image
-  printf "\n\033[96mBuilding '$(uname -m)' image...\033[39m\n\n"
-  docker build -t "{{ image_name }}:$(uname -m)" .
+  # # build an architecture-specific image
+  # printf "\n\033[96mBuilding '$(uname -m)' image...\033[39m\n\n"
+  # docker build -t "{{ image_name }}:$(uname -m)" .
 
-  # build a versioned image
-  printf "\n\033[96mBuilding a versioned image...\033[39m\n\n"
-  docker build -t "{{ image_name }}:$(just version)-$(uname -m)" .
-  sh -c "if [ $(uname -m) = 'x86_64' ]; then docker build -t '{{ image_name }}:$(just version)' .; fi"
+  # build versioned image
+  echo "\033[96mBuilding a versioned image...\033[39m"
+  docker build -t "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)" .
 
-# push the image to docker hub
+# push container image to Docker Hub
 @docker-image-push image_name=image_name:
-  echo "Pushing image to Docker Hub..."
+  echo "Pushing image(s) to Docker Hub..."
 
-  # push an architecture-specific image
-  echo "\033[96mPushing '$(uname -m)' image to Docker Hub...\033[39m"
-  docker push "{{ image_name }}:$(uname -m)"
+  # push versioned image to Docker Hub
+  echo "\033[96mPushing versioned image to Docker Hub...\033[39m"
+  docker push "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)"
 
-  # push a versioned image to Docker Hub
-  sh -c "if [ $(uname -m) = 'x86_64' ]; then \
-    echo \"\033[96mPushing versioned image to Docker Hub...\033[39m\"; \
+  sh -c "if [ $(uname -m) = '{{ default_cpu_arch }}' ] && [ $(just version-otp) = '{{ newest_supported_otp }}' ]; then \
+    echo \"\033[96mUpdating the latest image on Docker Hub since we're using the default CPU architecture ({{ default_cpu_arch }}) architecture and the latest supported version of OTP ({{ newest_supported_otp }})...\033[39m\"; \
+    docker push '{{ image_name }}:latest'; \
   fi"
-
-  docker push "{{ image_name }}:$(just version)-$(uname -m)"
-
-  # if this machine's architecture is x86_64, push a 'latest' and a
-  # non-namespaced versioned image to Docker Hub
-  sh -c "if [ $(uname -m) = 'x86_64' ]; then \
-    echo \"\033[96mUpdating the generic images on Docker Hub since we're using the 'x86_64' architecture...\033[39m\"; \
-  fi"
-
-  sh -c "if [ $(uname -m) = 'x86_64' ]; then docker push '{{ image_name }}:$(just version)'; fi"
-  sh -c "if [ $(uname -m) = 'x86_64' ]; then docker push '{{ image_name }}:latest'; fi"
 
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':
@@ -266,6 +256,10 @@ color_reset := "\\033[39m"
   echo "Running Javascript unit tests in watch mode..."
   ./support/scripts/test-js-watch
 
+# print the OTP version number
+@version-otp:
+  erl -eval '{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().' -noshell
+
 # print the project version number
-@version:
+@version-project:
   mix eval 'IO.puts(TodoList.MixProject.project[:version])'

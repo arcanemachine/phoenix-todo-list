@@ -44,10 +44,17 @@ defmodule TodoListWeb.Plug do
   Ensure that the ID of the requesting user matches the `id` param.
   """
   def require_api_user_permissions(conn, _opts) do
-    if String.to_integer(conn.params["id"]) == conn.assigns.current_user.id do
-      conn
-    else
-      conn |> ControllerHelpers.json_response_403()
+    try do
+      user_id = String.to_integer(conn.params["id"])
+
+      if user_id == conn.assigns.current_user.id do
+        conn
+      else
+        conn |> ControllerHelpers.json_response_403()
+      end
+    rescue
+      _err in ArgumentError ->
+        conn |> ControllerHelpers.json_response_400("Invalid user ID detected")
     end
   end
 end

@@ -1,6 +1,6 @@
 # Container Helper Scripts
 
-This is a hacky collection of scripts designed to save you from having to type out tedious Compose file names when orchestrating your containers. The script names should be self-explanatory.
+This is a collection of scripts designed to save you from having to type out tedious Compose file names when orchestrating your containers. The script names are (hopefully) self-explanatory.
 
 # Notes
 
@@ -9,7 +9,6 @@ This is a hacky collection of scripts designed to save you from having to type o
   - local - no HTTPS
   - remote - uses HTTPS
 - To use Podman instead of Docker, pass the flag '--podman' as the last positional argument.
-
 - Running any of the Traefik containers will attempt to create a `traefik-global-proxy` network before starting the containers.
 
 ## Troubleshooting

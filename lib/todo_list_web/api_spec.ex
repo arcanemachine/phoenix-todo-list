@@ -10,7 +10,7 @@ defmodule TodoListWeb.ApiSpec do
     %OpenApi{
       info: %Info{
         title: "Phoenix Todo List",
-        version: TodoList.MixProject.project()[:version]
+        version: "0.1.0"
       },
       servers: [%Server{url: "https://phoenix-todo-list.nicholasmoen.com/"}],
       paths: Paths.from_router(Router),

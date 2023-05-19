@@ -252,3 +252,7 @@ color_reset := "\\033[39m"
 @test-js-watch:
   echo "Running Javascript unit tests in watch mode..."
   ./support/scripts/test-js-watch
+
+# print the project version number
+@version:
+  mix eval 'IO.puts(TodoList.MixProject.project[:version])'

@@ -45,6 +45,9 @@ color_reset := "\\033[39m"
 # push the image to docker hub (docker-image-push)
 @push: docker-image-push
 
+# one-liner to release, build, and push a docker image
+@release-build-push: release build push
+
 # COMMANDS #
 @COMMANDS______________________:
   echo "This command doesn't do anything. It's just a separator for 'just --list -u'."

@@ -31,7 +31,7 @@ config :todo_list, TodoList.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.14.41",
+  version: "0.17.19",
   default: [
     args:
       ~w(js/app.js js/init/page.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),

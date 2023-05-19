@@ -10,6 +10,10 @@ defmodule TodoListWeb.Helpers.Controller do
     |> halt()
   end
 
+  def json_response_400(conn, message \\ "Bad Request") do
+    conn |> put_status(:bad_request) |> Phoenix.Controller.json(%{message: message}) |> halt()
+  end
+
   def json_response_403(conn) do
     conn |> put_status(:forbidden) |> Phoenix.Controller.json(%{message: "Forbidden"}) |> halt()
   end

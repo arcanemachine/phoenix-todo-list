@@ -10,25 +10,28 @@ Pass the URL environment variable to test a specific URL:
   - e.g. 'URL=https://phoenix-todo-list.nicholasmoen.com/ loadtest-k6'
 
 The first positional argument specifies the path of the script to run (relative to this script).
-  - e.g. 'loadtest-k6 index.js'
+  - e.g. 'loadtest-k6 loadtest/k6/index.js'
 
 Remaining arguments are used to pass parameters to k6.
-  - e.g. 'loadtest-k6 index.js --vus 10 --duration 30s'"
+  - e.g. 'loadtest-k6 loadtest/k6/index.js --vus 10 --duration 30s'"
   exit 1
 fi
 
 URL=${URL:-"https://${PHX_HOST:?}"}
 
-# ensure first positional argument is present
 if [ "$1" = "" ]; then
+  # if no args passed, run a basic test
   script_to_run="$(dirname "$0")/loadtest/k6/index.js"
   echo "\033[96mNo script specified. Running a basic load test with '$script_to_run'...\033[39m"
+
+  # shellcheck disable=SC2068
+  k6 run $@ -e "URL=$URL" --vus 1000 --duration 10s --include-system-env-vars - <"$script_to_run"
 else
   # pass first arg as the script to be run, then remove it from the args
   script_to_run="$1"
   echo "\033[96mRunning the script '$1'...\033[39m"
   shift
-fi
 
-# shellcheck disable=SC2068
-k6 run $@ --include-system-env-vars -e "URL=$URL" - <"$script_to_run"
+  # shellcheck disable=SC2068
+  k6 run $@ -e "URL=$URL" --include-system-env-vars - <"$script_to_run"
+fi

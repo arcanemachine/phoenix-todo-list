@@ -16,11 +16,12 @@ fi
 
 URL=${URL:-"https://${PHX_HOST:?}"}
 
-# ensure first positional argument is present
 if [ "$1" = "" ]; then
+  # if no args passed, run a basic test
   echo "\033[96mRunning a basic load test on URL '$URL'...\033[39m"
-  wrk -t12 -c400 -d30s "$URL"
+  wrk -t12 -c400 -d10s "$URL"
 else
+  # run a custom test
   echo "\033[96mRunning a custom load test on URL '$URL'...\033[39m"
   # shellcheck disable=SC2068
   wrk $@ "$URL"

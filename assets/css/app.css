@@ -162,10 +162,10 @@
   }
 
   .list-back {
-    list-style-type: "< ";
+    list-style-type: "< " !important;
   }
 
   .list-dash {
-    list-style-type: "- ";
+    list-style-type: "- " !important;
   }
 }

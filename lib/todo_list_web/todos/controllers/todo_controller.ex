@@ -21,7 +21,7 @@ defmodule TodoListWeb.TodoController do
     case Todos.create_todo(todo_params) do
       {:ok, todo} ->
         conn
-        |> put_flash(:info, "Todo created successfully.")
+        |> put_flash(:info, "Todo created successfully")
         |> redirect(to: ~p"/todos/#{todo}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -46,7 +46,7 @@ defmodule TodoListWeb.TodoController do
     case Todos.update_todo(todo, todo_params) do
       {:ok, _todo} ->
         conn
-        |> put_flash(:info, "Todo updated successfully.")
+        |> put_flash(:info, "Todo updated successfully")
         |> redirect(to: ~p"/todos")
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -59,7 +59,7 @@ defmodule TodoListWeb.TodoController do
     {:ok, _todo} = Todos.delete_todo(todo)
 
     conn
-    |> put_flash(:info, "Todo deleted successfully.")
+    |> put_flash(:info, "Todo deleted successfully")
     |> redirect(to: ~p"/todos")
   end
 end

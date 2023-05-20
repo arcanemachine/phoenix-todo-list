@@ -136,24 +136,35 @@ color_reset := "\\033[39m"
   # build untagged image
   docker build -t {{ image_name }} .
 
-  # # build an architecture-specific image
-  # printf "\n\033[96mBuilding '$(uname -m)' image...\033[39m\n\n"
-  # docker build -t "{{ image_name }}:$(uname -m)" .
+  # build an architecture-specific image
+  printf "\n\033[96mBuilding '$(uname -m)' image...\033[39m\n\n"
+  docker build -t "{{ image_name }}:$(uname -m)" .
 
   # build versioned image
   echo "\033[96mBuilding a versioned image...\033[39m"
   docker build -t "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)" .
 
+  # build 'latest' image to Docker Hub if we are on the 'x86_64' CPU architecture
+  sh -c "if [ $(uname -m) = '{{ default_cpu_arch }}' ] && [ $(just version-otp) = '{{ newest_supported_otp }}' ]; then \
+    echo \"\033[96mBuilding the 'latest' image on Docker Hub since we're using the default CPU architecture ({{ default_cpu_arch }}) architecture and the latest supported version of OTP ({{ newest_supported_otp }})...\033[39m\"; \
+    docker build -t '{{ image_name }}:latest' .; \
+  fi"
+
 # push container image to Docker Hub
 @docker-image-push image_name=image_name:
   echo "Pushing image(s) to Docker Hub..."
+
+  # push architecture-specific image to Docker Hub
+  echo "\033[96mPushing architecture-specific image to Docker Hub...\033[39m"
+  docker push "{{ image_name }}:$(uname -m)"
 
   # push versioned image to Docker Hub
   echo "\033[96mPushing versioned image to Docker Hub...\033[39m"
   docker push "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)"
 
+  # push 'latest' image to Docker Hub if we are on the 'x86_64' CPU architecture
   sh -c "if [ $(uname -m) = '{{ default_cpu_arch }}' ] && [ $(just version-otp) = '{{ newest_supported_otp }}' ]; then \
-    echo \"\033[96mUpdating the latest image on Docker Hub since we're using the default CPU architecture ({{ default_cpu_arch }}) architecture and the latest supported version of OTP ({{ newest_supported_otp }})...\033[39m\"; \
+    echo \"\033[96mUpdating the 'latest' image on Docker Hub since we're using the default CPU architecture ({{ default_cpu_arch }}) architecture and the latest supported version of OTP ({{ newest_supported_otp }})...\033[39m\"; \
     docker push '{{ image_name }}:latest'; \
   fi"
 

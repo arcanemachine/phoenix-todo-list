@@ -1,0 +1,964 @@
+_type: export
+__export_format: 4
+__export_date: 2023-05-20T09:04:15.861Z
+__export_source: insomnia.desktop.app:v2022.7.5
+resources:
+  - _id: req_12eda2d35a184e65a6b4175fc0ce89ed
+    parentId: fld_63199a591042471bb7af4150b3a3ebc4
+    modified: 1684569739023
+    created: 1684569486105
+    url: "{{ _.server_path }}/users/login"
+    name: Get New Session Cookie (Copy '_csrf_token' from response <head>)
+    description: ""
+    method: GET
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_a72236dedf784a30a811860df15c84a4
+          name: ""
+          value: ""
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+    authentication: {}
+    metaSortKey: 459.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: false
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_63199a591042471bb7af4150b3a3ebc4
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684571611735
+    created: 1684474144437
+    name: Accounts (HTTP)
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1684474144437
+    _type: request_group
+  - _id: wrk_44fa738b69f34132bb77c4f86963e263
+    parentId: null
+    modified: 1675402291958
+    created: 1675402291958
+    name: Phoenix Todo List API
+    description: ""
+    scope: design
+    _type: workspace
+  - _id: req_5ab470e6e37f4e01addea34f71286f09
+    parentId: fld_63199a591042471bb7af4150b3a3ebc4
+    modified: 1684569600946
+    created: 1675402291973
+    url: "{{ _.server_path }}/users/login?_action=registered"
+    name: Register User
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: _csrf_token
+          value: "{{ _._csrf_token }}"
+          id: pair_1892c75ff07b4371a4bb243c93e20ee1
+        - id: pair_6f08447ca0514196b581fe40e076a244
+          name: user[email]
+          value: "{{ _.email }}"
+          description: ""
+        - id: pair_44db35f7a3c740c59612d3768acc3fc4
+          name: user[password]
+          value: "{{ _.password }}"
+          description: ""
+        - id: pair_81238494c4af4c7c8b9b00d6cb2f34ec
+          name: user[password_confirmation]
+          value: "{{ _.password }}"
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_8c3d47bfdfbb41a3a77af0cfe26d3ba3
+    authentication: {}
+    metaSortKey: 465.625
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_0d060bb0e14c47dda73d69fd1c6b1a54
+    parentId: fld_63199a591042471bb7af4150b3a3ebc4
+    modified: 1684570161323
+    created: 1684569146070
+    url: "{{ _.server_path }}/users/login"
+    name: Login User (Copy '_csrf_token' from response <head>)
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: _csrf_token
+          value: "{{ _._csrf_token }}"
+          id: pair_1892c75ff07b4371a4bb243c93e20ee1
+        - id: pair_6f08447ca0514196b581fe40e076a244
+          name: user[email]
+          value: "{{ _.email }}"
+          description: ""
+        - id: pair_44db35f7a3c740c59612d3768acc3fc4
+          name: user[password]
+          value: "{{ _.password }}"
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_8c3d47bfdfbb41a3a77af0cfe26d3ba3
+    authentication: {}
+    metaSortKey: 471.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_a0157a32284c405b9f2c4dae7d882170
+    parentId: fld_63199a591042471bb7af4150b3a3ebc4
+    modified: 1684569898887
+    created: 1684569807300
+    url: "{{ _.server_path }}/users/profile"
+    name: User Detail
+    description: ""
+    method: GET
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_01d7dd83f39a4189be4ca3afe10fa2d2
+          name: ""
+          value: ""
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+    authentication: {}
+    metaSortKey: 484.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b678112969c64b45b299282043c5fb41
+    parentId: fld_63199a591042471bb7af4150b3a3ebc4
+    modified: 1684570409006
+    created: 1684570312825
+    url: "{{ _.server_path }}/users/logout"
+    name: Logout User
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_23e168ac3f2142d7a18669d70ba61ede
+          name: _csrf_token
+          value: "{{ _._csrf_token }}"
+          description: ""
+        - id: pair_9185eb60d6ac4308812582c275375366
+          name: _method
+          value: delete
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_5294e19189b44271bdb6da930b0d43de
+        disabled: true
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+    authentication: {}
+    metaSortKey: 759.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f909bcd1d45b4a47a0b9575aa232222b
+    parentId: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    modified: 1684557330005
+    created: 1684557330005
+    url: "{{ _.api_users_root }}"
+    name: Register User
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "user": {
+            "email": "{{ _.email }}",
+            "password": "{{ _.password }}"
+          }
+        }
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_92c1f223631747e4b16e03b052fe89c1
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+    authentication: {}
+    metaSortKey: 446.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684557329997
+    created: 1684557329997
+    name: Accounts (API)
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1684474134947
+    _type: request_group
+  - _id: req_d94b8832217247af838b1b0802ff544c
+    parentId: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    modified: 1684557330013
+    created: 1684557330013
+    url: "{{ _.api_users_root }}/login"
+    name: Login User
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "user": {
+            "email": "{{ _.email }}",
+            "password": "{{ _.password }}"
+          }
+        }
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_51baf12bfbc74cbc9eb743f7b75c3401
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_dde22230a940475d8b2bc54a3668ff70
+        disabled: true
+    authentication: {}
+    metaSortKey: 496.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e33fd23b0d7c4d9b8de052d979641604
+    parentId: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    modified: 1684557330028
+    created: 1684557330028
+    url: "{{ _.api_users_root }}/{{ _.user_id }}"
+    name: User Detail
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_78d396fc318844088f916865d93c01b7
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_9e8fcf9c3ab04c4c8f5a2ce4623c35b9
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_36779188c1e74860906fdf1ea984cea2
+        disabled: true
+    authentication: {}
+    metaSortKey: 696.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_163257c7e85c4e6e95f6f4fd70b623cb
+    parentId: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    modified: 1684557330018
+    created: 1684557330018
+    url: "{{ _.api_users_root }}/{{ _.user_id }}/check-token"
+    name: Check Token
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_4a06138b1d3e4125bcd673f58a5a400d
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_49850ff34e4248a795aa885a6e8bddd4
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_24e2106286224dce90b2e0f46e26ca34
+        disabled: true
+    authentication: {}
+    metaSortKey: 709.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_16dd746394404a44bd6ecaabd6202ab0
+    parentId: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    modified: 1684557330025
+    created: 1684557330025
+    url: "{{ _.api_users_root }}/{{ _.user_id }}"
+    name: Update Password
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "current_password": "{{ _.password }}",
+          "password": "{{ _.password }}"
+        }
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_feab58b4a11646139e34c7be2793e7e5
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_acf02a9c0b304f19a250c7a35439314b
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_5294e19189b44271bdb6da930b0d43de
+        disabled: true
+    authentication: {}
+    metaSortKey: 721.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_946c3fcb17d245049a69dd9306f5f3f9
+    parentId: fld_d93fe5ba72784a7e95704a0209dc4cbf
+    modified: 1684557330021
+    created: 1684557330021
+    url: "{{ _.api_users_root }}/{{ _.user_id }}"
+    name: Logout User
+    description: ""
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_2989931f47534054bb6c5633493a0759
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_edcc96cfe9d14372b6d6c5ca28df3bcc
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_6bf39e412c3d41dd9237fb4b445f63c7
+        disabled: true
+    authentication: {}
+    metaSortKey: 796.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_25c3ea81f02e4d11b7cdfb339619dc56
+    parentId: fld_c8a15ec8697045a5837b3ee1f61dc5ea
+    modified: 1684572712056
+    created: 1684571625851
+    url: "{{ _.server_path }}/todos"
+    name: Create Todo
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: _csrf_token
+          value: "{{ _._csrf_token }}"
+          id: pair_1892c75ff07b4371a4bb243c93e20ee1
+        - id: pair_6f08447ca0514196b581fe40e076a244
+          name: todo[content]
+          value: "{{ _.todo_content }}"
+          description: ""
+        - id: pair_44db35f7a3c740c59612d3768acc3fc4
+          name: todo[is_completed]
+          value: "false"
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_8c3d47bfdfbb41a3a77af0cfe26d3ba3
+    authentication: {}
+    metaSortKey: 465.625
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_c8a15ec8697045a5837b3ee1f61dc5ea
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684571629697
+    created: 1684571625849
+    name: Todos (HTTP)
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1684474130202
+    _type: request_group
+  - _id: req_4a3a066188da4eeaa18a66536a50d6e7
+    parentId: fld_c8a15ec8697045a5837b3ee1f61dc5ea
+    modified: 1684572794155
+    created: 1684571625857
+    url: "{{ _.server_path }}/todos/{{ _.todo_id }}"
+    name: Todo Detail
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+    authentication: {}
+    metaSortKey: 484.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_13c306a6fd9640a4948f2dafeb98cd2d
+    parentId: fld_c8a15ec8697045a5837b3ee1f61dc5ea
+    modified: 1684573080705
+    created: 1684572775796
+    url: "{{ _.server_path }}/todos/{{ _.todo_id }}"
+    name: Update Todo
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: _csrf_token
+          value: "{{ _._csrf_token }}"
+          id: pair_1892c75ff07b4371a4bb243c93e20ee1
+        - id: pair_6f08447ca0514196b581fe40e076a244
+          name: todo[content]
+          value: "{{ _.todo_content }}"
+          description: ""
+        - id: pair_44db35f7a3c740c59612d3768acc3fc4
+          name: todo[is_completed]
+          value: "true"
+          description: ""
+          disabled: false
+        - id: pair_51ce283a0db7400f9b7c83c938e10374
+          name: _method
+          value: put
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_8c3d47bfdfbb41a3a77af0cfe26d3ba3
+    authentication: {}
+    metaSortKey: 621.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_82f9c22774a640a68ad9e54e0b7b5a49
+    parentId: fld_c8a15ec8697045a5837b3ee1f61dc5ea
+    modified: 1684573125506
+    created: 1684573116667
+    url: "{{ _.server_path }}/todos/{{ _.todo_id }}"
+    name: Delete Todo
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: _csrf_token
+          value: "{{ _._csrf_token }}"
+          id: pair_1892c75ff07b4371a4bb243c93e20ee1
+        - id: pair_51ce283a0db7400f9b7c83c938e10374
+          name: _method
+          value: delete
+          description: ""
+    parameters: []
+    headers:
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_7caecc1a04194b708c26a91348c7bf68
+        disabled: true
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_8c3d47bfdfbb41a3a77af0cfe26d3ba3
+    authentication: {}
+    metaSortKey: 659.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ef27e8b224e447a4a3e2c258befc4212
+    parentId: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    modified: 1684474249723
+    created: 1675402291980
+    url: "{{ _.api_todos_root }}"
+    name: List Todos
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_c53b5734a0fa4067bcbe168eab5faf7e
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_ce7ff3351ff24c9ab72096b7470c5b26
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_9e77cdba55db426ba2983fe19048cc42
+        disabled: true
+    authentication: {}
+    metaSortKey: -1677786079341.0781
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684569867228
+    created: 1684474125457
+    name: Todos (API)
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1684474125457
+    _type: request_group
+  - _id: req_714278fb35c04e8b81e8b4471d442bd1
+    parentId: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    modified: 1684474253298
+    created: 1675402291967
+    url: "{{ _.api_todos_root }}"
+    name: Create Todo
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "todo": {
+        	  "content": "insomnia",
+        	  "is_completed": false
+          }
+        }
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_decb341084af4294a05860497c65df46
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_68d5c3c81be441b09cb9a80879772507
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_6b396c9e9dc34d9dafdd0eec78f9224a
+        disabled: true
+    authentication: {}
+    metaSortKey: -1677786079291.0781
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_34757dce60f440e995f69bccd8cc14f9
+    parentId: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    modified: 1684474364974
+    created: 1675402291968
+    url: "{{ _.api_todos_root }}/{{ _.todo_id }}"
+    name: Todo Detail
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_27f2592a7a9146edacd2c5f668f768b0
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_9636595baf654fc3a2a47b857f9a3ef6
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_051fb596a3934a2ba45fecd40f8c76cf
+        disabled: true
+    authentication: {}
+    metaSortKey: -1677786079241.0781
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_3ed15f36f6d2448b88c42b67a5a39812
+    parentId: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    modified: 1684474308940
+    created: 1675402291970
+    url: "{{ _.api_todos_root }}/{{ _.todo_id }}"
+    name: Update Todo (PUT)
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "todo": {
+        	  "content": "insomnia (PUT)",
+        	  "is_completed": true
+          }
+        }
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_67242f9b84734e84bf45c367d80a4502
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_92d40e399bd447bfa6bd2bd4a64b8c47
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_f693f5ce4ce449f5b8cebbb9caeb893a
+        disabled: true
+    authentication: {}
+    metaSortKey: -1677786079191.0781
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_9b4ace2e99c44864946dbbee8eba690c
+    parentId: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    modified: 1684474351669
+    created: 1675402291971
+    url: "{{ _.api_todos_root }}/{{ _.todo_id }}"
+    name: Update Todo (PATCH)
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "todo": {
+        	  "content": "insomnia (PATCH)"
+          }
+        }
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_8d32af95f7bf4a5bb23ccccc1a670592
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_5941dd7563b34e969dbbf0686a2e71bf
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_2c84a06f3031457bbd43436400608b07
+        disabled: true
+    authentication: {}
+    metaSortKey: -1677786079141.0781
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e84296a3b82a4fc584340e1fb27c5896
+    parentId: fld_68d9b54b7faf4d45bea74de87c0cf7a2
+    modified: 1684474295611
+    created: 1676266574635
+    url: "{{ _.api_todos_root }}/{{ _.todo_id }}"
+    name: Delete Todo
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: content-type
+        value: application/json
+        id: pair_bd26ac21769943129743c5dcc57651cd
+      - name: authorization
+        value: Bearer {{ _.auth_token }}
+        id: pair_2f0825caba0741219e5f7cadebac30d5
+      - name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        id: pair_d921952fe2ec44f9b2baca6228916afa
+        disabled: false
+    authentication: {}
+    metaSortKey: -1677786079091.0781
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_123c71849c5b477e8977e88c6f34163b
+    parentId: fld_e0f63f1bccd34b138f08c79310587ffd
+    modified: 1684474375838
+    created: 1681153544626
+    url: "{{ _.SERVER_URL_TEST }}/sandbox"
+    name: Initiate Sandbox Session
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_2b1161871bd84fa38343141ee5c73484
+        name: ""
+        value: ""
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: 499.8046875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_e0f63f1bccd34b138f08c79310587ffd
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684474180826
+    created: 1684474173966
+    name: SQL Sandbox
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1684474125407
+    _type: request_group
+  - _id: req_8cccc47ad5094816a096b5bfe7f4c53c
+    parentId: fld_e0f63f1bccd34b138f08c79310587ffd
+    modified: 1684474382022
+    created: 1681154473887
+    url: "{{ _.SERVER_URL_HTTPS_TEST }}/sandbox"
+    name: Destroy Sandbox Session
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_d1a86cac328949748c40a817683eb191
+        name: user-agent
+        value: "{{ _.sql_sandbox_user_agent }}"
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: 549.8046875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_ebcf0225b0844403b934f7ca33d0c0ea
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684463072260
+    created: 1675402291959
+    name: Base Environment
+    data:
+      api_todos_root: "{{ _.api_root }}/todos"
+      api_users_root: "{{ _.api_root }}/users"
+    dataPropertyOrder:
+      "&":
+        - api_todos_root
+        - api_users_root
+    color: null
+    isPrivate: false
+    metaSortKey: 1667242054666
+    _type: environment
+  - _id: jar_1a131dc0c194448faec06dd7da3514b5
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684573178040
+    created: 1675402291964
+    name: Default Jar
+    cookies:
+      - key: _todo_list_key
+        value: SFMyNTY.g3QAAAADbQAAAAtfY3NyZl90b2tlbm0AAAAYQ0xVcTZpT0FvdUtDTUJMa21rU3pLLVhYbQAAAA5saXZlX3NvY2tldF9pZG0AAAA7dXNlcnNfc2Vzc2lvbnM6WThOMGM0MTFGVmxBeTR0aGhxZlhodlNxa0RvRm43Ykd6OE1mMl9KSnZnUT1tAAAACnVzZXJfdG9rZW5tAAAAIGPDdHONdRVZQMuLYYan14b0qpA6BZ-2xs_DH9vySb4E.N1ISHQ0RdBVSDPj3AZUTFgZV0dFv7kVYA5eIeUnOzKY
+        domain: localhost
+        path: /
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: true
+        creation: 2023-05-20T04:46:02.520Z
+        lastAccessed: 2023-05-20T08:59:38.040Z
+        id: "13867539110676397"
+      - key: _todo_list_web_user_remember_me
+        expires: 1970-01-01T00:00:00.000Z
+        maxAge: 0
+        domain: localhost
+        path: /
+        httpOnly: true
+        hostOnly: true
+        creation: 2023-05-20T08:13:39.022Z
+        lastAccessed: 2023-05-20T08:33:06.001Z
+        id: "8439350583549428"
+    _type: cookie_jar
+  - _id: spc_5cf324e0391c40f28543ad9f4ba0cb7a
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1684557336438
+    created: 1675402291965
+    fileName: Phoenix Todo List
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: uts_fb25d898aa8148a8beffb41014a1de37
+    parentId: wrk_44fa738b69f34132bb77c4f86963e263
+    modified: 1675402291985
+    created: 1675402291985
+    name: Example Test Suite
+    _type: unit_test_suite
+  - _id: env_6ab4bc7c534a46549a34419c5301b7e9
+    parentId: env_ebcf0225b0844403b934f7ca33d0c0ea
+    modified: 1684573333790
+    created: 1681184142870
+    name: Phoenix Todo List API (Example)
+    data:
+      scheme: http
+      phx_host: localhost
+      port: "4001"
+      server_path: "{{ _.scheme }}://{{ _.phx_host }}:{{ _.port }}"
+      api_root: "{{ _.server_path }}/api"
+      user_id: 123
+      email: user@example.com
+      password: your_password
+      auth_token: your_auth_token
+      _csrf_token: your_csrftoken
+      todo_id: 123
+      todo_content: your_todo_content
+      sql_sandbox_user_agent: BeamMetadata (your_sql_sandbox_user_agent)
+    dataPropertyOrder:
+      "&":
+        - scheme
+        - phx_host
+        - port
+        - server_path
+        - api_root
+        - user_id
+        - email
+        - password
+        - auth_token
+        - _csrf_token
+        - todo_id
+        - todo_content
+        - sql_sandbox_user_agent
+    color: null
+    isPrivate: false
+    metaSortKey: 1681184142870
+    _type: environment

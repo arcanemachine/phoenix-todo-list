@@ -1,4 +1,6 @@
 defmodule TodoListWeb.UserConfirmationLiveTest do
+  @moduledoc false
+
   use TodoListWeb.ConnCase
 
   import Phoenix.LiveViewTest

@@ -22,7 +22,7 @@ URL=${URL:-"https://${PHX_HOST:?}"}
 if [ "$1" = "" ]; then
   # if no args passed, run a basic test
   script_to_run="$(dirname "$0")/loadtest/k6/index.js"
-  echo "\033[96mNo script specified. Running a basic load test with '$script_to_run'...\033[39m"
+  echo "\033[96mNo script specified. Running a basic load test at '$URL' with '$script_to_run'...\033[39m"
 
   # shellcheck disable=SC2068
   k6 run $@ -e "URL=$URL" --vus 300 --duration 10s --include-system-env-vars - <"$script_to_run"

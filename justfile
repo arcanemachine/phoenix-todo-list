@@ -11,7 +11,7 @@ set dotenv-load
 
 # VARIABLES #
 default_cpu_arch := "x86_64"
-newest_supported_otp := "26.0"
+newest_supported_otp := "25.3"
 image_name := "arcanemachine/phoenix-todo-list"
 url := 'https://$PHX_HOST/'
 
@@ -163,14 +163,14 @@ color_reset := "\\033[39m"
   ./support/scripts/dotenv-generate {{ args }}
 
 # run a basic loadtest with 'wrk'
-@loadtest-wrk url=url:
+@loadtest-wrk:
   echo "Running a basic load test with 'wrk'..."
-  URL={{ url }} ./support/scripts/loadtest-wrk
+  ./support/scripts/loadtest-wrk
 
 # run a basic loadtest with 'k6'
-@loadtest-k6 url=url:
+@loadtest-k6:
   echo "Running a basic load test with 'k6'..."
-  URL={{ url }} ./support/scripts/loadtest-k6 ./support/scripts/loadtest/k6/index.js --vus 10 --duration 30s
+  ./support/scripts/loadtest-k6
 
 # generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':

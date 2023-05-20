@@ -13,5 +13,11 @@
 
 <.action_links items={[
   %{content: "Update this Todo", href: ~p"/todos/#{@todo}/edit"},
-  %{content: "View all Todos", href: ~p"/todos"}
+  %{
+    content: "Delete this Todo",
+    href: ~p"/todos/#{@todo}",
+    method: "delete",
+    confirm: "Are you sure?"
+  },
+  %{content: "View all Todos", href: ~p"/todos", class: "mt-6"}
 ]} />

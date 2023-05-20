@@ -33,13 +33,14 @@ defmodule TodoListWeb.CoreComponents do
       <h3 class="text-2xl font-bold">
         <%= @title || "Actions" %>
       </h3>
-      <ul class="mt-2 ml-8">
+      <ul class="mt-2 ml-6">
         <li :for={item <- @items} class={[["mt-2 pl-2 list-dash"], [Map.get(item, :class, "")]]}>
           <.link
             href={Map.get(item, :href, false)}
             navigate={Map.get(item, :navigate, false)}
             patch={Map.get(item, :patch, false)}
             method={Map.get(item, :method, "get")}
+            data-confirm={Map.get(item, :confirm, false)}
           >
             <%= item.content %>
           </.link>
@@ -906,9 +907,9 @@ defmodule TodoListWeb.CoreComponents do
 
   def table(assigns) do
     ~H"""
-    <div id={@id} class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
-      <table class="mt-11 w-[40rem] sm:w-full">
-        <thead class="text-left text-[0.8125rem] leading-6 text-base-500">
+    <div id={@id} class="overflow-y-auto">
+      <table class="w-full max-w-max mt-10 mx-auto">
+        <thead class="text-center text-[0.8125rem] leading-6 text-base-500">
           <tr>
             <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>
             <th class="relative p-0 pb-4"><span class="sr-only"><%= gettext("Actions") %></span></th>

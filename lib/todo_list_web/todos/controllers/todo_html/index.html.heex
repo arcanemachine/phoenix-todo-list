@@ -1,23 +1,21 @@
 <%= if Enum.empty?(@todos) do %>
   <p class="mt-8">You have not created any Todos.</p>
 <% else %>
-  <.table id="todos" rows={@todos} row_click={&JS.navigate(~p"/todos/#{&1}")}>
-    <:col :let={todo} label="Content"><%= todo.content %></:col>
-    <:col :let={todo} label="Is Completed?">
-      <%= (todo.is_completed && "Yes") || "No" %>
-    </:col>
-    <:action :let={todo}>
-      <div class="sr-only">
-        <.link navigate={~p"/todos/#{todo}"}>Show</.link>
-      </div>
-      <.link navigate={~p"/todos/#{todo}/edit"}>Edit</.link>
-    </:action>
-    <:action :let={todo}>
-      <.link href={~p"/todos/#{todo}"} method="delete" data-confirm="Are you sure?">
-        Delete
-      </.link>
-    </:action>
-  </.table>
+  <ul class="ml-4 list-disc">
+    <%= for todo <- @todos do %>
+      <li class="mb-4">
+        <.link class="text-xl font-bold" navigate={~p"/todos/#{todo}"}>
+          <%= todo.content %>
+        </.link>
+        <ul class="ml-4 list-dash">
+          <li class="mt-1">
+            <span class="font-bold">Is completed?</span>
+            <%= (todo.is_completed && "Yes") || "No" %>
+          </li>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
 
 <.action_links items={[

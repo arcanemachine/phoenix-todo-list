@@ -35,7 +35,7 @@ defmodule TodoListWeb.UserConfirmationLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "User confirmed successfully.")
+         |> put_flash(:info, "Your account is now confirmed.")
          |> redirect(to: ~p"/")}
 
       :error ->

@@ -34,7 +34,7 @@ defmodule TodoListWeb.UserConfirmationLiveTest do
       assert {:ok, conn} = result
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "User confirmed successfully"
+               "Your account is now confirmed"
 
       assert Accounts.get_user!(user.id).confirmed_at
       refute get_session(conn, :user_token)

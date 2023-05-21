@@ -173,7 +173,7 @@ color_reset := "\\033[39m"
   echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
 
-# run a basic loadtest with 'wrk'
+# run a basic loadtest with 'wrk' (must have 'wrk' installed)
 @loadtest-wrk:
   echo "Running a basic load test with 'wrk'..."
   ./support/scripts/loadtest-wrk

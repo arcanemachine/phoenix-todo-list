@@ -1,17 +1,21 @@
-# elixir
-/.elixir_ls/
+# misc
+*.ignore
+*.tmp
+gitignore.*
 
 # dotenv
 .env
 
-# vim stuff
+# elixir
+/.elixir_ls/
+
+# python
+__pycache__/
+
+# vim
 *.sw?
 Session*.vim
 
-# misc stuff to ignore
-*.ignore
-*.tmp
-gitignore.*
 
 # MIX DEFAULTS #
 # The directory Mix will write compiled artifacts to.

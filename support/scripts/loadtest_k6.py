@@ -48,7 +48,7 @@ parser.add_argument(
     "-s",
     "--scripts",
     help="One or more load testing scripts to run with K6 (located in './loadtest/k6')",
-    nargs="*",
+    nargs="+",
     default="index.js",
 )
 args = parser.parse_args()
@@ -114,6 +114,7 @@ def main() -> None:
         print(command_to_run)
 
     # run the command
+    print(f"\033[96mUsing BASE_URL '{os.environ['BASE_URL']}'...\033[39m")
     subprocess.run(shlex.split(command_to_run))
 
 

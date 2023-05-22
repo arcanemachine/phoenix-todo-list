@@ -96,7 +96,7 @@ def build_command() -> str:
             '-e "TERM=xterm-256color"',
             # k6 boilerplate
             f'-e "BASE_URL={args.base_url}"',
-            f'-v "./{path_to_k6_scripts}:/{path_to_k6_scripts}" grafana/k6 run',
+            f'-v "./{path_to_k6_scripts}:/{path_to_k6_scripts}:ro" grafana/k6 run',
             # custom k6 args
             " ".join(args.args) or "",
             "--include-system-env-vars",

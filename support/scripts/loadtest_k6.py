@@ -32,7 +32,7 @@ parser.add_argument(
     "--podman",
     dest="container_runtime",
     help="Use Podman instead of Docker",
-    nargs="?",
+    action="store_const",
     default="docker",
     const="podman",
 )
@@ -98,7 +98,7 @@ def build_command() -> str:
             f'-e "BASE_URL={args.base_url}"',
             f'-v "./{path_to_k6_scripts}:/{path_to_k6_scripts}" grafana/k6 run',
             # custom k6 args
-            args.args or "",
+            " ".join(args.args) or "",
             "--include-system-env-vars",
         ]
         + normalized_script_names

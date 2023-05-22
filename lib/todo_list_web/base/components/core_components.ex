@@ -136,6 +136,7 @@ defmodule TodoListWeb.CoreComponents do
               title="GitHub Logo"
             >
               <path
+                class="fill-slate-600"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42
@@ -149,7 +150,6 @@ defmodule TodoListWeb.CoreComponents do
                     11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67
                     10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
                 transform="scale(64)"
-                fill="#1B1F23"
               >
               </path>
             </svg>

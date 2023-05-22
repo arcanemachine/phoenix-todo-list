@@ -120,12 +120,4 @@ const helpers = {
   },
 };
 
-export const alpineExpressionIsObject = helpers.alpineExpressionIsObject;
-export const darkModeEnabled = helpers.darkModeEnabled;
-export const darkModeSavedPreferenceExists =
-  helpers.darkModeSavedPreferenceExists;
-export const debug = helpers.debug;
-export const delayFor = helpers.delayFor;
-export const pluralize = helpers.pluralize;
-
 export default helpers;

@@ -4,7 +4,7 @@ import tippy from "tippy.js";
 
 import type { AlpineComponent, AlpineStore } from "js/alpine";
 import constants from "js/constants";
-import helpers from "js/helpers";
+import h from "js/helpers";
 import { data as todosData } from "js/todos/alpine";
 
 /* data */
@@ -13,7 +13,7 @@ function darkModeSelect() {
     // data
     choice: (): string => {
       /** Get initial choice. */
-      if (helpers.base.darkModeSavedPreferenceExists) {
+      if (h.base.darkModeSavedPreferenceExists) {
         return localStorage.getItem("darkModeEnabled") === "1"
           ? "Dark"
           : "Light";
@@ -29,7 +29,7 @@ function darkModeSelect() {
 
       // set initial theme
       if (
-        !helpers.base.darkModeSavedPreferenceExists &&
+        !h.base.darkModeSavedPreferenceExists &&
         browserDarkModePreference.matches
       ) {
         this.darkModeEnable(false);
@@ -38,7 +38,7 @@ function darkModeSelect() {
       // watch for browser-level changes to dark mode preference
       browserDarkModePreference.addEventListener("change", (evt: any) => {
         // only change if no preference has been assigned manually
-        if (!helpers.base.darkModeSavedPreferenceExists) {
+        if (!h.base.darkModeSavedPreferenceExists) {
           evt.matches
             ? this.darkModeEnable(false)
             : this.darkModeDisable(false);
@@ -124,7 +124,7 @@ export const directives = [
 
       // parse expression and convert to object
       let options: Record<string, any>;
-      if (helpers.base.alpineExpressionIsObject(expression)) {
+      if (h.base.alpineExpressionIsObject(expression)) {
         options = evaluate(expression); // expression is an object
       } else {
         options = { content: expression }; // convert expression to object
@@ -202,12 +202,12 @@ const animations = {
 
         Object.assign(elt.style, temporaryStyles);
       })
-      .then(() => helpers.base.delayFor(duration / 2)) // initial transition
+      .then(() => h.base.delayFor(duration / 2)) // initial transition
       .then(() => {
         // restore initial styles
         Object.assign(elt.style, initialStyles);
       })
-      .then(() => helpers.base.delayFor(duration / 2)) // final transition
+      .then(() => h.base.delayFor(duration / 2)) // final transition
       .then(() => {
         // restore initial transition style
         elt.style.transition = initialTransitionValue;
@@ -652,7 +652,7 @@ export const stores: Array<object> = [
   },
   {
     name: "helpers",
-    store: helpers,
+    store: h,
   },
   {
     name: "toasts",

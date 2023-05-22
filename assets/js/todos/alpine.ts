@@ -1,5 +1,5 @@
 import type { AlpineComponent } from "js/alpine";
-import { delayFor } from "js/base/helpers";
+import h from "js/helpers";
 
 // data
 function todosLive() {
@@ -143,7 +143,7 @@ function todosLive() {
         })
         .then(() =>
           // wait for modal to fade out
-          delayFor(this.$store.constants.transitionDurationDefault / 2)
+          h.base.delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
           const todoElt = this.todoEltGet(todoIdSelected);
@@ -154,7 +154,7 @@ function todosLive() {
         })
         .then(() =>
           // wait for item collapse effect
-          delayFor(this.$store.constants.transitionDurationDefault / 2)
+          h.base.delayFor(this.$store.constants.transitionDurationDefault / 2)
         )
         .then(() => {
           // push delete event to server
@@ -191,7 +191,9 @@ function todosLive() {
           todoElt.style.pointerEvents = "";
           todoElt.dispatchEvent(new CustomEvent("show"));
         })
-        .then(() => delayFor(this.$store.constants.transitionDurationDefault))
+        .then(() =>
+          h.base.delayFor(this.$store.constants.transitionDurationDefault)
+        )
         .then(() => {
           this.$store.toasts.showError("Item could not be deleted"); // error message
         });

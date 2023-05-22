@@ -6,10 +6,8 @@ import shlex
 import subprocess
 
 current_script_path = os.getcwd()
-k6_scripts_path = "loadtest/k6"
-
-default_base_url = os.environ.get("BASE_URL", f"https://{os.environ['PHX_HOST']}")
 path_to_k6_scripts = "loadtest/k6"
+base_url = os.environ.get("BASE_URL", "http://localhost:4001")
 
 # SETUP
 os.chdir(  # navigate to current script directory
@@ -42,7 +40,7 @@ parser.add_argument(
     help="The base URL of the server (default: 'https://$PHX_HOST')",
     type=str,
     nargs="?",
-    default=default_base_url,
+    default=base_url,
 )
 parser.add_argument(
     "-s",
@@ -114,7 +112,7 @@ def main() -> None:
         print(command_to_run)
 
     # run the command
-    print(f"\033[96mUsing BASE_URL '{os.environ['BASE_URL']}'...\033[39m")
+    print(f"\033[96mUsing BASE_URL '{base_url}'...\033[39m")
     subprocess.run(shlex.split(command_to_run))
 
 

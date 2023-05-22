@@ -10,9 +10,8 @@ path_to_k6_scripts = "loadtest/k6"
 base_url = os.environ.get("BASE_URL", "http://localhost:4001")
 
 # SETUP
-os.chdir(  # navigate to current script directory
-    os.path.abspath(os.path.dirname(__file__))
-)
+# navigate to current script directory
+os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
 # ARGS
 parser = argparse.ArgumentParser(

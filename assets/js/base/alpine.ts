@@ -139,6 +139,9 @@ export const directives = [
       // create tooltip
       const tip = tippy(elt, options);
 
+      // add 'aria-label' attribute to improve accessibility
+      elt.setAttribute("aria-label", options.content);
+
       // when element is removed from the DOM, destroy the tooltip
       cleanup(() => {
         tip.destroy();

@@ -19,9 +19,9 @@ defmodule TodoListWeb.CoreComponents do
 
   ## Example
 
-    <.action_links items={[
-      %{content: "Return to your profile", navigate: ~p"/users/profile", class: "list-back"}
-    ]} />
+      <.action_links items={[
+        %{content: "Return to your profile", navigate: ~p"/users/profile", class: "list-back"}
+      ]} />
   """
   attr :title, :string, default: nil
   attr :class, :string, default: nil
@@ -73,16 +73,16 @@ defmodule TodoListWeb.CoreComponents do
 
   ## Example
 
-    <.footer />
+      <.footer />
   """
   def footer(assigns) do
     ~H"""
     <section class="w-full bg-base-200 py-6 text-center">
       <ul class="list-none">
         <li>
-          <h4 class="text-xl font-bold">
+          <div class="text-xl font-bold">
             Todo List
-          </h4>
+          </div>
         </li>
 
         <% # project-related links %>
@@ -325,11 +325,11 @@ defmodule TodoListWeb.CoreComponents do
           x-data="{ show: false }"
           x-title="navbarUserActionMenu"
           x-bind:class="show && 'dropdown-open'"
-          x-tooltip="User Actions"
           x-on:pointerdown.outside="show = false"
         >
           <button
             class="btn-ghost btn-square btn m-1"
+            x-tooltip="User Actions"
             x-on:focus="show = true"
             x-on:blur="show = false"
             x-on:click="show = true"

@@ -5,6 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
+    <meta
+      name="description"
+      content="Yet another todo list. Made using the Phoenix web framework."
+    />
+
     <% # title %>
     <.live_title suffix=" - Todo List">
       <%= assigns[:page_title] || "Todo List" %>

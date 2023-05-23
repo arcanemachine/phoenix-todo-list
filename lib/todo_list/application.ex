@@ -18,9 +18,17 @@ defmodule TodoList.Application do
       # Start Finch
       {Finch, name: TodoList.Finch},
       # Start the Endpoint (http/https)
-      TodoListWeb.Endpoint
+      TodoListWeb.Endpoint,
       # Start a worker by calling: TodoList.Worker.start_link(arg)
       # {TodoList.Worker, arg}
+      {
+        TodoList.PromEx,
+        plugins: [
+          {PromEx.Plugins.Application, [otp_app: :todo_list]},
+          {PromEx.Plugins.Phoenix, router: TodoListWeb.Router, endpoint: TodoListWeb.Endpoint}
+        ],
+        delay_manual_start: :no_delay
+      }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

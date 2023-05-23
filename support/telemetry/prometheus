@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  echo "This script runs a Prometheus container.
+
+Features:
+  - Runs with host networking
+  - Accessible via port 9090
+  - Uses Docker by default.
+    - Use Podman by passing either of the '-p' or '--podman' flags."
+fi
+
+container_runtime=docker
+if [ "$1" = "-p" ] || [ "$1" = "--podman" ]; then
+  container_runtime=podman
+fi
+
+echo "Starting a Prometheus container with host networking on port 9090...
+To stop and remove this container, run '$container_runtime stop prometheus'."
+
+# stop the old container
+$container_runtime stop prometheus
+
+$container_runtime run -d --rm --name=prometheus -v "./prometheus.yml:/etc/prometheus/prometheus.yml" --network=host docker.io/prom/prometheus

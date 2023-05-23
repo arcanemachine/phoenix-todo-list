@@ -130,9 +130,19 @@ color_reset := "\\033[39m"
     docker push '{{ image_name }}:latest'; \
   fi"
 
+# run a postgres container
+@docker-postgres:
+  echo "Starting a Postgres container..."
+  ./support/scripts/containers/compose--postgres up
+
+# reset the postgres container volume
+@docker-postgres-reset:
+  echo "Resetting the Postgres container volume..."
+  ./support/scripts/containers/container-volumes-reset ok
+
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':
-  echo "Generating new environment file..."
+  echo "\033[96mGenerating new environment file...\033[39m" > /dev/stderr
   ./support/scripts/dotenv-generate {{ args }}
 
 # fetch Elixir dependencies
@@ -149,11 +159,6 @@ color_reset := "\\033[39m"
   echo "Checking for info about the '{{ package }}' Hex package..."
   ! mix hex.info {{ package }}
 
-# check for Elixir Hex package updates
-@elixir-package-update-list:
-  echo "Listing Elixir package updates..."
-  ! mix hex.outdated
-
 # update a specific Elixir Hex package
 @elixir-package-update package='':
   if [ "{{ package }}" = "" ]; then \
@@ -168,20 +173,30 @@ color_reset := "\\033[39m"
   echo "Updating all Elixir dependencies..."
   mix deps.update --all
 
+# check for Elixir Hex package updates
+@elixir-package-update-list:
+  echo "Listing Elixir package updates..."
+  ! mix hex.outdated
+
 # create a release
 @elixir-release-create:
   echo "Creating an Elixir release..."
   ./support/scripts/elixir-release-create
 
-# run a basic loadtest with 'wrk' (must have 'wrk' installed)
-@loadtest-wrk:
-  echo "Running a basic load test with 'wrk'..."
-  ./support/scripts/loadtest-wrk
+# generate a grafana dashboard for a given prom_ex plugin
+@grafana-dashboard-generate plugin_name="phoenix":
+  echo "Generating a PromEx Grafana dashboard for the '{{ plugin_name }}' plugin in 'dashboard-{{ plugin_name }}.json'..."
+  mix prom_ex.dashboard.export --dashboard {{ plugin_name }}.json --stdout
 
 # run a basic loadtest with 'k6'
 @loadtest-k6:
   echo "Running a basic load test with 'k6'..."
   ./support/scripts/loadtest-k6
+
+# run a basic loadtest with 'wrk' (must have 'wrk' installed)
+@loadtest-wrk:
+  echo "Running a basic load test with 'wrk'..."
+  ./support/scripts/loadtest-wrk
 
 # generate an OpenAPI schema [format: json | yaml]
 @openapi-schema-generate format='json':
@@ -198,16 +213,6 @@ color_reset := "\\033[39m"
 @podman-image-push image_name=image_name:
   echo "Using Podman to push the '{{ image_name }}' image to Docker Hub..."
   podman push {{ image_name }} docker.io
-
-# run a postgres container
-@docker-postgres:
-  echo "Starting a Postgres container..."
-  ./support/scripts/containers/compose--postgres up
-
-# reset the postgres container volume
-@docker-postgres-reset:
-  echo "Resetting the Postgres container volume..."
-  ./support/scripts/containers/container-volumes-reset ok
 
 # run pre-commit hooks (requires pre-commit.com)
 @pre-commit:
@@ -243,17 +248,7 @@ color_reset := "\\033[39m"
   iex -S mix phx.server
 
 # run all tests
-@test-all: test-e2e test-elixir test-js
-
-# run end-to-end (E2E) tests with Playwright
-@test-e2e args='':
-  echo "Running E2E tests..."
-  ./support/scripts/test-e2e {{ args }}
-
-# run end-to-end (E2E) tests with Playwright (in watch mode)
-@test-e2e-watch args='':
-  echo "Running E2E tests in watch mode..."
-  ./support/scripts/test-e2e-watch {{ args }}
+@test-all: test-elixir test-js test-e2e
 
 # run Elixir tests
 @test-elixir:
@@ -274,6 +269,16 @@ color_reset := "\\033[39m"
 @test-js-watch:
   echo "Running Javascript unit tests in watch mode..."
   ./support/scripts/test-js-watch
+
+# run end-to-end (E2E) tests with Playwright
+@test-e2e args='':
+  echo "Running E2E tests..."
+  ./support/scripts/test-e2e {{ args }}
+
+# run end-to-end (E2E) tests with Playwright (in watch mode)
+@test-e2e-watch args='':
+  echo "Running E2E tests in watch mode..."
+  ./support/scripts/test-e2e-watch {{ args }}
 
 # print the OTP version number
 @version-otp:

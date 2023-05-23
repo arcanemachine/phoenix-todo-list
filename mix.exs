@@ -59,7 +59,8 @@ defmodule TodoList.MixProject do
       {:open_api_spex, "~> 3.16"},
       {:ymlr, "~> 3.0"},
       {:flop, "~> 0.20.1"},
-      {:flop_phoenix, "~> 0.18.2"}
+      {:flop_phoenix, "~> 0.18.2"},
+      {:prom_ex, "~> 1.8.0"}
     ]
   end
 

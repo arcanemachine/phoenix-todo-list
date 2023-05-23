@@ -25,17 +25,22 @@ if [ "$1" = "" ]; then
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
   exit 1
-elif [ "$1" = "up" ]; then
-  maybe_remove_orphans="--remove-orphans"
 fi
 
-if [ "$2" = "--podman" ]; then
+# move the first arg into a variable and shift it out of args
+action=$1
+shift
+
+if [ "$1" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
   export DOCKER_HOST="$podman_socket_path"
+
+  # shift value out of args
+  shift
 fi
 
 # run container action
-# shellcheck disable=SC2086
-docker-compose $maybe_podman_config -f compose.prometheus.yaml $1 "$maybe_remove_orphans"
+# shellcheck disable=SC2068,SC2086
+docker-compose $maybe_podman_config -f compose.prometheus.yaml $action $@

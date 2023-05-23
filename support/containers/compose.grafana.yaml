@@ -1,9 +1,13 @@
 ---
 services:
   grafana:
-    image: "docker.io/grafana/grafana"
+    image: "docker.io/grafana/grafana:9.5.2"
     container_name: "grafana"
     restart: "always"
     network_mode: "host"
     volumes:
-      - "./volumes/grafana:/var/lib/grafana"
+      - "phoenix-todo-list--grafana:/var/lib/grafana"
+
+volumes:
+  phoenix-todo-list--grafana:
+    external: true

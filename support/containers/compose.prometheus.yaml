@@ -1,7 +1,7 @@
 ---
 services:
   prometheus:
-    image: "docker.io/prometheus/prometheus"
+    image: "docker.io/prom/prometheus:v2.44.0"
     container_name: "prometheus"
     restart: "always"
     network_mode: "host"

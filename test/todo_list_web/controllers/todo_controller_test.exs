@@ -101,8 +101,7 @@ defmodule TodoListWeb.TodoControllerTest do
       conn = conn |> login_user(user) |> get(~p"/todos")
 
       # template contains expected content
-      refute html_response(conn, 200) =~ "class=\"pagination-previous\""
-      refute html_response(conn, 200) =~ "class=\"pagination-next\""
+      refute html_response(conn, 200) =~ "nav class=\"pagination\""
     end
 
     test "shows paginator HTML if object count is greater than the default_limit", %{
@@ -119,8 +118,7 @@ defmodule TodoListWeb.TodoControllerTest do
       conn = conn |> login_user(user) |> get(~p"/todos")
 
       # template contains expected content
-      assert html_response(conn, 200) =~ "class=\"pagination-previous"
-      assert html_response(conn, 200) =~ "class=\"pagination-next"
+      assert html_response(conn, 200) =~ "nav class=\"pagination\""
     end
   end
 

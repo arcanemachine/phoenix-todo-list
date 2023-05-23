@@ -114,8 +114,8 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 
-  # send live emails if we're not in a localhost domain and the server is configured for AWS
-  if !(System.get_env("PHX_HOST") =~ "localhost") && System.get_env("AWS_SECRET", "") != "" do
+  # send live emails if we're not in a localhost domain or the server is configured for AWS
+  if !(System.get_env("PHX_HOST") =~ "localhost") || System.get_env("AWS_SECRET", "") != "" do
     # use live email in production
     config :todo_list, TodoList.Mailer,
       adapter: Swoosh.Adapters.AmazonSES,

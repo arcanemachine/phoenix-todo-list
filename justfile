@@ -183,9 +183,8 @@ color_reset := "\\033[39m"
   echo "Creating an Elixir release..."
   ./support/scripts/elixir-release-create
 
-# generate a grafana dashboard for a given prom_ex plugin
-@grafana-dashboard-generate plugin_name="phoenix":
-  echo "Generating a PromEx Grafana dashboard for the '{{ plugin_name }}' plugin in 'dashboard-{{ plugin_name }}.json'..."
+# generate a grafana dashboard for a given prom_ex plugin (e.g. application, beam)
+@grafana-dashboard-generate plugin_name:
   mix prom_ex.dashboard.export --dashboard {{ plugin_name }}.json --stdout
 
 # run a basic loadtest with 'k6'

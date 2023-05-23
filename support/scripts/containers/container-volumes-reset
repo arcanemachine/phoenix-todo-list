@@ -1,9 +1,13 @@
 #!/bin/sh
 
 if [ "$1" = "--help" ]; then
-  echo "This script removes root permissions on any Docker volumes created in 'support/containers/volumes'.
+  echo "This script deletes this project's container volumes. It is an easy way to reset this project's container-related volumes.
 
-It uses 'chown' to change ownership of the volume directory to the current user."
+In case the above warning didn't make it clear...
+
+*** WARNING: THIS SCRIPT WILL DELETE ALL OF THIS PROJECT'S CONTAINER-RELATED DATA! USE WITH CAUTION! ***
+
+You must enter 'ok' (without the quotes) as the first positional parameter to run this script."
   exit 1
 elif [ "$1" != "ok" ]; then
   echo "Must enter 'ok' (without the quotes) as the first positional parameter to continue. Aborting..."
@@ -15,6 +19,7 @@ project_root_directory="$(dirname "$0")/../../.."
 container_volumes_directory="$project_root_directory/support/containers/volumes"
 cd "$container_volumes_directory" || exit 1
 
+# postgres
 echo "Resetting this project's Postgres container volume..."
 if ! rm -rf ./postgres; then
   echo "\033[96mPermission denied. Trying again as superuser...\033[39m"
@@ -23,3 +28,13 @@ if ! rm -rf ./postgres; then
   fi
 fi
 mkdir postgres
+
+# prometheus
+echo "Resetting this project's Prometheus container volume..."
+if ! rm -rf ./prometheus; then
+  echo "\033[96mPermission denied. Trying again as superuser...\033[39m"
+  if sudo rm -rf ./prometheus; then
+    echo "\033[92mok\033[39m"
+  fi
+fi
+mkdir prometheus

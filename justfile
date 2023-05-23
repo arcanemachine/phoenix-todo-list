@@ -91,44 +91,6 @@ color_reset := "\\033[39m"
   echo "Resetting the database..."
   mix ecto.reset
 
-# fetch Elixir dependencies
-@elixir-fetch-dependencies:
-  echo "Fetching Elixir dependencies..."
-  mix deps.get
-
-# get info about an Elixir Hex package
-@elixir-package-info package='':
-  if [ "{{ package }}" = "" ]; then \
-    echo "{{ color_error }}You must specify an Elixir package. Aborting...{{ color_reset }}" && \
-    exit 1; \
-  fi
-  echo "Checking for info about the '{{ package }}' Hex package..."
-  ! mix hex.info {{ package }}
-
-# check for Elixir Hex package updates
-@elixir-package-update-list:
-  echo "Listing Elixir package updates..."
-  ! mix hex.outdated
-
-# update a specific Elixir Hex package
-@elixir-package-update package='':
-  if [ "{{ package }}" = "" ]; then \
-    echo "{{ color_error }}You must specify the Elixir Hex package to update. Aborting...{{ color_reset }}" && \
-    exit 1; \
-  fi
-  echo "Updating Elixir Hex package '{{ package }}'..."
-  mix deps.update {{ package }}
-
-# update all Elixir dependencies
-@elixir-package-update-all:
-  echo "Updating all Elixir dependencies..."
-  mix deps.update --all
-
-# create a release
-@elixir-release-create:
-  echo "Creating an Elixir release..."
-  ./support/scripts/elixir-release-create
-
 # build a docker image
 @docker-image-build image_name=image_name:
   echo "Building a Docker image '{{ image_name }}'..."
@@ -172,6 +134,44 @@ color_reset := "\\033[39m"
 @dotenv-generate args='':
   echo "Generating new environment file..."
   ./support/scripts/dotenv-generate {{ args }}
+
+# fetch Elixir dependencies
+@elixir-fetch-dependencies:
+  echo "Fetching Elixir dependencies..."
+  mix deps.get
+
+# get info about an Elixir Hex package
+@elixir-package-info package='':
+  if [ "{{ package }}" = "" ]; then \
+    echo "{{ color_error }}You must specify an Elixir package. Aborting...{{ color_reset }}" && \
+    exit 1; \
+  fi
+  echo "Checking for info about the '{{ package }}' Hex package..."
+  ! mix hex.info {{ package }}
+
+# check for Elixir Hex package updates
+@elixir-package-update-list:
+  echo "Listing Elixir package updates..."
+  ! mix hex.outdated
+
+# update a specific Elixir Hex package
+@elixir-package-update package='':
+  if [ "{{ package }}" = "" ]; then \
+    echo "{{ color_error }}You must specify the Elixir Hex package to update. Aborting...{{ color_reset }}" && \
+    exit 1; \
+  fi
+  echo "Updating Elixir Hex package '{{ package }}'..."
+  mix deps.update {{ package }}
+
+# update all Elixir dependencies
+@elixir-package-update-all:
+  echo "Updating all Elixir dependencies..."
+  mix deps.update --all
+
+# create a release
+@elixir-release-create:
+  echo "Creating an Elixir release..."
+  ./support/scripts/elixir-release-create
 
 # run a basic loadtest with 'wrk' (must have 'wrk' installed)
 @loadtest-wrk:

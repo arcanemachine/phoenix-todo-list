@@ -268,3 +268,4 @@ There are several types of dependencies throughout this project that should be k
   - `support/containers/compose.traefik.yaml`
   - `support/containers/Dockerfile.base`
   - `support/containers/Dockerfile.fly`
+  - `support/scripts/loadtest-k6`

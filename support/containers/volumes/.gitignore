@@ -1,1 +1,3 @@
-/postgres/
+# ignore all files in this directory except the '/backups/' directory and this .gitignore file
+*
+!/backups/

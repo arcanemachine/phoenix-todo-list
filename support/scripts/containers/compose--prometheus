@@ -1,0 +1,41 @@
+#!/bin/sh
+
+if [ "$1" = "--help" ]; then
+  echo "This script manages a Compose service for Prometheus.
+
+The first positional argument must specify the 'docker-compose' command(s) to run.
+  - Examples: up, down, restart, etc.
+
+Features:
+  - Runs with host networking
+  - Accessible via port 9090
+  - Uses Docker by default
+    - To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
+  exit 1
+fi
+
+# navigate to containers directory
+project_root_directory="$(dirname "$0")/../../.."
+containers_directory="$project_root_directory/support/containers"
+cd "$containers_directory" || exit 1
+
+# ensure first positional argument is present
+if [ "$1" = "" ]; then
+  echo "The first positional argument must specify the 'docker-compose' command(s) to run. Examples: up, down, restart, etc.
+
+To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
+  exit 1
+elif [ "$1" = "up" ]; then
+  maybe_remove_orphans="--remove-orphans"
+fi
+
+if [ "$2" = "--podman" ]; then
+  # use podman config
+  podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
+  maybe_podman_config="-H unix:${podman_socket_path}"
+  export DOCKER_HOST="$podman_socket_path"
+fi
+
+# run container action
+# shellcheck disable=SC2086
+docker-compose $maybe_podman_config -f compose.prometheus.yaml $1 "$maybe_remove_orphans"

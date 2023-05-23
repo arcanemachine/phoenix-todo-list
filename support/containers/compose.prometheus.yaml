@@ -1,0 +1,10 @@
+---
+services:
+  prometheus:
+    image: "docker.io/prometheus/prometheus"
+    container_name: "prometheus"
+    restart: "always"
+    network_mode: "host"
+    volumes:
+      - "./volumes/prometheus:/etc/prometheus"
+      - "./etc/prometheus.yml:/etc/prometheus/prometheus.yml"

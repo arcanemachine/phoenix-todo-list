@@ -28,18 +28,18 @@ Notes:
 
 ## Setting up Prometheus
 
-- Use the quick-start script `support/telemetry/prometheus` to start a Prometheus container.
+- Run `docker compose -f compose.prometheus.yml` to start a Prometheus container.
   - The `prometheus.yml` file uses the default `http://localhost:4001` URL to access your Phoenix server's metrics
     - If you are using a different URL, modify the `prometheus.yml` file and restart the container after saving your changes.
       - The `prometheus` script stops and start the Prometheus container, so running it is an easy way to restart the container.
 - After running this script, the Prometheus server should automatically start scraping your Phoenix server's metrics via PromEx.
   - To ensure that Prometheus is working, you can navigate to `http://localhost:9090/targets` in your browser.
     - The `State` of both targets (`prometheus` and `phoenix-todo-list`) should be `UP`
-    - The `Last Scrape` for each target should be within the past 5 seconds
+    - The `Last Scrape` for each target should be within the past 5 seconds. That means the metrics are being kept up to date.
 
 ## Setting up Grafana
 
-- Use the quick-start script `support/telemetry/grafana` to start a Grafana container.
+- Run `docker compose -f compose.grafana.yml up` to start a Prometheus container.
 - Navigate to `localhost:3000` and login to Grafana.
   - The default username is `admin` and the default password is `admin`.
 - Set a new password when prompted.

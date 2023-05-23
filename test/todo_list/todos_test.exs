@@ -17,9 +17,10 @@ defmodule TodoList.TodosTest do
 
     @invalid_attrs %{content: nil, is_completed: nil}
 
-    test "list_todos/0 returns all todos" do
+    test "list_todos/0 returns expected data" do
       todo = todo_fixture()
-      assert Todos.list_todos() == [todo]
+      {_res, {todos, _meta}} = Todos.list_todos()
+      assert todos == [todo]
     end
 
     test "get_todo!/1 returns the todo with given id" do

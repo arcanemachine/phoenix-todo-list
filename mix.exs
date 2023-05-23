@@ -57,7 +57,9 @@ defmodule TodoList.MixProject do
       {:dialyxir, "~> 1.3", only: [:dev, :test], runtime: false},
       {:gen_smtp, "~> 1.2"},
       {:open_api_spex, "~> 3.16"},
-      {:ymlr, "~> 3.0"}
+      {:ymlr, "~> 3.0"},
+      {:flop, "~> 0.20.1"},
+      {:flop_phoenix, "~> 0.18.2"}
     ]
   end
 

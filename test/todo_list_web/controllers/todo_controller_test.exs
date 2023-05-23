@@ -4,6 +4,8 @@ defmodule TodoListWeb.TodoControllerTest do
   import TodoList.AccountsFixtures
   import TodoList.TodosFixtures
 
+  alias TodoList.Todos.Todo
+
   setup do
     %{user: user_fixture()}
   end
@@ -15,8 +17,7 @@ defmodule TodoListWeb.TodoControllerTest do
   describe "unauthenticated user" do
     setup [:create_fixtures]
 
-    test "cannot :index todos", %{conn: conn} do
-      # test "cannot :index todos", %{conn: conn} do
+    test "cannot view todos :index", %{conn: conn} do
       conn = conn |> get(~p"/todos")
       assert redirected_to(conn) == ~p"/users/login"
     end
@@ -88,6 +89,38 @@ defmodule TodoListWeb.TodoControllerTest do
     test "lists all todos", %{conn: conn, user: user} do
       conn = conn |> login_user(user) |> get(~p"/todos")
       assert html_response(conn, 200) =~ "Todo List"
+    end
+
+    test "does not show paginator HTML if object count is less than the default_limit", %{
+      conn: conn,
+      user: user
+    } do
+      # the test conditions for this test should be satisfied without any effort on our part
+
+      # make request
+      conn = conn |> login_user(user) |> get(~p"/todos")
+
+      # template contains expected content
+      refute html_response(conn, 200) =~ "class=\"pagination-previous\""
+      refute html_response(conn, 200) =~ "class=\"pagination-next\""
+    end
+
+    test "shows paginator HTML if object count is greater than the default_limit", %{
+      conn: conn,
+      user: user
+    } do
+      # find out how many objects we need to create to satisfy the test conditions
+      required_todos_count = Flop.get_option(:default_limit, for: Todo) + 1
+
+      # create the required number of objects to satisfy the test conditions
+      for _ <- 1..required_todos_count, do: todo_fixture(%{user_id: user.id})
+
+      # make request
+      conn = conn |> login_user(user) |> get(~p"/todos")
+
+      # template contains expected content
+      assert html_response(conn, 200) =~ "class=\"pagination-previous"
+      assert html_response(conn, 200) =~ "class=\"pagination-next"
     end
   end
 

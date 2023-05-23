@@ -4,9 +4,10 @@ defmodule TodoListWeb.TodoController do
   alias TodoList.Todos
   alias TodoList.Todos.Todo
 
-  def index(conn, _params) do
-    todos = Todos.list_todos_by_user_id(conn.assigns.current_user.id)
-    render(conn, :index, todos: todos, page_title: "Todo List")
+  def index(conn, params) do
+    with {:ok, {todos, meta}} <- Todos.list_todos(params) do
+      render(conn, :index, page_title: "Todo List", meta: meta, todos: todos)
+    end
   end
 
   def new(conn, _params) do

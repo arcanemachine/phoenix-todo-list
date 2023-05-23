@@ -6,6 +6,15 @@
 @import "toastify-js/src/toastify.css";
 
 /*** BASE ***/
+/* unlike the tailwind sections, any classes declared here will not be purged
+   if they are not found in the markup. that makes this section useful for
+   programatically-inserted elements, such as elements related to pagination
+   and toast messages. */
+
+.pagination-next {
+  margin-left: 2rem;
+}
+
 /* toastify-js */
 .toastify {
   display: flex;

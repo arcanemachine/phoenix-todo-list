@@ -17,8 +17,9 @@ defmodule TodoList.Todos do
       [%Todo{}, ...]
 
   """
-  def list_todos do
-    Repo.all(Todo)
+  @spec list_todos(map) :: {:ok, {[Todo.t()], Flop.Meta.t()}} | {:error, Flop.Meta.t()}
+  def list_todos(params \\ %{}) do
+    Flop.validate_and_run(Todo, params, for: Todo)
   end
 
   @doc """

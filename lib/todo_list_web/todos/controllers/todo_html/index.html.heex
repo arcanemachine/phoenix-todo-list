@@ -9,6 +9,9 @@
         </.link>
         <ul class="ml-4 list-dash">
           <li class="mt-1">
+            <span class="font-bold">ID:</span> #<%= todo.id %>
+          </li>
+          <li>
             <span class="font-bold">Is completed?</span>
             <%= (todo.is_completed && "Yes") || "No" %>
           </li>
@@ -16,6 +19,16 @@
       </li>
     <% end %>
   </ul>
+  <div class="mt-4" />
+  <Flop.Phoenix.pagination
+    meta={@meta}
+    opts={[
+      page_links: :hide,
+      previous_link_content: "🡰  Previous Page",
+      next_link_content: "Next Page 🡲 "
+    ]}
+    path={~p"/todos"}
+  />
 <% end %>
 
 <.action_links items={[

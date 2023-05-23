@@ -263,9 +263,6 @@ There are several types of dependencies throughout this project that should be k
 - Javascript (npm):
   - `assets/js/`
 - Containers (Docker/Podman):
-  - `support/containers/compose.phoenix.yaml`
-  - `support/containers/compose.postgres.yaml`
-  - `support/containers/compose.traefik.yaml`
-  - `support/containers/Dockerfile.base`
-  - `support/containers/Dockerfile.fly`
+  - `support/containers/compose.*.yaml`
+  - `support/containers/Dockerfile.*`
   - `support/scripts/loadtest-k6`

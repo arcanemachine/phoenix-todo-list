@@ -15,7 +15,7 @@ Features:
 - Basic CRUD
 - LiveView CRUD
 - REST API
-- [OpenAPI spec](https://phoenix-todo-list.nicholasmoen.com/api)
+- OpenAPI spec available in [JSON](https://phoenix-todo-list.nicholasmoen.com/static/openapi.json) and [YAML](https://phoenix-todo-list.nicholasmoen.com/static/openapi.yaml)
 - [Insomnia](https://insomnia.rest/) spec for easy HTTP/API endpoint debugging
 - Elixir tests (ExUnit)
 - Javascript-based unit tests (Vitest)

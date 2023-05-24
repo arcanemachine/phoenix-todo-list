@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+import sys
+
+if "--help" in sys.argv:
+    print(
+        """This script is a placeholder for a future Caddyfile generator script.
+
+Flags:
+    -a --append - Append the output to an existing Caddyfile
+        - Used for allowing multiple domains in a single Caddyfile
+
+    -d --domain - Specify a custom domain name (default: $PHX_HOST)
+    -f --force - Overwrite the existing Caddyfile if one exists
+    ---insecure-metrics - Do not secure the '/metrics' endpoint
+    -p --port - Specify a custom port (default: $PORT)
+    --password - The password to secure the '/metrics' endpoint with
+        - Will read the password via a non-echoing interactive prompt
+        - One of the password flags must be passed unless '--insecure-metrics' is passed
+        - The password will be hashed using `mkpasswd --method=bcrypt`
+        - Can't be used with '--insecure-metrics'
+    --raw-password - The password to secure the '/metrics' endpoint with
+        - The password must be passed when calling the script.
+            - Take care to ensure that the password is not added to the shell history!
+        - One of the password flags must be passed unless '--insecure-metrics' is passed
+        - The password will be hashed using `mkpasswd --method=bcrypt`
+        - Can't be used with '--insecure-metrics'
+    --test-cert - Use Let's Encrypt test certificates
+        - Can't be used with '--vagrant'
+    -vagrant - Configure for use in a Vagrant host (adds path to self-signed keys)
+        - Adds line to vagrant: `tls /vagrant/cert.pem /vagrant/key.pem`
+        - Can't be used with '--test-cert'"""
+    )
+    sys.exit()
+
+print(
+    """This script is a placeholder for a future Caddyfile generator script.
+For more info, run this script with the '--help' flag."""
+)

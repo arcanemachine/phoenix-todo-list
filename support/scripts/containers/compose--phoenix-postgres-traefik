@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ "$1" = "--help" ]; then
   echo "This script manages a Compose service for Phoenix + Postgres + Traefik.
@@ -38,22 +38,38 @@ elif [ "$1" = "up" ]; then
 
 fi
 
-# ensure second positional argument is present
-if [ "$2" = "" ]; then
+# move the first arg into a variable and shift it out of args
+action=$1
+shift
+
+# ensure second (first after shifting) positional argument is present
+if [ "$1" = "" ] || [ "$1" != "local" ] && [ "$1" != "remote" ]; then
   echo "\033[91mThe second positional argument must specify whether the Traefik container should use a 'local' (no HTTPS) or 'remote' (uses HTTPS) config (without the quotes).\033[39m
+
+The second positional argument must be one of: local, remote
+
 Aborting..."
   exit 1
+else
+  local_or_remote=$1
+
+  # shift value out of args
+  shift
 fi
 
-# if third positional argument is '--podman', then use podman as container
-# orchestrator
-if [ "$3" = "--podman" ]; then
+# get last arg
+for last_arg; do true; done
+
+if [ "$last_arg" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
   export DOCKER_HOST="$podman_socket_path"
+
+  # remove last arg
+  set -- "${@:1:$(($# - 1))}"
 fi
 
 # run container action
-# shellcheck disable=SC2086
-docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$2.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-$2.yaml $1
+# shellcheck disable=SC2068,SC2086
+docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$local_or_remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-$local_or_remote.yaml $action $@

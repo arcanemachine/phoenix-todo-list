@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ "$1" = "--help" ]; then
   echo "This script manages a Compose service for Prometheus.
@@ -31,14 +31,17 @@ fi
 action=$1
 shift
 
-if [ "$1" = "--podman" ]; then
+# get last arg
+for last_arg; do true; done
+
+if [ "$last_arg" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
   export DOCKER_HOST="$podman_socket_path"
 
-  # shift value out of args
-  shift
+  # remove last arg
+  set -- "${@:1:$(($# - 1))}"
 fi
 
 # run container action

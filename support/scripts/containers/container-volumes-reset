@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" = "--help" ]; then
   echo "This script deletes this project's container volumes. It is an easy way to reset this project's container-related volumes.

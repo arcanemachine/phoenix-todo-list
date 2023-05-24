@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ "$1" = "--help" ]; then
   echo "This script manages a Compose service for Phoenix + Postgres.
@@ -23,13 +23,23 @@ To use Podman instead of Docker, pass the '--podman' flag as the last positional
   exit 1
 fi
 
-if [ "$2" = "--podman" ]; then
+# move the first arg into a variable and shift it out of args
+action=$1
+shift
+
+# get last arg
+for last_arg; do true; done
+
+if [ "$last_arg" = "--podman" ]; then
   # use podman config
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
   export DOCKER_HOST="$podman_socket_path"
+
+  # remove last arg
+  set -- "${@:1:$(($# - 1))}"
 fi
 
 # run container action
-# shellcheck disable=SC2086
-docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml $1
+# shellcheck disable=SC2068,SC2086
+docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml $action $@

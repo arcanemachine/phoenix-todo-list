@@ -29,7 +29,7 @@ color_reset := "\\033[39m"
 @postgres: docker-postgres
 
 # start a dev server (db-setup + server-dev-start)
-@dev: db-setup server-dev-start
+@dev: elixir-fetch-dependencies db-setup server-dev-start
 
 # run all tests (test-elixir, test-js-unit, test-js-e2e)
 @test: test-elixir test-js test-e2e

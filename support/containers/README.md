@@ -145,7 +145,7 @@ This step has already been completed for this project, but I am leaving this not
 
 ### Setting up Prometheus
 
-All commands in this section should be run from the `support/containers/`.
+All commands in this section should be run from the directory `support/containers/`.
 
 - Run `docker compose -f compose.prometheus.yml up` to start a Prometheus container.
   - The `etc/prometheus.yml` file uses the default `http://localhost:4001` URL to access your Phoenix server's metrics
@@ -158,7 +158,7 @@ All commands in this section should be run from the `support/containers/`.
 
 ### Setting up Grafana
 
-All commands in this section should be run from the `support/containers/` directory (unless otherwise indicated).
+All commands in this section should be run from the directory `support/containers/` (unless otherwise indicated).
 
 - Run `docker compose -f compose.grafana.yml up` to start a Prometheus container.
 - Navigate to `localhost:3000` and login to Grafana.
@@ -185,6 +185,7 @@ All commands in this section should be run from the `support/containers/` direct
       - NOTE: The `Application` and `Beam` PromEx plugins are enabled by default.
         - To enable other plugins/dashboards (e.g. `Phoenix`), you will need to uncomment the relevant lines in the `plugins` and `dashboards` sections of the `lib/todo_list/prom_ex.ex` module.
     - Use Mix to generate the dashboard:
+      - Navigate to the project root directory.
       - `mix prom_ex.dashboard.export --dashboard application.json --stdout`
     - Copy the JSON output to the clipboard.
 - Back in Grafana, paste the JSON output into the `Import via panel json` section.

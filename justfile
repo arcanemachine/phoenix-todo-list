@@ -28,7 +28,7 @@ color_reset := "\\033[39m"
 # run a postgres container
 @postgres: docker-postgres
 
-# start a dev server (db-setup + server-dev-start)
+# start a dev server (elixir-fetch-dependencies + db-setup + server-dev-start)
 @dev: elixir-fetch-dependencies db-setup server-dev-start
 
 # run all tests (test-elixir, test-js-unit, test-js-e2e)
@@ -46,7 +46,7 @@ color_reset := "\\033[39m"
 # push the image to docker hub (docker-image-push)
 @push: docker-image-push
 
-# one-liner to release, build, and push a docker image
+# one-liner to release, build, and push a docker image (release + build + push)
 @release-build-push: release build push
 
 # COMMANDS #

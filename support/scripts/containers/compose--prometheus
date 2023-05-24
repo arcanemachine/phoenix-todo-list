@@ -27,6 +27,17 @@ To use Podman instead of Docker, pass the '--podman' flag as the last positional
   exit 1
 fi
 
+if [ "$1" = "up" ]; then
+  # ensure that external volume exists
+  container_runtime=docker
+
+  if [ "$last_arg" = "--podman" ]; then
+    container_runtime=podman
+  fi
+
+  $container_runtime volume create phoenix-todo-list--prometheus
+fi
+
 # move the first arg into a variable and shift it out of args
 action=$1
 shift

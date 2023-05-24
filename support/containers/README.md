@@ -171,6 +171,11 @@ All commands in this section should be run from the `support/containers/` direct
   - Name the data source `prometheus`.
     - Use lowercase letters so it matches the PromEx datasource name this project used when setting up PromEx.
   - Enter the URL of our Prometheus server: `http://localhost:9090`
+  - If your `/metrics` endpoint requires authentication, configure that field now.
+    - If this service is accessible from the Internet, your `/metrics` endpoint should require authentication of some sort.
+      - If you do not enable authentication:
+        - You may leak sensitive data about the server.
+        - You make it easier to DoS your server from strangers requesting data from your `/metrics` endpoint.
   - Click the `Save & test` button at the bottom of the page to save our changes.
 - Create a dashboard so we can view the data that Prometheus scraped from our server.
   - `Hamburger Menu` -> Click `Dashboards` -> `New` -> `Import`

@@ -37,16 +37,17 @@ Before you work in a `dev` environment, ensure that your environment variables a
 
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
-  - It is _highly_ recommended to use `direnv` to easily load your environment when navigating within this project's directories.
-- Run `mix deps.get` to fetch the dependencies.
+  - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 - Setup Postgres:
   - For easy Postgres setup, run `just postgres`. (requires [`just`](https://github.com/casey/just) task runner)
-- Once the Postgres server is running, set up the `dev` environment:
-  - `mix ecto.setup`
-- Use any of these commands to start a dev server:
-  - `just dev` - Uses [`just`](https://github.com/casey/just) task runner to start a dev server
-  - `mix phx.server` - The regular method of starting a dev server
-  - `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
+- Setup and run the server:
+  - The easy way (requires `just` to be installed): `just dev`
+  - The manual way:
+    - Run `mix deps.get` to fetch the dependencies.
+    - Setup the database: `mix ecto.setup`
+    - Start a dev server:
+      - `mix phx.server` - The regular method of starting a dev server
+      - Or, `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
 - Your server should now be accessible on `localhost:4001`.
   - This project's ports are set by configuring the `PORT` environment variable (e.g. in the `.env` file).
     - Production: The default port is `PORT` (e.g. 4000)

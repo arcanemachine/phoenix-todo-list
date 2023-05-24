@@ -28,14 +28,6 @@ if [ "$1" = "" ]; then
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argumnet."
   exit 1
 
-elif [ "$1" = "up" ]; then
-
-  # ensure the network 'traefik-global-proxy' exists
-  echo "Creating Docker network: 'traefik-global-proxy'..."
-  if [ ! "$(docker network create traefik-global-proxy)" ]; then
-    echo "\033[96mThe 'traefik-global-proxy' network already exists.\033[39m"
-  fi
-
 fi
 
 # move the first arg into a variable and shift it out of args
@@ -53,18 +45,27 @@ Aborting..."
 else
   local_or_remote=$1
 
-  # shift value out of args
+  # shift positional argument out of args
   shift
 fi
 
 # get last arg
 for last_arg; do true; done
 
+# extra actions for handling 'up' action
+if [ "$action" = "up" ]; then
+  # ensure the network 'traefik-global-proxy' exists
+  echo "Creating Docker network: 'traefik-global-proxy'..."
+  if [ ! "$(docker network create traefik-global-proxy)" ]; then
+    echo "\033[96mThe 'traefik-global-proxy' network already exists.\033[39m"
+  fi
+fi
+
+# podman
 if [ "$last_arg" = "--podman" ]; then
-  # use podman config
+  # use podman instead of docker
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
-  export DOCKER_HOST="$podman_socket_path"
 
   # remove last arg
   set -- "${@:1:$(($# - 1))}"

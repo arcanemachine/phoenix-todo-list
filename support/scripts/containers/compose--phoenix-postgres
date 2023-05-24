@@ -30,11 +30,11 @@ shift
 # get last arg
 for last_arg; do true; done
 
+# podman
 if [ "$last_arg" = "--podman" ]; then
-  # use podman config
+  # use podman instead of docker
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
   maybe_podman_config="-H unix:${podman_socket_path}"
-  export DOCKER_HOST="$podman_socket_path"
 
   # remove last arg
   set -- "${@:1:$(($# - 1))}"

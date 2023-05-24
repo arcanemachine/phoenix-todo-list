@@ -107,17 +107,82 @@ To run this project's built-in Traefik container service:
 To reset the containers, run the following commands (for Podman, replace `docker` with `podman`):
 
 - Remove all stopped containers and unused networks
-
   - Docker: `docker system prune`
   - Podman: `podman system prune`
-
 - If a container is still running:
-
   - Stop the container: `docker stop [container-name]`
   - Remove the container: `docker rm [container-name]`
-
 - If you are using Traefik:
-
   - Re-create the Trafik proxy network: `docker network create traefik-global-proxy`
-
 - Start the containers again: `docker-compose [your containers] up`
+
+## Telemetry
+
+**Disclaimer: This section is intended as a _starting point_ to get a telemetry service up and running. Keep in mind that the server's `/metrics` endpoint is publicly available, and should be secured when deploying to the Internet. See `support/deployment/caddy/Caddyfile.prod` for an example of a Caddyfile that uses HTTP basic authentication to secure this endpoint.**
+
+This section describes the process of getting a telemetry frontend service working, powered by [PromEx](https://github.com/akoutmos/prom_ex/) + [Prometheus](https://github.com/prometheus/prometheus) + [Grafana](https://github.com/grafana/grafana).
+
+Note: For the sake of simplification, this document assumes you are working in a dev environment. For example, the `./etc/prometheus.yml` config uses the `http://localhost:4001` endpoint for scraping metrics data. If you are working in a different environment, you will need to modify this config file.
+
+## Overview
+
+- Elixir and Phoenix have powerful built-in telemetry, powered by the [`telemetry`](https://hexdocs.pm/telemetry/readme.html) Elixir library.
+- PromEx exposes built-in and custom telemetry data via an HTTP endpoint that can be consumed by Prometheus, which is a "a monitoring system and time-series database".
+- The data from Prometheus is displayed using Grafana, which is an "open and composable observability and data visualization platform".
+
+## Setup Instructions
+
+### Setting up PromEx
+
+All commands in this section should be run from the project root directory.
+
+This step has already been completed for this project, but I am leaving this note here as a reminder to my future self and others who have to go through this process:
+
+- When generating the `prom_ex.ex` module with PromEx, use `prometheus` as the name of your data source:
+  - `mix prom_ex.gen.config --datasource prometheus`
+    - NOTE: The datasource must match the name of your Grafana data source.
+      - For consistency, these instructions use all lowercase letters when naming the data source.
+
+### Setting up Prometheus
+
+All commands in this section should be run from the `support/containers/`.
+
+- Run `docker compose -f compose.prometheus.yml up` to start a Prometheus container.
+  - The `etc/prometheus.yml` file uses the default `http://localhost:4001` URL to access your Phoenix server's metrics
+    - If you are using a different URL, modify the `prometheus.yml` file and restart the container after saving your changes.
+- After running this script, the Prometheus server should automatically start scraping your Phoenix server's metrics via PromEx.
+  - To ensure that Prometheus is working, you can navigate to `http://localhost:9090/targets` in your browser.
+    - The `State` of both targets (`prometheus` and `phoenix-todo-list`) should be `UP`
+    - The `Last Scrape` for each target should be within the past 5 seconds.
+      - If this is not the case, then check to make sure the targets have been configured properly in `etc/prometheus.yml`.
+
+### Setting up Grafana
+
+All commands in this section should be run from the `support/containers/` directory (unless otherwise indicated).
+
+- Run `docker compose -f compose.grafana.yml up` to start a Prometheus container.
+- Navigate to `localhost:3000` and login to Grafana.
+  - The default username is `admin` and the default password is `admin`.
+- Set a new password when prompted.
+- Add Prometheus as a new data source:
+  - Click the "Add your first data source" item on the homepage
+    - Or, `Hamburger Menu` -> Click `Connections` -> `Data Sources` -> `Add new data source`
+  - Select `Prometheus`.
+  - Name the data source `prometheus`.
+    - Use lowercase letters so it matches the PromEx datasource name this project used when setting up PromEx.
+  - Enter the URL of our Prometheus server: `http://localhost:9090`
+  - Click the `Save & test` button at the bottom of the page to save our changes.
+- Create a dashboard so we can view the data that Prometheus scraped from our server.
+  - `Hamburger Menu` -> Click `Dashboards` -> `New` -> `Import`
+- Now we will use `mix` to generate the dashboard with a PromEx `mix`:
+  - PromEx has several built-in plugins (e.g. `Application`, `Beam`), each of which comes with a dashboard interface.kkl
+    - For this example, we'll generate a dashboard for the Application plugin.
+      - NOTE: The `Application` and `Beam` PromEx plugins are enabled by default.
+        - To enable other plugins/dashboards (e.g. `Phoenix`), you will need to uncomment the relevant lines in the `plugins` and `dashboards` sections of the `lib/todo_list/prom_ex.ex` module.
+    - Use Mix to generate the dashboard:
+      - `mix prom_ex.dashboard.export --dashboard application.json --stdout`
+    - Copy the JSON output to the clipboard.
+- Back in Grafana, paste the JSON output into the `Import via panel json` section.
+- Press the `Load` button at the bottom of the page.
+- Press the `Import` button to finish creating the dashboard.
+- Now, the dashboard should be visible. That means we're done.

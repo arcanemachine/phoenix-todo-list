@@ -28,9 +28,6 @@ color_reset := "\\033[39m"
 # run a postgres container
 @postgres: docker-postgres
 
-# reset the postgres container volume
-@postgres-reset: docker-postgres-reset
-
 # start a dev server (db-setup + server-dev-start)
 @dev: db-setup server-dev-start
 
@@ -134,11 +131,6 @@ color_reset := "\\033[39m"
 @docker-postgres:
   echo "Starting a Postgres container..."
   ./support/scripts/containers/compose--postgres up
-
-# reset the postgres container volume
-@docker-postgres-reset:
-  echo "Resetting the Postgres container volume..."
-  ./support/scripts/containers/container-volumes-reset ok
 
 # generate environment file (default is '.env', pass '--envrc' for '.envrc')
 @dotenv-generate args='':

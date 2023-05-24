@@ -22,18 +22,20 @@ cd "$containers_directory" || exit 1
 
 # ensure first positional argument is present
 if [ "$1" = "" ]; then
+
   echo "The first positional argument must specify the 'docker-compose' command(s) to run. Examples: up, down, restart, etc.
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argumnet."
   exit 1
+
 elif [ "$1" = "up" ]; then
-  maybe_remove_orphans="--remove-orphans"
 
   # ensure the network 'traefik-global-proxy' exists
   echo "Creating Docker network: 'traefik-global-proxy'..."
   if [ ! "$(docker network create traefik-global-proxy)" ]; then
     echo "\033[96mThe 'traefik-global-proxy' network already exists.\033[39m"
   fi
+
 fi
 
 # ensure second positional argument is present
@@ -54,4 +56,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2086
-docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$2.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-$2.yaml $1 $maybe_remove_orphans
+docker-compose $maybe_podman_config -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$2.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-$2.yaml $1

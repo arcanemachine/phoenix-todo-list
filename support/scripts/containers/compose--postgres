@@ -21,8 +21,6 @@ if [ "$1" = "" ]; then
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
   exit 1
-elif [ "$1" = "up" ]; then
-  maybe_remove_orphans="--remove-orphans"
 fi
 
 if [ "$2" = "--podman" ]; then
@@ -34,4 +32,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2086
-docker-compose $maybe_podman_config -f compose.postgres.yaml -f networks/compose.postgres-host.yaml $1 "$maybe_remove_orphans"
+docker-compose $maybe_podman_config -f compose.postgres.yaml -f networks/compose.postgres-host.yaml $1

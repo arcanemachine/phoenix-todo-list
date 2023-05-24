@@ -15,7 +15,7 @@ Features:
 - Basic CRUD
 - LiveView CRUD
 - REST API
-- OpenAPI spec
+- [OpenAPI spec](https://phoenix-todo-list.nicholasmoen.com/api)
 - Elixir tests (ExUnit)
 - Javascript-based unit tests (Vitest)
 - Javascript-based E2E tests (Playwright)
@@ -26,6 +26,7 @@ Features:
 - EditorConfig (standardizes file formatting: spaces per line, etc.)
 - Enforces standardized commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
 - Uses [`just`](https://github.com/casey/just) task runner
+- Uses [`PromEx`](https://github.com/akoutmos/prom_ex/) to generate data for use with [Grafana](https://github.com/grafana/grafana)
 
 ## Getting Started
 

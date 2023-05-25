@@ -96,18 +96,18 @@ db-reset:
   mix ecto.reset
 
 # build a docker image
-@docker-build image_name=image_name:
-  echo "Building a Docker image '{{ image_name }}'..."
+docker-build image_name=image_name:
+  @echo "Building a Docker image '{{ image_name }}'..."
 
   # build untagged image
-  @docker build -t {{ image_name }} .
+  docker build -t {{ image_name }} .
 
   # build an architecture-specific image
-  printf "\n\{{ color_info }}Building '$(uname -m)' image...{{ color_reset }}\n\n"
+  @printf "\n\{{ color_info }}Building '$(uname -m)' image...{{ color_reset }}\n\n"
   docker build -t "{{ image_name }}:$(uname -m)" .
 
   # build versioned image
-  just _echo_info "Building a versioned image..."
+  @just _echo_info "Building a versioned image..."
   docker build -t "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)" .
 
   # build 'latest' image to Docker Hub if we are on the 'x86_64' CPU architecture
@@ -118,15 +118,15 @@ db-reset:
   fi
 
 # push container image to Docker Hub
-@docker-push image_name=image_name:
-  echo "Pushing image(s) to Docker Hub..."
+docker-push image_name=image_name:
+  @echo "Pushing image(s) to Docker Hub..."
 
   # push architecture-specific image to Docker Hub
-  just _echo_info "Pushing architecture-specific image to Docker Hub..."
+  @just _echo_info "Pushing architecture-specific image to Docker Hub..."
   docker push "{{ image_name }}:$(uname -m)"
 
   # push versioned image to Docker Hub
-  just _echo_info "Pushing versioned image to Docker Hub..."
+  @just _echo_info "Pushing versioned image to Docker Hub..."
   docker push "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)"
 
   # push 'latest' image to Docker Hub if we are on the 'x86_64' CPU architecture

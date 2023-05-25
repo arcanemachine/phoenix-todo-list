@@ -93,6 +93,27 @@ You may need to pull the latest image when doing an update:
   - `x86_64`: `podman image pull docker.io/arcanemachine/phoenix-todo-list:x86_64`
   - `aarch64`: `podman image pull docker.io/arcanemachine/phoenix-todo-list:aarch64`
 
+### Adding New Environment Variables
+
+**NOTE: This section is intended for personal reference only. It will likely be of limited value to other readers.**
+
+At the moment, there is a substantial amount of duplication required to add a new environment variable that will persist through the deployment process. This aspect
+
+For example, to add the `EMAIL_FROM_DEFAULT` environment variable to all phases of the project, a reference to the value must be added to the following files:
+
+- The dotenv file generator template:
+  - `support/scripts/templates/dotenv`
+- The `systemd` service file generator script:
+  - `support/scripts/systemd-container-service-file-generate`
+- The Compose file for the container that will utilize the new environment variable:
+  - e.g. `support/containers/compose.phoenix.yaml` (in the `environment` section)
+- The Ansible files associated with this project:
+  - **NOTE: These files are not part of this project's repo. This section, in particular, is for personal reference only.**
+  - The `secrets.yml` file associated with this project.
+  - The Ansible playbook used to deploy this project:
+    - Name the variable in the `environment` section of the playbook.
+    - Ensure the variable is present in the 'validation' section of the playbook's tasks.
+
 ## Deploying With Caddy
 
 To deploy with Caddy, complete the following steps:

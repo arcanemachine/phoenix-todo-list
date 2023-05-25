@@ -22,16 +22,14 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "args",
     nargs="*",
-    help='Arguments to pass to k6 (must be in quotes, e.g. "-u 300 -d 30s", otherwise this wrapper script will attempt (and fail) to parse the flags)',  # noqa: E501
+    help='Arguments to pass to k6 (must be in quotes, e.g. "-u 300 -d 10s", otherwise this wrapper script will attempt (and fail) to parse the flags)',  # noqa: E501
 )
 parser.add_argument(
-    "-p",
-    "--podman",
-    dest="container_runtime",
-    help="Use Podman instead of Docker",
-    action="store_const",
-    default="docker",
-    const="podman",
+    "-b",
+    "--basic",
+    dest="basic_test",
+    help="Run a basic load test (300 users for 10 seconds) (overrides args)",
+    action="store_true",
 )
 parser.add_argument(
     "-u",
@@ -47,6 +45,15 @@ parser.add_argument(
     help="One or more load testing scripts to run with K6 (located in './loadtest/k6')",
     nargs="+",
     default="index.js",
+)
+parser.add_argument(
+    "-p",
+    "--podman",
+    dest="container_runtime",
+    help="Use Podman instead of Docker",
+    action="store_const",
+    default="docker",
+    const="podman",
 )
 args = parser.parse_args()
 
@@ -96,7 +103,7 @@ def build_command() -> str:
             f'-v "./{path_to_k6_scripts}:/{path_to_k6_scripts}:ro"',
             "grafana/k6:0.44.1 run",
             # custom k6 args
-            " ".join(args.args) or "",
+            args.basic_test and "--vus 300 --duration 10s" or " ".join(args.args) or "",
             "--include-system-env-vars",
         ]
         + normalized_script_names
@@ -104,6 +111,7 @@ def build_command() -> str:
 
 
 def main() -> None:
+    # build command
     command_to_run = build_command()
 
     if os.environ.get("DEBUG") == "1":

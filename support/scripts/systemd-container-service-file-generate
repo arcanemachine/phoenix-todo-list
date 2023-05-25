@@ -182,10 +182,34 @@ RequiresMountsFor=/run/user/$(id -u)/containers
 Restart=always
 WorkingDirectory=$working_directory
 
+
 # ENVIRONMENT #
+# phoenix
+Environment=PHX_HOST=\"$PHX_HOST\"
+Environment=PORT=\"$PORT\"
+Environment=SECRET_KEY_BASE=\"$SECRET_KEY_BASE\"
+
+# db
+Environment=DATABASE_URL=\"$DATABASE_URL\"
+Environment=POSTGRES_DB=\"$POSTGRES_DB\"
+Environment=POSTGRES_USER=\"$POSTGRES_USER\"
+Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
+
+# sentry
+Environment=SENTRY_DSN=\"$SENTRY_DSN\"
+
+# traefik
+Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
+
+# email
+Environment=AWS_REGION=\"$AWS_REGION\"
+Environment=AWS_ACCESS_KEY=\"$AWS_ACCESS_KEY\"
+Environment=AWS_SECRET=\"$AWS_SECRET\"
+
 # fix container timeout issues caused by slow CPU and/or RAM
 # Environment=DOCKER_CLIENT_TIMEOUT=180
 # Environment=COMPOSE_HTTP_TIMEOUT=180
+
 
 # LIFECYCLE #
 ExecStartPre=$command_to_run down

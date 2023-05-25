@@ -160,7 +160,7 @@ When this script is run, it will generate `systemd` service file called `~/.conf
 
 #### The Easy Way
 
-The helper scripts allow you to easily setup and teardown a user-level `systemd` service for this project.
+The helper scripts in `support/scripts/` allow you to easily setup and teardown a user-level `systemd` service for this project.
 
 ##### Setup
 

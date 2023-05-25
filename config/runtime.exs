@@ -124,3 +124,14 @@ if config_env() == :prod do
       secret: System.get_env("AWS_SECRET")
   end
 end
+
+# sentry
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN"),
+  environment_name: config_env(),
+  enable_source_code_context: true,
+  included_environments: [:prod],
+  root_source_code_path: File.cwd!(),
+  tags: %{
+    env: "production"
+  }

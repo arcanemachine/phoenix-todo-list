@@ -1,4 +1,5 @@
 defmodule TodoListWeb.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :todo_list
 
   # The session will be stored in the cookie and signed,
@@ -53,6 +54,8 @@ defmodule TodoListWeb.Endpoint do
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
+
+  plug Sentry.PlugContext
 
   plug Plug.MethodOverride
   plug Plug.Head

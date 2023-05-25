@@ -20,3 +20,6 @@ services:
       AWS_REGION: "${AWS_REGION:?}"
       AWS_ACCESS_KEY: "${AWS_ACCESS_KEY:?}"
       AWS_SECRET: "${AWS_SECRET:?}"
+
+      # sentry
+      SENTRY_DSN: "${SENTRY_DSN:?}"

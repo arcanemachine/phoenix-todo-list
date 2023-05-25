@@ -65,3 +65,6 @@ import_config "#{config_env()}.exs"
 
 # flop
 config :flop, repo: TodoList.Repo
+
+config :sentry,
+  client: Sentry.FinchClient

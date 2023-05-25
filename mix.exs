@@ -5,7 +5,7 @@ defmodule TodoList.MixProject do
   def project do
     [
       app: :todo_list,
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -60,7 +60,8 @@ defmodule TodoList.MixProject do
       {:ymlr, "~> 3.0"},
       {:flop, "~> 0.20.1"},
       {:flop_phoenix, "~> 0.18.2"},
-      {:prom_ex, "~> 1.8.0"}
+      {:prom_ex, "~> 1.8.0"},
+      {:sentry, "~> 8.0.0"}
     ]
   end
 

@@ -179,6 +179,9 @@ Requires=podman.service
 RequiresMountsFor=/run/user/$(id -u)/containers
 
 [Service]
+Restart=always
+WorkingDirectory=$working_directory
+
 # ENVIRONMENT #
 # docker
 Environment=COMPOSE_DOCKER_CLI_BUILD=0
@@ -199,18 +202,16 @@ Environment=POSTGRES_DB=\"$POSTGRES_DB\"
 Environment=POSTGRES_USER=\"$POSTGRES_USER\"
 Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 
-# # traefik
-# Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
+# sentry
+Environment=SENTRY_DSN=\"$SENTRY_DSN\"
 
-# # email
-# Environment=AWS_REGION=\"$AWS_REGION\"
-# Environment=AWS_ACCESS_KEY=\"$AWS_ACCESS_KEY\"
-# Environment=AWS_SECRET=\"$AWS_SECRET\"
+# traefik
+Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
 
-
-# ENVIRONMENT #
-Restart=always
-WorkingDirectory=$working_directory
+# email
+Environment=AWS_REGION=\"$AWS_REGION\"
+Environment=AWS_ACCESS_KEY=\"$AWS_ACCESS_KEY\"
+Environment=AWS_SECRET=\"$AWS_SECRET\"
 
 
 # LIFECYCLE #

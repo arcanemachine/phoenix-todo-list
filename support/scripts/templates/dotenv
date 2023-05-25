@@ -26,26 +26,22 @@ while test $# -gt 0; do
     # generate a '.envrc' style template instead of a '.env'
     generate_envrc=1
     ;;
-  --remote)
+  --vagrant)
     # configure environment for a 'remote' deployment (i.e. uses HTTPS)
-    is_remote=1
+    is_vagrant=1
     ;;
   esac
   shift
 done
 
-if [ ! $is_remote ]; then
-  # configure defaults for local deployment
-  default_phx_host="phoenix-todo-list.localhost"
-  default_traefik_host="localhost"
-else
-  # configure defaults for remote deployment
-  default_phx_host="phoenix-todo-list.nicholasmoen.com"
-  default_traefik_host="traefik.nicholasmoen.com"
+if [ "$is_vagrant" = "1" ]; then
+  # configure environment for use with vagrant
+  PHX_HOST=phoenix-todo-list.localhost
+  TRAEFIK_HOST=localhost
 fi
 
 echo "# phoenix
-${generate_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-$default_phx_host}\"
+${generate_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
 ${generate_envrc:+"export "}PORT=\"${PORT:-4000}\"
 ${generate_envrc:+"export "}SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
@@ -67,4 +63,4 @@ ${generate_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET}\"
 ${generate_envrc:+"export "}SENTRY_DSN=\"${SENTRY_DSN}\"
 
 # traefik
-${generate_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-$default_traefik_host}\""
+${generate_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\""

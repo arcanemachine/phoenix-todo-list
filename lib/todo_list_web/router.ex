@@ -8,12 +8,6 @@ defmodule TodoListWeb.Router do
   alias TodoListWeb.Accounts.Router, as: AccountsRouter
   alias TodoListWeb.Todos.Router, as: TodosRouter
 
-  pipeline :api do
-    plug :accepts, ["json"]
-    plug :fetch_current_api_user
-    plug OpenApiSpex.Plug.PutApiSpec, module: TodoListWeb.ApiSpec
-  end
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -22,6 +16,12 @@ defmodule TodoListWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug :fetch_current_api_user
+    plug OpenApiSpex.Plug.PutApiSpec, module: TodoListWeb.ApiSpec
   end
 
   # BROWSER #

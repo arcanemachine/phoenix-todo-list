@@ -58,7 +58,7 @@ export default function () {
 
   // response returns expected result
   const allTestsDidPass = check(response, {
-    "redirects to new URL after successful login": (res) =>
+    "redirects to different URL after successful login": (res) =>
       res.url === urlSuccess,
   });
 

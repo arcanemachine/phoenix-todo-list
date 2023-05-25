@@ -3,21 +3,16 @@
 if [ "$1" = "--help" ]; then
   echo "This script bootstraps a copy of .env using any currently-exported environment variables.
 
-- To overwrite an existing '.env' file, pass '--force' as the *last* positional argument.
-- To generate a '.envrc' template, pass '--envrc' as the *first* positional argument."
+Optional flags:
+  --force - Overwrite an existing dotenv file
+  --vagrant - Generate params for deployment in a Vagrant host"
   exit
 fi
 
 project_root_directory="$(dirname "$0")/../.."
 cd "$project_root_directory" || exit 1
 
-if [ "$1" = "--envrc" ]; then
-  # generate a .envrc template
-  env_path="$(pwd)/.envrc.local"
-else
-  # generate a .env template
-  env_path="$(pwd)/.env"
-fi
+env_path="$(pwd)/.env"
 
 # get last arg
 for last_arg; do true; done

@@ -8,26 +8,17 @@ This script is typically run by the 'dotenv-generate' script.
 NOTE: To use this script's default values, any matching environment variables
 must first be unset.
 
-Options:
-  - By default, this script outputs a '.env' file.
-  - By default, this script generates parameters for a local/dev deployment.
-    - To generate params for a remote/prod deployment, pass the '--remote' flag
-      when calling this script.
-  - To generate a '.envrc' template, pass the '--envrc' flag.
-    - This prepends 'export ' to each environment variable so the resulting file
-      can be easily sourced using a shell script."
+Optional flags:
+  --force - Overwrite an existing dotenv file
+  --vagrant - Generate params for deployment in a Vagrant host"
   exit
 fi
 
 # parse args
 while test $# -gt 0; do
   case "$1" in
-  --envrc)
-    # generate a '.envrc' style template instead of a '.env'
-    generate_envrc=1
-    ;;
   --vagrant)
-    # configure environment for a 'remote' deployment (i.e. uses HTTPS)
+    # configure environment for deployment in a Vagrant host
     is_vagrant=1
     ;;
   esac
@@ -41,26 +32,26 @@ if [ "$is_vagrant" = "1" ]; then
 fi
 
 echo "# phoenix
-${generate_envrc:+"export "}PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
-${generate_envrc:+"export "}PORT=\"${PORT:-4000}\"
-${generate_envrc:+"export "}SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
+PHX_HOST=\"${PHX_HOST:-phoenix-todo-list.localhost}\"
+PORT=\"${PORT:-4000}\"
+SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
 # db
-${generate_envrc:+"export "}POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
-${generate_envrc:+"export "}POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
-${generate_envrc:+"export "}POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
-${generate_envrc:+"export "}DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
+POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
+POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
+POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
+DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 
 # docker
-${generate_envrc:+"export "}IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
+IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
 
 # email
-${generate_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
-${generate_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
-${generate_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET}\"
+AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
+AWS_REGION=\"${AWS_REGION:-us-east-1}\"
+AWS_SECRET=\"${AWS_SECRET}\"
 
 # sentry
-${generate_envrc:+"export "}SENTRY_DSN=\"${SENTRY_DSN}\"
+SENTRY_DSN=\"${SENTRY_DSN}\"
 
 # traefik
-${generate_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\""
+TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\""

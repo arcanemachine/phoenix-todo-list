@@ -27,7 +27,7 @@ Features:
 - EditorConfig (standardizes file formatting: spaces per line, etc.)
 - Enforces standardized commit messages with [`git-conventional-commits`](https://github.com/qoomon/git-conventional-commits)
 - Uses [`just`](https://github.com/casey/just) task runner
-- Uses [`PromEx`](https://github.com/akoutmos/prom_ex/) to generate data for use with [Grafana](https://github.com/grafana/grafana)
+- Uses [PromEx](https://github.com/akoutmos/prom_ex/) to generate data for use with [Grafana](https://github.com/grafana/grafana)
 
 ## Getting Started
 

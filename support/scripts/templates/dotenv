@@ -63,5 +63,8 @@ ${generate_envrc:+"export "}AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_k
 ${generate_envrc:+"export "}AWS_REGION=\"${AWS_REGION:-us-east-1}\"
 ${generate_envrc:+"export "}AWS_SECRET=\"${AWS_SECRET}\"
 
+# sentry
+${generate_envrc:+"export "}SENTRY_DSN=\"${SENTRY_DSN}\"
+
 # traefik
 ${generate_envrc:+"export "}TRAEFIK_HOST=\"${TRAEFIK_HOST:-$default_traefik_host}\""

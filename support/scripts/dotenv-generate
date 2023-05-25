@@ -3,8 +3,8 @@
 if [ "$1" = "--help" ]; then
   echo "This script bootstraps a copy of .env using any currently-exported environment variables.
 
-- To generate a '.envrc' template, pass '--envrc' as the *first* positional argument.
-- To overwrite an existing '.env' file, pass '--force' as the *last* positional argument."
+- To overwrite an existing '.env' file, pass '--force' as the *last* positional argument.
+- To generate a '.envrc' template, pass '--envrc' as the *first* positional argument."
   exit
 fi
 

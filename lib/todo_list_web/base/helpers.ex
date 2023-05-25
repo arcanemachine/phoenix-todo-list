@@ -10,6 +10,14 @@ defmodule TodoListWeb.Helpers.Controller do
     |> halt()
   end
 
+  def http_response_404(conn) do
+    conn
+    |> put_status(:not_found)
+    |> put_resp_header("content-type", "text/html")
+    |> Phoenix.Controller.text("Not Found")
+    |> halt()
+  end
+
   def json_response_400(conn, message \\ "Bad Request") do
     conn |> put_status(:bad_request) |> Phoenix.Controller.json(%{message: message}) |> halt()
   end

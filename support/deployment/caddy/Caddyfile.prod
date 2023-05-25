@@ -4,7 +4,6 @@ phoenix-todo-list.nicholasmoen.com {
 
 	basicauth /metrics {
     # use `mkpasswd --method=bcrypt` to generate a secure password
-		# password for local config is 'admin'
 		admin $2b$05$CUm51ELVTYyryw1jJMc74ORRofyu9ilXmGE8Mvl5KAbk0Y.uUp8XO
 	}
 }

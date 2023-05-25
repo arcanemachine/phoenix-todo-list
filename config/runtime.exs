@@ -114,7 +114,8 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 
-  # send live emails if we're not in a localhost domain or the server is configured for AWS
+  # send live emails if the server is configured for AWS and we're 1) not in a localhost domain,
+  # or 2) using a non-localhost value in EMAIL_FROM_DEFAULT
   if (!(System.get_env("PHX_HOST") =~ "localhost") ||
         !(System.get_env("EMAIL_FROM_DEFAULT") =~ "localhost")) &&
        System.get_env("AWS_SECRET", "") != "" do

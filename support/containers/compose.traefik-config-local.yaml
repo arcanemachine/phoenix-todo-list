@@ -4,7 +4,6 @@ services:
     volumes:
       - "./etc/local:/etc/traefik"
     labels:
-      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST}`)"
       - "traefik.http.routers.traefik.entrypoints=web"
 
       # # require authentication to access the dashboard (uncomment the next lines to enable)

@@ -12,6 +12,8 @@ services:
     ports:
       - "80:80"
     labels:
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST}`)"
+
       # enable the dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.service=api@internal"

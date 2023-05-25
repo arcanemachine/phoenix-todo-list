@@ -7,7 +7,6 @@ services:
       - "./etc/remote:/etc/traefik"
       - "./volumes/letsencrypt:/letsencrypt"
     labels:
-      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST:?}`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
 

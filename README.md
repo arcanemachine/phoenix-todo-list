@@ -40,9 +40,9 @@ Before you work in a `dev` environment, ensure that your environment variables a
   - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
   - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 - Setup Postgres:
-  - For easy Postgres setup, run `just postgres`. (requires [`just`](https://github.com/casey/just) task runner)
+  - For easy Postgres setup, run `just postgres`. (must have [`just`](https://github.com/casey/just) task runner installed)
 - Setup and run the server:
-  - The easy way (requires `just` to be installed): `just dev`
+  - The easy way (must have `just` installed): `just dev`
   - The manual way:
     - Run `mix deps.get` to fetch the dependencies.
     - Setup the database: `mix ecto.setup`

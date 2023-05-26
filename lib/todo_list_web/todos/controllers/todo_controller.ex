@@ -6,7 +6,7 @@ defmodule TodoListWeb.TodoController do
 
   def index(conn, params) do
     with {:ok, {todos, meta}} <- Todos.list_todos(params) do
-      render(conn, :index, page_title: "Todo List", meta: meta, todos: todos)
+      render(conn, :index, page_title: "Your Todo List", meta: meta, todos: todos)
     end
   end
 

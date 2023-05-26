@@ -23,7 +23,7 @@
     </script>
   </head>
   <body
-    class="flex flex-col h-full bg-base-200 antialiased"
+    class="flex flex-col h-full bg-base-100 antialiased"
     data-user-is-authenticated={(@conn.assigns[:current_user] && "true") || "false"}
     x-data="$store.components.body"
   >
@@ -63,29 +63,28 @@
       </:user_action_menu_items>
     </.navbar>
 
-    <section class="grow flex flex-col bg-base-100">
+    <section class="grow flex flex-col">
       <% # page content # %>
-      <section>
-        <% # HACK: workaround live title issues by setting title manually via JS %>
-        <template x-page-title={assigns[:page_title] || ""} />
-
-        <section class="mb-12">
-          <h1 id="page-title" class="mt-6 text-4xl text-center font-bold">
-            <%= assigns[:page_title] || "" %>
-          </h1>
-
-          <h2 id="page-subtitle" class="mt-2 text-2xl text-center">
-            <%= assigns[:page_subtitle] || "" %>
-          </h2>
-        </section>
-      </section>
-
       <main class="grow flex flex-col max-w-4xl mx-auto mb-20 container px-4 sm:px-10 md:px-20">
+        <section>
+          <% # HACK: workaround live title issues by setting title manually via JS %>
+          <template x-page-title={assigns[:page_title] || ""} />
+
+          <section class="mb-10">
+            <h1 id="page-title" class="mt-6 text-4xl text-center font-bold">
+              <%= assigns[:page_title] || "" %>
+            </h1>
+
+            <h2 id="page-subtitle" class="mt-2 text-2xl text-center">
+              <%= assigns[:page_subtitle] || "" %>
+            </h2>
+          </section>
+        </section>
+
         <%= @inner_content %>
       </main>
-
-      <.footer />
     </section>
+    <.footer />
 
     <template x-if="location.hostname === 'phoenix-todo-list.nicholasmoen.com'">
       <script

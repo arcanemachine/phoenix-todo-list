@@ -77,86 +77,89 @@ defmodule TodoListWeb.CoreComponents do
   """
   def footer(assigns) do
     ~H"""
-    <section class="w-full bg-base-200 py-6 text-center">
-      <ul class="list-none">
-        <li>
-          <div class="text-xl font-bold">
-            Todo List
-          </div>
-        </li>
+    <div class="w-full">
+      <% # limit max width of navbar by nesting it inside a full-width element %>
+      <section class="max-w-[100rem] mx-auto bg-base-200 py-6 text-center 2xl:rounded-t-xl">
+        <ul class="list-none">
+          <li>
+            <div class="text-xl font-bold">
+              Todo List
+            </div>
+          </li>
 
-        <% # project-related links %>
-        <li class="mt-6">
-          <.link href="/">
-            Home
-          </.link>
-        </li>
-        <li class="mt-2">
-          <.link href="/users/profile">
-            Your Account
-          </.link>
-        </li>
+          <% # project-related links %>
+          <li class="mt-6">
+            <.link href="/">
+              Home
+            </.link>
+          </li>
+          <li class="mt-2">
+            <.link href="/users/profile">
+              Your Account
+            </.link>
+          </li>
 
-        <% # generic links %>
-        <li class="mt-6">
-          <.link href="/terms-of-use">
-            Terms of Use
-          </.link>
-        </li>
-        <li class="mt-2">
-          <.link href="/privacy-policy">
-            Privacy Policy
-          </.link>
-        </li>
-        <li class="mt-2">
-          <.link href="/contact-us">
-            Contact Us
-          </.link>
-        </li>
+          <% # generic links %>
+          <li class="mt-6">
+            <.link href="/terms-of-use">
+              Terms of Use
+            </.link>
+          </li>
+          <li class="mt-2">
+            <.link href="/privacy-policy">
+              Privacy Policy
+            </.link>
+          </li>
+          <li class="mt-2">
+            <.link href="/contact-us">
+              Contact Us
+            </.link>
+          </li>
 
-        <% # legal stuff %>
-        <li class="mt-6">
-          <small>
-            &copy; Copyright <%= DateTime.utc_now().year %>
-            <br />This project is licensed under <a href="https://github.com/aws/mit-0">MIT-0</a>.
-          </small>
-        </li>
+          <% # legal stuff %>
+          <li class="mt-6">
+            <small>
+              &copy; Copyright <%= DateTime.utc_now().year %>
+              <br />This project is licensed under <a href="https://github.com/aws/mit-0">MIT-0</a>.
+            </small>
+          </li>
 
-        <% # github logo %>
-        <li class="my-6 w-100">
-          <a href="https://github.com/arcanemachine/phoenix-todo-list">
-            <svg
-              class="inline"
-              width="40"
-              height="40"
-              viewBox="0 0 1024 1024"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              alt="GitHub Logo"
-              title="GitHub Logo"
-            >
-              <path
-                class="fill-slate-600"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42
-                    6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23
-                    12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7
-                    3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78
-                    11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41
-                    3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86
-                    9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3
-                    5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76
-                    11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67
-                    10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
-                transform="scale(64)"
+          <% # github logo %>
+          <li class="my-6 w-100">
+            <a href="https://github.com/arcanemachine/phoenix-todo-list">
+              <svg
+                class="inline"
+                width="40"
+                height="40"
+                viewBox="0 0 1024 1024"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                alt="GitHub Logo"
+                title="GitHub Logo"
               >
-              </path>
-            </svg>
-          </a>
-        </li>
-      </ul>
-    </section>
+                <path
+                  class="fill-slate-600"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42
+                      6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23
+                      12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7
+                      3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78
+                      11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41
+                      3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86
+                      9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3
+                      5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76
+                      11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67
+                      10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
+                  transform="scale(64)"
+                >
+                </path>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
     """
   end
 
@@ -303,49 +306,52 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav
-      data-component="page-navbar"
-      class="navbar py-0 border-bottom-2 transition-colors duration-300"
-    >
-      <% # navbar start items %>
-      <div class="flex-1">
-        <% # navbar title %>
-        <.link href="/" aria-label="Todo List" class="flex-0 btn-ghost btn px-2">
-          <div class="font-title inline-flex text-2xl normal-case text-accent">
-            Todo List
-          </div>
-        </.link>
-      </div>
-      <% # navbar end items %>
-      <div class="mr-1 flex-none">
-        <% # user actions %>
-        <div
-          class="dropdown-end dropdown"
-          id="navbar-dropdown-user-actions"
-          x-data="{ show: false }"
-          x-title="navbarUserActionMenu"
-          x-bind:class="show && 'dropdown-open'"
-          x-on:pointerdown.outside="show = false"
-        >
-          <button
-            class="btn-ghost btn-square btn m-1"
-            x-tooltip="User Actions"
-            x-on:focus="show = true"
-            x-on:blur="show = false"
-            x-on:click="show = true"
-            x-on:click.outside="show = false"
-          >
-            <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
-          </button>
-          <ul class="mt-1 dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
-            <div class="mt-2 mb-3 text-center text-lg font-bold text-underline">User Actions</div>
-            <%= render_slot(@user_action_menu_items) %>
-          </ul>
+    <div class="w-full">
+      <% # limit max width of navbar by nesting it inside a full-width element %>
+      <nav
+        data-component="page-navbar"
+        class="navbar max-w-[100rem] mx-auto bg-base-200 py-0 2xl:rounded-b-xl"
+      >
+        <% # navbar start items %>
+        <div class="flex-1">
+          <% # navbar title %>
+          <.link href="/" aria-label="Todo List" class="flex-0 btn-ghost btn px-2">
+            <div class="font-title inline-flex text-2xl normal-case text-accent">
+              Todo List
+            </div>
+          </.link>
         </div>
-        <% # settings %>
-        <.navbar_settings_menu />
-      </div>
-    </nav>
+        <% # navbar end items %>
+        <div class="mr-1 flex-none">
+          <% # user actions %>
+          <div
+            class="dropdown-end dropdown"
+            id="navbar-dropdown-user-actions"
+            x-data="{ show: false }"
+            x-title="navbarUserActionMenu"
+            x-bind:class="show && 'dropdown-open'"
+            x-on:pointerdown.outside="show = false"
+          >
+            <button
+              class="btn-ghost btn-square btn m-1"
+              x-tooltip="User Actions"
+              x-on:focus="show = true"
+              x-on:blur="show = false"
+              x-on:click="show = true"
+              x-on:click.outside="show = false"
+            >
+              <Heroicons.user_circle solid class="h-7 w-7 stroke-current" />
+            </button>
+            <ul class="mt-1 dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+              <div class="mt-2 mb-3 text-center text-lg font-bold text-underline">User Actions</div>
+              <%= render_slot(@user_action_menu_items) %>
+            </ul>
+          </div>
+          <% # settings %>
+          <.navbar_settings_menu />
+        </div>
+      </nav>
+    </div>
     """
   end
 

@@ -7,7 +7,7 @@ services:
     network_mode: "host"
     volumes:
       - "phoenix-todo-list--prometheus:/etc/prometheus"
-      - "./etc/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./etc/${PROMETHEUS_CONFIG_FILE:-prometheus.yml}:/etc/prometheus/prometheus.yml"
 
 volumes:
   phoenix-todo-list--prometheus:

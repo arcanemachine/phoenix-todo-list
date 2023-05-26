@@ -176,8 +176,7 @@ elixir-release-create:
   ./support/scripts/elixir-release-create
 
 # generate a grafana dashboard for a given prom_ex plugin [plugin_name (e.g.): application|beam|...]
-grafana-dashboard-generate plugin_name:
-  @echo "Generating a Grafana dashboard for the PromEx plugin '{{ plugin_name }}'..."
+@grafana-dashboard-generate plugin_name:
   mix prom_ex.dashboard.export --dashboard {{ plugin_name }}.json --stdout
 
 # run a basic loadtest with 'k6'

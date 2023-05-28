@@ -153,7 +153,7 @@ Run the following commands from the project root directory:
 NOTE: When using Podman, you may have issues using `podman-compose` to orchestrate containers (e.g. on `aarch64` systems).
 
 - I have found that `docker-compose` works well as a drop-in replacement for `podman-compose`.
-  - The only difference is that the `-H` flag must be passed so that `docker-compose` can use the Podman socket instead of the default Docker socket.
+  - The only difference is that `docker-compose` must be configured (instructions below) to use the Podman socket instead of the default Docker socket.
 - As a bonus, `docker-compose` has a nicer UI (in my opinion) than `podman-compose`, e.g. containers are color-coded so it's easier to read the logs when viewing the compose logs.
 - Many instructions in these documentation pages use `podman-compose` for Podman example commands, but you should be able to use `docker-compose` as needed by following the instructions below.
 

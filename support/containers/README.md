@@ -49,7 +49,7 @@ Examples:
 
 ### Running Phoenix + Postgres Containers Together
 
-NOTE: This configuation uses a small extra Compose file: `compose.phoenix-postgres.yaml`. This file ensures that Phoenix will not start until Postgres is available. The Phoenix container may fail if this file is not present. (It should restart automatically, but this ensures that the container orchestrator (e.g. 'docker-compose') will not give up after `n` attempts).
+NOTE: This configuation uses a small extra Compose file: `compose.phoenix-postgres.yaml`. This file ensures that Phoenix will not start until Postgres is available. The Phoenix container may fail to start if this file is not present. (It should restart automatically, but this ensures that the container composer (e.g. 'docker-compose') will not give up after `n` attempts).
 
 Examples:
 

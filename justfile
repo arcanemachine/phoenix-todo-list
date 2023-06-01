@@ -95,6 +95,11 @@ db-reset:
   @echo "Resetting the database..."
   mix ecto.reset
 
+# run a postgres container
+docker-postgres:
+  @echo "Starting a Postgres container..."
+  ./support/scripts/containers/compose--postgres up
+
 # build a docker image
 docker-build image_name=image_name:
   @echo "Building a Docker image '{{ image_name }}'..."
@@ -134,11 +139,6 @@ docker-push image_name=image_name:
     just _echo_info "Updating the 'latest' image on Docker Hub since we're using the default CPU architecture ({{ default_cpu_arch }}) architecture and our latest supported version of OTP ({{ newest_supported_otp }})..."; \
     docker push '{{ image_name }}:latest'; \
   fi
-
-# run a postgres container
-docker-postgres:
-  @echo "Starting a Postgres container..."
-  ./support/scripts/containers/compose--postgres up
 
 # generate environment file [args (e.g.): --help]
 dotenv-generate args="":

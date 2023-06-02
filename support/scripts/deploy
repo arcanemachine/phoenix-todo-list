@@ -20,7 +20,7 @@ read -r result
 
 if [ "$result" != "y" ] && [ "$result" != "Y" ]; then
   echo "Aborting..."
-  exit
+  exit 1
 fi
 
 # run the justfile shortcuts required to deploy a new image to docker hub

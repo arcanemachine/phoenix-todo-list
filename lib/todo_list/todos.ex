@@ -9,7 +9,7 @@ defmodule TodoList.Todos do
   alias TodoList.Todos.Todo
 
   @doc """
-  Returns the list of todos.
+  Returns a paginated list of todos.
 
   ## Examples
 
@@ -23,7 +23,7 @@ defmodule TodoList.Todos do
   end
 
   @doc """
-  Get a list of todos by user ID.
+  Get a COMPLETE list of todos by user ID.
 
   ## Examples
 
@@ -37,6 +37,24 @@ defmodule TodoList.Todos do
   def list_todos_by_user_id(user_id) do
     query = from(Todo, where: [user_id: ^user_id], order_by: :id)
     Repo.all(query)
+  end
+
+  @doc """
+  Get a PAGINATED list of todos by user ID.
+
+  ## Examples
+
+      iex> list_todos_by_user_id(%{}, 123)
+      [%Todo{}, ...]
+
+      iex> list_todos_by_user_id(%{}, 456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec list_todos_by_user_id(map, integer) ::
+          {:ok, {[Todo.t()], Flop.Meta.t()}} | {:error, Flop.Meta.t()}
+  def list_todos_by_user_id(params, user_id) do
+    Todo |> where(user_id: ^user_id) |> Flop.validate_and_run(params, for: Todo)
   end
 
   @doc """

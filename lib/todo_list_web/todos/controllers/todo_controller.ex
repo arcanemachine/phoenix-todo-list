@@ -5,7 +5,8 @@ defmodule TodoListWeb.TodoController do
   alias TodoList.Todos.Todo
 
   def index(conn, params) do
-    with {:ok, {todos, meta}} <- Todos.list_todos(params) do
+    with {:ok, {todos, meta}} <-
+           Todos.list_todos_by_user_id(params, conn.assigns.current_user.id) do
       render(conn, :index, page_title: "Your Todo List", meta: meta, todos: todos)
     end
   end

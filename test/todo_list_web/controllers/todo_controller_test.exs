@@ -79,9 +79,20 @@ defmodule TodoListWeb.TodoControllerTest do
   end
 
   describe "index" do
-    test "lists all todos", %{conn: conn, user: user} do
+    test "lists a user's todos", %{conn: conn, user: user} do
       conn = conn |> login_user(user) |> get(~p"/todos")
       assert html_response(conn, 200) =~ "Todo List"
+    end
+
+    test "does not list another user's todos", %{conn: conn, user: user, other_user: other_user} do
+      # create todo for other user
+      other_user_todo = todo_fixture(%{user: other_user, content: "other user todo"})
+
+      # make request
+      conn = conn |> login_user(user) |> get(~p"/todos")
+
+      # object index does not contain expected object
+      refute html_response(conn, 200) =~ other_user_todo.content
     end
 
     test "does not show paginator HTML if object count is less than the default_limit", %{

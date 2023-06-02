@@ -40,10 +40,10 @@ defmodule TodoList.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.18.3"},
+      {:phoenix_live_view, "~> 0.19.0"},
       {:heroicons, "~> 0.5"},
       {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.7.2"},
+      {:phoenix_live_dashboard, "~> 0.8.0"},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
@@ -59,7 +59,7 @@ defmodule TodoList.MixProject do
       {:open_api_spex, "~> 3.16"},
       {:ymlr, "~> 3.0"},
       {:flop, "~> 0.20.1"},
-      {:flop_phoenix, "~> 0.18.2"},
+      {:flop_phoenix, "~> 0.19.0"},
       {:prom_ex, "~> 1.8.0"},
       {:sentry, "~> 8.0.0"}
     ]

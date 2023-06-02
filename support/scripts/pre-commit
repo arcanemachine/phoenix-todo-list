@@ -3,7 +3,7 @@
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "Run tasks as part of a git pre-commit workflow.
 
-A flag must be passed as the that describes the action to be performed.
+A flag must be passed that describes the action to be performed.
 
 Flags:
   --help - Show this help text and exit.

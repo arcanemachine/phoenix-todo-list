@@ -56,8 +56,9 @@ color_reset := "\\033[39m"
 @push: docker-push
 
 # almost one-liner to deploy a release (must still use ansible playbook to push to server) (test + release + build + push)
-deploy:
-  ./support/scripts/deploy
+@deploy:
+  @./support/scripts/deploy
+  just _echo_success "done"
 
 # COMMANDS #
 @COMMANDS______________________:

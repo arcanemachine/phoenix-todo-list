@@ -328,7 +328,7 @@ defmodule TodoListWeb.CoreComponents do
             class="dropdown-end dropdown"
             id="navbar-dropdown-user-actions"
             x-data="{ show: false }"
-            x-title="navbarUserActionMenu"
+            x-title="navbar-user-action-menu"
             x-bind:class="show && 'dropdown-open'"
             x-on:pointerdown.outside="show = false"
           >
@@ -365,7 +365,7 @@ defmodule TodoListWeb.CoreComponents do
 
   def navbar_settings_menu(assigns) do
     ~H"""
-    <div x-data="{ show: false }" x-title="navbarSettingsMenu">
+    <div x-data="{ show: false }" x-title="navbar-settings-menu">
       <button class="btn-ghost btn-square btn m-1" x-on:click="show = true" x-tooltip="Settings">
         <Heroicons.cog_6_tooth solid class="h-7 w-7 stroke-current" />
       </button>
@@ -383,7 +383,7 @@ defmodule TodoListWeb.CoreComponents do
             <div class="my-auto text-lg font-semibold">
               Dark Mode
             </div>
-            <div x-data="darkModeSelect">
+            <div x-data="darkModeSelect" x-title="dark-mode-select">
               <select class="select select-bordered" x-model="choice" x-on:change="handleChange">
                 <option>Auto</option>
                 <option>Light</option>

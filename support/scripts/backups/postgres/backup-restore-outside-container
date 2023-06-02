@@ -22,4 +22,4 @@ else
   container_program=podman
 fi
 
-$container_program exec -it "${COMPOSE_PROJECT_NAME:?}-postgres" /var/lib/postgresql/backups/backup-restore-inside-container "$1"
+$container_program exec -it postgres /var/lib/postgresql/backups/backup-restore-inside-container "$1"

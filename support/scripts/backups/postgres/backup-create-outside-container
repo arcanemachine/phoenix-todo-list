@@ -20,4 +20,4 @@ fi
 
 echo "Creating backup in Postgres container volume directory '/var/lib/postgresql/backups/'..."
 
-$container_program exec -it "${COMPOSE_PROJECT_NAME:?}-postgres" /var/lib/postgresql/backups/backup-create-inside-container
+$container_program exec -it postgres /var/lib/postgresql/backups/backup-create-inside-container

@@ -33,8 +33,8 @@ color_reset := "\\033[39m"
 # setup the project (elixir-fetch-dependencies + db-setup)
 @setup: elixir-dependencies-fetch db-setup
 
-# start a dev server (elixir-dependencies-fetch + db-migrate + server-dev-start)
-@dev: elixir-dependencies-fetch db-migrate server-dev-start
+# start a dev server (elixir-dependencies-fetch + db-migrate + server-dev-start-interactive)
+@dev: elixir-dependencies-fetch db-migrate server-dev-start-interactive
 
 # run all tests (test-elixir + test-js-unit + test-js-e2e)
 @test:
@@ -205,7 +205,12 @@ color_reset := "\\033[39m"
 # start a dev server
 @server-dev-start:
   echo "Starting a dev server..."
-  @iex -S mix phx.server
+  mix phx.server
+
+# start an interactive dev server with shell/debugging capabilities
+@server-dev-start-interactive:
+  echo "Starting an interactive dev server with shell/debugging capabilities..."
+  iex -S mix phx.server
 
 # run migrations on the prod server
 @server-prod-migrate:
@@ -224,13 +229,8 @@ color_reset := "\\033[39m"
 
 # spawn an IEx shell
 @shell:
-  echo "Spawning IEx shell..."; \
-
-  if [ "${MIX_ENV:-}" != "test" ]; then \
-    just _echo_info "NOTE: If 'recompile()' is not working properly, try using the 'test' MIX_ENV by running 'MIX_ENV=test just shell'."; \
-  fi
-
-  @iex -S mix
+  echo "Spawning IEx shell...";
+  iex -S mix
 
 # run Elixir tests
 @test-elixir:

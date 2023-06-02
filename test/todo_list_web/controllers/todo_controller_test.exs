@@ -1,4 +1,5 @@
 defmodule TodoListWeb.TodoControllerTest do
+  @moduledoc false
   use TodoListWeb.ConnCase
 
   import TodoList.AccountsFixtures

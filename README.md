@@ -153,14 +153,15 @@ Run the following commands from the project root directory:
 
 ##### Docker/Podman Deployment
 
-NOTE: When using Podman, you may have issues using `podman-compose` to orchestrate containers (e.g. on `aarch64` systems).
+When using Podman, you can use `podman-compose` to manage your multi-container services.
 
-- I have found that `docker-compose` works well as a drop-in replacement for `podman-compose`.
-  - The only difference is that `docker-compose` must be configured (instructions below) to use the Podman socket instead of the default Docker socket.
-- As a bonus, `docker-compose` has a nicer UI (in my opinion) than `podman-compose`, e.g. containers are color-coded so it's easier to read the logs when viewing the compose logs.
-- Many instructions in these documentation pages use `podman-compose` for Podman example commands, but you should be able to use `docker-compose` as needed by following the instructions below.
+However, `podman-compose` may have issues under certain circumstances (e.g. I have run into issues with it on `aarch64` systems). To resolve this issue, `docker-compose` can be configured as a drop-in replacement for `podman-compose`.
+
+Note that `docker-compose` must be configured (instructions below) to use the Podman socket instead of the default Docker socket.
 
 ###### Using `docker-compose` With Podman
+
+NOTE: In order for this to work, you will need to install an older version of `docker-compose`. It is not unreasonable to assume this situation will stop working at some point in the future. For now, I find it to be a useful workaround when `podman-compose` isn't yet up to the task.
 
 - Install `docker-compose` v.1.29.2:
   - There are several ways to install this package, but I have found installation via Python's `pip` to be the most versatile, namely because it works well with `x86_64` and `aarch64` systems.

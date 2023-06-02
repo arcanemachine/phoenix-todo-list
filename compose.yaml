@@ -1,7 +1,7 @@
 ---
 services:
   phoenix:
-    image: "phoenix-todo-list"
+    image: "docker.io/arcanemachine/phoenix-todo-list"
     restart: "always"
     env_file:
       - ".env"

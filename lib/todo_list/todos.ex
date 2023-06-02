@@ -7,6 +7,7 @@ defmodule TodoList.Todos do
   alias TodoList.Repo
 
   alias TodoList.Todos.Todo
+  alias TodoList.Accounts.User
 
   @doc """
   Returns a paginated list of todos.
@@ -17,13 +18,18 @@ defmodule TodoList.Todos do
       [%Todo{}, ...]
 
   """
-  @spec list_todos(map) :: {:ok, {[Todo.t()], Flop.Meta.t()}} | {:error, Flop.Meta.t()}
-  def list_todos(params \\ %{}) do
-    Flop.validate_and_run(Todo, params, for: Todo)
+  @spec list_todos(map) ::
+          {:ok, {[Todo.t()], Flop.Meta.t()}} | {:error, Flop.Meta.t()}
+  def list_todos(params \\ %{}, %User{} = user \\ %User{}) do
+    Todo |> scope(user) |> Flop.validate_and_run(params, for: Todo)
   end
 
+  defp scope(q, %User{id: user_id}) when is_nil(user_id), do: q
+  defp scope(q, %User{id: user_id}), do: where(q, user_id: ^user_id)
+  defp scope(q, %User{}), do: q
+
   @doc """
-  Get a COMPLETE list of todos by user ID.
+  Get a complete list of todos by user ID.
 
   ## Examples
 
@@ -40,7 +46,7 @@ defmodule TodoList.Todos do
   end
 
   @doc """
-  Get a PAGINATED list of todos by user ID.
+  Get a paginated list of todos by user ID.
 
   ## Examples
 

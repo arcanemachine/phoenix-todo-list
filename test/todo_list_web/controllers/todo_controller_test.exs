@@ -8,7 +8,7 @@ defmodule TodoListWeb.TodoControllerTest do
   alias TodoList.Todos.Todo
 
   setup do
-    %{user: user_fixture()}
+    %{user: user_fixture(), other_user: user_fixture()}
   end
 
   @create_attrs %{content: "some content", is_completed: true}
@@ -57,30 +57,22 @@ defmodule TodoListWeb.TodoControllerTest do
   describe "unauthorized user" do
     setup [:create_fixtures]
 
-    test "cannot :show another user's todo", %{conn: conn, todo: todo} do
-      other_user = user_fixture()
-
+    test "cannot :show another user's todo", %{conn: conn, todo: todo, other_user: other_user} do
       conn = conn |> login_user(other_user) |> get(~p"/todos/#{todo}")
       assert text_response(conn, 403) =~ "Forbidden"
     end
 
-    test "cannot :edit another user's todo", %{conn: conn, todo: todo} do
-      other_user = user_fixture()
-
+    test "cannot :edit another user's todo", %{conn: conn, todo: todo, other_user: other_user} do
       conn = conn |> login_user(other_user) |> get(~p"/todos/#{todo}/edit")
       assert text_response(conn, 403) =~ "Forbidden"
     end
 
-    test "cannot :update another user's todo", %{conn: conn, todo: todo} do
-      other_user = user_fixture()
-
+    test "cannot :update another user's todo", %{conn: conn, todo: todo, other_user: other_user} do
       conn = conn |> login_user(other_user) |> put(~p"/todos/#{todo}", todo: @update_attrs)
       assert text_response(conn, 403) =~ "Forbidden"
     end
 
-    test "cannot :delete another user's todo", %{conn: conn, todo: todo} do
-      other_user = user_fixture()
-
+    test "cannot :delete another user's todo", %{conn: conn, todo: todo, other_user: other_user} do
       conn = conn |> login_user(other_user) |> delete(~p"/todos/#{todo}")
       assert text_response(conn, 403) =~ "Forbidden"
     end

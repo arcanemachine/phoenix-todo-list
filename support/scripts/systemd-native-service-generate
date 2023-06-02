@@ -3,7 +3,7 @@
 service_name="phoenix-todo-list"
 service_file="${HOME}/systemd/user/${service_name}.service"
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "This script generates a user-level systemd service file.
 
 The output will be sent here: '$service_file'
@@ -19,7 +19,7 @@ To enable this service:
 
 To start this service:
   - systemctl --user start $service_name.service"
-  exit 0
+  exit
 fi
 
 current_script_directory="$(dirname "$0")"

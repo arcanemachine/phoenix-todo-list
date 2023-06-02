@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "This script manages a Compose service for Phoenix + Postgres + Traefik.
 
 The first positional argument must specify the 'docker-compose' command(s) to run.
@@ -12,7 +12,7 @@ The second positional argument must specify the location of the deployment.
     - remote: uses HTTPS
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
-  exit 1
+  exit
 fi
 
 # navigate to containers directory

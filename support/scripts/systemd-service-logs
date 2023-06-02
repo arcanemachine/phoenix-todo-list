@@ -2,15 +2,14 @@
 
 service_name="phoenix-todo-list"
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "Show the logs for this project's 'systemd' service."
-  exit 0
+  exit
 fi
 
-# -e - jump to the [e]nd of the pager
 # -f - [f]ollow the logs
+# -e - jump to the [e]nd of the pager
 # -x - add e[x]planatory lines
 # -u - monitor a specific [u]nit file (must be positioned last)
 
-# journalctl --user -efx --unit $service_name
-journalctl --user -efxu $service_name
+journalctl --user -fexu $service_name

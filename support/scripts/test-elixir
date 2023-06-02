@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "Run this project's Elixir tests using 'mix test'."
-  exit 0
+  exit
 fi
 
 # navigate to project root directory

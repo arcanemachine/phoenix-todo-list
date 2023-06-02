@@ -10,7 +10,7 @@ The first positional argument must be the filename of the backup you want to res
 To use Docker instead of Podman, pass '--docker' as the last positional argument."
 }
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   show_help
   exit
 elif [ "$1" = "" ]; then

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "Outputs template whose output can be piped to an environment file.
 
 This script is typically run by the 'dotenv-generate' script.

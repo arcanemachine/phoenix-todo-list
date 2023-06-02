@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "Run a batch of end-to-end tests (powered by Playwright)."
-  exit 0
+  exit
 fi
 
 # navigate to project root directory

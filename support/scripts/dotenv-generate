@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "This script bootstraps a copy of .env using any currently-exported environment variables.
 
 Optional flags:

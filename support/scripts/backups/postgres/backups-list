@@ -4,7 +4,7 @@ show_help() {
   echo "Lists available backups inside the Postgres container directory '/var/lib/postgresql/backups/'."
 }
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   show_help
   exit
 elif [ "$1" = "--docker" ]; then

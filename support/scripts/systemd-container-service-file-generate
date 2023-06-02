@@ -2,7 +2,7 @@
 service_name="phoenix-todo-list"
 service_file="${HOME}/systemd/user/${service_name}.service"
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "This script generates a user-level systemd service file.
 
 It can run a combination of Phoenix, Postgres, and Traefik containers.
@@ -46,7 +46,7 @@ After running this script:
 
   - If you are having issues with the service, you can examine the logs for the service:
     - journalctl --user -xefu $service_name"
-  exit 0
+  exit
 fi
 
 current_script_directory="$(dirname "$0")"

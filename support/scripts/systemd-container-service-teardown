@@ -2,17 +2,17 @@
 
 service_name="phoenix-todo-list"
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "This script stops and removes this project's user-level systemd service file.
 
 It does the following:
-- Stops the user-level systemd service
-- Disables the user-level systemd service
-- Deletes the user-level systemd service file
-- Reloads the user-level systemd daemons
+  - Stops the user-level systemd service
+  - Disables the user-level systemd service
+  - Deletes the user-level systemd service file
+  - Reloads the user-level systemd daemons
 
 To prevent accidental service file deletion, enter 'ok' (without the quotes) as the first positional parameter when running this script."
-  exit 0
+  exit
 elif [ "$1" != "ok" ]; then
   echo "Must enter 'ok' (without the quotes) as the first positional parameter to continue. Aborting..."
   exit 1

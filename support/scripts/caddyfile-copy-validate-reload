@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "Copy this project's Caddyfile to the Caddy config directory, then validate the config and restart Caddy.
 
 This script accepts a single positional argument that will specify the Caddyfile to use.
@@ -12,7 +12,7 @@ This script accepts a single positional argument that will specify the Caddyfile
     - staging: Uses a live domain name, but not the production one.
       - e.g. staging.your-project.com
     - prod: Uses a live domain name"
-  exit 0
+  exit
 fi
 
 # navigate to project root directory

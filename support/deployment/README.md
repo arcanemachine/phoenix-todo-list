@@ -6,7 +6,7 @@
 
 ---
 
-Additional information on deployment.
+Additional information on deployment. This document is mostly intended for personal use, so some sections may not be relevant to the reader.
 
 ## Deploying A Native Phoenix Server
 
@@ -238,3 +238,11 @@ By default, this project does not support live email. However, this can be easil
   - You need to update these 3 environment variables: `AWS_REGION`, `AWS_ACCESS_KEY`, and `AWS_SECRET`
 - If the `AWS_SECRET` environment variable is empty, the config in `config/runtime.exs` will not set up any email provider.
   - This provides a failsafe method to opt into an easy-to-use email provider, while not breaking the workflow for any user who doesn't want to enable live email features.
+
+#### Release Checklist
+
+The following tasks should be performed before creating and pushing a release:
+
+- Bump project version number in `mix.exs`
+- Add changes to `CHANGELOG.md`
+- Build and push a container image to Docker Hub (`just release-build-push`)

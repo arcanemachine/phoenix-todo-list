@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  echo "This script tests, releases, builds, and pushes a Docker image to Docker Hub.
+
+NOTE: This does not perform the final step of updating the live server. For that, you will need to e.g. use an Ansible playbook to update the server to the newest release."
+  exit
+fi
+
+# ensure the user has completed the checklist before continuing
+echo "
+The following tasks should be performed before creating and pushing a release:
+
+- Increment the project's version number in 'mix.exs'.
+- Describe relevant changes in 'CHANGELOG.md'.
+- Commit all changes to the primary repo."
+
+printf "\nAre you ready to continue? (y/N) "
+read -r result
+
+if [ "$result" != "y" ] && [ "$result" != "Y" ]; then
+  echo "Aborting..."
+  exit
+fi
+
+# run the justfile shortcuts required to deploy a new image to docker hub
+just test release build push

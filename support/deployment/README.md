@@ -245,6 +245,7 @@ By default, this project does not support live email. However, this can be easil
 
 The following tasks should be performed before creating and pushing a release:
 
-- Bump project version number in `mix.exs`
-- Add changes to `CHANGELOG.md`
-- Build and push a container image to Docker Hub (`just release-build-push`)
+- Increment the project's version number in `mix.exs`.
+- Describe relevant changes in `CHANGELOG.md`.
+- Commit all changes to the primary repo.
+- Build and push a container image to Docker Hub (`just deploy`)

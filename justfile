@@ -43,11 +43,11 @@ color_reset := "\\033[39m"
   just test-e2e
   just _echo_success "All tests completed successfully"
 
-# start a prod server (server-prod-migrate + server-dev-start)
-@prod: server-prod-migrate server-prod-start
-
 # create a release (elixir-release-create)
 @release: elixir-release-create
+
+# start a prod server (server-prod-migrate + server-dev-start)
+@prod: server-prod-migrate server-prod-start
 
 # create a release and build a docker image (docker-build)
 @build: docker-build
@@ -55,8 +55,9 @@ color_reset := "\\033[39m"
 # push the image to docker hub (docker-push)
 @push: docker-push
 
-# one-liner to release, build, and push a docker image (release + build + push)
-@release-build-push: release build push
+# almost one-liner to deploy a release (must still use ansible playbook to push to server) (test + release + build + push)
+deploy:
+  ./support/scripts/deploy
 
 # COMMANDS #
 @COMMANDS______________________:

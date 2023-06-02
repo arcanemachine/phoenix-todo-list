@@ -15,4 +15,4 @@ fi
 
 printf "Listing available backups in Postgres container volume directory '/var/lib/postgresql/backups/'...\n\n"
 
-$container_program exec -it phoenix-todo-list--postgres sh -c 'cd /var/lib/postgresql/backups/ && ls *.dump'
+$container_program exec -it "${COMPOSE_PROJECT_NAME:?}-postgres" sh -c 'cd /var/lib/postgresql/backups/ && ls *.dump'

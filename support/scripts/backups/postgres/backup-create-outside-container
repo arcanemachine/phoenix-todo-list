@@ -4,7 +4,7 @@ show_help() {
   echo "This script creates a pg_dump backup. It must be run outside the container.
 
 The backup file will be created in the same directory as this script. It will be created with a timestamp in the filename.
-  - e.g. 'phoenix-todo-list--pg-dump-2022-11-05-06-23-37.dump'
+  - e.g. '${COMPOSE_PROJECT_NAME:-YOUR_COMPOSE_PROJECT_NAME}--pg-dump-2022-11-05-06-23-37.dump'
 
 To use Docker instead of Podman, pass '--docker' as the last positional argument."
 }
@@ -20,4 +20,4 @@ fi
 
 echo "Creating backup in Postgres container volume directory '/var/lib/postgresql/backups/'..."
 
-$container_program exec -it phoenix-todo-list--postgres /var/lib/postgresql/backups/backup-create-inside-container
+$container_program exec -it "${COMPOSE_PROJECT_NAME:?}-postgres" /var/lib/postgresql/backups/backup-create-inside-container

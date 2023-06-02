@@ -2,16 +2,15 @@
 services:
   postgres:
     image: "docker.io/postgres:15.3"
-    container_name: "phoenix-todo-list--postgres"
+    container_name: "postgres"
     restart: "always"
     environment:
       POSTGRES_DB: "${POSTGRES_DB:?}"
       POSTGRES_USER: "${POSTGRES_USER:?}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?}"
     volumes:
-      - "phoenix-todo-list--postgres:/var/lib/postgresql/data"
+      - "postgres:/var/lib/postgresql/data"
       - "./volumes/backups/postgres:/var/lib/postgresql/backups"
 
 volumes:
-  phoenix-todo-list--postgres:
-    external: true
+  postgres:

@@ -6,8 +6,7 @@ services:
     restart: "always"
     network_mode: "host"
     volumes:
-      - "phoenix-todo-list--grafana:/var/lib/grafana"
+      - "grafana:/var/lib/grafana"
 
 volumes:
-  phoenix-todo-list--grafana:
-    external: true
+  grafana:

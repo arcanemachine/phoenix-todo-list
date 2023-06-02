@@ -25,32 +25,21 @@ if [ "$1" = "" ]; then
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
   exit 1
+else
+  # move the first arg into a variable and shift it out of args
+  action=$1
+  shift
 fi
-
-# move the first arg into a variable and shift it out of args
-action=$1
-shift
 
 # get last arg
 for last_arg; do true; done
 
-# extra actions for handling 'up' action
-if [ "$action" = "up" ]; then
-  # ensure that external volume exists
-  container_runtime=docker
+# determine which container manager to use ('docker compose' or podman-compose)
+application_to_run="docker compose"
 
-  if [ "$last_arg" = "--podman" ]; then
-    container_runtime=podman
-  fi
-
-  $container_runtime volume create phoenix-todo-list--grafana
-fi
-
-# podman
 if [ "$last_arg" = "--podman" ]; then
-  # use podman instead of docker
-  podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
-  maybe_podman_config="-H unix:${podman_socket_path}"
+  # use podman-compose instead of docker
+  application_to_run="podman-compose"
 
   # remove last arg
   set -- "${@:1:$(($# - 1))}"
@@ -58,4 +47,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2068,SC2086
-docker-compose $maybe_podman_config -f compose.grafana.yaml $action $@
+$application_to_run -f compose.grafana.yaml $action $@

@@ -20,5 +20,3 @@ services:
 
 networks:
   traefik-global-proxy:
-    name: "traefik-global-proxy"
-    external: true

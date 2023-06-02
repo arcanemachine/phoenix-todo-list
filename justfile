@@ -25,9 +25,9 @@ color_reset := "\\033[39m"
 @SHORTCUTS_____________________:
   echo "This command doesn't do anything. It's used as a separator when listing the 'just' commands."
 
-# run a postgres container (requires bash; use 'just docker-postgres' for other shells)
+# run a postgres container
 @postgres:
-  @bash -c "just docker-postgres up; just docker-postgres down"
+  @$SHELL -c "just docker-postgres up; just docker-postgres down"
 
 # setup the project (elixir-fetch-dependencies + db-setup)
 @setup: elixir-dependencies-fetch db-setup

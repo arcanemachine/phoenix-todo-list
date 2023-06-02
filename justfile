@@ -25,8 +25,9 @@ color_reset := "\\033[39m"
 @SHORTCUTS_____________________:
   echo "This command doesn't do anything. It's used as a separator when listing the 'just' commands."
 
-# run a postgres container
-@postgres: docker-postgres
+# run a postgres container (requires bash; use 'just docker-postgres' for other shells)
+@postgres:
+  @bash -c "just docker-postgres up; just docker-postgres down"
 
 # setup the project (elixir-fetch-dependencies + db-setup)
 @setup: elixir-dependencies-fetch db-setup
@@ -95,10 +96,10 @@ color_reset := "\\033[39m"
   echo "Resetting the database..."
   @mix ecto.reset
 
-# run a postgres container
-@docker-postgres:
-  echo "Starting a Postgres container..."
-  @./support/scripts/containers/compose--postgres up
+# run an action on a postgres container [action (default: 'up')]
+@docker-postgres action="up":
+  echo "Running the '{{ action }}' action on a Postgres container..."
+  ./support/scripts/containers/compose--postgres {{ action }}
 
 # build a docker image
 @docker-build image_name=image_name:

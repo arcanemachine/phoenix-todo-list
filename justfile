@@ -61,58 +61,58 @@ color_reset := "\\033[39m"
   echo "This command doesn't do anything. It's used as a separator when listing the 'just' commands."
 
 # remove stale versions of static assets
-assets-prune:
-  @echo "Pruning digested assets..."
-  mix phx.digest.clean --all
+@assets-prune:
+  echo "Pruning digested assets..."
+  @mix phx.digest.clean --all
 
 # copy caddyfile, then validate and reload caddy [environment: local|vagrant|staging|prod]
-caddyfile-copy-validate-reload environment:
-  @echo "Copying the Caddyfile, then validating and reloading Caddy..."
-  ./support/scripts/caddyfile-copy-validate-reload {{ environment }}
+@caddyfile-copy-validate-reload environment:
+  echo "Copying the Caddyfile, then validating and reloading Caddy..."
+  @./support/scripts/caddyfile-copy-validate-reload {{ environment }}
 
 # create the database with 'mix' and run initial migrations
-db-setup:
-  @echo "Setting up the database..."
-  mix ecto.setup
+@db-setup:
+  echo "Setting up the database..."
+  @mix ecto.setup
 
 # create the database with 'mix'
-db-create:
-  @echo "Creating the database..."
-  mix ecto.create
+@db-create:
+  echo "Creating the database..."
+  @mix ecto.create
 
 # run database migrations with 'mix'
-db-migrate:
-  @echo "Running database migrations..."
-  mix ecto.migrate
+@db-migrate:
+  echo "Running database migrations..."
+  @mix ecto.migrate
 
 # drop the database with 'mix'
-db-drop:
-  @echo "Dropping the database..."
-  mix ecto.drop
+@db-drop:
+  echo "Dropping the database..."
+  @mix ecto.drop
 
 # reset the database with 'mix'
-db-reset:
-  @echo "Resetting the database..."
-  mix ecto.reset
+@db-reset:
+  echo "Resetting the database..."
+  @mix ecto.reset
 
 # run a postgres container
-docker-postgres:
-  @echo "Starting a Postgres container..."
-  ./support/scripts/containers/compose--postgres up
+@docker-postgres:
+  echo "Starting a Postgres container..."
+  @./support/scripts/containers/compose--postgres up
 
 # build a docker image
-docker-build image_name=image_name:
-  @echo "Building a Docker image '{{ image_name }}'..."
+@docker-build image_name=image_name:
+  echo "Building a Docker image '{{ image_name }}'..."
 
   # build untagged image
-  docker build -t {{ image_name }} .
+  @docker build -t {{ image_name }} .
 
   # build an architecture-specific image
-  @printf "\n\{{ color_info }}Building '$(uname -m)' image...{{ color_reset }}\n\n"
+  printf "\n\{{ color_info }}Building '$(uname -m)' image...{{ color_reset }}\n\n"
   docker build -t "{{ image_name }}:$(uname -m)" .
 
   # build versioned image
-  @just _echo_info "Building a versioned image..."
+  just _echo_info "Building a versioned image..."
   docker build -t "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)" .
 
   # build 'latest' image to Docker Hub if we are on the 'x86_64' CPU architecture
@@ -123,16 +123,16 @@ docker-build image_name=image_name:
   fi
 
 # push container image to Docker Hub
-docker-push image_name=image_name:
-  @echo "Pushing image(s) to Docker Hub..."
+@docker-push image_name=image_name:
+  echo "Pushing image(s) to Docker Hub..."
 
   # push architecture-specific image to Docker Hub
-  @just _echo_info "Pushing architecture-specific image to Docker Hub..."
-  docker push "{{ image_name }}:$(uname -m)"
+  just _echo_info "Pushing architecture-specific image to Docker Hub..."
+  @docker push "{{ image_name }}:$(uname -m)"
 
   # push versioned image to Docker Hub
-  @just _echo_info "Pushing versioned image to Docker Hub..."
-  docker push "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)"
+  just _echo_info "Pushing versioned image to Docker Hub..."
+  @docker push "{{ image_name }}:$(just version-project)-erlang-$(just version-otp)-$(uname -m)"
 
   # push 'latest' image to Docker Hub if we are on the 'x86_64' CPU architecture
   if [ "$(uname -m)" = "{{ default_cpu_arch }}" ] && [ "$(just version-otp)" = "{{ newest_supported_otp }}" ]; then \
@@ -141,84 +141,84 @@ docker-push image_name=image_name:
   fi
 
 # generate environment file [args (e.g.): --help]
-dotenv-generate args="":
-  @echo "Generating new environment file..." > /dev/stderr
-  ./support/scripts/dotenv-generate {{ args }}
+@dotenv-generate args="":
+  echo "Generating new environment file..." > /dev/stderr
+  @./support/scripts/dotenv-generate {{ args }}
 
 # fetch Elixir dependencies
-elixir-dependencies-fetch:
-  @echo "Fetching Elixir dependencies..."
-  mix deps.get
+@elixir-dependencies-fetch:
+  echo "Fetching Elixir dependencies..."
+  @mix deps.get
 
 # get info about an Elixir Hex package
-elixir-package-info package_name:
-  @echo "Checking for info about the '{{ package_name }}' Hex package..."
-  mix hex.info {{ package_name }}
+@elixir-package-info package_name:
+  echo "Checking for info about the '{{ package_name }}' Hex package..."
+  @mix hex.info {{ package_name }}
 
 # update a specific Elixir Hex package
-elixir-package-update package_name:
-  @echo "Updating Elixir Hex package '{{ package_name }}'..."
-  mix deps.update {{ package_name }}
+@elixir-package-update package_name:
+  echo "Updating Elixir Hex package '{{ package_name }}'..."
+  @mix deps.update {{ package_name }}
 
 # update all Elixir dependencies
-elixir-package-update-all:
-  @echo "Updating all Elixir dependencies..."
-  mix deps.update --all
+@elixir-package-update-all:
+  echo "Updating all Elixir dependencies..."
+  @mix deps.update --all
 
 # check for Elixir Hex package updates
-elixir-package-update-list:
-  @echo "Listing Elixir package updates..."
-  ! mix hex.outdated
+@elixir-package-update-list:
+  echo "Listing Elixir package updates..."
+  @! mix hex.outdated
 
 # create a release
-elixir-release-create:
-  @echo "Creating an Elixir release..."
-  ./support/scripts/elixir-release-create
+@elixir-release-create:
+  echo "Creating an Elixir release..."
+  @./support/scripts/elixir-release-create
 
 # generate a grafana dashboard for a given prom_ex plugin [plugin_name (e.g.): application|beam|...]
 @grafana-dashboard-generate plugin_name:
   mix prom_ex.dashboard.export --dashboard {{ plugin_name }}.json --stdout
 
 # run a basic loadtest with 'k6'
-loadtest-k6:
-  @echo "Running a basic load test with 'k6'..."
-  ./support/scripts/loadtest-k6 --basic
+@loadtest-k6:
+  echo "Running a basic load test with 'k6'..."
+  @./support/scripts/loadtest-k6 --basic
 
 # run a basic loadtest with 'wrk' (must have 'wrk' installed)
-loadtest-wrk:
-  @echo "Running a basic load test with 'wrk'..."
-  ./support/scripts/loadtest-wrk
+@loadtest-wrk:
+  echo "Running a basic load test with 'wrk'..."
+  @./support/scripts/loadtest-wrk
 
 # generate an OpenAPI schema [format: json|yaml]
-openapi-schema-generate format="json":
-  @echo "Generating '{{ format }}' schema in 'priv/static/static/'..."
-  mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec
-  mv openapi.{{ format }} priv/static/static
+@openapi-schema-generate format="json":
+  echo "Generating '{{ format }}' schema in 'priv/static/static/'..."
+  @mix openapi.spec.{{ format }} --spec TodoListWeb.ApiSpec
+  @mv openapi.{{ format }} priv/static/static
 
 # run pre-commit hooks (must have 'pre-commit' installed)
-pre-commit:
-  @echo "Running pre-commit hooks..."
-  pre-commit run --all-files
+@pre-commit:
+  echo "Running pre-commit hooks..."
+  @pre-commit run --all-files
 
 # start a dev server
-server-dev-start:
-  @echo "Starting a dev server..."
-  iex -S mix phx.server
+@server-dev-start:
+  echo "Starting a dev server..."
+  @iex -S mix phx.server
 
 # run migrations on the prod server
-server-prod-migrate:
-  @echo "Running migrations on the prod server..."
-  ./_build/prod/rel/todo_list/bin/migrate
+@server-prod-migrate:
+  echo "Running migrations on the prod server..."
+  @./_build/prod/rel/todo_list/bin/migrate
 
 # start the prod server
-server-prod-start:
-  @echo "Starting prod server..."
-  ./_build/prod/rel/todo_list/bin/server
+@server-prod-start:
+  echo "Starting prod server..."
+  @./_build/prod/rel/todo_list/bin/server
 
 # stop the prod server
-server-prod-stop:
-  @echo "Stopping prod server..."
-  ./_build/prod/rel/todo_list/bin/todo_list stop
+@server-prod-stop:
+  echo "Stopping prod server..."
+  @./_build/prod/rel/todo_list/bin/todo_list stop
 
 # spawn an IEx shell
 @shell:
@@ -228,27 +228,27 @@ server-prod-stop:
     just _echo_info "NOTE: If 'recompile()' is not working properly, try using the 'test' MIX_ENV by running 'MIX_ENV=test just shell'."; \
   fi
 
-  iex -S mix
+  @iex -S mix
 
 # run Elixir tests
-test-elixir:
-  @echo "Running Elixir tests..."
-  ./support/scripts/test-elixir
+@test-elixir:
+  echo "Running Elixir tests..."
+  @./support/scripts/test-elixir
 
 # run Elixir tests (in watch mode)
-test-elixir-watch:
-  @echo "Running Elixir tests in watch mode..."
-  ./support/scripts/test-elixir-watch
+@test-elixir-watch:
+  echo "Running Elixir tests in watch mode..."
+  @./support/scripts/test-elixir-watch
 
 # run Javascript unit tests with Vitest
-test-js:
-  @echo "Running Javascript unit tests..."
-  ./support/scripts/test-js
+@test-js:
+  echo "Running Javascript unit tests..."
+  @./support/scripts/test-js
 
 # run Javascript unit tests with Vitest (in watch mode)
-test-js-watch:
-  @echo "Running Javascript unit tests in watch mode..."
-  ./support/scripts/test-js-watch
+@test-js-watch:
+  echo "Running Javascript unit tests in watch mode..."
+  @./support/scripts/test-js-watch
 
 # run end-to-end (E2E) tests with Playwright [args (e.g.): --help]
 test-e2e args="":
@@ -256,9 +256,9 @@ test-e2e args="":
   ./support/scripts/test-e2e {{ args }}
 
 # run end-to-end (E2E) tests with Playwright (in watch mode) [args (e.g.): --help]
-test-e2e-watch args="":
-  @echo "Running E2E tests in watch mode..."
-  ./support/scripts/test-e2e-watch {{ args }}
+@test-e2e-watch args="":
+  echo "Running E2E tests in watch mode..."
+  @./support/scripts/test-e2e-watch {{ args }}
 
 # print the OTP version number
 @version-otp:

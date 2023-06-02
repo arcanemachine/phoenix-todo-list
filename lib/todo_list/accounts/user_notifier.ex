@@ -11,7 +11,8 @@ defmodule TodoList.Accounts.UserNotifier do
       |> to(recipient)
       |> from(
         {"TodoList",
-         System.get_env("EMAIL_FROM_DEFAULT") || "no-reply@" <> System.get_env("PHX_HOST")}
+         System.get_env("EMAIL_FROM_DEFAULT") ||
+           "no-reply@" <> System.get_env("PHX_HOST", "localhost")}
       )
       |> subject(subject)
       |> text_body(body)

@@ -116,8 +116,8 @@ if config_env() == :prod do
 
   # send live emails if the server is configured for AWS and we're 1) not in a localhost domain,
   # or 2) using a non-localhost value in EMAIL_FROM_DEFAULT
-  if (!(System.get_env("PHX_HOST") =~ "localhost") ||
-        !(System.get_env("EMAIL_FROM_DEFAULT") =~ "localhost")) &&
+  if (!(System.get_env("PHX_HOST", "") =~ "localhost") ||
+        !(System.get_env("EMAIL_FROM_DEFAULT", "") =~ "localhost")) &&
        System.get_env("AWS_SECRET", "") != "" do
     # use live email in production
     config :todo_list, TodoList.Mailer,

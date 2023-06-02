@@ -12,7 +12,6 @@ set dotenv-load
 default_cpu_arch := "x86_64"
 newest_supported_otp := "25.3"
 image_name := "arcanemachine/phoenix-todo-list"
-url := 'https://$PHX_HOST/'
 
 # colors
 color_error := "\\033[91m"

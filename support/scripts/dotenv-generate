@@ -32,7 +32,7 @@ if [ -f "$env_path" ]; then
 
   else
     # exit without writing the dotenv file
-    echo "Dotenv file already exists: '$env_path'"
+    echo "Dotenv file already exists: '$env_path'. Aborting..."
     exit 1
   fi
 else

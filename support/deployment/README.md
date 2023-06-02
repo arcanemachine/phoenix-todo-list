@@ -97,9 +97,9 @@ You may need to pull the latest image when doing an update:
 
 **NOTE: This section is intended for personal reference only. It will likely be of limited value to other readers.**
 
-At the moment, there is a substantial amount of duplication required to add a new environment variable that will persist through the deployment process. This aspect
+At the moment, there is a substantial amount of duplication required to add a new environment variable that will persist through the deployment process.
 
-For example, to add the `EMAIL_FROM_DEFAULT` environment variable to all phases of the project, a reference to the value must be added to the following files:
+For example, to add the `EMAIL_FROM_DEFAULT` environment variable to all phases of the project, a reference to the value must be added to ONE OR MORE one of the following files:
 
 - The dotenv file generator template:
   - `support/scripts/templates/dotenv`
@@ -113,6 +113,8 @@ For example, to add the `EMAIL_FROM_DEFAULT` environment variable to all phases 
   - The Ansible playbook used to deploy this project:
     - Name the variable in the `environment` section of the playbook.
     - Ensure the variable is present in the 'validation' section of the playbook's tasks.
+
+NOTE: Depending on the circumstances, you may not need to add the value to every file. It all depends where and when the value is needed. Think ahead.
 
 ## Deploying With Caddy
 

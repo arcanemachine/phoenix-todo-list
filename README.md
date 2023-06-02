@@ -40,7 +40,10 @@ Before you work in a `dev` environment, ensure that your environment variables a
   - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
   - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
 - Setup Postgres:
-  - For easy Postgres setup, run `just postgres`. (must have [`just`](https://github.com/casey/just) task runner installed)
+  - The easy way:
+    - For easy Postgres setup, run `just postgres`. (must have [`just`](https://github.com/casey/just) task runner installed)
+  - The manual way:
+    - Ensure the Postgres server is installed and running in your desired location, and [ensure that your Phoenix application can access the database](https://hexdocs.pm/phoenix/up_and_running.html).
 - Setup and run the server:
   - The easy way (must have `just` installed): `just dev`
   - The manual way:

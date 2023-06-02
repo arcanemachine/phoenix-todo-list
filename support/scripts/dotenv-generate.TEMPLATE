@@ -43,6 +43,7 @@ POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
 DATABASE_URL=\"${DATABASE_URL:-ecto://postgres:postgres@localhost/todo_list}\"
 
 # docker
+COMPOSE_PROJECT_NAME=\"phoenix-todo-list\"
 IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
 
 # email

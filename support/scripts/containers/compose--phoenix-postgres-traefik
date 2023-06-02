@@ -36,7 +36,7 @@ fi
 
 # ensure second (first after shifting) positional argument is present
 if [ "$1" = "" ] || [ "$1" != "local" ] && [ "$1" != "remote" ]; then
-  echo "\033[91mThe second positional argument must specify whether the Traefik container should use a 'local' (no HTTPS) or 'remote' (uses HTTPS) config (without the quotes).\033[39m
+  echo "Error: The second positional argument must specify whether the Traefik container should use a 'local' (no HTTPS) or 'remote' (uses HTTPS) config (without the quotes).
 
 The second positional argument must be one of: local, remote
 
@@ -45,7 +45,7 @@ Aborting..."
 else
   local_or_remote=$1
 
-  # shift positional argument out of args
+  # shift first positional argument out of args
   shift
 fi
 

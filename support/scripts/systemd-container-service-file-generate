@@ -146,7 +146,7 @@ fi
 # traefik
 if [ $use_traefik_host ]; then
   # run traefik container
-  containers_to_run="$containers_to_run -f traefik/compose.yaml -f traefik/compose.config-${deployment_type}.yaml"
+  containers_to_run="$containers_to_run -f compose.traefik.yaml -f compose.traefik-config-${deployment_type}.yaml"
 fi
 
 # for dry_run, print output to terminal instead of writing to a file

@@ -10,7 +10,7 @@
     "@alpinejs/focus": "^3.12.2",
     "@types/toastify-js": "^1.11.1",
     "alpinejs": "^3.12.2",
-    "daisyui": "^2.52.0",
+    "daisyui": "^3.0.1",
     "tippy.js": "^6.3.7",
     "toastify-js": "^1.12.0"
   },

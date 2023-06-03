@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.11]
+
+### Changed
+
+- Remove unnecessary E2E test fragment that broke when updating npm dependencies
+- Upgrade npm dependencies:
+  - @alpinejs/collapse: 3.12.1 -> 3.12.2
+  - @alpinejs/focus: 3.12.1 -> 3.12.2
+  - @playwright/test: 1.33.0 -> 1.34.3
+  - alpinejs: 3.12.1 -> 3.12.2
+  - daisyui: 2.52.0 -> 3.0.1
+  - jsdom: 22.0.0 -> 22.1.0
+  - typescript: 5.0.4 -> 5.1.3
+  - vitest: 0.31.0 -> 0.31.4
+
 ## [0.1.10]
 
 ### Fixed

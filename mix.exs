@@ -5,7 +5,7 @@ defmodule TodoList.MixProject do
   def project do
     [
       app: :todo_list,
-      version: "0.1.10",
+      version: "0.1.11",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,

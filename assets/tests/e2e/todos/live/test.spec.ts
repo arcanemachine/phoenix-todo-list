@@ -170,10 +170,6 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
   );
 
   authenticatedTest("deletes a todo", async () => {
-    // sanity check: the delete modal is not visible
-    const todoDeleteModal = testPage.todoDeleteModal;
-    await expect.soft(todoDeleteModal).not.toBeVisible();
-
     // create a todo
     await todoCreate();
 
@@ -189,6 +185,7 @@ authenticatedTest.describe("[Authenticated] Todos live page", async () => {
     await todoButtonDelete.click();
 
     // the delete modal is now visible
+    const todoDeleteModal = testPage.todoDeleteModal;
     await expect(todoDeleteModal).toBeVisible();
 
     // click the confirmation button

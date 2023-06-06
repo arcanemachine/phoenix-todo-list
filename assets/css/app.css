@@ -82,6 +82,11 @@
     --animation-btn: 0; /* disable button 'pop' effect during initial render */
   }
 
+  .dropdown-content {
+    /* prevent other elements (e.g. inputs) from obscuring dropdowns */
+    z-index: 1;
+  }
+
   /* phoenix */
   [data-phx-main] {
     height: 100%;

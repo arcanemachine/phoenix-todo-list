@@ -2,7 +2,6 @@
 services:
   postgres:
     image: "docker.io/postgres:15.3"
-    container_name: "postgres"
     restart: "always"
     environment:
       POSTGRES_DB: "${POSTGRES_DB:?}"

@@ -2,7 +2,6 @@
 services:
   grafana:
     image: "docker.io/grafana/grafana:9.5.2"
-    container_name: "grafana"
     restart: "always"
     network_mode: "host"
     volumes:

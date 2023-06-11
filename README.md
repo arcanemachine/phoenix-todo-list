@@ -45,7 +45,8 @@ Before you work in a `dev` environment, ensure that your environment variables a
   - The manual way:
     - Ensure the Postgres server is installed and running in your desired location, and [ensure that your Phoenix application can access the database](https://hexdocs.pm/phoenix/up_and_running.html).
 - Setup and run the server:
-  - The easy way (must have `just` installed): `just dev`
+  - The easy way (must have `just` installed): `just setup dev`
+    - NOTE: You only have to run `just setup` the first time. Afterwards, you only need to run `just dev`.
   - The manual way:
     - Run `mix deps.get` to fetch the dependencies.
     - Setup the database: `mix ecto.setup`

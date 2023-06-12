@@ -37,12 +37,16 @@ Features:
 
 Before you work in a `dev` environment, ensure that your environment variables are set correctly:
 
-- You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
-  - Use the `support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
+- Use the `support/scripts/dotenv-generate` script (or run `just dotenv-generate`) to generate a `.env` file to get you started.
+  - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control.
   - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
-- Setup Postgres:
+    - After creating the `.env` file, run `direnv allow` to enable auto-sourcing of the environment.
+- Install the `npm` dependencies:
+  - Ensure that `npm` is installed and working on your computer.
+  - Navigate to the directory `assets/` and run `npm install`.
+- Ensure that a Postgres server is running:
   - The easy way:
-    - For easy Postgres setup, run `just postgres` (must have [`just`](https://github.com/casey/just) task runner installed).
+    - For easy Postgres setup, run `just postgres` (must have Docker and the [`just`](https://github.com/casey/just) task runner installed).
   - The manual way:
     - Ensure the Postgres server is installed and running in your desired location, and [ensure that your Phoenix application can access the database](https://hexdocs.pm/phoenix/up_and_running.html).
 - Setup and run the server:
@@ -55,6 +59,8 @@ Before you work in a `dev` environment, ensure that your environment variables a
       - `mix phx.server` - The regular method of starting a dev server
       - Or, `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
 - Your server should now be accessible on `localhost:4001`.
+  - It may take a moment for `esbuild` to build its initial bundle.
+    - The layout of the page will look ugly while this is happening.
   - This project's ports are set by configuring the `PORT` environment variable (e.g. in the `.env` file).
     - Production: The default port is `PORT` (e.g. 4000)
     - Development: The default port is `PORT + 1` (e.g. 4001)
@@ -62,12 +68,14 @@ Before you work in a `dev` environment, ensure that your environment variables a
 
 ### Testing
 
-Before running any tests, use the instructions above to ensure that:
+Before running any tests, make sure that you have followed the instructions in the section above.
 
-- The required environment variables have been set.
-  - Use the instructions in the previous step to create a basic `.env` file in the project root directory.
-- A Postgres server is up and running.
-  - To easily create a Postgres server container, run `just postgres`.
+Notes:
+
+- To run all tests at once, run `just test`.
+  - The first test run may appear to hang when the console says `Resetting the database...`.
+    - Elixir may need a minute or two to compile dependencies for the `test` `MIX_ENV`.
+- A Postgres server must be running for the tests to pass.
   - You may need to create a test database: `MIX_ENV=test mix ecto.create`
   - If any errors occur during the tests, try resetting the test database: `MIX_ENV=test mix ecto.reset`
     - For example, the E2E test scripts reset the database between test runs. However, if the script is aborted, the database may not be reset, which can effect the results of `mix test`.
@@ -81,6 +89,11 @@ Run the Elixir-based tests using any of these commands:
 - `./support/scripts/test-elixir` - A convenience script for running the Elixir tests.
   - This script clears the test database before running the tests. This prevents any issues that may be caused when the test database is not cleared, e.g. during failed E2E test run.
 - `./support/scripts/test-elixir-watch` - A convenience script for running the Elixir-based tests in watch mode.
+
+Note:
+
+- The first test run may appear to hang when the console says `Resetting the database...`.
+  - Elixir may need a minute or two to compile dependencies for the `test` `MIX_ENV`.
 
 #### Javascript-Based Tests
 

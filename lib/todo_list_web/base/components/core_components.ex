@@ -78,7 +78,7 @@ defmodule TodoListWeb.CoreComponents do
   def footer(assigns) do
     ~H"""
     <div class="w-full">
-      <% # limit max width of navbar by nesting it inside a full-width element %>
+      <% # limit max width of footer by nesting it inside a full-width element %>
       <section class="max-w-[100rem] mx-auto bg-base-200 py-6 text-center 2xl:rounded-t-xl">
         <ul class="list-none">
           <li>

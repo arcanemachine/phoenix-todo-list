@@ -1,14 +1,9 @@
 #!/bin/sh
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  echo "Run this project's Elixir tests in watch mode."
-  exit
-fi
-
 # navigate to project root directory
 cd "$(dirname "$0")/../.." || exit 1
 
-if [ "$1" = "-h" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   # show help info and exit
   echo "
 A helper script for running Elixir tests. Runs tests in 'watch mode' so that

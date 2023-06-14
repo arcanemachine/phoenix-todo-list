@@ -153,7 +153,7 @@
   }
 }
 
-@layer utility {
+@layer utilities {
   .show-empty-element:after {
     content: "\00A0"; /* non-breaking space */
   }

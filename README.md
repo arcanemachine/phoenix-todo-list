@@ -35,12 +35,11 @@ Features:
 
 ### Working in a `dev` Environment
 
-Before you work in a `dev` environment, ensure that your environment variables are set correctly:
-
-- Use the `support/scripts/dotenv-generate` script (or run `just dotenv-generate`) to generate a `.env` file to get you started.
-  - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control.
-  - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
-    - After creating the `.env` file, run `direnv allow` to enable auto-sourcing of the environment.
+- Setup your local environment variables:
+  - Use the `./support/scripts/dotenv-generate` script (or run `just dotenv-generate`) to generate a `.env` file to get you started.
+    - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control.
+    - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
+      - After creating the `.env` file, run `direnv allow` to enable auto-sourcing of the environment.
 - Install the `npm` dependencies:
   - Ensure that `npm` is installed and working on your computer.
   - Navigate to the directory `assets/` and run `npm install`.
@@ -68,7 +67,7 @@ Before you work in a `dev` environment, ensure that your environment variables a
 
 ### Testing
 
-Before running any tests, make sure that you have followed the instructions in the section above.
+Before running any tests, make sure that you have followed the instructions in the above section "Getting Started".
 
 Notes:
 
@@ -137,7 +136,7 @@ Navigate to the project root directory and set up your environment variables:
 - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control
   - Use the environment generator script to generate a `.env` file in the project root directory. You can modify this `.env` file as needed.
     - To run the script:
-      - `support/scripts/dotenv-generate`
+      - `./support/scripts/dotenv-generate`
       - Or, `just dotenv-generate`
 
 ##### Vanilla/Bare Metal Deployment
@@ -145,7 +144,7 @@ Navigate to the project root directory and set up your environment variables:
 Run the following commands from the project root directory:
 
 - Create a release using the helper script:
-  - `support/scripts/elixir-release-create`
+  - `./support/scripts/elixir-release-create`
 - Make sure that Postgres is running:
   - Use `pg_isready`:
     - e.g. `pg_isready` or `pg_isready -h localhost` or `pg_isready -h your-postgres-ip-address-or-domain`
@@ -196,7 +195,7 @@ NOTE: In order for this to work, you will need to install an older version of `d
 Run the following commands from the project root directory:
 
 - Create a release using the helper script:
-  - `support/scripts/elixir-release-create`
+  - `./support/scripts/elixir-release-create`
   - Or, `just release`
 - Build a container image:
   - Docker: `docker build -t phoenix-todo-list .`
@@ -221,7 +220,7 @@ To build an `aarch64` (a.k.a `ARM64`/`armv8`/`arm64v8`) image, follow the instru
 
 `aarch64` images are tagged with the `aarch64` tag, e.g. `docker.io/arcanemachine/phoenix-todo-list:aarch64`.
 
-When generating a dotenv file, the generator script will detect your CPU architecture (`x86_64` or `aarch64`) so you automatically pull the proper image when using the deployment scripts in `support/scripts/`.
+When generating a dotenv file, the generator script will detect your CPU architecture (`x86_64` or `aarch64`) so you automatically pull the proper image when using the deployment scripts in `./support/scripts/`.
 
 ###### Running a Basic Phoenix Container
 
@@ -289,6 +288,6 @@ There are several types of dependencies throughout this project that should be k
 - Javascript (npm):
   - `assets/js/`
 - Containers (Docker/Podman):
-  - `support/containers/compose.*.yaml`
-  - `support/containers/Dockerfile.*`
-  - `support/scripts/loadtest-k6`
+  - `./support/containers/compose.*.yaml`
+  - `./support/containers/Dockerfile.*`
+  - `./support/scripts/loadtest-k6`

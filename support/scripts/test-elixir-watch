@@ -62,5 +62,18 @@ fi
 # navigate to project root directory
 cd "$(dirname "$0")/../.." || exit 1
 
+# reset the database (to prevent issues with non-empty test database, e.g. from
+# aborted E2E tests)
+echo "Resetting the test database..."
+MIX_ENV="test" mix ecto.reset >/dev/null
+
+# show success message after resetting the test database
+# shellcheck disable=SC2181 # ignore unnecessary warning
+if [ "$?" = 0 ]; then
+  echo "Test database reset successfully."
+else
+  echo "\033[91mAn error occurred while attempting to reset the test database.\033[39m"
+fi
+
 # run the tests
 until ag -g "\.(ex|exs|eex|heex|js|ts)$" | entr -d mix test "$@"; do sleep 1; done

@@ -129,7 +129,7 @@ defmodule TodoListWeb.Api.TodoControllerTest do
     # generic tests
     test_requires_authenticated_api_user(todo_object_url(123), "delete")
 
-    @tag fixme: true
+    @tag example_tag: true
     test "forbids unpermissioned user (delete)", %{conn: conn, todo: todo} do
       forbids_unpermissioned_api_user(conn, todo_object_url(todo.id), "delete")
     end

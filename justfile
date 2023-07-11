@@ -55,7 +55,7 @@ color_reset := "\\033[39m"
 # push the image to docker hub (docker-push)
 @push: docker-push
 
-# almost one-liner to deploy a release (must still use ansible playbook to push to server) (test + release + build + push)
+# almost one-liner to deploy a release (must still use ansible playbook to pull image on server) (test + release + build + push)
 @deploy:
   @./support/scripts/deploy
   just _echo_success "done"

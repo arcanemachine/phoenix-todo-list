@@ -22,7 +22,10 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "args",
     nargs="*",
-    help='Arguments to pass to k6 (must be in quotes, e.g. "-u 300 -d 10s", otherwise this wrapper script will attempt (and fail) to parse the flags)',  # noqa: E501
+    help=(
+        'Arguments to pass to k6 (must be in quotes, e.g. "-u 300 -d 10s", '
+        "otherwise this wrapper script will attempt (and fail) to parse the flags)"
+    ),  # noqa: E501
 )
 parser.add_argument(
     "-b",
@@ -42,7 +45,10 @@ parser.add_argument(
 parser.add_argument(
     "-s",
     "--scripts",
-    help="One or more load testing scripts to run with K6 (located in './loadtest/k6')",
+    help=(
+        "One or more load testing scripts to run with K6 "
+        f"(located in '{path_to_k6_scripts}')"
+    ),  # noqa: E501
     nargs="+",
     default="index.js",
 )

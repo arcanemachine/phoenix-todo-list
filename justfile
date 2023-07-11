@@ -149,7 +149,7 @@ color_reset := "\\033[39m"
   echo "Generating new environment file..." > /dev/stderr
   @./support/scripts/dotenv-generate {{ args }}
 
-# fetch Elixir dependencies
+# fetch Elixir dependencies (`mix deps.get`)
 @elixir-dependencies-fetch:
   echo "Fetching Elixir dependencies..."
   @mix deps.get

@@ -6,23 +6,23 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 Run this script with no parameters to run a basic load test:
   - e.g. 'loadtest-wrk'
 
-Pass the URL environment variable to test a specific URL:
-  - e.g. 'URL=https://your-project.localhost/ loadtest-wrk'
+Pass the WRK_URL environment variable to test a specific URL:
+  - e.g. 'WRK_URL=https://your-project.localhost/ loadtest-wrk'
 
 Use positional arguments to run a custom 'wrk' command. The \$URL will automatically be appended to the end of the command:
   - e.g. 'loadtest-wrk -t12 -c400 -d30s \$URL'"
   exit
 fi
 
-URL=${URL:-"https://${PHX_HOST:?}"}
+WRK_URL=${WRK_URL:-"https://${PHX_HOST:?}"}
 
 if [ "$1" = "" ]; then
   # if no args passed, run a basic test
-  echo "\033[96mRunning a basic load test on URL '$URL'...\033[39m"
-  wrk -t12 -c400 -d10s "$URL"
+  echo "\033[96mRunning a basic load test on URL '$WRK_URL'...\033[39m"
+  wrk -t12 -c400 -d10s "$WRK_URL"
 else
   # run a custom test
-  echo "\033[96mRunning a custom load test on URL '$URL'...\033[39m"
+  echo "\033[96mRunning a custom load test on URL '$WRK_URL'...\033[39m"
   # shellcheck disable=SC2068
-  wrk $@ "$URL"
+  wrk $@ "$WRK_URL"
 fi

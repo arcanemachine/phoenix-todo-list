@@ -37,7 +37,11 @@ defmodule TodoListWeb.Base.Router do
   end
 
   @doc """
-  When used, dispatch to the appropriate controller/view/etc.
+  When used, dispatch the appropriate function by calling the desired function name as an atom.
+
+  ## Examples
+
+      use BaseRouter, :base_allow_any_user
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])

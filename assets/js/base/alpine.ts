@@ -5,7 +5,6 @@ import tippy from "tippy.js";
 import type { AlpineComponent, AlpineStore } from "js/alpine";
 import constants from "js/constants";
 import h from "js/helpers";
-import { data as todosData } from "js/todos/alpine";
 
 /* data */
 function darkModeSelect() {
@@ -101,7 +100,6 @@ export const data = [
     name: "darkModeSelect",
     data: darkModeSelect,
   },
-  ...todosData,
 ];
 
 /* directives */

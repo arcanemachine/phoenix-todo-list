@@ -111,7 +111,15 @@ export const directives = [
       { expression }: any,
       { evaluate, cleanup }: any
     ) {
-      /** Create a tooltip popup. */
+      /**
+       * Create a tooltip popup.
+       *
+       * This directive accepts any one of the following parameters as an
+       * expression:
+       *   - A string containing a basic tooltip message
+       *   - An object with a 'content' key containing the tooltip message, and
+       *     any other desired tippy.js props
+       */
       if (!expression) return; // abort if expression is empty
 
       const defaultOptions = {

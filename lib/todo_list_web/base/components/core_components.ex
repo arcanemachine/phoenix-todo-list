@@ -619,7 +619,6 @@ defmodule TodoListWeb.CoreComponents do
         value="true"
         checked={@checked}
         class={["checkbox", @class]}
-        phx-debounce={@debounce}
         {@rest}
       />
       <%= @label %>
@@ -659,7 +658,6 @@ defmodule TodoListWeb.CoreComponents do
           "rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-base-500"
         ]}
         multiple={@multiple}
-        phx-debounce={@debounce}
         {@rest}
       >
         <option :if={@prompt} value=""><%= @prompt %></option>

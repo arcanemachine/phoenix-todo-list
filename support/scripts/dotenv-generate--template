@@ -50,7 +50,7 @@ IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
 
 # email
 AWS_ACCESS_KEY=\"${AWS_ACCESS_KEY:-your_aws_access_key}\"
-AWS_REGION=\"${AWS_REGION:-us-east-1}\"
+AWS_REGION=\"${AWS_REGION:-your_aws_region_eg_us-east-1}\"
 AWS_SECRET=\"${AWS_SECRET}\"
 EMAIL_FROM_DEFAULT=\"${EMAIL_FROM_DEFAULT:-no-reply@${PHX_HOST:-$default_phx_host}}\"
 

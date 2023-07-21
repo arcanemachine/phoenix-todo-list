@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /users
+Disallow: /users/
+Disallow: /todos
+Disallow: /todos/
+
+Sitemap: https://phoenix-todo-list.nicholasmoen.com/sitemap.xml

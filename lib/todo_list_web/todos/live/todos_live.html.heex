@@ -1,5 +1,5 @@
 <%= if assigns[:user_count] && @user_count > 0 do %>
-  <% # presence: user count %>
+  <%!-- presence: user count --%>
   <div
     data-testid="user-counter"
     class={[
@@ -27,7 +27,7 @@
 >
   <%= if Application.get_env(:todo_list, :hack_test_lv_dummy_forms_enabled) do %>
     <section class="hidden">
-      <% # create dummy forms for testing events %>
+      <%!-- create dummy forms for testing events --%>
       <.form for={%{}} id="todo-create-test-form" phx-submit="todo_create">
         <input type="text" name="content" required />
       </.form>
@@ -41,7 +41,7 @@
     </section>
   <% end %>
 
-  <% # todo form %>
+  <%!-- todo form --%>
   <.form
     for={%{}}
     class="mx-0 w-full"
@@ -70,7 +70,7 @@
     </div>
   </.form>
 
-  <% # todo list %>
+  <%!-- todo list --%>
   <ul id="todo-list" class="w-100 mt-8 list-none pl-0">
     <%= if Enum.empty?(@todos) do %>
       <li class="text-center">No items created...</li>
@@ -80,7 +80,7 @@
           class={[
             "flex flex-row justify-center items-center",
             "form-control hover:opacity-75 cursor-pointer",
-            "rounded-md rounded-75 rounded"
+            "rounded"
           ]}
           id={"todo-#{todo.id}"}
           data-todo-id={todo.id}
@@ -121,7 +121,7 @@
           </div>
 
           <div class="flex flex-center w-8 mx-4 py-2">
-            <% # checkbox: is_completed %>
+            <%!-- checkbox: is_completed --%>
             <.button
               class={[
                 ["text-xl btn btn-square btn-ghost btn-outline outline-2"],
@@ -147,7 +147,7 @@
               />
             </.button>
 
-            <% # icon: delete item %>
+            <%!-- icon: delete item --%>
             <.button
               class={["text-xl btn btn-square btn-error btn-outline"]}
               x-bind:aria-label="$el.getAttribute('x-tooltip')"
@@ -163,7 +163,7 @@
     <% end %>
   </ul>
 
-  <% # delete modal %>
+  <%!-- delete modal --%>
   <div class="modal" id="todo-delete-modal" x-bind:class="todoDeleteModalActive && 'modal-open'">
     <div
       class="modal-box relative max-w-xs"

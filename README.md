@@ -8,7 +8,9 @@
 
 ---
 
-Yet another todo list. Made using the [Phoenix web framework](https://www.phoenixframework.org/).
+Yet another todo list.
+
+Made using the [Phoenix web framework](https://www.phoenixframework.org/), and enhanced with [Phoenix LiveView](https://github.com/phoenixframework/phoenix_live_view).
 
 Features:
 

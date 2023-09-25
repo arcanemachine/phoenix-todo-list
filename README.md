@@ -35,6 +35,8 @@ Features:
 
 ## Getting Started
 
+First, you'll need to clone this repo: git clone https://github.com/arcanemachine/phoenix-todo-list
+
 ### Working in a `dev` Environment
 
 - Setup your local environment variables:

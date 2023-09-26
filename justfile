@@ -183,6 +183,11 @@ color_reset := "\\033[39m"
 @grafana-dashboard-generate plugin_name:
   mix prom_ex.dashboard.export --dashboard {{ plugin_name }}.json --stdout
 
+# install JS dependencies via 'npm'
+@js-dependencies-install:
+  echo "Installing JS dependencies via 'npm'..."
+  cd assets && npm install
+
 # run a basic loadtest with 'k6'
 @loadtest-k6:
   echo "Running a basic load test with 'k6'..."

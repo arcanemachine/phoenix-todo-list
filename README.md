@@ -39,28 +39,32 @@ First, you'll need to clone this repo: git clone https://github.com/arcanemachin
 
 ### Working in a `dev` Environment
 
+NOTE: In order to do things via `just`, you will need to install the [`just`](https://github.com/casey/just) task runner.
+
 - Setup your local environment variables:
-  - Use the `./support/scripts/dotenv-generate` script (or run `just dotenv-generate`) to generate a `.env` file to get you started.
-    - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control.
-    - It is recommended to use `direnv` to easily load your environment when navigating within this project's directories.
-      - After creating the `.env` file, run `direnv allow` to enable auto-sourcing of the environment.
+  - Via `just`: `just dotenv-generate`
+  - Manually:
+    - Run the `./support/scripts/dotenv-generate` script to generate a `.env` file to get you started.
+      - You can set custom/private environment variables in `.env` so that they will not be accidentally committed to source control.
+  - Load the environment variables into the current terminal session: `. .env`
+    - NOTE: [`direnv`](https://direnv.net/) is a great tool to automatically source environment files on a per-project basis.
 - Install the `npm` dependencies:
-  - Ensure that `npm` is installed and working on your computer.
-  - Navigate to the directory `assets/` and run `npm install`.
+  - Via `just`: `just js-dependencies-install`
+  - Manually:
+    - Ensure that `npm` is installed and working on your computer.
+    - Navigate to the directory `assets/` and run `npm install`.
 - Ensure that a Postgres server is running:
-  - The easy way:
-    - For easy Postgres setup, run `just postgres` (must have Docker and the [`just`](https://github.com/casey/just) task runner installed).
-  - The manual way:
+  - Via `just`: `just postgres` (must have Docker installed).
+  - Manually:
     - Ensure the Postgres server is installed and running in your desired location, and [ensure that your Phoenix application can access the database](https://hexdocs.pm/phoenix/up_and_running.html).
-- Setup and run the server:
-  - The easy way (must have `just` installed): `just setup dev`
-    - NOTE: You only have to run `just setup` the first time. Afterwards, you only need to run `just dev`.
-  - The manual way:
+- Setup the server:
+  - Via `just`: `just setup`
+  - Manually:
     - Run `mix deps.get` to fetch the dependencies.
     - Setup the database: `mix ecto.setup`
-    - Start a dev server:
-      - `mix phx.server` - The regular method of starting a dev server
-      - Or, `iex -S mix phx.server` - Starts a dev server in an `IEx` session. Useful for debugging.
+- Run the server:
+  - Via `just`: `just start`
+  - The manual way: `mix phx.server`
 - Your server should now be accessible on `localhost:4001`.
   - It may take a moment for `esbuild` to build its initial bundle.
     - The layout of the page will look ugly while this is happening.

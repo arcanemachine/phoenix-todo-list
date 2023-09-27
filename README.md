@@ -188,12 +188,8 @@ Note that `docker-compose` must be configured (instructions below) to use the Po
 
 NOTE: In order for this to work, you will need to install an older version of `docker-compose`. It is not unreasonable to assume this situation will stop working at some point in the future. For now, I find it to be a useful workaround when `podman-compose` isn't yet up to the task.
 
-- Install `docker-compose` v.1.29.2:
-  - There are several ways to install this package, but I have found installation via Python's `pip` to be the most versatile, namely because it works well with `x86_64` and `aarch64` systems.
-    - Install via [`pipx`](https://pypa.github.io/pipx/) (recommended):
-      - `pipx install docker-compose`
-    - Install via `pip`:
-      - `pip install docker-compose`
+- Install `docker-compose` v1.29.2: `sudo apt install docker-compose`
+  - Note: `docker-compose` v2 has been re-written in Go and is not compatible with Podman as of this writing. v1.29.2 is the last version currently supported.
 - Set the socket path when running `docker-compose` commands:
   - With an environment variable: `DOCKER_HOST="unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" docker-compose up`
   - Or, with the `-H` flag: `docker-compose -H "unix:$(podman info --format '{{.Host.RemoteSocket.Path}}')" up`

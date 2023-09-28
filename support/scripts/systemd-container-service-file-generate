@@ -87,10 +87,10 @@ done
 # validate args - do not allow '--traefik-client' and '--traefik-host' to be
 # passed at the same time
 if [ "$use_traefik_client" = 1 ] && [ "$use_traefik_host" = 1 ]; then
-  echo "\033[91mYou cannot pass the '--traefik-client' and '--traefik-host' flags at the same time.\033[39m
+  printf "\033[91mYou cannot pass the '--traefik-client' and '--traefik-host' flags at the same time.\033[39m
 If you only need to add the labels so an existing Traefik container can detect this service, pass the '--traefik-client' flag.
 If you want to start a Traefik container as part of this service, pass the '--traefik-host' flag. This flag will also add the necessary labels to the web server container.
-Aborting..."
+Aborting...\n"
   exit 1
 fi
 
@@ -114,7 +114,7 @@ if [ "$use_podman" = 1 ]; then
   maybe_podman_config="-H unix:${podman_socket_path}"
 fi
 
-# is_remote -> deployment_type
+# set $deployment_type based on whether or not the '--is_remote' flag was passed
 if [ "$is_remote" = 1 ]; then
   deployment_type="remote"
 else
@@ -144,7 +144,7 @@ if [ "$use_postgres" = 1 ]; then
 fi
 
 # traefik
-if [ $use_traefik_host ]; then
+if [ "$use_traefik_host" ]; then
   # run traefik container
   containers_to_run="$containers_to_run -f compose.traefik.yaml -f compose.traefik-config-${deployment_type}.yaml"
 fi
@@ -165,7 +165,7 @@ command_to_run="$(which docker-compose) ${maybe_podman_config} $containers_to_ru
 if [ "$dry_run" != 1 ]; then
   # create script for managing the container service manually (helps with debugging compose issues)
   container_management_script="$working_directory/container-management-script.ignore"
-  echo "\033[96mCreating a container service management helper script: '$container_management_script'...\033[39m"
+  printf "\033[96mCreating a container service management helper script: '%s'...\033[39m\n" "$container_management_script"
   echo "cd $working_directory && $command_to_run \"\$@\"" >"$container_management_script"
   chmod +x "$container_management_script"
 fi

@@ -12,8 +12,8 @@ __pycache__/
 Session*.vim
 
 # misc
-*.tmp
-*gitignored*
+*.gitignored
+gitignored.*
 
 
 # MIX DEFAULTS #

@@ -12,7 +12,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI, // fail if `.only()` in tests during CI
   globalSetup: "tests/e2e/support/setup/global.ts",
   // globalTeardown: "tests/e2e/support/teardown.ts",
-  outputDir: "tests/e2e/support/test-results.ignore",
+  outputDir: "tests/e2e/support/test-results.gitignored",
   retries: process.env.CI ? 2 : 0, // retry on CI only
   reporter: "line",
   testDir: "tests/e2e",

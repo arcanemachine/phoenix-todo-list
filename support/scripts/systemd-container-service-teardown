@@ -40,4 +40,4 @@ systemctl --user daemon-reload
 
 # remove the container management script
 echo "Removing the manual container management script..."
-rm "$(dirname "$0")/../containers/container-management-script.ignore"
+rm "$(dirname "$0")/../containers/container-management-script.gitignored"

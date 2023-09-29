@@ -164,7 +164,7 @@ command_to_run="$(which docker-compose) ${maybe_podman_config} $containers_to_ru
 
 if [ "$dry_run" != 1 ]; then
   # create script for managing the container service manually (helps with debugging compose issues)
-  container_management_script="$working_directory/container-management-script.ignore"
+  container_management_script="$working_directory/container-management-script.gitignored"
   printf "\033[96mCreating a container service management helper script: '%s'...\033[39m\n" "$container_management_script"
   echo "cd $working_directory && $command_to_run \"\$@\"" >"$container_management_script"
   chmod +x "$container_management_script"

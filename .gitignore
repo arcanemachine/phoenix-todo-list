@@ -1,9 +1,4 @@
-# misc
-*.ignore
-*.tmp
-gitignore.*
-
-# dotenv
+# environment
 .env
 
 # elixir
@@ -15,6 +10,10 @@ __pycache__/
 # vim
 *.sw?
 Session*.vim
+
+# misc
+*.tmp
+*gitignored*
 
 
 # MIX DEFAULTS #

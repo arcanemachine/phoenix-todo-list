@@ -5,7 +5,7 @@ services:
     networks:
       - "phoenix-todo-list"
     ports:
-      - "5432"
+      - "${POSTGRES_PORT:-5432}"
 
 networks:
   traefik-global-proxy:

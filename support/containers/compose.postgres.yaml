@@ -1,7 +1,7 @@
 ---
 services:
   postgres:
-    image: "docker.io/postgres:16.0"
+    image: "docker.io/postgres:16"
     restart: "always"
     environment:
       POSTGRES_DB: "${POSTGRES_DB:?}"

@@ -28,7 +28,7 @@ done
 if [ "$is_vagrant" = "1" ]; then
   # configure environment for use with vagrant
   PHX_HOST=phoenix-todo-list.localhost
-  TRAEFIK_HOST=localhost
+  TRAEFIK_DASHBOARD_FQDN=localhost
 fi
 
 default_phx_host=phoenix-todo-list.localhost
@@ -58,4 +58,4 @@ EMAIL_FROM_DEFAULT=\"${EMAIL_FROM_DEFAULT:-no-reply@${PHX_HOST:-$default_phx_hos
 SENTRY_DSN=\"${SENTRY_DSN}\"
 
 # traefik
-TRAEFIK_HOST=\"${TRAEFIK_HOST:-localhost}\""
+TRAEFIK_DASHBOARD_FQDN=\"${TRAEFIK_DASHBOARD_FQDN:-localhost}\""

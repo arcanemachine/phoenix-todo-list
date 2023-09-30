@@ -66,7 +66,7 @@ Environment=POSTGRES_USER=\"$POSTGRES_USER\"
 Environment=POSTGRES_PASSWORD=\"$POSTGRES_PASSWORD\"
 
 # # traefik
-# Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
+# Environment=TRAEFIK_DASHBOARD_FQDN=\"$TRAEFIK_DASHBOARD_FQDN\"
 
 # # email
 # Environment=AWS_REGION=\"$AWS_REGION\"

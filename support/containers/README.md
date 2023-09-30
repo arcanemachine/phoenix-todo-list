@@ -68,8 +68,8 @@ Because Traefik can require a lot of custom configuration, it has its own direct
 To run this project's built-in Traefik container service:
 
 - Ensure that you set the required environment variable(s) before running Docker Compose:
-  - `TRAEFIK_HOST`: The URL to use for the Traefik dashboard
-    - e.g. `TRAEFIK_HOST=localhost`
+  - `TRAEFIK_DASHBOARD_FQDN`: The URL to use for the Traefik dashboard
+    - e.g. `TRAEFIK_DASHBOARD_FQDN=localhost`
   - A generic `.env` file can be created using the `support/scripts/dotenv-generate script`
 - You will need to include the following Compose files when running a Traefik container via `docker-compose`:
   - `compose.traefik.yaml`
@@ -96,7 +96,7 @@ To run this project's built-in Traefik container service:
       - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
     - To avoid running these long commands, use the easy-use scripts in `support/containers/scripts`.
 - To access the Traefik dashboard:
-  - Using a web browser, navigate to the location of your `$TRAEFIK_HOST`.
+  - Using a web browser, navigate to the location of your `$TRAEFIK_DASHBOARD_FQDN`.
     - e.g. `http://localhost/`
 - To access the Phoenix web service:
   - Using a web browser, navigate to the location of your `$PHX_HOST`.

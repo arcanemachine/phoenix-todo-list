@@ -3,7 +3,7 @@ services:
   traefik:
     image: "docker.io/traefik:v2.10"
     environment:
-      TRAEFIK_HOST: "${TRAEFIK_HOST:?}"
+      TRAEFIK_DASHBOARD_FQDN: "${TRAEFIK_DASHBOARD_FQDN:?}"
     volumes:
       - "${DOCKER_HOST:-/var/run/docker.sock}:/var/run/docker.sock:ro"
     networks:
@@ -11,7 +11,7 @@ services:
     ports:
       - "80:80"
     labels:
-      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST}`)"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DASHBOARD_FQDN}`)"
 
       # enable the dashboard
       - "traefik.enable=true"

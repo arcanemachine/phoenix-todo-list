@@ -210,7 +210,7 @@ Environment=AWS_SECRET=\"$AWS_SECRET\"
 Environment=SENTRY_DSN=\"$SENTRY_DSN\"
 
 # traefik
-Environment=TRAEFIK_HOST=\"$TRAEFIK_HOST\"
+Environment=TRAEFIK_DASHBOARD_FQDN=\"$TRAEFIK_DASHBOARD_FQDN\"
 
 
 # LIFECYCLE #

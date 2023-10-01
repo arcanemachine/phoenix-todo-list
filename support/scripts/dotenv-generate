@@ -32,7 +32,7 @@ if [ -f "$env_path" ]; then
 
   else
     # exit without writing the dotenv file
-    printf "\033[31mDotenv file already exists: '%s'.\033[39m\n" "$env_path"
+    printf "\033[31mDotenv file already exists: '%s'.\033[39m\nPass '--force' as the last positional argument to overwrite this file.\n" "$env_path"
     echo "Aborting..."
     exit 1
   fi

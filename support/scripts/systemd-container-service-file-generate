@@ -114,7 +114,7 @@ if [ "$use_podman" = 1 ]; then
   maybe_podman_config="-H unix:${podman_socket_path}"
 fi
 
-# set $deployment_type based on whether or not the '--is_remote' flag was passed
+# set $deployment_type based on whether or not the '--remote' flag was passed
 if [ "$is_remote" = 1 ]; then
   deployment_type="remote"
 else

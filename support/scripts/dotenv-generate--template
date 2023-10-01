@@ -38,12 +38,12 @@ PHX_HOST=\"${PHX_HOST:-$default_phx_host}\"
 PORT=\"${PORT:-4000}\"
 SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 
-# db
-POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
-POSTGRES_HOST=\"${POSTGRES_HOST:-postgres}\"
+# database
 POSTGRES_USER=\"${POSTGRES_USER:-postgres}\"
 POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:-postgres}\"
-DATABASE_URL=\"${DATABASE_URL:-ecto://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@${POSTGRES_HOST:-postgres}/${POSTGRES_DB:-todo_list}}\"
+POSTGRES_HOST=\"${POSTGRES_HOST:-localhost}\"
+POSTGRES_DB=\"${POSTGRES_DB:-todo_list}\"
+DATABASE_URL=\"${DATABASE_URL:-ecto://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@${POSTGRES_HOST:-localhost}/${POSTGRES_DB:-todo_list}}\"
 
 # docker
 COMPOSE_PROJECT_NAME=\"${COMPOSE_PROJECT_NAME:-phoenix-todo-list}\"
@@ -59,4 +59,4 @@ EMAIL_FROM_DEFAULT=\"${EMAIL_FROM_DEFAULT:-no-reply@${PHX_HOST:-$default_phx_hos
 SENTRY_DSN=\"${SENTRY_DSN}\"
 
 # traefik
-TRAEFIK_DASHBOARD_FQDN=\"${TRAEFIK_DASHBOARD_FQDN:-localhost}\""
+TRAEFIK_DASHBOARD_FQDN=\"${TRAEFIK_DASHBOARD_FQDN}\""

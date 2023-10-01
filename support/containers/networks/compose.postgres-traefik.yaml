@@ -1,7 +1,6 @@
 ---
 services:
   postgres:
-    hostname: "postgres"
     networks:
       - "phoenix-todo-list"
     ports:

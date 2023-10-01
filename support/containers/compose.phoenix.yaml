@@ -9,13 +9,13 @@ services:
       PORT: "${PORT:?}"
       SECRET_KEY_BASE: "${SECRET_KEY_BASE:?}"
 
-      # db
+      # database
       DATABASE_URL: "${DATABASE_URL:?}"
 
       # email
       AWS_REGION: "${AWS_REGION:?}"
       AWS_ACCESS_KEY: "${AWS_ACCESS_KEY:?}"
-      AWS_SECRET: "${AWS_SECRET:?}"
+      AWS_SECRET: "${AWS_SECRET}"
 
       # sentry
-      SENTRY_DSN: "${SENTRY_DSN:?}"
+      SENTRY_DSN: "${SENTRY_DSN}"

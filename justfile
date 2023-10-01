@@ -10,7 +10,7 @@ set dotenv-load
 
 # VARIABLES #
 default_cpu_arch := "x86_64"
-newest_supported_otp := "25.3"
+newest_supported_otp := "26.0.2"
 image_name := "arcanemachine/phoenix-todo-list"
 
 # colors

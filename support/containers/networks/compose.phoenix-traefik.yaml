@@ -6,7 +6,6 @@ services:
     networks:
       - "traefik-global-proxy"
       - "postgres"
-      - "phoenix-todo-list"
     ports:
       - "${PORT:?}"
     labels:
@@ -19,6 +18,3 @@ networks:
     external: true
   postgres:
     external: true
-  # the 'phoenix-todo-list' network is only used when running phoenix and
-  # postgres as part of the same container orchestration service
-  phoenix-todo-list:

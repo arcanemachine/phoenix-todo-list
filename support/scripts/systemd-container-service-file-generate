@@ -111,7 +111,7 @@ set +o allexport
 if [ "$use_podman" = 1 ]; then
   # configure service for use with podman
   podman_socket_path=$(podman info --format '{{.Host.RemoteSocket.Path}}')
-  maybe_podman_config="-H unix:${podman_socket_path}"
+  maybe_podman_config=" -H unix:${podman_socket_path}"
 fi
 
 # set $deployment_type based on whether or not the '--remote' flag was passed
@@ -160,7 +160,7 @@ if [ "$dry_run" != 1 ]; then
   echo "Creating systemd service file: '${output_to}'"
 fi
 
-command_to_run="$(which docker-compose) ${maybe_podman_config} $containers_to_run"
+command_to_run="$(which docker-compose)${maybe_podman_config} $containers_to_run"
 
 if [ "$dry_run" != 1 ]; then
   # create script for managing the container service manually (helps with debugging compose issues)

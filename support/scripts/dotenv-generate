@@ -12,43 +12,43 @@ fi
 project_root_directory="$(dirname "$0")/../.."
 cd "$project_root_directory" || exit 1
 
-env_path="$(pwd)/.env"
+dotenv_path="$(pwd)/.env"
 
 # get last arg
 for last_arg; do true; done
 
-if [ -f "$env_path" ]; then
+if [ -f "$dotenv_path" ]; then
 
   if [ "$last_arg" = "--force" ]; then
     # import existing dotenv
-    echo "Importing existing environment from '$env_path'"
+    echo "Importing existing environment from '$dotenv_path'"
     set -o allexport
     # shellcheck source=/dev/null
-    . "$env_path"
+    . "$dotenv_path"
     set +o allexport
 
     # we will overwrite the dotenv file
-    echo "Overwriting existing dotenv file: '$env_path'..."
+    echo "Overwriting existing dotenv file: '$dotenv_path'..."
 
   else
     # exit without writing the dotenv file
-    printf "\033[31mDotenv file already exists: '%s'.\033[39m\nPass '--force' as the last positional argument to overwrite this file.\n" "$env_path"
+    printf "\033[31mDotenv file already exists: '%s'.\033[39m\nPass '--force' as the last positional argument to overwrite this file.\n" "$dotenv_path"
     echo "Aborting..."
     exit 1
   fi
 else
-  echo "Generating local environment: '$env_path'..."
+  echo "Generating local environment: '$dotenv_path'..."
 fi
 
-env_template_path="$(pwd)/support/scripts/dotenv-generate--template"
-output_string="$($env_template_path "$@")"
+dotenv_template_path="$(pwd)/support/scripts/dotenv-generate--template"
+output_string="$($dotenv_template_path "$@")"
 
 if [ "$DRY_RUN" = 1 ]; then
   echo "$output_string"
 else
   # create the .env file
-  echo "$output_string" >"$env_path"
+  echo "$output_string" >"$dotenv_path"
 
   # set permissions on the newly-created .env file
-  chmod 600 "$env_path"
+  chmod 600 "$dotenv_path"
 fi

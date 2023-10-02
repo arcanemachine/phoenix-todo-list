@@ -5,6 +5,7 @@ services:
       DATABASE_URL: "${DATABASE_URL:?}"
     networks:
       - "traefik-global-proxy"
+      - "postgres"
       - "phoenix-todo-list"
     ports:
       - "${PORT:?}"
@@ -16,4 +17,8 @@ services:
 networks:
   traefik-global-proxy:
     external: true
+  postgres:
+    external: true
+  # the 'phoenix-todo-list' network is only used when running phoenix and
+  # postgres as part of the same container orchestration service
   phoenix-todo-list:

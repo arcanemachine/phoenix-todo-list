@@ -57,6 +57,31 @@ Examples:
 - Podman: `podman-compose -f compose.phoenix.yaml -f networks/compose.phoenix-host.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-host.yaml up`
 - If the environment has not been loaded automatically with `direnv`, you will need to include the `.env` file manually using `--env-file .env` when starting the Docker Compose containers.
 
+#### NOTE: You may run into issues running more than one Phoenix + Postgres project on the same server:
+
+- If multiple Phoenix + Postgres container services (e.g. for 2 different projects) are run in the VM, the Postgres containers do not play nicely for some reason, and the services cause each other to restart.
+
+  - To mitigate this:
+
+    - I have resorted to using a [separate Postgres container](https://github.com/arcanemachine/docker-postgres) through which the Phoenix services connect.
+    - The Postgres container has the hostname `postgres` and is on a Docker/Podman network called `postgres`. (The network is external and must be created by running `docker/podman network create postgres`)
+    - Then, the Phoenix container is configured to use a `DATABASE_URL` like this: `ecto://postgres_user:password@postgres/todo_list`
+      - Note that the hostname is `postgres`, which matches the hostname that was set in the Postgres container.
+    - Because the Phoenix and Postgres containers are connected through the same Docker/Podman network, the Phoenix container should be able to communicate to the Postgres container by addressing it with the `postgres` hostname.
+      - However, the `todo_list` database for our project must be created in the Postgres container, or else you will see the following error message:
+
+- Noteworthy error messages you may see in your Docker/Podman logs as you proceed through the above steps:
+- `Postgrex.Protocol (#PID<0.141.0>) failed to connect: ** (DBConnection.ConnectionError) tcp connect (localhost:5432): connection refused - :econnrefused`
+  - Problem: The Phoenix container is not connecting to the Postgres container.
+  - Solution:
+    - Ensure that you have configured your `POSTGRES_HOST` and `DATABASE_URL` environment variables correctly.
+    - Also, make sure that both the Phoenix and Postgres containers are on the same Docker/Podman network (e.g. `postgres`)
+      - Ensure that the Postgres container has port `5432` available (e.g. in the `ports` section of your `compose.yaml` file (No colon should be necessary))
+- `Postgrex.Protocol (#PID<0.141.0>) failed to connect: ** (Postgrex.Error) FATAL 3D000 (invalid_catalog_name) database "todo_list" does not exist`
+  - Problem: The Phoenix container is connected to the Postgres container, but the database does not exist.
+  - Solution:
+    - Create the database. e.g. in the Postgres container: `docker/podman exec -it postgres_postgres_1 su - postgres -c "createdb todo_list"`
+
 ### Deploying With Traefik
 
 **Traefik always uses it's own Docker/Podman proxy network, so you don't need to specify a network Compose configuration for Traefik.**

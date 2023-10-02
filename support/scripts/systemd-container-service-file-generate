@@ -97,16 +97,22 @@ fi
 # navigate to current script directory
 cd "$current_script_directory" || exit 1
 
-# source dotenv
-if [ "$dry_run" != 1 ]; then
-  echo "Importing environment from '${project_root_directory}/.env'..."
+# maybe source dotenv
+dotenv_path="${project_root_directory}/.env"
+if [ -f "$dotenv_path" ]; then
+  if [ "$dry_run" != 1 ]; then
+    echo "Importing environment from '$dotenv_path'..."
+  fi
+
+  set -o allexport
+  # shellcheck source=/dev/null
+  . "${project_root_directory}/.env"
+  set +o allexport
+else
+  printf "\033[33mNo dotenv file exists found at '%s'. The generated systemd file may not have all expected environment variables.\nIf you are configuring your environment by a means other than dotenv files (e.g. Ansible), then you can safely ignore this message.\033[39m\n" "$dotenv_path"
 fi
 
-set -o allexport
-# shellcheck source=/dev/null
-. "${project_root_directory}/.env"
-set +o allexport
-
+# maybe use podman instead of docker
 # use_podman
 if [ "$use_podman" = 1 ]; then
   # configure service for use with podman

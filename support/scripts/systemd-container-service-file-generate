@@ -185,6 +185,7 @@ WorkingDirectory=$working_directory
 # ENVIRONMENT #
 ## docker
 Environment=COMPOSE_PROJECT_NAME=\"${COMPOSE_PROJECT_NAME:-$service_name}\"
+
 # fix container timeout issues caused by slow CPU and/or RAM
 Environment=DOCKER_CLIENT_TIMEOUT=180
 Environment=COMPOSE_HTTP_TIMEOUT=180

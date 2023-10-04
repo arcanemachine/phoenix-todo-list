@@ -141,10 +141,8 @@ fi
 if [ "$use_postgres" = 1 ]; then
   containers_to_run="$containers_to_run -f compose.phoenix-postgres.yaml -f compose.postgres.yaml"
 
-  # postgres + traefik
-  if [ "$use_traefik_client" = 1 ] || [ "$use_traefik_host" = 1 ]; then
-    containers_to_run="$containers_to_run -f networks/compose.postgres-traefik.yaml"
-  else
+  # enable postgres host networking
+  if [ "$use_traefik_client" != 1 ] && [ "$use_traefik_host" != 1 ]; then
     containers_to_run="$containers_to_run -f networks/compose.postgres-host.yaml"
   fi
 fi

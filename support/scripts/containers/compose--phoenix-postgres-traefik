@@ -54,7 +54,7 @@ if [ "$action" = "up" ]; then
   # ensure the network 'traefik-global-proxy' exists
   echo "Creating Docker network: 'traefik-global-proxy'..."
   if [ ! "$(docker network create traefik-global-proxy)" ]; then
-    echo "\033[96mThe 'traefik-global-proxy' network already exists.\033[39m"
+    printf "\033[96mThe 'traefik-global-proxy' network already exists.\033[39m\n"
   fi
 fi
 
@@ -74,4 +74,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2068,SC2086
-$application_to_run -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$local_or_remote.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-$local_or_remote.yaml $action $@
+$application_to_run -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$local_or_remote.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-$local_or_remote.yaml $action $@

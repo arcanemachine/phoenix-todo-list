@@ -114,11 +114,11 @@ To run this project's built-in Traefik container service:
 - Launch the **Postgres + Traefik + Phoenix** container service:
   - Examples:
     - In a local environment (HTTP only):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
-      - Podman: `docker-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
+      - Podman: `docker-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
     - In a remote environment (exposed to Internet, uses HTTPS):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
-      - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f networks/compose.postgres-traefik.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
+      - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
     - To avoid running these long commands, use the easy-use scripts in `support/containers/scripts`.
 - To access the Traefik dashboard:
   - Using a web browser, navigate to the location of your `$TRAEFIK_DASHBOARD_FQDN`.

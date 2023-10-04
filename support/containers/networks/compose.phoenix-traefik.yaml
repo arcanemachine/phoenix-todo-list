@@ -10,8 +10,8 @@ services:
       - "${PORT:?}"
     labels:
       # enable gzip compression
-      - "traefik.http.middlewares.phoenix-todo-list--compress.compress=true"
-      - "traefik.http.routers.phoenix-todo-list.middlewares=phoenix-todo-list--compress"
+      - "traefik.http.middlewares.phoenix-todo-list--compress.compress=true" # define middleware
+      - "traefik.http.routers.phoenix-todo-list.middlewares=phoenix-todo-list--compress" # use middleware
 
 networks:
   traefik-global-proxy:

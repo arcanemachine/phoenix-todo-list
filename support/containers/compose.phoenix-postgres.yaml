@@ -3,14 +3,13 @@ services:
   phoenix:
     depends_on:
       - "postgres"
-  # # use this if you are using a standalone postgres container with this project
-  # networks:
-  #   - "phoenix-todo-list"
+    networks:
+      - "phoenix-todo-list"
   postgres:
     networks:
       - "phoenix-todo-list"
     ports:
       - "5432"
-# use this if you are using a standalone postgres container with this project
-# networks:
-#   phoenix-todo-list:
+
+networks:
+  phoenix-todo-list:

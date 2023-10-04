@@ -5,7 +5,7 @@ services:
       DATABASE_URL: "${DATABASE_URL:?}"
     networks:
       - "traefik-global-proxy"
-      # - "postgres" # this network is only needed if using an postgres container outside of this compose service
+      - "postgres" # use this if you are running a postgres container outside of this project's compose service
     ports:
       - "${PORT:?}"
     labels:
@@ -16,5 +16,5 @@ services:
 networks:
   traefik-global-proxy:
     external: true
-# postgres: # this network is only needed if using an postgres container outside of this compose service
-#   external: true
+  postgres: # use this if you are running a postgres container outside of this project's compose service
+    external: true

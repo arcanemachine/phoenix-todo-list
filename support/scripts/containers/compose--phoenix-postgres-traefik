@@ -40,7 +40,7 @@ if [ "$1" = "" ] || [ "$1" != "dev" ] && [ "$1" != "staging" ] && [ "$1" != "sta
   printf "\033[31mThe second positional argument must be one of: dev, staging, prod\033[39m\nAborting...\n"
   exit 1
 else
-  deployment_type=$1
+  deployment_environment=$1
 
   # shift first positional argument out of args
   shift
@@ -71,4 +71,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2068,SC2086
-$application_to_run -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$deployment_type.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-$deployment_type.yaml $action $@
+$application_to_run -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$deployment_environment.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-$deployment_environment.yaml $action $@

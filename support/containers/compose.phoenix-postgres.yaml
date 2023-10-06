@@ -4,12 +4,12 @@ services:
     depends_on:
       - "postgres"
     networks:
-      - "phoenix-todo-list"
+      - "postgres"
   postgres:
     networks:
-      - "phoenix-todo-list"
+      - "postgres"
     ports:
       - "5432"
 
 networks:
-  phoenix-todo-list:
+  postgres:

@@ -35,6 +35,7 @@ default_phx_host=phoenix-todo-list.localhost
 
 echo "# phoenix
 PHX_HOST=\"${PHX_HOST:-$default_phx_host}\"
+DEPLOYMENT_ENVIRONMENT=\"${DEPLOYMENT_ENVIRONMENT:-dev}\"
 PORT=\"${PORT:-4000}\"
 SECRET_KEY_BASE=\"${SECRET_KEY_BASE:-$(openssl rand -base64 48)}\"
 

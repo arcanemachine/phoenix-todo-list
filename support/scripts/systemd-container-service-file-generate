@@ -140,7 +140,7 @@ elif [ "$is_staging" = 1 ]; then
 elif [ "$is_prod" = 1 ]; then
   deployment_type="prod"
 elif [ "$deployment_type" = "" ]; then
-  printf "\033[36mNo deployment type specified. Using 'dev' (no HTTPS)...\033[39m\n"
+  printf "\033[96mNo deployment type specified. Using 'dev' (no HTTPS)...\033[39m\n"
   deployment_type="dev"
 fi
 

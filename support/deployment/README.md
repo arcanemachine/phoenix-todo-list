@@ -199,15 +199,17 @@ You can use the `support/scripts/systemd-container-service-teardown` to easily s
 
 You can use the `support/scripts/systemd-container-service-file-generate` to easily create a `systemd` service file for this project:
 
-- This script is configured for Podman by default.
-  - To generate a Docker container, pass the `--docker` flag when running this script.
+- This script is configured for Docker by default.
+  - To generate a Podman container, pass the `--podman` flag when running this script.
 - When this script is run, it will generate `systemd` service file called `~/.config/systemd/user/phoenix-todo-list.service` (unless the `--dry-run` flag is set)
 - Other flags:
   - `--dry-run` - Display the service file in the terminal instead of writing to a file.
     - No permanent changes are made when this flag is used.
     - The output of a `--dry-run` is identical to the real service file, and can be piped as needed.
   - `--podman` - Configures the service for use with Podman instead of Docker.
+  - `--phoenix-expose` - Exposes the PHX_HOST port to the host
   - `--postgres` - Run a Postgres container as part of the service.
+  - `--postgres-expose` - Exposes the Postgres container's port 5432 to the host
   - `--traefik-client` - Configures the service to be used as Traefik.
     - Does not start a Traefik server.
   - `--traefik-host` - Configures the service to be used as Traefik.
@@ -219,6 +221,10 @@ You can use the `support/scripts/systemd-container-service-file-generate` to eas
       - Supports HTTPS certificates via Let's Encrypt, but uses [the Let's Encrypt staging environment](https://letsencrypt.org/docs/staging-environment/)
     - `--prod` - Configures Traefik to work in a production environment.
       - Supports HTTPS certificates via Let's Encrypt
+
+**NOTE:** If using a Postgres container alongside this service, it may be easier to preserve your dotenv file's Postgres settings when creating your container service, so that the default `localhost` Postgres dev server doesn't interfere with the container network's Postgres server, whose hostname is set to `postgres`.
+
+- e.g. `POSTGRES_DB=postgres DATABASE_URL=ecto://postgres:postgres@postgres/todo_list ./support/scripts/systemd-container-service-file-generate --postgres --traefik-client`
 
 After running the `systemd-container-service-file-generate` script:
 

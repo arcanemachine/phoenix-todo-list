@@ -3,9 +3,6 @@ global:
   sendAnonymousUsage: false
   checkNewVersion: false
 
-log:
-  level: "DEBUG"
-
 api:
   dashboard: true
 
@@ -33,6 +30,3 @@ certificatesResolvers:
       email: "letsencrypt@example.com"
       storage: "/letsencrypt/acme.json"
       tlsChallenge: {}
-
-pilot:
-  dashboard: false

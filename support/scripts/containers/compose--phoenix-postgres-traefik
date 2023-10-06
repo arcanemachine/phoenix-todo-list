@@ -6,10 +6,11 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 The first positional argument must specify the 'docker-compose' command(s) to run.
   - Examples: up, down, restart, etc.
 
-The second positional argument must specify the location of the deployment.
-  - Must be one of: local, remote
-    - local: no HTTPS
-    - remote: uses HTTPS
+The second positional argument must specify the deployment environment.
+  - Must be one of: 'dev', 'staging', 'prod'
+    - dev: no HTTPS
+    - staging: uses HTTPS + Let's Encrypt staging environment
+    - prod: uses HTTPS
 
 To use Podman instead of Docker, pass the '--podman' flag as the last positional argument."
   exit
@@ -35,15 +36,11 @@ else
 fi
 
 # ensure second (first after shifting) positional argument is present
-if [ "$1" = "" ] || [ "$1" != "local" ] && [ "$1" != "remote" ]; then
-  echo "Error: The second positional argument must specify whether the Traefik container should use a 'local' (no HTTPS) or 'remote' (uses HTTPS) config (without the quotes).
-
-The second positional argument must be one of: local, remote
-
-Aborting..."
+if [ "$1" = "" ] || [ "$1" != "dev" ] && [ "$1" != "staging" ] && [ "$1" != "staging" ]; then
+  printf "\033[31mThe second positional argument must be one of: dev, staging, prod\033[39m\nAborting...\n"
   exit 1
 else
-  local_or_remote=$1
+  deployment_type=$1
 
   # shift first positional argument out of args
   shift
@@ -74,4 +71,4 @@ fi
 
 # run container action
 # shellcheck disable=SC2068,SC2086
-$application_to_run -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$local_or_remote.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-$local_or_remote.yaml $action $@
+$application_to_run -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-$deployment_type.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-$deployment_type.yaml $action $@

@@ -4,7 +4,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - "./etc/remote:/etc/traefik"
+      - "./etc/prod:/etc/traefik"
       - "./volumes/letsencrypt:/letsencrypt"
     labels:
       - "traefik.http.routers.traefik.entrypoints=websecure"
@@ -18,4 +18,4 @@ services:
       # hash before pasting it here. (make sure to double up any dollar sign
       # symbols ($ -> $$) since the dollar sign symbol is used as an escape
       # character in YAML)
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$$2b$$05$$Ih60v/ETUR94rysSQBRbgO/S91DRdohjusSYz5RVIpbzBAyGW1Dke"
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS:-admin:$2b$05$ziXkIFQh5zJHZYsmX1LGluwyTYx4UVT2hz/CkEsjbuxG8kdXTfuUm}"

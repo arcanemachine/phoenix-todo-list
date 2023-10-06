@@ -128,8 +128,8 @@ To deploy with Caddy, complete the following steps:
 
 3. There are several example Caddyfiles:
 
-   - `Caddyfile.local`: Uses 'localhost' subdomain
-   - `Caddyfile.vagrant`: Like local, but sets a manual path for the TLS certificates.
+   - `Caddyfile.dev`: Uses 'localhost' subdomain
+   - `Caddyfile.vagrant`: Like dev, but sets a manual path for the TLS certificates.
      - This allows a self-signed certificate to be made on the host (e.g. using 'mkcert'), and used in the VM.
      - Designed for use with [Vagrant](https://github.com/hashicorp/vagrant)
    - `Caddyfile.staging`: Uses a live domain name, but not the production one.
@@ -138,7 +138,7 @@ To deploy with Caddy, complete the following steps:
 
 4. Copy the desired project's Caddyfile to the Caddy configuration directory:
 
-- local: `sudo cp Caddyfile.local /etc/caddy/Caddyfile`
+- dev: `sudo cp Caddyfile.dev /etc/caddy/Caddyfile`
 - vagrant: `sudo cp Caddyfile.vagrant /etc/caddy/Caddyfile`
 - staging: `sudo cp Caddyfile.staging /etc/caddy/Caddyfile`
 - prod: `sudo cp Caddyfile.prod /etc/caddy/Caddyfile`
@@ -208,18 +208,22 @@ You can use the `support/scripts/systemd-container-service-file-generate` to eas
     - The output of a `--dry-run` is identical to the real service file, and can be piped as needed.
   - `--podman` - Configures the service for use with Podman instead of Docker.
   - `--postgres` - Run a Postgres container as part of the service.
-  - `--remote` - Configures Traefik to work in a remote environment.
-    - Supports HTTPS certificates via Let's Encrypt.
-    - If the machine will be accessible from the Internet, you will probably want to use this option.
   - `--traefik-client` - Configures the service to be used as Traefik.
     - Does not start a Traefik server.
   - `--traefik-host` - Configures the service to be used as Traefik.
     - Runs a Traefik container as part of the service.
+  - Traefik-specific options:
+    - `--dev` - Configures Traefik to work in a dev environment.
+      - HTTP only (No HTTPS)
+    - `--staging` - Configures Traefik to work in a staging environment.
+      - Supports HTTPS certificates via Let's Encrypt, but uses [the Let's Encrypt staging environment](https://letsencrypt.org/docs/staging-environment/)
+    - `--prod` - Configures Traefik to work in a production environment.
+      - Supports HTTPS certificates via Let's Encrypt
 
 After running the `systemd-container-service-file-generate` script:
 
 - The output will be sent here:
-  - '~/.confir/systemd/user/phoenix-todo-list.service'
+  - '~/.config/systemd/user/phoenix-todo-list.service'
 - Before you can manage the systemd service, you will need to reload the systemd daemons:
   - systemctl --user daemon-reload
 - To enable this service:

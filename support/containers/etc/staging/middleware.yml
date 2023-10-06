@@ -1,0 +1,17 @@
+---
+http:
+  middlewares:
+    redirect-non-www-to-www:
+      redirectregex:
+        regex: "^https?://(?:www\\.)?(.+)" # also redirects http -> https
+        replacement: "https://www.${1}"
+        permanent: true
+    redirect-www-to-non-www:
+      redirectregex:
+        regex: "^https?://www\\.(.+)" # also redirects http -> https
+        replacement: "https://${1}"
+        permanent: true
+    short-analytics-url:
+      replacepathregex:
+        regex: "^(.*)/pl.js$$"
+        replacement: "${1}/plausible.js"

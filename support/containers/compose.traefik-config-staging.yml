@@ -1,0 +1,21 @@
+---
+services:
+  traefik:
+    ports:
+      - "443:443"
+    volumes:
+      - "./etc/staging:/etc/traefik"
+      - "./volumes/letsencrypt:/letsencrypt"
+    labels:
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+
+      # require authentication to access the dashboard (you can comment out the
+      # next line to disable authentication (not recommended in production!)
+      - "traefik.http.routers.traefik.middlewares=auth"
+
+      # use `mkpasswd --method=bcrypt` to convert your password to a bcrypt
+      # hash before pasting it here. (make sure to double up any dollar sign
+      # symbols ($ -> $$) since the dollar sign symbol is used as an escape
+      # character in YAML)
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS:-admin:$2b$05$ziXkIFQh5zJHZYsmX1LGluwyTYx4UVT2hz/CkEsjbuxG8kdXTfuUm}"

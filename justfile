@@ -69,7 +69,7 @@ color_reset := "\\033[39m"
   echo "Pruning digested assets..."
   @mix phx.digest.clean --all
 
-# copy caddyfile, then validate and reload caddy [environment: local|vagrant|staging|prod]
+# copy caddyfile, then validate and reload caddy [environment: dev|vagrant|staging|prod]
 @caddyfile-copy-validate-reload environment:
   echo "Copying the Caddyfile, then validating and reloading Caddy..."
   @./support/scripts/caddyfile-copy-validate-reload {{ environment }}

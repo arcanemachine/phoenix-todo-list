@@ -99,13 +99,13 @@ To run this project's built-in Traefik container service:
 - You will need to include the following Compose files when running a Traefik container via `docker-compose`:
   - `compose.traefik.yaml`
     - The Traefik container
-  - `compose.traefik-config-[local|remote].yaml` (pick one of `local` or `remote`)
+  - `compose.traefik-config-[dev|staging|prod].yaml` (must be one of `dev`, `staging`, or `prod`)
     - The Traefik container's environment-specific config
   - `compose.phoenix.yaml`
     - This project's Phoenix container
   - `networks/compose.phoenix-traefik.yaml`
     - This project's network configuration for Phoenix + Traefik
-  - `compose.phoenix-config-traefik-[local|remote].yaml`
+  - `compose.phoenix-config-traefik-[dev|staging|prod].yaml`
     - This project's environment-specific Traefik configuration
 - Create a Docker network for proxying services through Traefik:
   - Docker: `docker network create traefik-global-proxy`
@@ -113,12 +113,16 @@ To run this project's built-in Traefik container service:
   - **NOTE:** The name `traefik-global-proxy` is hardcoded in the Compose files. Do not use a different name for the network!
 - Launch the **Postgres + Traefik + Phoenix** container service:
   - Examples:
-    - In a local environment (HTTP only):
+    - In a dev environment (HTTP only):
       - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
-      - Podman: `docker-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-local.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-local.yaml up`
-    - In a remote environment (exposed to Internet, uses HTTPS):
-      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
-      - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-remote.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-remote.yaml up`
+      - Podman: `docker-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-dev.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-dev.yaml up`
+    - In a staging environment (exposed to Internet, uses HTTPS):
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-staging.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-staging.yaml up`
+      - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-staging.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-staging.yaml up`
+    - In a prod environment (exposed to Internet, uses HTTPS):
+      - Docker: `docker compose -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-prod.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-prod.yaml up`
+      - Podman: `podman-compose -H unix:$(podman info --format '{{.Host.RemoteSocket.Path}}') -f compose.phoenix.yaml -f networks/compose.phoenix-traefik.yaml -f compose.phoenix-config-traefik-prod.yaml -f compose.phoenix-postgres.yaml -f compose.postgres.yaml -f compose.traefik.yaml -f compose.traefik-config-prod.yaml up`
+    - NOTE: The `staging` and `prod` environments are the same, except the staging environment uses [the Let's Encrypt staging environment](https://letsencrypt.org/docs/staging-environment/).
     - To avoid running these long commands, use the easy-use scripts in `support/containers/scripts`.
 - To access the Traefik dashboard:
   - Using a web browser, navigate to the location of your `$TRAEFIK_DASHBOARD_FQDN`.

@@ -19,6 +19,3 @@ providers:
 entryPoints:
   web:
     address: ":80"
-
-pilot:
-  dashboard: false

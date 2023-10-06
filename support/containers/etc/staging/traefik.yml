@@ -1,0 +1,33 @@
+---
+global:
+  sendAnonymousUsage: false
+  checkNewVersion: false
+
+api:
+  dashboard: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: "traefik-global-proxy"
+  file:
+    directory: "/etc/traefik"
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: "letsencrypt@example.com"
+      storage: "/letsencrypt/acme.json"
+      tlsChallenge: {}

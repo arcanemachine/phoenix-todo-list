@@ -17,9 +17,10 @@ Optional arguments:
 
   - Traefik-specific options:
 
-    --remote - Configures the service for a remote environment (i.e. uses HTTPS).
-      - This flag only affects Traefik-based setups. It will have no effect if you are not using Traefik.
-      - If not set, the containers will be configured for local use (i.e. no HTTPS).
+    --dev - Configures the service for a development environment (i.e. no HTTPS).
+      - If no option is selected, then 'dev' will be used by default.
+    --staging - Configures the service for a production environment (i.e. uses HTTPS).
+    --prod - Configures the service for a production environment (i.e. uses HTTPS).
 
     --traefik-client - Configures the service to be used with Traefik.
       - This flag does not run a Traefik server. It just configures the service to work with a Traefik server defined elsewhere on the server.
@@ -68,9 +69,17 @@ while test $# -gt 0; do
     # run a postgres server as part of the service
     use_postgres=1
     ;;
-  --remote)
-    # configure traefik for use in a remote deployment (i.e. uses HTTPS)
-    is_remote=1
+  --dev)
+    # configures traefik for use in a dev deployment (i.e. no HTTPS)
+    is_dev=1
+    ;;
+  --staging)
+    # configures traefik for use in a staging deployment (i.e. HTTPS + Let's Encrypt staging environment)
+    is_staging=1
+    ;;
+  --prod)
+    # configures traefik for use in a production deployment (i.e. uses HTTPS)
+    is_prod=1
     ;;
   --traefik-client)
     # configure the service for use with traefik, but don't start a traefik server
@@ -121,11 +130,18 @@ else
   use_docker=1 # use docker-specific options in the systemd service file
 fi
 
-# set $deployment_type based on whether or not the '--remote' flag was passed
-if [ "$is_remote" = 1 ]; then
-  deployment_type="remote"
-else
-  deployment_type="local"
+# set deployment_type (based on DEPLOYMENT_TYPE env var, or relevant flags)
+# shellcheck disable=SC2153
+deployment_type="$DEPLOYMENT_TYPE" # use global env var by default
+if [ "$is_dev" = 1 ]; then
+  deployment_type="dev"
+elif [ "$is_staging" = 1 ]; then
+  deployment_type="staging"
+elif [ "$is_prod" = 1 ]; then
+  deployment_type="prod"
+elif [ "$deployment_type" = "" ]; then
+  printf "\033m[36mNo deployment type specified. Using 'dev' (no HTTPS)...\033[39m\n"
+  deployment_type="dev"
 fi
 
 # containers_to_run #
@@ -142,8 +158,8 @@ fi
 if [ "$use_postgres" = 1 ]; then
   containers_to_run="$containers_to_run -f compose.phoenix-postgres.yaml -f compose.postgres.yaml"
 
-  # enable postgres host networking
   if [ "$use_traefik_client" != 1 ] && [ "$use_traefik_host" != 1 ]; then
+    # enable postgres host networking
     containers_to_run="$containers_to_run -f networks/compose.postgres-host.yaml"
   fi
 fi

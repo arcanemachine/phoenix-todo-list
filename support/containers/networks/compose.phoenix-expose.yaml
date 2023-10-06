@@ -1,0 +1,5 @@
+---
+services:
+  phoenix:
+    ports:
+      - "${PORT:?}:${PORT:?}"

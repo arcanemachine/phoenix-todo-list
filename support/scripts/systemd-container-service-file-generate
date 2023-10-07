@@ -13,6 +13,8 @@ Optional arguments:
 
   --podman - Use Podman instead of Docker.
 
+  --docker-compose - Use 'docker-compose' instead of 'docker compose' (for older versions of Docker)
+
   --expose-phoenix - Expose the PHX_HOST port to the host environment
 
   --postgres - Enables the use of a Postgres server container when running the service.
@@ -68,8 +70,12 @@ while test $# -gt 0; do
     dry_run=1
     ;;
   --podman)
-    # use docker instead of podman
+    # use podman instead of docker
     use_podman=1
+    ;;
+  --docker-compose)
+    # use docker-compose instead of 'docker compose'
+    use_docker_compose=1
     ;;
   --dev)
     # configures traefik for use in a dev deployment (i.e. no HTTPS)
@@ -201,7 +207,14 @@ if [ "$dry_run" != 1 ]; then
   echo "Creating systemd service file: '${output_to}'"
 fi
 
-command_to_run="$(which docker-compose)${maybe_podman_config} $containers_to_run"
+# determine which container orchestrator should be used (docker-compose or 'docker compose')
+if [ "$use_docker" = 1 ] && [ "$use_docker_compose" != 1 ]; then
+  container_orchestrator="docker compose"
+else
+  container_orchestrator="$(which docker-compose)"
+fi
+
+command_to_run="${container_orchestrator}${maybe_podman_config} $containers_to_run"
 
 if [ "$dry_run" != 1 ]; then
   # create script for managing the container service manually (helps with debugging compose issues)

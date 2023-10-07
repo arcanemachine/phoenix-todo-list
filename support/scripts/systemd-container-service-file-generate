@@ -240,6 +240,7 @@ WorkingDirectory=$working_directory
 # ENVIRONMENT #
 ## docker
 Environment=COMPOSE_PROJECT_NAME=\"${COMPOSE_PROJECT_NAME:-$service_name}\"
+Environment=IMAGE_TAG=\"${IMAGE_TAG:-$(uname -m)}\"
 
 # fix container timeout issues caused by slow CPU and/or RAM
 Environment=DOCKER_CLIENT_TIMEOUT=180

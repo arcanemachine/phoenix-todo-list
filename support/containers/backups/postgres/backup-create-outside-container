@@ -1,1 +1,1 @@
-../../../scripts/backups/postgres/backup-create-outside-container
+../../../scripts/containers/backups/postgres/backup-create-outside-container

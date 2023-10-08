@@ -1,11 +1,17 @@
 #!/bin/sh
 
+# shellcheck disable=SC2153
+
 show_help() {
   echo "This script restores a pg_dump backup. It must be run outside the container.
 
-The first positional argument must be the filename of the backup you want to restore.
+This script accepts the following environment variable(s):
+  - POSTGRES_CONTAINER_NAME: The name of the Postgres container to be restored
+    - Default: 'phoenix-todo-list-postgres-1'
+
+The first positional argument must be the filename of the backup you want to restore. The file must be located in the postgres backup
   - DO NOT pass in the full path. Just the filename.
-    - e.g. 'pg-dump-2022-11-01-08-57-30.dump'
+    - e.g. 'phoenix-todo-list--pg-dump-2022-11-05-06-23-37.dump'
 
 To use Podman instead of Docker, pass '--podman' as the last positional argument."
 }
@@ -18,10 +24,18 @@ elif [ "$1" = "" ]; then
   exit 2
 fi
 
-if [ "$1" = "--podman" ]; then
-  container_program=podman
+# configure postgres container name
+if [ "$POSTGRES_CONTAINER_NAME" != "" ]; then
+  postgres_container_name="$POSTGRES_CONTAINER_NAME"
 else
-  container_program=docker
+  postgres_container_name="phoenix-todo-list-postgres-1"
 fi
 
-$container_program exec -it postgres /var/lib/postgresql/backups/backup-restore-inside-container "$1"
+# configure container manager
+if [ "$1" = "--podman" ]; then
+  container_manager=podman
+else
+  container_manager=docker
+fi
+
+$container_manager exec -it "$postgres_container_name" /var/lib/postgresql/backups/backup-restore-inside-container "$1"

@@ -1,18 +1,27 @@
-#!/bin/bash
+#!/bin/sh
 
 show_help() {
-  echo "Lists available backups inside the Postgres container directory '/var/lib/postgresql/backups/'."
+  echo "Lists available backups inside the Postgres container directory '/var/lib/postgresql/backups/'.
+
+This script accepts the following environment variable(s):
+  - POSTGRES_VOLUME_NAME: The name of the Postgres volume to be restored
+    - Default: 'phoenix-todo-list_postgres'
+
+This script accepts the following positional arguments:
+  --podman - When passed as the last positional argument, use Podman instead of Docker"
 }
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   show_help
   exit
-elif [ "$1" = "--docker" ]; then
-  container_program=docker
+fi
+
+if [ "$1" = "--podman" ]; then
+  container_manager=podman
 else
-  container_program=podman
+  container_manager=docker
 fi
 
 printf "Listing available backups in Postgres container volume directory '/var/lib/postgresql/backups/'...\n\n"
 
-$container_program exec -it postgres sh -c 'cd /var/lib/postgresql/backups/ && ls *.dump'
+$container_manager exec -it phoenix-todo-list_postgres sh -c 'cd /var/lib/postgresql/backups/ && ls *.dump'

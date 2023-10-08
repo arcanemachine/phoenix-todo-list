@@ -6,16 +6,18 @@ show_help() {
 The backup file will be created in the same directory as this script. It will be created with a timestamp in the filename.
   - e.g. 'postgres--pg-dump-2022-11-05-06-23-37.dump'
 
-To use Docker instead of Podman, pass '--docker' as the last positional argument."
+To use Podman instead of Docker, pass '--podman' as the last positional argument."
 }
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   show_help
   exit
-elif [ "$1" = "--docker" ]; then
-  container_program=docker
-else
+fi
+
+if [ "$1" = "--podman" ]; then
   container_program=podman
+else
+  container_program=docker
 fi
 
 echo "Creating backup in Postgres container volume directory '/var/lib/postgresql/backups/'..."

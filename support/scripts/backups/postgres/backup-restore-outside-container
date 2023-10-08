@@ -7,7 +7,7 @@ The first positional argument must be the filename of the backup you want to res
   - DO NOT pass in the full path. Just the filename.
     - e.g. 'pg-dump-2022-11-01-08-57-30.dump'
 
-To use Docker instead of Podman, pass '--docker' as the last positional argument."
+To use Podman instead of Docker, pass '--podman' as the last positional argument."
 }
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
@@ -16,10 +16,12 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 elif [ "$1" = "" ]; then
   show_help
   exit 2
-elif [ "$2" = "--docker" ]; then
-  container_program=docker
-else
+fi
+
+if [ "$1" = "--podman" ]; then
   container_program=podman
+else
+  container_program=docker
 fi
 
 $container_program exec -it postgres /var/lib/postgresql/backups/backup-restore-inside-container "$1"

@@ -7,13 +7,8 @@
 # python
 __pycache__/
 
-# vim
-*.sw?
-Session*.vim
-
 # misc
-*.gitignored
-gitignored.*
+*gitignored*
 
 
 # MIX DEFAULTS #

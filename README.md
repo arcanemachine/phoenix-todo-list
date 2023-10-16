@@ -32,6 +32,7 @@ Features:
   - Run `just` by itself to see the list of available commands.
 - Uses [PromEx](https://github.com/akoutmos/prom_ex/) to generate metrics data for use with [Prometheus](https://github.com/prometheus/prometheus) + [Grafana](https://github.com/grafana/grafana) dashboards
 - Uses [Sentry](https://sentry.io/) for error monitoring
+- Uses [robots.txt](https://phoenix-todo-list.nicholasmoen.com/robots.txt) and [sitemap.xml](https://phoenix-todo-list.nicholasmoen.com/sitemap.xml) to assist with SEO and search engine discoverability
 
 ## Getting Started
 

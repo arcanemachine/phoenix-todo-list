@@ -26,9 +26,7 @@ color_reset := "\\033[39m"
 
 # run a postgres container
 @postgres:
-  # this peculiar incantation is the only way i've been able to get this command
-  # to work properly without aborting entirely when Ctrl+C is pressed
-  @$SHELL -c "just docker-postgres up; just docker-postgres down"
+  docker run --name postgres --rm -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres} -p 5432:5432 -v postgres:/var/lib/postgresql/data postgres
 
 # setup the project (elixir-fetch-dependencies + db-setup)
 @setup: elixir-dependencies-fetch db-setup
